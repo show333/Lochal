@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Which One View Controller-->
+        <scene sceneID="eYO-Z7-IEj">
+            <objects>
+                <viewController storyboardIdentifier="WhichOneViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="uLX-sN-jZY" customClass="WhichOneViewController" customModule="protain" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oIc-ef-OvX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Sl-VY-ZsY">
+                                <rect key="frame" x="192" y="144" width="30" height="30"/>
+                                <state key="normal" title="RED"/>
+                                <connections>
+                                    <action selector="redButton:" destination="uLX-sN-jZY" eventType="touchUpInside" id="ivI-ZY-xWG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ndy-rD-pOF">
+                                <rect key="frame" x="172" y="274" width="70" height="30"/>
+                                <state key="normal" title="YEALLOW"/>
+                                <connections>
+                                    <action selector="yellowButton:" destination="uLX-sN-jZY" eventType="touchUpInside" id="tFT-bR-Jc2"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JxR-0I-ogH">
+                                <rect key="frame" x="179" y="404" width="56" height="30"/>
+                                <state key="normal" title="PURPLE"/>
+                                <connections>
+                                    <action selector="purpleButton:" destination="uLX-sN-jZY" eventType="touchUpInside" id="gYt-HB-qX8"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LIo-eJ-bpm">
+                                <rect key="frame" x="188" y="534" width="38" height="30"/>
+                                <state key="normal" title="BLUE"/>
+                                <connections>
+                                    <action selector="blueButton:" destination="uLX-sN-jZY" eventType="touchUpInside" id="Giq-jj-0HU"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="r0n-EE-ual"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ndy-rD-pOF" firstAttribute="centerX" secondItem="oIc-ef-OvX" secondAttribute="centerX" id="Gbh-pz-Hks"/>
+                            <constraint firstItem="LIo-eJ-bpm" firstAttribute="centerX" secondItem="oIc-ef-OvX" secondAttribute="centerX" id="Rtb-uX-D6O"/>
+                            <constraint firstItem="JxR-0I-ogH" firstAttribute="top" secondItem="ndy-rD-pOF" secondAttribute="bottom" constant="100" id="XaQ-Tj-BIg"/>
+                            <constraint firstItem="5Sl-VY-ZsY" firstAttribute="centerX" secondItem="oIc-ef-OvX" secondAttribute="centerX" id="dfT-3S-S11"/>
+                            <constraint firstItem="5Sl-VY-ZsY" firstAttribute="top" secondItem="r0n-EE-ual" secondAttribute="top" constant="100" id="iHJ-cl-i2F"/>
+                            <constraint firstItem="ndy-rD-pOF" firstAttribute="top" secondItem="5Sl-VY-ZsY" secondAttribute="bottom" constant="100" id="sYZ-Cy-Nyj"/>
+                            <constraint firstItem="LIo-eJ-bpm" firstAttribute="top" secondItem="JxR-0I-ogH" secondAttribute="bottom" constant="100" id="vcJ-zo-DtS"/>
+                            <constraint firstItem="JxR-0I-ogH" firstAttribute="centerX" secondItem="oIc-ef-OvX" secondAttribute="centerX" id="zKJ-Zk-bVC"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lFh-Xk-TL5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="116" y="52"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

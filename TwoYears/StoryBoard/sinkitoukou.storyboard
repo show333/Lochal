@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Sinkitoukou-->
+        <scene sceneID="oLQ-aH-mDe">
+            <objects>
+                <viewController storyboardIdentifier="sinkitoukou" useStoryboardIdentifierAsRestorationIdentifier="YES" id="F9u-Ni-v7t" customClass="sinkitoukou" customModule="protain" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vgc-Xj-l5l">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XYs-i2-Ri8">
+                                <rect key="frame" x="167" y="94" width="80" height="30"/>
+                                <color key="backgroundColor" red="0.74829445419999996" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="4K6-fF-4on"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="tappedSinkiButton:" destination="F9u-Ni-v7t" eventType="touchUpInside" id="fAF-kO-sD1"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="kokokarada!" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="mPr-Ja-t73">
+                                <rect key="frame" x="20" y="214" width="374" height="248"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="lQt-Ir-bEx"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="XYs-i2-Ri8" firstAttribute="top" secondItem="lQt-Ir-bEx" secondAttribute="top" constant="50" id="4A0-6u-rTX"/>
+                            <constraint firstItem="lQt-Ir-bEx" firstAttribute="bottom" secondItem="mPr-Ja-t73" secondAttribute="bottom" constant="400" id="Iws-jk-7HO"/>
+                            <constraint firstItem="XYs-i2-Ri8" firstAttribute="centerX" secondItem="vgc-Xj-l5l" secondAttribute="centerX" id="YcT-JG-KLH"/>
+                            <constraint firstItem="lQt-Ir-bEx" firstAttribute="trailing" secondItem="mPr-Ja-t73" secondAttribute="trailing" constant="20" id="iXS-7W-fnt"/>
+                            <constraint firstItem="mPr-Ja-t73" firstAttribute="leading" secondItem="lQt-Ir-bEx" secondAttribute="leading" constant="20" id="r7S-47-pWe"/>
+                            <constraint firstItem="mPr-Ja-t73" firstAttribute="top" secondItem="XYs-i2-Ri8" secondAttribute="bottom" constant="90" id="zDt-B5-tva"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="sinkiButton" destination="XYs-i2-Ri8" id="HPZ-6T-kd3"/>
+                        <outlet property="sinkiTextView" destination="mPr-Ja-t73" id="Nmg-kd-Vf1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xUC-G5-QdW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-68" y="96"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

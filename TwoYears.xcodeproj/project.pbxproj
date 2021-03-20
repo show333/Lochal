@@ -1,0 +1,542 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CBB92E5C0B0A98153EAD402D /* Pods_protain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5A18861A46C0CBB9E321129 /* Pods_protain.framework */; };
+		CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */; };
+		CF0BD9D825D018FF004A1958 /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF0BD9D725D018FF004A1958 /* SignIn.storyboard */; };
+		CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */; };
+		CF0C14AF25C9F003006A7C86 /* ChatRoom.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF0C14AE25C9F003006A7C86 /* ChatRoom.storyboard */; };
+		CF0C14B225C9F028006A7C86 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C14B125C9F028006A7C86 /* ChatRoomViewController.swift */; };
+		CF0C14B525C9F36A006A7C86 /* ChatRoomTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF0C14B425C9F36A006A7C86 /* ChatRoomTableViewCell.xib */; };
+		CF0C14BC25C9F494006A7C86 /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C14BB25C9F494006A7C86 /* ChatRoomTableViewCell.swift */; };
+		CF0C14BF25CA04C5006A7C86 /* ChatInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF0C14BE25CA04C5006A7C86 /* ChatInputAccessoryView.xib */; };
+		CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C14C125CA067C006A7C86 /* ChatInputAccessoryView.swift */; };
+		CF0C14CA25CC26C6006A7C86 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C14C925CC26C6006A7C86 /* Message.swift */; };
+		CF24EF7925D7AAD6009FE517 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF24EF7825D7AAD6009FE517 /* SplashViewController.swift */; };
+		CF2A223425C3FC7000C5BFC1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A223325C3FC7000C5BFC1 /* AppDelegate.swift */; };
+		CF2A223625C3FC7000C5BFC1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A223525C3FC7000C5BFC1 /* SceneDelegate.swift */; };
+		CF2A223825C3FC7000C5BFC1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2A223725C3FC7000C5BFC1 /* ViewController.swift */; };
+		CF2A223B25C3FC7000C5BFC1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF2A223925C3FC7000C5BFC1 /* Main.storyboard */; };
+		CF2A223E25C3FC7000C5BFC1 /* protain.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF2A223C25C3FC7000C5BFC1 /* protain.xcdatamodeld */; };
+		CF2A224025C3FC7200C5BFC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF2A223F25C3FC7200C5BFC1 /* Assets.xcassets */; };
+		CF2A224325C3FC7200C5BFC1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF2A224125C3FC7200C5BFC1 /* LaunchScreen.storyboard */; };
+		CF37A36E25C4048B0024E4B2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF37A36D25C4048B0024E4B2 /* GoogleService-Info.plist */; };
+		CF39565625D39A450097DBAA /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF39565525D39A450097DBAA /* Team.swift */; };
+		CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */; };
+		CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3DDC0425C4597E0016AB0F /* sinkitoukou.swift */; };
+		CF3DDC1B25C73C580016AB0F /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3DDC1A25C73C580016AB0F /* Animal.swift */; };
+		CF41960525DC0F3400223C6C /* WhichOne.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF41960425DC0F3400223C6C /* WhichOne.storyboard */; };
+		CF41960825DC0FE700223C6C /* WhichOneViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF41960725DC0FE700223C6C /* WhichOneViewController.swift */; };
+		CFF8192E25D344C600524B81 /* blue.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFF8192D25D344C600524B81 /* blue.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		CE5F8589B3D4C1DA7745001F /* Pods-protain.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-protain.debug.xcconfig"; path = "Target Support Files/Pods-protain/Pods-protain.debug.xcconfig"; sourceTree = "<group>"; };
+		CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoutaiHakkou.swift; sourceTree = "<group>"; };
+		CF0BD9D725D018FF004A1958 /* SignIn.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignIn.storyboard; sourceTree = "<group>"; };
+		CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		CF0C14AE25C9F003006A7C86 /* ChatRoom.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChatRoom.storyboard; sourceTree = "<group>"; };
+		CF0C14B125C9F028006A7C86 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
+		CF0C14B425C9F36A006A7C86 /* ChatRoomTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatRoomTableViewCell.xib; sourceTree = "<group>"; };
+		CF0C14BB25C9F494006A7C86 /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
+		CF0C14BE25CA04C5006A7C86 /* ChatInputAccessoryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatInputAccessoryView.xib; sourceTree = "<group>"; };
+		CF0C14C125CA067C006A7C86 /* ChatInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputAccessoryView.swift; sourceTree = "<group>"; };
+		CF0C14C925CC26C6006A7C86 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		CF24EF7825D7AAD6009FE517 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		CF2A223025C3FC7000C5BFC1 /* protain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = protain.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF2A223325C3FC7000C5BFC1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CF2A223525C3FC7000C5BFC1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		CF2A223725C3FC7000C5BFC1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CF2A223A25C3FC7000C5BFC1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CF2A223D25C3FC7000C5BFC1 /* protain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = protain.xcdatamodel; sourceTree = "<group>"; };
+		CF2A223F25C3FC7200C5BFC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CF2A224225C3FC7200C5BFC1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CF2A224425C3FC7200C5BFC1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CF37A36D25C4048B0024E4B2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		CF39565525D39A450097DBAA /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
+		CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = sinkitoukou.storyboard; sourceTree = "<group>"; };
+		CF3DDC0425C4597E0016AB0F /* sinkitoukou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sinkitoukou.swift; sourceTree = "<group>"; };
+		CF3DDC1A25C73C580016AB0F /* Animal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animal.swift; sourceTree = "<group>"; };
+		CF41960425DC0F3400223C6C /* WhichOne.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = WhichOne.storyboard; sourceTree = "<group>"; };
+		CF41960725DC0FE700223C6C /* WhichOneViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhichOneViewController.swift; sourceTree = "<group>"; };
+		CFF8192D25D344C600524B81 /* blue.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = blue.storyboard; sourceTree = "<group>"; };
+		D1145C7A1BB28BC86D5D55CC /* Pods-protain.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-protain.release.xcconfig"; path = "Target Support Files/Pods-protain/Pods-protain.release.xcconfig"; sourceTree = "<group>"; };
+		D5A18861A46C0CBB9E321129 /* Pods_protain.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_protain.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CF2A222D25C3FC7000C5BFC1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CBB92E5C0B0A98153EAD402D /* Pods_protain.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2344F4129BB7E0F9E4DE07D3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D5A18861A46C0CBB9E321129 /* Pods_protain.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		93BFDC66D9C7F02DEDC2F7E5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CE5F8589B3D4C1DA7745001F /* Pods-protain.debug.xcconfig */,
+				D1145C7A1BB28BC86D5D55CC /* Pods-protain.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		CF2A222725C3FC7000C5BFC1 = {
+			isa = PBXGroup;
+			children = (
+				CF2A223225C3FC7000C5BFC1 /* protain */,
+				93BFDC66D9C7F02DEDC2F7E5 /* Pods */,
+				2344F4129BB7E0F9E4DE07D3 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		CF2A223125C3FC7000C5BFC1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CF2A223025C3FC7000C5BFC1 /* protain.app */,
+			);
+			name = Products;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		CF2A223225C3FC7000C5BFC1 /* protain */ = {
+			isa = PBXGroup;
+			children = (
+				CF3A766425D08A2900088D56 /* StoryBoard */,
+				CF3A766125D089C200088D56 /* inisyaraiz */,
+				CF3A766225D089DA00088D56 /* ViewController */,
+				CF2A223325C3FC7000C5BFC1 /* AppDelegate.swift */,
+				CF2A223525C3FC7000C5BFC1 /* SceneDelegate.swift */,
+				CF2A223F25C3FC7200C5BFC1 /* Assets.xcassets */,
+				CF37A36D25C4048B0024E4B2 /* GoogleService-Info.plist */,
+				CF2A224125C3FC7200C5BFC1 /* LaunchScreen.storyboard */,
+				CF2A224425C3FC7200C5BFC1 /* Info.plist */,
+				CF2A223C25C3FC7000C5BFC1 /* protain.xcdatamodeld */,
+				CF2A223125C3FC7000C5BFC1 /* Products */,
+			);
+			path = protain;
+			sourceTree = "<group>";
+		};
+		CF3A766125D089C200088D56 /* inisyaraiz */ = {
+			isa = PBXGroup;
+			children = (
+				CF0C14C925CC26C6006A7C86 /* Message.swift */,
+				CF3DDC1A25C73C580016AB0F /* Animal.swift */,
+				CF39565525D39A450097DBAA /* Team.swift */,
+			);
+			path = inisyaraiz;
+			sourceTree = "<group>";
+		};
+		CF3A766225D089DA00088D56 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */,
+				CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */,
+				CF0C14C125CA067C006A7C86 /* ChatInputAccessoryView.swift */,
+				CF0C14BB25C9F494006A7C86 /* ChatRoomTableViewCell.swift */,
+				CF3DDC0425C4597E0016AB0F /* sinkitoukou.swift */,
+				CF2A223725C3FC7000C5BFC1 /* ViewController.swift */,
+				CF0C14B125C9F028006A7C86 /* ChatRoomViewController.swift */,
+				CF24EF7825D7AAD6009FE517 /* SplashViewController.swift */,
+				CF41960725DC0FE700223C6C /* WhichOneViewController.swift */,
+				CF3A766325D08A0900088D56 /* XibFile */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		CF3A766325D08A0900088D56 /* XibFile */ = {
+			isa = PBXGroup;
+			children = (
+				CF0C14B425C9F36A006A7C86 /* ChatRoomTableViewCell.xib */,
+				CF0C14BE25CA04C5006A7C86 /* ChatInputAccessoryView.xib */,
+			);
+			path = XibFile;
+			sourceTree = "<group>";
+		};
+		CF3A766425D08A2900088D56 /* StoryBoard */ = {
+			isa = PBXGroup;
+			children = (
+				CF2A223925C3FC7000C5BFC1 /* Main.storyboard */,
+				CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */,
+				CF0BD9D725D018FF004A1958 /* SignIn.storyboard */,
+				CF0C14AE25C9F003006A7C86 /* ChatRoom.storyboard */,
+				CFF8192D25D344C600524B81 /* blue.storyboard */,
+				CF41960425DC0F3400223C6C /* WhichOne.storyboard */,
+			);
+			path = StoryBoard;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CF2A222F25C3FC7000C5BFC1 /* protain */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CF2A224725C3FC7200C5BFC1 /* Build configuration list for PBXNativeTarget "protain" */;
+			buildPhases = (
+				7B997BC5E5426F90182890CD /* [CP] Check Pods Manifest.lock */,
+				CF2A222C25C3FC7000C5BFC1 /* Sources */,
+				CF2A222D25C3FC7000C5BFC1 /* Frameworks */,
+				CF2A222E25C3FC7000C5BFC1 /* Resources */,
+				97BD462F93105D932A88C1DC /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = protain;
+			productName = protain;
+			productReference = CF2A223025C3FC7000C5BFC1 /* protain.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CF2A222825C3FC7000C5BFC1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					CF2A222F25C3FC7000C5BFC1 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+				};
+			};
+			buildConfigurationList = CF2A222B25C3FC7000C5BFC1 /* Build configuration list for PBXProject "protain" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CF2A222725C3FC7000C5BFC1;
+			productRefGroup = CF2A223125C3FC7000C5BFC1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CF2A222F25C3FC7000C5BFC1 /* protain */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CF2A222E25C3FC7000C5BFC1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFF8192E25D344C600524B81 /* blue.storyboard in Resources */,
+				CF2A224325C3FC7200C5BFC1 /* LaunchScreen.storyboard in Resources */,
+				CF37A36E25C4048B0024E4B2 /* GoogleService-Info.plist in Resources */,
+				CF2A224025C3FC7200C5BFC1 /* Assets.xcassets in Resources */,
+				CF0C14BF25CA04C5006A7C86 /* ChatInputAccessoryView.xib in Resources */,
+				CF0BD9D825D018FF004A1958 /* SignIn.storyboard in Resources */,
+				CF2A223B25C3FC7000C5BFC1 /* Main.storyboard in Resources */,
+				CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */,
+				CF0C14B525C9F36A006A7C86 /* ChatRoomTableViewCell.xib in Resources */,
+				CF0C14AF25C9F003006A7C86 /* ChatRoom.storyboard in Resources */,
+				CF41960525DC0F3400223C6C /* WhichOne.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7B997BC5E5426F90182890CD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-protain-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		97BD462F93105D932A88C1DC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-protain/Pods-protain-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-protain/Pods-protain-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-protain/Pods-protain-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CF2A222C25C3FC7000C5BFC1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CF0C14B225C9F028006A7C86 /* ChatRoomViewController.swift in Sources */,
+				CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */,
+				CF39565625D39A450097DBAA /* Team.swift in Sources */,
+				CF2A223825C3FC7000C5BFC1 /* ViewController.swift in Sources */,
+				CF2A223E25C3FC7000C5BFC1 /* protain.xcdatamodeld in Sources */,
+				CF24EF7925D7AAD6009FE517 /* SplashViewController.swift in Sources */,
+				CF41960825DC0FE700223C6C /* WhichOneViewController.swift in Sources */,
+				CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */,
+				CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */,
+				CF2A223425C3FC7000C5BFC1 /* AppDelegate.swift in Sources */,
+				CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */,
+				CF2A223625C3FC7000C5BFC1 /* SceneDelegate.swift in Sources */,
+				CF0C14CA25CC26C6006A7C86 /* Message.swift in Sources */,
+				CF0C14BC25C9F494006A7C86 /* ChatRoomTableViewCell.swift in Sources */,
+				CF3DDC1B25C73C580016AB0F /* Animal.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CF2A223925C3FC7000C5BFC1 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CF2A223A25C3FC7000C5BFC1 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CF2A224125C3FC7200C5BFC1 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CF2A224225C3FC7200C5BFC1 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CF2A224525C3FC7200C5BFC1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CF2A224625C3FC7200C5BFC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CF2A224825C3FC7200C5BFC1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CE5F8589B3D4C1DA7745001F /* Pods-protain.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YYTP3AH2TL;
+				INFOPLIST_FILE = protain/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = zebra.protain;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CF2A224925C3FC7200C5BFC1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D1145C7A1BB28BC86D5D55CC /* Pods-protain.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YYTP3AH2TL;
+				INFOPLIST_FILE = protain/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = zebra.protain;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CF2A222B25C3FC7000C5BFC1 /* Build configuration list for PBXProject "protain" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CF2A224525C3FC7200C5BFC1 /* Debug */,
+				CF2A224625C3FC7200C5BFC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CF2A224725C3FC7200C5BFC1 /* Build configuration list for PBXNativeTarget "protain" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CF2A224825C3FC7200C5BFC1 /* Debug */,
+				CF2A224925C3FC7200C5BFC1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		CF2A223C25C3FC7000C5BFC1 /* protain.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				CF2A223D25C3FC7000C5BFC1 /* protain.xcdatamodel */,
+			);
+			currentVersion = CF2A223D25C3FC7000C5BFC1 /* protain.xcdatamodel */;
+			path = protain.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = CF2A222825C3FC7000C5BFC1 /* Project object */;
+}
