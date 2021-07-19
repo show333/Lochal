@@ -1,7 +1,152 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <scenes/>
+    <scenes>
+        <!--Shoutai Hakkou-->
+        <scene sceneID="8sg-fG-XnG">
+            <objects>
+                <viewController storyboardIdentifier="ShoutaiHakkou" id="lK3-qw-17D" customClass="ShoutaiHakkou" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fiV-jb-Y4x">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eDJ-Ro-ISo">
+                                <rect key="frame" x="37.5" y="258.5" width="300" height="150"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="g0U-Zf-fWM"/>
+                                    <constraint firstAttribute="width" constant="300" id="nzP-rV-vcT"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="25"/>
+                                <state key="normal" title="Invite">
+                                    <color key="titleColor" red="0.0" green="0.89974850169999998" blue="0.62326091610000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="hakkouTappedButton:" destination="lK3-qw-17D" eventType="touchUpInside" id="Rkc-J7-2Iq"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BPL-B9-LPx">
+                                <rect key="frame" x="165" y="468.5" width="45" height="39"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <state key="normal" title="戻る">
+                                    <color key="titleColor" red="0.0" green="0.89974850169999998" blue="0.62326091610000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="BubuButton:" destination="lK3-qw-17D" eventType="touchUpInside" id="tHK-MX-5w0"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z5h-F6-NNG">
+                                <rect key="frame" x="165.5" y="532.5" width="44" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1MG-0W-tYU">
+                                <rect key="frame" x="187.5" y="273.5" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This account is unlimited" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dHF-Gp-M0v">
+                                <rect key="frame" x="93" y="574" width="189" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rh5-8S-OXh">
+                                <rect key="frame" x="124" y="21.5" width="127" height="39"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="hellowfriends">
+                                    <color key="titleColor" systemColor="systemGreenColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="hellowfriendsButton:" destination="lK3-qw-17D" eventType="touchUpInside" id="jvg-bB-7vi"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="招待IDが発行されました" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IFe-ja-dSU">
+                                <rect key="frame" x="93" y="80.5" width="189.5" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ボタンをタップすると招待IDが発行されます" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wgr-Cg-6jF">
+                                <rect key="frame" x="15" y="172.5" width="345.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8ts-V0-wd4" customClass="CopyUILabel" customModule="TOTALGOOD" customModuleProvider="target">
+                                <rect key="frame" x="112.5" y="121" width="150" height="26.5"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="QU1-J0-u9R"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="22"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="何かご不明な点、報告等ございましたら、「https://twitter.com/TOTALGOOD2」までご連絡ください" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iL3-et-seR">
+                                <rect key="frame" x="5" y="623.5" width="365" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="abe-6b-lWM"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="z5h-F6-NNG" firstAttribute="top" secondItem="BPL-B9-LPx" secondAttribute="bottom" constant="25" id="4WY-eH-eAa"/>
+                            <constraint firstItem="IFe-ja-dSU" firstAttribute="centerX" secondItem="fiV-jb-Y4x" secondAttribute="centerX" id="6ZZ-lv-Z6C"/>
+                            <constraint firstItem="dHF-Gp-M0v" firstAttribute="centerX" secondItem="fiV-jb-Y4x" secondAttribute="centerX" id="92N-TL-6Ga"/>
+                            <constraint firstItem="IFe-ja-dSU" firstAttribute="top" secondItem="rh5-8S-OXh" secondAttribute="bottom" constant="20" id="AJY-o7-km2"/>
+                            <constraint firstItem="1MG-0W-tYU" firstAttribute="centerY" secondItem="fiV-jb-Y4x" secondAttribute="centerY" constant="-60" id="BTB-Ev-gmo"/>
+                            <constraint firstItem="z5h-F6-NNG" firstAttribute="centerX" secondItem="fiV-jb-Y4x" secondAttribute="centerX" id="Dmo-UY-OuT"/>
+                            <constraint firstItem="eDJ-Ro-ISo" firstAttribute="centerY" secondItem="fiV-jb-Y4x" secondAttribute="centerY" id="IcX-Th-ozw"/>
+                            <constraint firstItem="abe-6b-lWM" firstAttribute="bottom" secondItem="iL3-et-seR" secondAttribute="bottom" constant="10" id="Is8-ra-6SS"/>
+                            <constraint firstItem="iL3-et-seR" firstAttribute="centerX" secondItem="fiV-jb-Y4x" secondAttribute="centerX" id="J5b-jz-Faj"/>
+                            <constraint firstItem="8ts-V0-wd4" firstAttribute="centerX" secondItem="fiV-jb-Y4x" secondAttribute="centerX" id="MLM-xi-r28"/>
+                            <constraint firstItem="Wgr-Cg-6jF" firstAttribute="centerX" secondItem="fiV-jb-Y4x" secondAttribute="centerX" id="Op2-5l-To1"/>
+                            <constraint firstItem="eDJ-Ro-ISo" firstAttribute="top" secondItem="Wgr-Cg-6jF" secondAttribute="bottom" constant="65" id="P0v-Rf-Mdh"/>
+                            <constraint firstItem="eDJ-Ro-ISo" firstAttribute="centerX" secondItem="fiV-jb-Y4x" secondAttribute="centerX" id="QLI-4Y-GTY"/>
+                            <constraint firstItem="BPL-B9-LPx" firstAttribute="top" secondItem="eDJ-Ro-ISo" secondAttribute="bottom" constant="60" id="TEJ-U0-gr6"/>
+                            <constraint firstItem="dHF-Gp-M0v" firstAttribute="top" secondItem="z5h-F6-NNG" secondAttribute="bottom" constant="20" id="X8h-PO-s8S"/>
+                            <constraint firstItem="BPL-B9-LPx" firstAttribute="centerX" secondItem="fiV-jb-Y4x" secondAttribute="centerX" id="ZrT-qY-e21"/>
+                            <constraint firstItem="abe-6b-lWM" firstAttribute="trailing" secondItem="iL3-et-seR" secondAttribute="trailing" constant="5" id="d0H-Bf-wUZ"/>
+                            <constraint firstItem="Wgr-Cg-6jF" firstAttribute="top" secondItem="8ts-V0-wd4" secondAttribute="bottom" constant="25" id="gKQ-wb-z7g"/>
+                            <constraint firstItem="rh5-8S-OXh" firstAttribute="centerX" secondItem="fiV-jb-Y4x" secondAttribute="centerX" id="o3J-2U-37A"/>
+                            <constraint firstItem="1MG-0W-tYU" firstAttribute="centerX" secondItem="fiV-jb-Y4x" secondAttribute="centerX" id="pLy-Ul-f4U"/>
+                            <constraint firstItem="iL3-et-seR" firstAttribute="leading" secondItem="abe-6b-lWM" secondAttribute="leading" constant="5" id="vDN-e7-7b1"/>
+                            <constraint firstItem="8ts-V0-wd4" firstAttribute="top" secondItem="IFe-ja-dSU" secondAttribute="bottom" constant="20" id="wod-5x-b77"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="address" destination="iL3-et-seR" id="9Ad-kO-a8k"/>
+                        <outlet property="backButton" destination="BPL-B9-LPx" id="hek-87-aZD"/>
+                        <outlet property="beforeexplainLabel" destination="Wgr-Cg-6jF" id="d3n-br-bAE"/>
+                        <outlet property="explainLabel" destination="IFe-ja-dSU" id="TOx-Ty-fD2"/>
+                        <outlet property="hakkoButton" destination="eDJ-Ro-ISo" id="7vD-FF-OJW"/>
+                        <outlet property="hakkoLabel" destination="8ts-V0-wd4" id="IjD-23-Qs3"/>
+                        <outlet property="hellowButton" destination="rh5-8S-OXh" id="1fI-qY-LCg"/>
+                        <outlet property="myidLabel" destination="z5h-F6-NNG" id="OnV-Xu-x2P"/>
+                        <outlet property="thisaccountLabel" destination="dHF-Gp-M0v" id="sIL-Fo-zfN"/>
+                        <outlet property="underLabel" destination="1MG-0W-tYU" id="HZ3-yU-J4X"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LdZ-C7-3nQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="90.400000000000006" y="69.715142428785612"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

@@ -8,10 +8,15 @@
 import Foundation
 import Firebase
 
-class Team {
+struct Team {
     public var teamcolor : String
+    var invitedId : String
+    var jikan : Timestamp
+
     
-    init(dic: [String:Any]){
-        self.teamcolor = dic["message"] as? String ?? ""
+    init(dic: [String: Any]){
+        self.teamcolor = dic["teamname"] as? String ?? ""
+        self.invitedId = dic["招待した人のID"] as? String ?? ""
+        self.jikan = dic["jikan"] as? Timestamp ?? Timestamp()
     }
 }

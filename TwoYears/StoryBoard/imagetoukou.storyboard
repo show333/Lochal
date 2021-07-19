@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Imagetoukou View Controller-->
+        <scene sceneID="33A-GN-iUa">
+            <objects>
+                <viewController storyboardIdentifier="imagetoukouViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="iI5-Mf-Ica" customClass="imagetoukouViewController" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="00C-g4-iWF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="092-ue-shv">
+                                <rect key="frame" x="0.0" y="261" width="414" height="414"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="092-ue-shv" secondAttribute="height" id="L2Z-GT-8Ao"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="imageTappedButton:" destination="iI5-Mf-Ica" eventType="touchUpInside" id="oQo-9Q-Kbj"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DGe-Xo-aRa">
+                                <rect key="frame" x="147" y="166" width="120" height="45"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="a3C-ya-BGj"/>
+                                    <constraint firstAttribute="height" constant="45" id="eh2-Jd-BZf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="22"/>
+                                <state key="normal" title="送信">
+                                    <color key="titleColor" systemColor="systemGreenColor"/>
+                                </state>
+                                <connections>
+                                    <action selector="sendTappedButton:" destination="iI5-Mf-Ica" eventType="touchUpInside" id="UIC-aV-loQ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="jkm-c3-oMK"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="092-ue-shv" firstAttribute="leading" secondItem="jkm-c3-oMK" secondAttribute="leading" id="2Xq-lJ-0ND"/>
+                            <constraint firstItem="092-ue-shv" firstAttribute="top" secondItem="DGe-Xo-aRa" secondAttribute="bottom" constant="50" id="MpU-ay-K5a"/>
+                            <constraint firstItem="092-ue-shv" firstAttribute="centerY" secondItem="00C-g4-iWF" secondAttribute="centerY" constant="20" id="ZLN-Gt-HxP"/>
+                            <constraint firstItem="092-ue-shv" firstAttribute="centerX" secondItem="00C-g4-iWF" secondAttribute="centerX" id="i5f-nw-iuJ"/>
+                            <constraint firstItem="jkm-c3-oMK" firstAttribute="trailing" secondItem="092-ue-shv" secondAttribute="trailing" id="l8J-Z0-ht3"/>
+                            <constraint firstItem="DGe-Xo-aRa" firstAttribute="centerX" secondItem="00C-g4-iWF" secondAttribute="centerX" id="yhC-bu-0sZ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageButton" destination="092-ue-shv" id="ifN-s4-dt0"/>
+                        <outlet property="sendButton" destination="DGe-Xo-aRa" id="k43-eg-cwD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bFw-Z1-ESO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-191.30434782608697" y="55.580357142857139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "immo-wegmann--kMLhgAoo7k-unsplash.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "immo-wegmann--kMLhgAoo7k-unsplash-1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "immo-wegmann--kMLhgAoo7k-unsplash-2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

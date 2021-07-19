@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "rostyslav-savchyn-5RRPi4LgQWI-unsplash.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "rostyslav-savchyn-5RRPi4LgQWI-unsplash-1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "rostyslav-savchyn-5RRPi4LgQWI-unsplash-2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

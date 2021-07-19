@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Thanksfriends-->
+        <scene sceneID="eRC-Vo-Bw1">
+            <objects>
+                <viewController storyboardIdentifier="thanksfriends" id="pEl-kR-Zu5" customClass="thanksfriends" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="iAM-XU-lho">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thanks my friend!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jn6-mq-CzC">
+                                <rect key="frame" x="49.5" y="60" width="276" height="39.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="33"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your account is unlimited" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3au-3G-H6a">
+                                <rect key="frame" x="92" y="104.5" width="191" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="このアカウントは招待枠が無制限です" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wvT-P5-anA">
+                                <rect key="frame" x="40" y="135.5" width="295" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Have a great time!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Ow-aS-9gv">
+                                <rect key="frame" x="108" y="272.5" width="159" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NI5-y1-oSi">
+                                <rect key="frame" x="20" y="176.5" width="335" height="18"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CGP-mA-bHZ">
+                                <rect key="frame" x="20" y="214.5" width="335" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Jdq-98-SYO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="wvT-P5-anA" firstAttribute="centerX" secondItem="iAM-XU-lho" secondAttribute="centerX" id="4PG-yk-nv6"/>
+                            <constraint firstItem="wvT-P5-anA" firstAttribute="top" secondItem="3au-3G-H6a" secondAttribute="bottom" constant="10" id="9YA-Hb-QIl"/>
+                            <constraint firstItem="Jdq-98-SYO" firstAttribute="trailing" secondItem="CGP-mA-bHZ" secondAttribute="trailing" constant="20" id="D7E-BP-09d"/>
+                            <constraint firstItem="Jn6-mq-CzC" firstAttribute="centerX" secondItem="iAM-XU-lho" secondAttribute="centerX" id="FH3-ev-cKe"/>
+                            <constraint firstItem="NI5-y1-oSi" firstAttribute="top" secondItem="wvT-P5-anA" secondAttribute="bottom" constant="20" id="H92-wN-RJP"/>
+                            <constraint firstItem="CGP-mA-bHZ" firstAttribute="leading" secondItem="Jdq-98-SYO" secondAttribute="leading" constant="20" id="J50-d7-xCj"/>
+                            <constraint firstItem="7Ow-aS-9gv" firstAttribute="top" secondItem="CGP-mA-bHZ" secondAttribute="bottom" constant="40" id="LLW-Rz-eKr"/>
+                            <constraint firstItem="Jn6-mq-CzC" firstAttribute="top" secondItem="Jdq-98-SYO" secondAttribute="top" constant="60" id="Prh-RP-Moi"/>
+                            <constraint firstItem="NI5-y1-oSi" firstAttribute="leading" secondItem="Jdq-98-SYO" secondAttribute="leading" constant="20" id="V8H-wf-cpe"/>
+                            <constraint firstItem="3au-3G-H6a" firstAttribute="top" secondItem="Jn6-mq-CzC" secondAttribute="bottom" constant="5" id="fGT-h9-ExD"/>
+                            <constraint firstItem="Jdq-98-SYO" firstAttribute="trailing" secondItem="NI5-y1-oSi" secondAttribute="trailing" constant="20" id="fNB-lD-P18"/>
+                            <constraint firstItem="7Ow-aS-9gv" firstAttribute="centerX" secondItem="iAM-XU-lho" secondAttribute="centerX" id="hcv-5w-e2r"/>
+                            <constraint firstItem="7Ow-aS-9gv" firstAttribute="centerX" secondItem="iAM-XU-lho" secondAttribute="centerX" id="l7A-Nv-dcx"/>
+                            <constraint firstItem="CGP-mA-bHZ" firstAttribute="top" secondItem="NI5-y1-oSi" secondAttribute="bottom" constant="20" id="vjz-jy-hNz"/>
+                            <constraint firstItem="3au-3G-H6a" firstAttribute="centerX" secondItem="iAM-XU-lho" secondAttribute="centerX" id="xzQ-fM-a8P"/>
+                            <constraint firstItem="NI5-y1-oSi" firstAttribute="centerX" secondItem="iAM-XU-lho" secondAttribute="centerX" id="y7s-sg-X32"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="detailLabel" destination="NI5-y1-oSi" id="46P-RJ-dOx"/>
+                        <outlet property="friendsLabel" destination="CGP-mA-bHZ" id="lTI-a9-VCY"/>
+                        <outlet property="museigenLabel" destination="wvT-P5-anA" id="N9W-Hl-J5X"/>
+                        <outlet property="thanksLabel" destination="Jn6-mq-CzC" id="bps-RN-wVJ"/>
+                        <outlet property="unlimitedLabel" destination="3au-3G-H6a" id="mAz-0t-gjF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hia-fB-dAH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="157" y="121"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

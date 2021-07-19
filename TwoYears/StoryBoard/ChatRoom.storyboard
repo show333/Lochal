@@ -11,8 +11,9 @@
         <!--Navigation Controller-->
         <scene sceneID="gPA-ll-vsz">
             <objects>
-                <navigationController navigationBarHidden="YES" id="ecd-uE-UAj" sceneMemberID="viewController">
+                <navigationController id="ecd-uE-UAj" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="5kc-1j-aHr">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6bD-z2-sZs">
@@ -29,20 +30,33 @@
         <!--Title-->
         <scene sceneID="t4B-Ao-gu7">
             <objects>
-                <viewController storyboardIdentifier="ChatRoomViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Wjw-NU-vAY" customClass="ChatRoomViewController" customModule="protain" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ChatRoomViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Wjw-NU-vAY" customClass="ChatRoomViewController" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="txE-CS-6gR">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="l5C-pb-uiE">
-                                <rect key="frame" x="0.0" y="-6" width="414" height="868"/>
+                                <rect key="frame" x="0.0" y="38" width="414" height="776"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mjA-0O-9VQ">
+                                <rect key="frame" x="0.0" y="814" width="414" height="48"/>
+                                <color key="backgroundColor" systemColor="systemGreenColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="ggg-z7-ZQ7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <color key="textColor" systemColor="systemGray6Color"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Eva-sk-F4b"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Eva-sk-F4b" firstAttribute="bottom" secondItem="l5C-pb-uiE" secondAttribute="bottom" id="ba0-FJ-okx"/>
+                            <constraint firstItem="mjA-0O-9VQ" firstAttribute="leading" secondItem="Eva-sk-F4b" secondAttribute="leading" id="T7i-ug-5AH"/>
+                            <constraint firstItem="mjA-0O-9VQ" firstAttribute="bottom" secondItem="Eva-sk-F4b" secondAttribute="bottom" id="Wvx-uu-Ond"/>
+                            <constraint firstItem="Eva-sk-F4b" firstAttribute="trailing" secondItem="mjA-0O-9VQ" secondAttribute="trailing" id="YuX-z4-LS1"/>
+                            <constraint firstItem="Eva-sk-F4b" firstAttribute="bottom" secondItem="l5C-pb-uiE" secondAttribute="bottom" constant="48" id="ba0-FJ-okx"/>
                             <constraint firstItem="l5C-pb-uiE" firstAttribute="top" secondItem="Eva-sk-F4b" secondAttribute="top" constant="-50" id="etq-Ff-Bjr"/>
                             <constraint firstItem="Eva-sk-F4b" firstAttribute="trailing" secondItem="l5C-pb-uiE" secondAttribute="trailing" id="kyq-QX-Bz7"/>
                             <constraint firstItem="l5C-pb-uiE" firstAttribute="leading" secondItem="Eva-sk-F4b" secondAttribute="leading" id="sd9-tf-yDy"/>
@@ -51,6 +65,8 @@
                     <navigationItem key="navigationItem" title="Title" leftItemsSupplementBackButton="YES" id="2f1-xs-UmC"/>
                     <connections>
                         <outlet property="chatRoomTableView" destination="l5C-pb-uiE" id="hts-SK-dbP"/>
+                        <outlet property="differentLabel" destination="mjA-0O-9VQ" id="4Dp-lf-MoC"/>
+                        <outlet property="navbarTitle" destination="2f1-xs-UmC" id="9Ws-CU-YqV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L2a-50-GBd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -61,6 +77,12 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGray6Color">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

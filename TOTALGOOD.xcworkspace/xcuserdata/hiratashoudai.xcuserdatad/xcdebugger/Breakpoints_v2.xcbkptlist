@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "CE381F9F-1B1D-44F1-9F0B-83552697B9C3"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "242B094C-CA14-457E-8CE0-A1364F8A7F52"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TwoYears/ViewController/RankingViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "293"
+            endingLineNumber = "293"
+            landmarkName = "tableView(_:cellForRowAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A2074B38-7A28-41CB-966A-D1E6B9DDDE79"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TwoYears/ViewController/stampViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
+            landmarkName = "CollectionViewCell"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "A2074B38-7A28-41CB-966A-D1E6B9DDDE79 - 7d5fd331adf5614c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.stampViewController.CollectionViewCell.stampImageView.getter : Swift.Optional&lt;__C.UIImageView&gt;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/stampViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "36"
+                  endingLineNumber = "36"
+                  offsetFromSymbolStart = "104">
+               </Location>
+               <Location
+                  uuid = "A2074B38-7A28-41CB-966A-D1E6B9DDDE79 - cf118914e383b0b8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.stampViewController.CollectionViewCell.stampImageView.setter : Swift.Optional&lt;__C.UIImageView&gt;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/stampViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "36"
+                  endingLineNumber = "36"
+                  offsetFromSymbolStart = "148">
+               </Location>
+               <Location
+                  uuid = "A2074B38-7A28-41CB-966A-D1E6B9DDDE79 - 3d2bb2762c34b537"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.stampViewController.CollectionViewCell.stampImageView.modify : Swift.Optional&lt;__C.UIImageView&gt;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/stampViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "60">
+               </Location>
+               <Location
+                  uuid = "A2074B38-7A28-41CB-966A-D1E6B9DDDE79 - 1a61e68db17bbee8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.stampViewController.CollectionViewCell.stampImageView.modify : Swift.Optional&lt;__C.UIImageView&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/stampViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "36"
+                  endingLineNumber = "36"
+                  offsetFromSymbolStart = "72">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "06DD2A54-9482-4EC5-A454-C7BB8871A3AF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TwoYears/ViewController/stampViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
+            landmarkName = "CollectionViewCell"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "06DD2A54-9482-4EC5-A454-C7BB8871A3AF - 6aa650c359580d40"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.CollectionViewCell.stampImageView.getter : Swift.Optional&lt;__C.UIImageView&gt;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/stampViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "395"
+                  endingLineNumber = "395"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "06DD2A54-9482-4EC5-A454-C7BB8871A3AF - ccd8fb3c90da594c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.CollectionViewCell.stampImageView.setter : Swift.Optional&lt;__C.UIImageView&gt;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/stampViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "395"
+                  endingLineNumber = "395"
+                  offsetFromSymbolStart = "155">
+               </Location>
+               <Location
+                  uuid = "06DD2A54-9482-4EC5-A454-C7BB8871A3AF - c6fc865971f4af40"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.CollectionViewCell.stampImageView.modify : Swift.Optional&lt;__C.UIImageView&gt;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/stampViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "59">
+               </Location>
+               <Location
+                  uuid = "06DD2A54-9482-4EC5-A454-C7BB8871A3AF - 2e254ce0a381d9a7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.CollectionViewCell.stampImageView.modify : Swift.Optional&lt;__C.UIImageView&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/stampViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "395"
+                  endingLineNumber = "395"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

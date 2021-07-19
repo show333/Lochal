@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "vasily-koloda-8CqDvPuo_kI-unsplash.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "vasily-koloda-8CqDvPuo_kI-unsplash-1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "vasily-koloda-8CqDvPuo_kI-unsplash-2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

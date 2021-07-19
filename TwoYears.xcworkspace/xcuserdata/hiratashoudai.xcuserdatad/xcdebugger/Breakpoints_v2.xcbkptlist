@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "2C9943B1-D19F-46F8-8C52-ED3576680F7A"
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "88C5F02A-9770-4EFE-985E-4D70D3D70C60"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TwoYears/ViewController/ScoreViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "ScoreViewController"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "88C5F02A-9770-4EFE-985E-4D70D3D70C60 - d8017666cc78d4d8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.ScoreViewController.teamImageView.getter : Swift.Optional&lt;__C.UIImageView&gt;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/ScoreViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "88C5F02A-9770-4EFE-985E-4D70D3D70C60 - a626cdc484fee0ac"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.ScoreViewController.teamImageView.setter : Swift.Optional&lt;__C.UIImageView&gt;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/ScoreViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "155">
+               </Location>
+               <Location
+                  uuid = "88C5F02A-9770-4EFE-985E-4D70D3D70C60 - adcb38e0e5132d07"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.ScoreViewController.teamImageView.modify : Swift.Optional&lt;__C.UIImageView&gt;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/ScoreViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "59">
+               </Location>
+               <Location
+                  uuid = "88C5F02A-9770-4EFE-985E-4D70D3D70C60 - a24593bbbb14de02"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.ScoreViewController.teamImageView.modify : Swift.Optional&lt;__C.UIImageView&gt; with unmangled suffix &quot;.resume.0&quot;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/ScoreViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  uuid = "88C5F02A-9770-4EFE-985E-4D70D3D70C60 - 58ffa37b9f414ece"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.ScoreViewController.init(nibName: Swift.Optional&lt;Swift.String&gt;, bundle: Swift.Optional&lt;__C.NSBundle&gt;) -&gt; TOTALGOOD.ScoreViewController"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/ScoreViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "1145">
+               </Location>
+               <Location
+                  uuid = "88C5F02A-9770-4EFE-985E-4D70D3D70C60 - 72304ab03f6ca88a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "TOTALGOOD.ScoreViewController.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;TOTALGOOD.ScoreViewController&gt;"
+                  moduleName = "TOTALGOOD"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hiratashoudai/Desktop/TwoYears/TwoYears/ViewController/ScoreViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "1086">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9DB81A3A-222C-499D-A9C8-66F0ABAEA3CA"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TwoYears/ViewController/ScoreViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "ScoreViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2E475C38-DB6A-469A-ADA0-319BD46263A9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TwoYears/ViewController/ScoreViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "ScoreViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "85A9FB7F-5E01-4B58-A904-83C06B69BDB1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TwoYears/ViewController/ScoreViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "ScoreViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0E29F05C-86A9-40CF-A697-1C6CE586669E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "TwoYears/ViewController/ChatRoomViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "319"
+            endingLineNumber = "319"
+            landmarkName = "comment(randomuserId:commentId:)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

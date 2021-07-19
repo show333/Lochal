@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "helena-lopes-PGnqT0rXWLs-unsplash.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "helena-lopes-PGnqT0rXWLs-unsplash-1.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "helena-lopes-PGnqT0rXWLs-unsplash-2.jpg",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

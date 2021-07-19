@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Stamp View Controller-->
+        <scene sceneID="yGu-jF-DKg">
+            <objects>
+                <viewController storyboardIdentifier="stampViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="J3k-u0-dgd" customClass="stampViewController" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2wM-vD-uFW">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="t7K-Kb-d3j">
+                                <rect key="frame" x="3.5" y="49" width="407" height="813"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="sNJ-xA-DIZ">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cellId" id="qzB-8e-RWu" customClass="CollectionViewCell" customModule="TOTALGOOD" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="wEu-oE-s5g">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7iT-e5-NmP">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="7iT-e5-NmP" secondAttribute="trailing" id="7w4-tS-6Qr"/>
+                                                <constraint firstItem="7iT-e5-NmP" firstAttribute="top" secondItem="wEu-oE-s5g" secondAttribute="top" id="9U7-RL-w0h"/>
+                                                <constraint firstItem="7iT-e5-NmP" firstAttribute="leading" secondItem="wEu-oE-s5g" secondAttribute="leading" id="EEJ-Vr-mwq"/>
+                                                <constraint firstAttribute="bottom" secondItem="7iT-e5-NmP" secondAttribute="bottom" id="vZG-Ic-Fgj"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="stampImageView" destination="7iT-e5-NmP" id="NVc-tI-4YK"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <button opaque="NO" alpha="0.10000000000000001" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mIR-Go-T5Z">
+                                <rect key="frame" x="0.0" y="44" width="414" height="858"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="cancelTappedButton:" destination="J3k-u0-dgd" eventType="touchUpInside" id="MKm-Ta-YEA"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ydm-Ca-PXu">
+                                <rect key="frame" x="70" y="311" width="274" height="274"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Ydm-Ca-PXu" secondAttribute="height" multiplier="1:1" id="lk3-6X-cxH"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="dT8-qw-c6U" appends="YES" id="RWH-hO-xCF"/>
+                                </connections>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="↑をタップで送信" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jGE-jU-K4t">
+                                <rect key="frame" x="135.5" y="605" width="143" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ApP-xl-aLA"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <gestureRecognizers/>
+                        <constraints>
+                            <constraint firstItem="jGE-jU-K4t" firstAttribute="centerX" secondItem="2wM-vD-uFW" secondAttribute="centerX" id="0RJ-Um-jYu"/>
+                            <constraint firstItem="ApP-xl-aLA" firstAttribute="bottom" secondItem="t7K-Kb-d3j" secondAttribute="bottom" id="0XJ-Zk-lqF"/>
+                            <constraint firstItem="ApP-xl-aLA" firstAttribute="trailing" secondItem="mIR-Go-T5Z" secondAttribute="trailing" id="0wp-0r-WfK"/>
+                            <constraint firstItem="Ydm-Ca-PXu" firstAttribute="leading" secondItem="ApP-xl-aLA" secondAttribute="leading" constant="70" id="3J5-Lp-gMq"/>
+                            <constraint firstItem="jGE-jU-K4t" firstAttribute="top" secondItem="Ydm-Ca-PXu" secondAttribute="bottom" constant="20" id="AZB-5P-wr6"/>
+                            <constraint firstItem="t7K-Kb-d3j" firstAttribute="leading" secondItem="ApP-xl-aLA" secondAttribute="leading" constant="3.5" id="Lxe-WC-kek"/>
+                            <constraint firstItem="mIR-Go-T5Z" firstAttribute="top" secondItem="ApP-xl-aLA" secondAttribute="top" id="Se6-QC-uGh"/>
+                            <constraint firstItem="ApP-xl-aLA" firstAttribute="bottom" secondItem="mIR-Go-T5Z" secondAttribute="bottom" constant="-40" id="Xpr-br-uXb"/>
+                            <constraint firstItem="Ydm-Ca-PXu" firstAttribute="centerX" secondItem="2wM-vD-uFW" secondAttribute="centerX" id="Ya6-ff-5Gj"/>
+                            <constraint firstItem="Ydm-Ca-PXu" firstAttribute="centerY" secondItem="2wM-vD-uFW" secondAttribute="centerY" id="b27-Gi-LFd"/>
+                            <constraint firstItem="mIR-Go-T5Z" firstAttribute="leading" secondItem="ApP-xl-aLA" secondAttribute="leading" id="eN5-Xq-5zA"/>
+                            <constraint firstItem="ApP-xl-aLA" firstAttribute="trailing" secondItem="Ydm-Ca-PXu" secondAttribute="trailing" constant="70" id="hrr-hS-8Nn"/>
+                            <constraint firstItem="t7K-Kb-d3j" firstAttribute="top" secondItem="ApP-xl-aLA" secondAttribute="top" constant="5" id="ywe-gx-SKB"/>
+                            <constraint firstItem="ApP-xl-aLA" firstAttribute="trailing" secondItem="t7K-Kb-d3j" secondAttribute="trailing" constant="3.5" id="zV8-o8-Ymx"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="cancelButton" destination="mIR-Go-T5Z" id="vDS-kh-86p"/>
+                        <outlet property="imageView" destination="Ydm-Ca-PXu" id="DrZ-YD-Win"/>
+                        <outlet property="laLabel" destination="jGE-jU-K4t" id="b4Y-oC-hGi"/>
+                        <outlet property="stampCollcetionView" destination="t7K-Kb-d3j" id="PUm-aS-1l2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9FT-Yk-Yct" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="dT8-qw-c6U">
+                    <connections>
+                        <action selector="tappedImageView:" destination="J3k-u0-dgd" id="2TF-qO-z0V"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="217" y="42"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
