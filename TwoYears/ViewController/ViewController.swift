@@ -31,7 +31,6 @@ class ViewController: UIViewController{
     let firebaseCompany = Firestore.firestore().collection("Company1").document("Company1_document").collection("Company2").document("Company2_document").collection("Company3")
 
     
-    
 //    navigationvarのやつ
     fileprivate let cellHeight: CGFloat = 210
     fileprivate let cellSpacing: CGFloat = 20
@@ -45,12 +44,6 @@ class ViewController: UIViewController{
         self.present(sinkitoukou, animated: true, completion: nil)
         Firestore.firestore().collection("users").document(uid!).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
         
-        
-//        let storyboard = UIStoryboard.init(name: "exampleeee", bundle: nil)
-//        let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "exampleviewcontroller")
-//        self.present(sinkitoukou, animated: true, completion: nil)
-//        Firestore.firestore().collection("users").document(uid!).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
-
         
 //        try? Auth.auth().signOut()
     }
@@ -307,21 +300,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 if let url = URL(string: companyLogoImage!!) {
                     Nuke.loadImage(with: url, into: cell.companyImageView!)
-//                    let width = UIScreen.main.bounds.size.width
-//                    cell.Imageheight.constant = width*0.55
-//                    cell.backView.backgroundColor = .clear
+
                 }
-//                cell.companyImageView.image
-//                if userName1 != "none" {
-//                    let userImage1 = document.data()?["userImage1"]
-//
-//                    if let url = URL(string: userImage1 as! String) {
-//                        Nuke.loadImage(with: url, into: self.originImageView)
-//                    }
-//
-//                    self.nameLabel.text = (userName1)
-//
-//                }
+
             }
         }
         }
@@ -362,29 +343,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             cell.dateLabel.text = ""
         }
-        
-//        if momentType < moment() - 5.days {
-//            cell.dateLabel.text = "削除済みです"
-//        } else if momentType < moment() - 4.days - 23.hours - 30.minutes{
-//            cell.dateLabel.text = "もうすぐ消えます"
-//        } else if momentType < moment() - 4.days - 23.hours{
-//            cell.dateLabel.text = "1時間以内に消えます"
-//        } else if momentType < moment() - 4.days - 18.hours{
-//            cell.dateLabel.text = "数時間後に消えます"
-//        } else if momentType < moment() - 4.days - 12.hours{
-//            cell.dateLabel.text = "半日後に消えます"
-//        } else if momentType < moment() - 4.days{
-//            cell.dateLabel.text = "1日後に消えます"
-//        } else if momentType < moment() - 3.days{
-//            cell.dateLabel.text = "2日後に消えます"
-//        } else if momentType < moment() - 2.days{
-//            cell.dateLabel.text = "3日後に消えます"
-//        } else if momentType < moment() - 1.days{
-//            cell.dateLabel.text = "4日後に消えます"
-//        } else if momentType < moment(){
-//            cell.dateLabel.text = "5日後に消えます"
-//        }
-        
+
         
         if animals[indexPath.row].teamname == "yellow" {
             cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
