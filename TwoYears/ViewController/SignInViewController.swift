@@ -28,7 +28,6 @@ class SignInViewController: UIViewController {
         let height = UIScreen.main.bounds.size.height
         let button = TransitionButton(frame:CGRect(x:width/4,y:height/2.5,width:width/2,height:50)); // please use Autolayout in real project
 
-
         self.view.addSubview(button)
 
         button.backgroundColor = #colorLiteral(red: 0, green: 0.9052245021, blue: 0.6851730943, alpha: 1)
@@ -124,15 +123,11 @@ class SignInViewController: UIViewController {
                             
                         })
                     })
-                    
-                    
                 }
                     }
                 }
             }
         })
-        
-        
     }
         //他の部分をタップしたらキーボードを閉じる
         override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
