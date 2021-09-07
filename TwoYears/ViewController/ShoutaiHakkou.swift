@@ -13,17 +13,12 @@ import SwiftMoment
 import FirebaseFirestore
 
 class ShoutaiHakkou: UIViewController {
-    
     //　タイムスタンプの取得回数を減らすため
     var jigen : Timestamp?
-    
     @IBOutlet weak var hakkoButton: UIButton!
-    
     //戻るボタン
     @IBAction func BubuButton(_ sender: Any) {
-
         presentingViewController!.dismiss(animated: true, completion: nil)
-
     }
     
     @IBOutlet weak var address: UILabel!
@@ -38,13 +33,9 @@ class ShoutaiHakkou: UIViewController {
     }
     @IBOutlet weak var beforeexplainLabel: UILabel!
     @IBOutlet weak var explainLabel: UILabel!
-    
     @IBOutlet weak var underLabel: UILabel!
-    
     @IBOutlet weak var myidLabel: UILabel!
-    
     @IBOutlet weak var thisaccountLabel: UILabel!
-    
     // 一度ログアウトを行う処理を書くためここで一回IDを取得
     let oyaId = Auth.auth().currentUser!.uid as String
     
@@ -63,7 +54,6 @@ class ShoutaiHakkou: UIViewController {
         }
         print("1ログアウト後", oyaId)
     }
-    
     //ID発行とサインイン処理
     func sinkiki(friendsbool:Bool) {
         func randomString(length: Int) -> String {
@@ -72,22 +62,17 @@ class ShoutaiHakkou: UIViewController {
         }
         
         let sinkiId = randomString(length: 10)
-        
         let email = sinkiId + "@2.years"
         UserDefaults.standard.set(sinkiId, forKey: "invited")
         
-
         let nowdate: Date = jigen!.dateValue()
-        
         let nowmoment = moment(nowdate)
-        
         let twoweeks = nowmoment +  1.days
-        
         let twodate = twoweeks.date
         
         print("2",email)
         print("3親ID", oyaId)
-//        アカウント作成
+        //        アカウント作成
         Auth.auth().createUser(withEmail: email, password: "ONELIFE") { (res, err) in
             if let err = err {
                 print("失敗やで、、、\(err)")
@@ -95,7 +80,7 @@ class ShoutaiHakkou: UIViewController {
             }
             guard let uid = Auth.auth().currentUser?.uid else { return }
             print("4成功！！！", uid)
-
+            
             let docData = [
                 "招待した人のID": self.oyaId,
                 "jikan": FieldValue.serverTimestamp(),
@@ -107,11 +92,8 @@ class ShoutaiHakkou: UIViewController {
                 "adminaccount": false,
                 "mymessage": ""
             ]
-                as [String : Any]
-
+            as [String : Any]
             print("5uid", uid)
-            
-            
             //アカウントをfirestoreに保存
             Firestore.firestore().collection("users").document(uid).setData(docData) { (err) in
                 if let err = err {
@@ -122,9 +104,6 @@ class ShoutaiHakkou: UIViewController {
             }
         }
         print("7Firestoreに記述したで！！oya", oyaId)
-        //        showAnimation()
-        
-        //        func showAnimation() {
         
         //アニメーション開始
         self.hakkoLabel.alpha = 0
@@ -145,8 +124,6 @@ class ShoutaiHakkou: UIViewController {
         animationView.animationSpeed = 0.6
         
         view.addSubview(animationView)
-        
-        
         //アニメーション終了
         animationView.play { finished in
             if finished {
@@ -163,19 +140,15 @@ class ShoutaiHakkou: UIViewController {
                 self.address.alpha = 1
                 self.beforeexplainLabel.text = "上のIDを友達に送ってください！" 
                 animationView.removeFromSuperview()
-                
                 //元々のIDでログイン
                 self.login()
             }
         }
         
-        //        }
         
     }
     
-    
     func login() {
-        
         //　友達だった場合発行ボタンが即使用可能になる
         if UserDefaults.standard.bool(forKey: "friends") == false {
             underLabel.alpha = 1
@@ -189,7 +162,6 @@ class ShoutaiHakkou: UIViewController {
                 })
             }
         }
-        
         //元々のIDでのサインイン
         let email = UserDefaults.standard.string(forKey: "email")
         Auth.auth().signIn(withEmail: email! + "@2.years", password: "ONELIFE") { (res, err) in
@@ -210,38 +182,32 @@ class ShoutaiHakkou: UIViewController {
                 }
                 print("6成功！")
             }
-            
             print("8サインイン後のID", self.oyaId)
         }
     }
-
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         view.backgroundColor = #colorLiteral(red: 0.07889355443, green: 0.04010983246, blue: 0.007999785959, alpha: 1)
-//        #colorLiteral(red: 0.07889355443, green: 0.04010983246, blue: 0.007999785959, alpha: 0.9072131849)
+        //        #colorLiteral(red: 0.07889355443, green: 0.04010983246, blue: 0.007999785959, alpha: 0.9072131849)
         let invited = UserDefaults.standard.string(forKey: "invited")
         let email = UserDefaults.standard.string(forKey: "email")
         print(UserDefaults.standard.bool(forKey: "friends"))
         
-            
         hakkoLabel.text = invited!
         myidLabel.text = "My Id :" + email!
-//        myidLabel.text = "Accountname"
+        //        myidLabel.text = "Accountname"
         
         hakkoLabel.layer.cornerRadius = 5
         hakkoLabel.clipsToBounds = true
-
+        
         hakkoButton.layer.cornerRadius = 15
         hakkoButton.layer.shadowColor = #colorLiteral(red: 0, green: 0.9052245021, blue: 0.6851730943, alpha: 1)
         hakkoButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         hakkoButton.layer.shadowOpacity = 0.7
         hakkoButton.layer.shadowRadius = 20
-
+        
         //　友達かどうかをここで判定
         Firestore.firestore().collection("users").document(oyaId).getDocument { [self] (document, error) in
             if let document = document, document.exists {
@@ -258,7 +224,7 @@ class ShoutaiHakkou: UIViewController {
                 
                 let nowjikandate: Date = jigen!.dateValue()
                 let nowjikanmoment = moment(nowjikandate)
-               
+                
                 let inviteddate: Date = invitedjikan.dateValue()
                 print("dddddddddddddddddddd",inviteddate)
                 
@@ -269,7 +235,6 @@ class ShoutaiHakkou: UIViewController {
                     UserDefaults.standard.set("", forKey: "invited")
                     hellowButton.alpha = 1
                 }
-                
                 //友達ではない時
                 if friends == false {
                     // 招待可能な期間かどうか　[可能]
@@ -281,7 +246,6 @@ class ShoutaiHakkou: UIViewController {
                         self.hakkoButton.isHidden = true
                         underLabel.alpha = 1
                         beforeexplainLabel.alpha = 0
-                        
                         
                         //余裕ある時修正
                         if invitedmoment >= nowjikanmoment + 14.days {
@@ -321,7 +285,6 @@ class ShoutaiHakkou: UIViewController {
                         } else if invitedmoment >= nowjikanmoment + 10.minutes {
                             underLabel.text = "後数分で一人分の招待が可能になります"
                         }
-                        
                     }
                     
                 } else {
@@ -335,5 +298,4 @@ class ShoutaiHakkou: UIViewController {
             }
         }
     }
-    
 }

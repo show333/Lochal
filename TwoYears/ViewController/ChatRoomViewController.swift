@@ -15,7 +15,6 @@ import Nuke
 import TTTAttributedLabel
 
 class ChatRoomViewController: UIViewController {
-    
     var dragons: Animal?
     var userteamnames: Team?
     var rurubus = [Message]()
@@ -24,17 +23,12 @@ class ChatRoomViewController: UIViewController {
     private var safeAreaBottom: CGFloat {
         self.view.safeAreaInsets.bottom
     }
-    
     var documentTeamColor : String?
     var userTeamColor : String?
-    
     let userMyBrands = UserDefaults.standard.string(forKey: "userBrands")
-    
     let uid = Auth.auth().currentUser?.uid
     let DB = Firestore.firestore().collection("Rooms").document("karano").collection("kokoniireru")
-    
     @IBOutlet weak var navbarTitle: UINavigationItem!
-    
     //チャットインプットアクセサリーのやつ
     private lazy var chatInputAccessoryView: ChatInputAccessoryView = {
         let view = ChatInputAccessoryView()
@@ -49,31 +43,22 @@ class ChatRoomViewController: UIViewController {
         view.delegate = self
         return view
     }()
-    
     let differentView = UIView(frame:CGRect(x:100,y:100,width:0,height:0));
     @IBOutlet weak var chatRoomTableView: UITableView!
-    
     @IBOutlet weak var differentLabel: UILabel!
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         if dragons?.teamname == "red" || dragons?.teamname == "yellow" {
             documentTeamColor = "orange"
         } else if dragons?.teamname == "blue" || dragons?.teamname == "purple" {
             documentTeamColor = "violet"
         }
-        
         if dragons?.userteamname == "red" || dragons?.userteamname == "yellow" {
             userTeamColor = "orange"
         } else if dragons?.userteamname == "blue" || dragons?.userteamname == "purple" {
             userTeamColor = "violet"
         }
-        
         UserDefaults.standard.set(dragons!.documentId, forKey: "documentId")
-        
         setupNotification()
         setupChatRoomTableView()
         setSwipeBack()
@@ -85,47 +70,33 @@ class ChatRoomViewController: UIViewController {
     @objc public func dismissKeyboard() {
         view.endEditing(true)
     }
-    
     private func setupNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
     }
-    
     @objc func keyboardWillShow(notification: NSNotification) {
         print("keyboardWillShow")
         guard let userInfo = notification.userInfo else { return }
-        
         if let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
-            
             if keyboardFrame.height <= accessoryHeight { return }
             print("keyふらめ", keyboardFrame)
-            
             let top = keyboardFrame.height - safeAreaBottom - 48
             let bottom = chatRoomTableView.contentOffset.y
             let moveY =  chatRoomTableView.contentOffset.y
             print(bottom)
             let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: top, right: 0)
-            
             chatRoomTableView.contentInset = contentInset
             chatRoomTableView.scrollIndicatorInsets = contentInset
             chatRoomTableView.contentOffset = CGPoint(x: 0, y: moveY + top)
-            
         }
     }
-    
-    
-    
     @objc func keyboardWillHide() {
         print("keyboardWillHide")
         chatRoomTableView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         chatRoomTableView.scrollIndicatorInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
     }
-    
     private func setupChatRoomTableView() {
         self.navigationItem.title = ("コメント数" + String(dragons!.messageCount))
-        
-        
         self.navigationItem.backBarButtonItem = UIBarButtonItem(
             title: "戻る",
             style: .plain,
@@ -139,41 +110,28 @@ class ChatRoomViewController: UIViewController {
         } else if dragons?.teamname == "yellow"{
             differentLabel.backgroundColor = #colorLiteral(red: 1, green: 0.8386732961, blue: 0.1333333403, alpha: 0.7974526849)
             differentLabel.text = "チームカラーが違うため、コメントできません."
-            //            differentLabel.backgroundColor = .white
         } else if dragons?.teamname == "red"{
             differentLabel.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.7047755282)
             differentLabel.text = "チームカラーが違うため、コメントできません."
-            //            differentLabel.backgroundColor = .white
         } else if dragons?.teamname == "blue"{
             differentLabel.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 0.7977552817)
             differentLabel.text = "チームカラーが違うため、コメントできません."
-            //            differentLabel.backgroundColor = .white
         } else if dragons?.teamname == "purple"{
             differentLabel.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0.7983879842)
             differentLabel.text = "チームカラーが違うため、コメントできません."
-            //            differentLabel.backgroundColor = .white
         } else if dragons?.teamname == "green" {
             differentLabel.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 0.9030126284)
             differentLabel.text = "チームカラーが違うため、コメントできません."
         }
-        
-        
         chatRoomTableView.delegate = self
         chatRoomTableView.dataSource = self
-        
         chatRoomTableView.keyboardDismissMode = .interactive
-        //        chatRoomTableView.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
         chatRoomTableView.register(UINib(nibName: "ChatRoomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
         chatRoomTableView.backgroundColor = #colorLiteral(red: 0.9387103873, green: 0.8334191148, blue: 0.6862602769, alpha: 1)
         view.backgroundColor = #colorLiteral(red: 0.9387103873, green: 0.8334191148, blue: 0.6862602769, alpha: 1)
-        //        #colorLiteral(red: 0.3137254902, green: 0.3137254902, blue: 0.3137254902, alpha: 1)
-        //        #colorLiteral(red: 0.9387103873, green: 0.8334191148, blue: 0.6862602769, alpha: 1)
-        
     }
-    
     override var inputAccessoryView: UIView? {
         get {
-            
             if documentTeamColor == userTeamColor || dragons?.userBrands == userMyBrands
             {
                 return chatInputAccessoryView
@@ -185,15 +143,11 @@ class ChatRoomViewController: UIViewController {
     override var canBecomeFirstResponder: Bool {
         return true
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = true
-        //        self.navigationItem.title = ("コメント数" + String(rurubus.count))
     }
-    
-    //    キーボード下げる
-    
+
     private func goodmanmember() {
         let chatRoomDocId = dragons!.documentId
         
@@ -211,7 +165,6 @@ class ChatRoomViewController: UIViewController {
                 self.DB.document(chatRoomDocId).updateData(["goodcount":data.count as Int])
             }
     }
-    
     private func messagemember() {
         let chatRoomDocId = dragons!.documentId
         
@@ -223,8 +176,6 @@ class ChatRoomViewController: UIViewController {
             print("メンバーズカウント！！！！！！！！！",querySnapshot!.documents.count)
             self.DB.document(chatRoomDocId).updateData(["memberscount":querySnapshot!.documents.count as Int])
         }
-        
-        
         DB.document(chatRoomDocId).collection("members").document("membersId")
             .addSnapshotListener { [self] documentSnapshot, error in
                 guard let document = documentSnapshot else {
@@ -239,7 +190,6 @@ class ChatRoomViewController: UIViewController {
                 self.DB.document(chatRoomDocId).updateData(["memberscount":data.count as Int])
             }
     }
-    
     private func fetchMessages() {
         let chatRoomDocId = dragons!.documentId
         
@@ -259,10 +209,7 @@ class ChatRoomViewController: UIViewController {
                         let XXX = ["XX" : true]
                         UserDefaults.standard.set(XXX, forKey: "blocked")
                     }
-                    
                     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
-                    
-                    
                     if blockList[message.uid] == true {
                     } else {
                         if message.admin == true {
@@ -270,56 +217,35 @@ class ChatRoomViewController: UIViewController {
                         self.rurubus.append(message)
                         self.navigationItem.title = ("コメント数" + String(rurubus.count))
                     }
-                    
-                    
                     self.rurubus.sort{(m1, m2) -> Bool in
                         let m1Date = m1.createdTime.dateValue()
                         let m2Date = m2.createdTime.dateValue()
                         return m1Date < m2Date
                         
                     }
-                    
                     self.chatRoomTableView.reloadData()
-                //                    self.chatRoomTableView.scrollToRow(at: IndexPath(row: rurubus.count - 1, section: 0), at: .bottom, animated: true)
                 case .modified, .removed:
                     print("ランダムUSERID","")
-                    
                 }
             })
         }
     }
-    
 }
-
-
-
-
 extension ChatRoomViewController: ChatInputAccessoryViewDelegate{
-    
     func tappedSendButton(text: String) {
         addMessageToFirestore(text: text)
     }
-    
-    
     private func addMessageToFirestore(text: String) {
-   
         chatInputAccessoryView.removeText()
-        
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             return String((0..<length).map{ _ in characters.randomElement()! })
         }
-        
         let randomUserId = randomString(length: 8)
         let chatRoomDocId = dragons!.documentId
         let userteamname = dragons!.userteamname
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        
         func comment(randomuserId: String,commentId: String) {
-            
-            
-            
             let docData = [
                 "createdAt": FieldValue.serverTimestamp(),
                 "message": text,
@@ -340,34 +266,20 @@ extension ChatRoomViewController: ChatInputAccessoryViewDelegate{
                 }
                 print("成功！")
             }
-            
         }
-        
-        
         self.DB.document(chatRoomDocId).collection("messages").whereField("userId", isEqualTo: uid).getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
                 print("クエリースナップショットカウント！",querySnapshot!.documents.count)
-                
                 if querySnapshot!.documents.count == 0 {
-                    
-                    
                     let commentId = uid+"comentId"
-                    
                     comment(randomuserId: "",commentId: commentId)
-                    
                     DB.document(chatRoomDocId).collection("members").document(uid).setData(["randomUserId": randomUserId], merge: true)
-                    
                     DB.document(chatRoomDocId).setData([uid: true], merge: true)
-                    
                     Firestore.firestore().collection("users").document(uid).setData(["The_earliest":true], merge: true)
-                    
-                    
                 } else if querySnapshot!.documents.count == 1 {
-                    
                     print("ln")
-                    
                     DB.document(chatRoomDocId).collection("members").document(uid).getDocument { (document, error) in
                         if let document = document, document.exists {
                             let randomUserId = document["randomUserId"] as? String ?? "unknown"
@@ -377,10 +289,8 @@ extension ChatRoomViewController: ChatInputAccessoryViewDelegate{
                             let comentId = randomString(length: 15)
                             comment(randomuserId: randomUserId, commentId: comentId)
                             DB.document(chatRoomDocId).collection("messages").document(uid+"comentId").updateData(["randomUserId":randomUserId])
-                            
                         }
                     }
-                    
                 } else if querySnapshot!.documents.count >= 2 {
                     
                     DB.document(chatRoomDocId).collection("members").document(uid).getDocument { (document, error) in
@@ -393,54 +303,29 @@ extension ChatRoomViewController: ChatInputAccessoryViewDelegate{
                     }
                 }
             }
-            
-            //            self.DB.document(chatRoomDocId).collection("messages").getDocuments() { (querySnapshot, err) in
-            //                if let err = err {
-            //                    print("Error getting documents: \(err)")
-            //                } else {
-            //                    print(querySnapshot!.documents.count)
-            //                    self.DB.document(chatRoomDocId).updateData(["messagecount":querySnapshot!.documents.count as Int])
-            
-            //                }
-            //            }
-            //            "createdLatestAt": FieldValue.serverTimestamp(),
             self.DB.document(chatRoomDocId).setData(["createdLatestAt": FieldValue.serverTimestamp()],merge: true)
             self.DB.document(chatRoomDocId).updateData(["messagecount": FieldValue.increment(Int64(1))])
         }
     }
 }
-
-
 extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         rurubus.remove(at: indexPath.row)
         chatRoomTableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.automatic)
     }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         chatRoomTableView.estimatedRowHeight = 25
         return UITableView.automaticDimension
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rurubus.count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatRoomTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatRoomTableViewCell
-        //        cell.messageTextView.text = rurubus[indexPath.row]
-        //        let nowtime : Date = Date()
-        //        let nowtimemoment = moment(nowtime)
-        
-        
         cell.sendImageView.image = nil
         cell.Imageheight.constant = 0
-        
         let comentjidate = rurubus[indexPath.row].createdTime.dateValue()
         let comentjimoment = moment(comentjidate)
-        
         let dateformatted1 = comentjimoment.format("hh:mm")
         let dateformatted2 = comentjimoment.format("MM/dd")
         cell.dateLabel.text = dateformatted1
@@ -477,15 +362,11 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             cell.iineButton.tintColor = .gray
         }
         print("いいねぼたん！！！！！",rurubus[indexPath.row].iineId)
-        
         cell.backgroundColor = .clear
         print(rurubus.count)
         cell.userrandomId.text = rurubus[indexPath.row].randomUserId
         cell.message = rurubus[indexPath.row]
-        
-        
         cell.userImage.image = nil
-        
         if rurubus[indexPath.row].userBrands == "TG1" {
             cell.userImage.image = UIImage(named:"TG1")!
             
@@ -501,11 +382,7 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
         } else if rurubus[indexPath.row].userBrands == "TG5" {
             cell.userImage.image = UIImage(named:"TG5")!
         }
-        
         cell.userImage.layer.cornerRadius = 17.5
-        
-        
-        
         if rurubus[indexPath.row].sendImageURL != "" {
             if let url = URL(string: rurubus[indexPath.row].sendImageURL) {
                 Nuke.loadImage(with: url, into: cell.sendImageView!)
@@ -517,9 +394,6 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 }
-
-
-
 extension UIViewController {
     
     func setSwipeBack() {
@@ -528,7 +402,6 @@ extension UIViewController {
         self.view.addGestureRecognizer(recognizer)
     }
 }
-
 extension UIView {
     func ChatRoomViewController() -> UIViewController? {
         var ChatRoomtableViewResponder: UIResponder? = self
@@ -540,7 +413,6 @@ extension UIView {
             ChatRoomtableViewResponder = ChatRoomtableViewCellResponder
         }
     }
-    
     func ChatRoomViewController<T: UIView>(type: T.Type) -> T? {
         var ChatRoomTableViewResponder: UIResponder? = self
         while true {
