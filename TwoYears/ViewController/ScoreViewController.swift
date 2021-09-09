@@ -17,47 +17,33 @@ class ScoreViewController: UIViewController {
     var correctBlue : Double = 0.0
     var correctYellow : Double = 0.0
     var correctPurple : Double = 0.0
-    
     var teamname : String?
     let uid = Auth.auth().currentUser?.uid
     var friendsbool : Bool?
     var oyaId: String?
-    
     @IBOutlet weak var anatahaLabel: UILabel!
     @IBOutlet weak var teamNameLabel: UILabel!
     @IBOutlet weak var teamImageView: UIImageView!
     @IBOutlet weak var detaiLabel: UILabel!
-    
     @IBOutlet weak var startButton: UIButton!
     @IBOutlet weak var sokuteiLabel: UILabel!
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        detailTextView.backgroundColor = .clear
         decideColor()
         detaiLabel.numberOfLines = 0
-        
         Firestore.firestore().collection("users").document(uid!).setData(["Entered":true], merge: true)
-        
         Firestore.firestore().collection("users").document(uid!).getDocument { (document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
                 self.friendsbool = document["friends"] as? Bool
                 self.oyaId = document["招待した人のID"] as? String
-                
                 print(self.oyaId!)
-                
                 Firestore.firestore().collection("users").document(self.oyaId!).collection("invited").document(self.uid!).setData(["invited" :self.uid!], merge: true)
-                                
-                
-                
-                
                 // violet & orange
                 Firestore.firestore().collection("teams").document("orange").getDocument(source: .cache) { (document, error) in
                   if let document = document {
-        //            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                     print(document.data()?["viewcount"] ?? "0")
                     UserDefaults.standard.set(document.data()?["viewcount"] as? Int, forKey: "orangeViewCount")
 
@@ -65,33 +51,24 @@ class ScoreViewController: UIViewController {
                     print("Document does not exist in cache")
                   }
                 }
-                
                 Firestore.firestore().collection("teams").document("violet").getDocument(source: .cache) { (document, error) in
                   if let document = document {
-        //            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                     print(document.data()?["viewcount"] ?? "0")
                     UserDefaults.standard.set(document.data()?["viewcount"] as? Int, forKey: "violetViewCount")
                   } else {
                     print("Document does not exist in cache")
                   }
                 }
-                
-                
-                
-                
                 if self.friendsbool == true {
                     UserDefaults.standard.set(true, forKey: "friends")
                 } else {
                     UserDefaults.standard.set(false, forKey: "friends")
                 }
-                
                 UserDefaults.standard.set(self.uid, forKey: "userId")
                 
             }
         }
-
     }
-    
     
     @IBAction func tappedStartButton(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
@@ -104,10 +81,7 @@ class ScoreViewController: UIViewController {
         print("なう時間!",FieldValue.serverTimestamp())
         
     }
-    
-    
-    
-    
+
     func decideColor() {
         let CRED = correctRed
         let CBLUE = correctBlue
@@ -125,7 +99,6 @@ class ScoreViewController: UIViewController {
                     teamname = "blue"
                     showAnimation(teamnames: teamname!)
                     return
-                    
                 } else {
                     print("yellow")
                     teamname = "yellow"
@@ -143,18 +116,14 @@ class ScoreViewController: UIViewController {
                     print("yellow")
                     teamname = "yellow"
                     showAnimation(teamnames: teamname!)
-
                     return
                 }
             }else {
                 print("yellow")
                 teamname = "yellow"
                 showAnimation(teamnames: teamname!)
-
                 return
             }
-                     
-            
         } else if CBLUE >= 6{
             if CRED >= 6 {
                 if CBLUE + 1 - CRED <= 0 {
@@ -168,7 +137,6 @@ class ScoreViewController: UIViewController {
                     teamname = "blue"
                     showAnimation(teamnames: teamname!)
                     return
-                    
                 }
             }else {
                 print("blue")
@@ -176,21 +144,17 @@ class ScoreViewController: UIViewController {
                 showAnimation(teamnames: teamname!)
                 return
             }
-            
         } else if CRED >= 7{
             print("red")
             teamname = "red"
             showAnimation(teamnames: teamname!)
             return
-            
         } else {
             print("purple")
             teamname = "purple"
             showAnimation(teamnames: teamname!)
             return
-            
         }
-        
     }
     
     func showAnimation(teamnames:String) {
@@ -201,9 +165,7 @@ class ScoreViewController: UIViewController {
         animationView.contentMode = .scaleAspectFit
         animationView.animationSpeed = 1.3
         view.addSubview(animationView)
-        
         startButton.layer.cornerRadius = 10
-//        startButton.layer.shadowColor = UIColor.startColor.cgColor
         startButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         startButton.layer.shadowOpacity = 0.7
         startButton.layer.shadowRadius = 10
@@ -215,10 +177,7 @@ class ScoreViewController: UIViewController {
             self.detaiLabel.text = "大きなエネルギーを秘めている。\nコントロールが難しいその才能は\n制御した時、多くの人々を惹きつける。\n \nあなたのチームは\n『レッド』です。"
             startButton.tintColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 1)
             UserDefaults.standard.set("red", forKey: "color")
-            
             Firestore.firestore().collection("users").document(uid!).setData(["teamname": "red"], merge: true)
-            
-            
         } else if teamname == "blue" {
             let image1:UIImage = UIImage(named:"blueman")!
             self.teamImageView.image = image1
@@ -227,8 +186,6 @@ class ScoreViewController: UIViewController {
             startButton.tintColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
             UserDefaults.standard.set("blue", forKey: "color")
             Firestore.firestore().collection("users").document(uid!).setData(["teamname": "blue"], merge: true)
-            
-            
         } else if teamname == "yellow" {
             let image1:UIImage = UIImage(named:"yellowman")!
             self.teamImageView.image = image1
@@ -237,7 +194,6 @@ class ScoreViewController: UIViewController {
             UserDefaults.standard.set("yellow", forKey: "color")
             Firestore.firestore().collection("users").document(uid!).setData(["teamname": "yellow"], merge: true)
             startButton.tintColor = #colorLiteral(red: 0.9529411793, green: 0.871326245, blue: 0.1333333403, alpha: 1)
-            
         } else if teamname == "purple" {
             let image1:UIImage = UIImage(named:"purpleman")!
             self.teamImageView.image = image1
@@ -246,10 +202,7 @@ class ScoreViewController: UIViewController {
             startButton.tintColor = #colorLiteral(red: 0.7549457672, green: 0.5, blue: 1, alpha: 1)
             UserDefaults.standard.set("purple", forKey: "color")
             Firestore.firestore().collection("users").document(uid!).setData(["teamname": "purple"], merge: true)
-
         }
-        
-        
         animationView.play { [self] finished in
             if finished {
                 sokuteiLabel.text = ""
@@ -262,8 +215,6 @@ class ScoreViewController: UIViewController {
     func redcolors(teamname: String) {
         
         UIView.animate(withDuration: 3, delay: 1, options: UIView.AnimationOptions.allowUserInteraction, animations: {
-            // Viewを見えなくする
-            //            self.view.alpha = 0.05
             if teamname == "red" {
                 self.view.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 1)
             } else if teamname == "blue" {
@@ -273,26 +224,18 @@ class ScoreViewController: UIViewController {
             } else if teamname == "purple" {
                 self.view.backgroundColor = #colorLiteral(red: 0.7549457672, green: 0.5, blue: 1, alpha: 1)
             }
-
-            
         }) { [self] (completed) in
             
             UIView.animate(withDuration: 2.5, delay: 0.5, options: UIView.AnimationOptions.allowUserInteraction, animations: {
-                // Viewを見えなくする
-                //            self.view.alpha = 0.05
-    //            #colorLiteral(red: 0.9529411793, green: 0.871326245, blue: 0.1333333403, alpha: 1)
                 self.detaiLabel.alpha = 1
                 self.teamNameLabel.alpha = 1
                 self.anatahaLabel.alpha = 1
                 self.teamImageView.alpha = 0.7
             }) {(completed) in
                 UIView.animate(withDuration: 2.0, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
-   
                     self.startButton.alpha = 0.9
                 })
-
             }
-            
         }
     }
 }

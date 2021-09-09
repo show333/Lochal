@@ -15,63 +15,36 @@ import Nuke
 class UserSelfViewController : UIViewController {
     
     let uid = Auth.auth().currentUser?.uid
-
     var companyId : String?
-    
     var imageString : String?
-
-    
     let firebaseCompany = Firestore.firestore().collection("Company1").document("Company1_document").collection("Company2").document("Company2_document").collection("Company3")
-    
     @IBOutlet weak var imageBackView: UIView!
-    
-    
     @IBOutlet weak var imageButton: UIButton!
-    
     @IBAction func imageTappedButton(_ sender: Any) {
-        
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
         print("bbbbb")
-        
         self.present(imagePickerController, animated: true, completion: nil)
     }
-    
-    
-    
-    
     @IBOutlet weak var BackButton: UIButton!
     @IBAction func BackTappedButton(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
-    
     @IBOutlet weak var nameField: UITextField!
-    
     @IBAction func nameTextField(_ sender: Any) {
     }
-    
     @IBOutlet weak var kakuteiButton: UIButton!
-    
     @IBAction func kakuteiTappedButton(_ sender: Any) {
-        
         if let userNameString = nameField.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
             if imageString == nil || userNameString == "" {
                 UIView.animate(withDuration: 0.5, delay: 0, animations: {
                     self.tyuuiLabel.alpha = 1
-    
                 }) { bool in
                     UIView.animate(withDuration: 0.5, delay: 3, animations: {
                         self.tyuuiLabel.alpha = 0
-
                 })}
-                
             } else {
-                
-
-            
-
-                    
                     let storageRef = Storage.storage().reference().child("Campany_Logo").child(imageString!)
                     let teamname = UserDefaults.standard.string(forKey: "color")
                     let userMyBrands = UserDefaults.standard.string(forKey: "userBrands")
@@ -90,10 +63,8 @@ class UserSelfViewController : UIViewController {
                                 print("firestorageからのダウンロードに失敗\(err)")
                                 return
                             }
-                            
                             guard let urlString = url?.absoluteString else { return }
                             print("urlString:", urlString)
-                            
                             let userDate = [
                                 "JoindTime": FieldValue.serverTimestamp(),
                                 "uid":uid!,
@@ -102,41 +73,28 @@ class UserSelfViewController : UIViewController {
                                 "userImage1": urlString,
                                 "userName1": userNameString,
                                 "belong": true,
-                                
                             ] as [String: Any]
                             Firestore.firestore().collection("users").document(uid!).setData(["userImage1": urlString,"userName1": userNameString,],merge: true)
                             if companyId != "none" {
                                 firebaseCompany.document(companyId!).collection("members").document(uid!).setData(userDate)
                             }
-
                         }
                     }
-                    
-                 
                 self.navigationController?.popViewController(animated: true)
-                
             }
         }
     }
-    
     @IBOutlet weak var tyuuiLabel: UILabel!
-    
-    
-
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tyuuiLabel.text = "ユーザーロゴと名前の両方を入力してください"
         tyuuiLabel.alpha = 0
-
         
         let tapGR: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGR.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGR)
-        
         
         imageButton.clipsToBounds = true
         imageButton.layer.cornerRadius = 100
@@ -164,13 +122,12 @@ class UserSelfViewController : UIViewController {
         kakuteiButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         kakuteiButton.layer.shadowOpacity = 0.7
         kakuteiButton.layer.shadowRadius = 5
-        
-        
     }
     
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
     }
+    
 }
 extension UserSelfViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -179,21 +136,14 @@ extension UserSelfViewController: UIImagePickerControllerDelegate, UINavigationC
             imageButton.setImage(editImage.withRenderingMode(.alwaysOriginal), for: .normal)
             print(editImage)
             print("キシン！")
-            
             imageString = NSUUID().uuidString
-            
         } else if let originalImage = info[.originalImage] as? UIImage {
             imageButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
             print(originalImage)
             print("アイウエオあきくこ")
-            
             imageString = NSUUID().uuidString
-            
         }
-
             print("aaa")
-        
-
         imageButton.imageView?.contentMode = .scaleAspectFit
         self.dismiss(animated: true, completion: nil)
     }

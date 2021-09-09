@@ -30,13 +30,8 @@ class SplashViewController: UIViewController {
     "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FG2nemasu.png?alt=media&token=a03da529-c8c6-4f8e-94b8-39fefd8de034",
     "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FG8dog.png?alt=media&token=3755a316-e21a-491c-b050-267d5c9a9e8f",]
     
-    
-    
-    
-
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subTitleLabel: UILabel!
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -46,35 +41,19 @@ class SplashViewController: UIViewController {
         }
         randamUserImageInt = Int(randomString(length: 1))
     }
-    
-    
     override func viewDidAppear(_ animated: Bool) {
         let uid = Auth.auth().currentUser?.uid
-        
-//        print("uid!!",uid!)
-        
-
         if uid != nil {
-            
-            
-        
-            
-            
-//            (source: .cache)　これ何？
             Firestore.firestore().collection("teams").document("orange").getDocument{ (document, error) in
               if let document = document {
-    //            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("ビューカウント！！！！",document.data()?["viewcount"] ?? "0")
                 UserDefaults.standard.set(document.data()?["viewcount"] as? Int, forKey: "orangeViewCount")
-
               } else {
                 print("Document does not exist in cache")
               }
             }
-//            (source: .cache)　これ何？
             Firestore.firestore().collection("teams").document("violet").getDocument{ (document, error) in
               if let document = document {
-    //            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("ビューカウント！！！",document.data()?["viewcount"] ?? "0")
                 UserDefaults.standard.set(document.data()?["viewcount"] as? Int, forKey: "violetViewCount")
                 
@@ -82,22 +61,13 @@ class SplashViewController: UIViewController {
                 print("Document does not exist in cache")
               }
             }
-            
-            
-            
             Firestore.firestore().collection("users").whereField("招待した人のID", isEqualTo: uid!).whereField("Entered", isEqualTo: true).getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
-    //                for document in querySnapshot!.documents {
-    //                }
                     Firestore.firestore().collection("users").document(uid!).setData(["invitedCount":querySnapshot!.documents.count],merge: true)
-
                 }
             }
-            
-            
-            
             Firestore.firestore().collection("users").document(uid!).getDocument { (document, error) in
                 if let document = document, document.exists {
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -115,30 +85,20 @@ class SplashViewController: UIViewController {
                     let founder = document["Founder"] as? Bool ?? false
                     let company1Id = document["company1"] as? String?
                     
-                    
-                    
-                    
-                    //オプショナルバイディング今後しっかり調べる。
                     if let company1Id = company1Id {
-
                         UserDefaults.standard.set(company1Id, forKey: "company1Id")
                     } else {
                         print("a")
                     }
-                    //                    let companyMyId = document["company1"] as? String ?? nil
-                    
                     if founder != true {
                         Firestore.firestore().collection("users").document(document["招待した人のID"] as? String ?? "none").getDocument { (document, error) in
                             if let document = document, document.exists {
                                 let companyId = document["company1"] as? String ?? nil
-
                                 if companyId != nil {
-
                                     func randomString(length: Int) -> String {
                                         let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                                         return String((0..<length).map{ _ in characters.randomElement()! })
                                     }
-
                                     let randamUserName = randomString(length: 10)
                                     Firestore.firestore().collection("users").document(uid!).setData(["company1":companyId!,"userImage1":self.userImage[self.randamUserImageInt!],"userName1": randamUserName] as [String : Any] , merge: true)
                                     self.firebaseCompany.document(companyId!).collection("userColor").document("company_1_Color").updateData([teamcolor + "User": FieldValue.increment(Int64(1))])
@@ -158,14 +118,7 @@ class SplashViewController: UIViewController {
                             }
                         }
                     }
-                    
-            
-                    
-                    
-                    
-
                     print(document["teamname"] as? String ?? "none")
-                    
                     if teamcolor == "red" || teamcolor == "blue" || teamcolor == "yellow" || teamcolor == "purple" {
                         let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
                         let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
@@ -180,8 +133,6 @@ class SplashViewController: UIViewController {
                             }
                         } else {
                         }
-                        
-                        
                         UserDefaults.standard.set(teamcolor, forKey: "color")
                         UserDefaults.standard.set(email, forKey: "email")
                         UserDefaults.standard.set(userid, forKey: "userid")
@@ -191,11 +142,7 @@ class SplashViewController: UIViewController {
                         UserDefaults.standard.set(viewtcount, forKey: "userviewcount")
                         UserDefaults.standard.set(goodcount, forKey: "usergoodcount")
                         UserDefaults.standard.set(earliest, forKey: "earliest")
-                        
-
-                        
                         Firestore.firestore().collection("users").document(uid!).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
-                        
                         UIView.animate(withDuration: 0.4, delay: 0, animations: {
                             self.titleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
                             self.subTitleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
@@ -222,11 +169,6 @@ class SplashViewController: UIViewController {
 
                             }
                         }
-
-                        
-                        
-                        
-                        
                     } else {
                         let storyboard: UIStoryboard = UIStoryboard(name: "WhichOne", bundle: nil)//遷移先のStoryboardを設定
                         let WhichOneViewController = storyboard.instantiateViewController(withIdentifier: "WhichOneViewController") //遷移先のTabbarController指定とIDをここに入力
@@ -251,15 +193,12 @@ class SplashViewController: UIViewController {
 
                             }
                         }
-                        
                     }
                 } else {
                     print("Document does not exist")
                 }
             }
-            
         } else {
-            
             let storyboard: UIStoryboard = UIStoryboard(name: "SignIn", bundle: nil)//遷移先のStoryboardを設定
             let SignInViewController = storyboard.instantiateViewController(withIdentifier: "SignInViewController") //遷移先のTabbarController指定とIDをここに入力
             SignInViewController.modalPresentationStyle = .fullScreen
@@ -267,7 +206,6 @@ class SplashViewController: UIViewController {
             UIView.animate(withDuration: 0.4, delay: 0, animations: {
                 self.titleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
                 self.view.alpha = 0.9
-                
             }) { bool in
             // ②アイコンを大きくする
                 UIView.animate(withDuration: 0.15, delay: 0, animations: {
@@ -278,35 +216,20 @@ class SplashViewController: UIViewController {
 
                 }
             }
-            
         }
     }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("スプラッシュ")
-        
-
-        // Atomically increment the population of the city by 50.
-        // Note that increment() with no arguments increments by 1.
-        
         if UserDefaults.standard.object(forKey: "blocked") == nil{
             let XXX = ["XX" : true]
             UserDefaults.standard.set(XXX, forKey: "blocked")
         }
-        
         if  UserDefaults.standard.string(forKey: "invited") == nil{
             UserDefaults.standard.set("", forKey: "invited")
         }
-    
-        
     }
-
-    
 }
-
-
 extension SplashViewController: BATabBarControllerDelegate {
     func tabBarController(_ tabBarController: BATabBarController, didSelect: UIViewController) {
         print("Delegate success!");
