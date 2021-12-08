@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */; };
+		A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */; };
+		A3EAFB41276059BE00942C97 /* MyTeam.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB40276059BE00942C97 /* MyTeam.storyboard */; };
+		A3EAFB43276059E400942C97 /* MyTeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB42276059E400942C97 /* MyTeamVC.swift */; };
 		B1ECFF570D15E24B5D63F1D7 /* Pods_TOTALGOOD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 113A41803FF344D0EDE5D28D /* Pods_TOTALGOOD.framework */; };
 		CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */; };
 		CF0BD9D825D018FF004A1958 /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF0BD9D725D018FF004A1958 /* SignIn.storyboard */; };
@@ -81,6 +85,10 @@
 		113A41803FF344D0EDE5D28D /* Pods_TOTALGOOD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TOTALGOOD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81BB0B529C4EF808153685BF /* Pods-TOTALGOOD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TOTALGOOD.debug.xcconfig"; path = "Target Support Files/Pods-TOTALGOOD/Pods-TOTALGOOD.debug.xcconfig"; sourceTree = "<group>"; };
 		8F568B91F637BC6D82FF9569 /* Pods-TOTALGOOD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TOTALGOOD.release.xcconfig"; path = "Target Support Files/Pods-TOTALGOOD/Pods-TOTALGOOD.release.xcconfig"; sourceTree = "<group>"; };
+		A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChatRoom.storyboard; sourceTree = "<group>"; };
+		A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatRoomVC.swift; sourceTree = "<group>"; };
+		A3EAFB40276059BE00942C97 /* MyTeam.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyTeam.storyboard; sourceTree = "<group>"; };
+		A3EAFB42276059E400942C97 /* MyTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTeamVC.swift; sourceTree = "<group>"; };
 		CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoutaiHakkou.swift; sourceTree = "<group>"; };
 		CF0BD9D725D018FF004A1958 /* SignIn.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignIn.storyboard; sourceTree = "<group>"; };
 		CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -270,6 +278,8 @@
 				CF1BAC36266FB2380025A660 /* MyAccountViewController.swift */,
 				CF43661326789CB500DABD78 /* CompanyViewController.swift */,
 				CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */,
+				A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */,
+				A3EAFB42276059E400942C97 /* MyTeamVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -307,6 +317,8 @@
 				CF43660F2678966E00DABD78 /* Company.storyboard */,
 				CF3D0C19267BD327006021FB /* UserSelf.storyboard */,
 				CFE6EBFA2689054400F33F3B /* example.storyboard */,
+				A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */,
+				A3EAFB40276059BE00942C97 /* MyTeam.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -403,6 +415,7 @@
 				CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */,
 				CF3D0C1A267BD327006021FB /* UserSelf.storyboard in Resources */,
 				CFE6EBFB2689054400F33F3B /* example.storyboard in Resources */,
+				A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */,
 				CF0C14B525C9F36A006A7C86 /* ChatRoomTableViewCell.xib in Resources */,
 				CF1BAC34266FB2210025A660 /* MyAccount.storyboard in Resources */,
 				CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */,
@@ -414,6 +427,7 @@
 				CF41960525DC0F3400223C6C /* WhichOne.storyboard in Resources */,
 				CF4366102678966E00DABD78 /* Company.storyboard in Resources */,
 				CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */,
+				A3EAFB41276059BE00942C97 /* MyTeam.storyboard in Resources */,
 				CFC07B5F266BC67200163D47 /* exampleeee.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -499,7 +513,9 @@
 				CF1BAC37266FB2380025A660 /* MyAccountViewController.swift in Sources */,
 				CF41960825DC0FE700223C6C /* WhichOneViewController.swift in Sources */,
 				CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */,
+				A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */,
 				CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */,
+				A3EAFB43276059E400942C97 /* MyTeamVC.swift in Sources */,
 				CF2A223425C3FC7000C5BFC1 /* AppDelegate.swift in Sources */,
 				CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */,
 				CF2A223625C3FC7000C5BFC1 /* SceneDelegate.swift in Sources */,

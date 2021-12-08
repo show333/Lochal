@@ -35,6 +35,8 @@ class SignInViewController: UIViewController {
         button.cornerRadius = 20
         button.spinnerColor = .white
         button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+        
+        
     }
     
     // サインインボタン
@@ -58,10 +60,8 @@ class SignInViewController: UIViewController {
                             print("shake")
                             self.explainLabel.text = "このIDは招待されたIDと異なります。"
                             
-                            
                             UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
                                 self.explainLabel.alpha = 1
-                                
                                 
                             }) {(completed) in
                                 
@@ -85,7 +85,6 @@ class SignInViewController: UIViewController {
                 
                 if  teamname == "red" || teamname == "blue" || teamname == "yellow" || teamname == "purple" {
                     
-                    
                     sleep(1) // 3: Do your networking task or background work here.
                     
                     DispatchQueue.main.async(execute: { () -> Void in
@@ -98,7 +97,6 @@ class SignInViewController: UIViewController {
                             
                             UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
                                 self.explainLabel.alpha = 1
-                                
                                 
                             }) {(completed) in
                                 
