@@ -1,244 +1,43 @@
 //
-//  stampViewController.swift
+//  MyTeamVC.swift
 //  TOTALGOOD
 //
-//  Created by 平田翔大 on 2021/05/20.
+//  Created by 平田翔大 on 2021/12/08.
 //
 
 import UIKit
 import Nuke
-import FirebaseFirestore
-import Firebase
 
-class stampViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    @IBOutlet weak var laLabel: UILabel!
-    
-    
-    var stampUrls : String?
-    let teamName = UserDefaults.standard.string(forKey: "color")
-    
-    @IBOutlet weak var cancelButton: UIButton!
-    
-    @IBAction func cancelTappedButton(_ sender: Any) {
-        UIView.animate(withDuration: 0.14, delay: 0, animations: {
-            self.imageView.alpha = 0
-            self.cancelButton.alpha = 0
-            self.laLabel.alpha = 0
-        })
-    }
-    
-    @IBOutlet weak var imageView: UIImageView!
-    
-    
-    @IBAction func tappedImageView(_ sender: Any) {
-        print("aaaa")
-        print(stampUrls!)
-        addMessageToFirestore(urlString: stampUrls!)
-        dismiss(animated: true, completion: nil)
-    }
-    
+class MyTeamVC:  UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var imageUrls = [String]()
-    
-    let DB = Firestore.firestore().collection("Rooms").document("karano").collection("kokoniireru")
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageUrls.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! CollectionViewCell
-        cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//        cell.stampImageView.backgroundColor = .purple
-        
-        
-
-        if let url = URL(string:imageUrls[indexPath.row]) {
-            Nuke.loadImage(with: url, into: cell.stampImageView!)
-        } else {
-            cell.stampImageView?.image = nil
-        }
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        UIView.animate(withDuration: 0.2, delay: 0.1, animations: {
-            self.imageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-            self.imageView.alpha = 1
-
-            
-        }) { bool in
-        // ②アイコンを大きくする
-            UIView.animate(withDuration: 0.1, delay: 0, animations: {
-                self.imageView.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
-
-        }) { bool in
-            // ②アイコンを大きくする
-            UIView.animate(withDuration: 0.1, delay: 0, animations: {
-                self.imageView.transform = CGAffineTransform(scaleX: 1, y: 1)
-                
-            })
-            }
-        }
-    
-        laLabel.alpha = 1
-        cancelButton.alpha = 0.7
-        
-        stampUrls = imageUrls[indexPath.row]
-    
-        if let url = URL(string:imageUrls[indexPath.row]) {
-            Nuke.loadImage(with: url, into: imageView)
-        }
-
-      
-    }
-    
-    
-    func addMessageToFirestore(urlString: String) {
-       
-        
-        let chatRoomDocId =  UserDefaults.standard.string(forKey: "documentId")
-        let userMyBrands = UserDefaults.standard.string(forKey: "userBrands")
-        let teamname = UserDefaults.standard.string(forKey: "color")
-        
-               
-       func randomString(length: Int) -> String {
-           let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-           return String((0..<length).map{ _ in characters.randomElement()! })
-       }
-       
-       let randomUserId = randomString(length: 8)
-       guard let uid = Auth.auth().currentUser?.uid else { return }
-       
-       
-        func comment(randomuserId: String,commentId: String) {
-            
-            
-            
-            let docData = [
-                "createdAt": FieldValue.serverTimestamp(),
-                "message": "",
-                "userId": uid,
-                "documentId": chatRoomDocId!,
-                "comentId" : commentId,
-                "admin": false,
-                "randomUserId": randomuserId,
-                "userBrands": userMyBrands!,
-                "sendImageURL": urlString,
-                "teamname": teamname!,
-                "company1":""
-            ] as [String: Any]
-            
-            DB.document(chatRoomDocId!).collection("messages").document(commentId).setData(docData) { (err) in
-                if let err = err {
-                    print("メッセージ情報の保存に失敗しました。ss\(err)")
-                    return
-                }
-                print("成功！")
-            }
-            
-        }
-        
-        let commentId = uid+"comentId"
-        
-        self.DB.document(chatRoomDocId!).collection("messages").whereField("userId", isEqualTo: uid).getDocuments() { [self] (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                print("クエリースナップショットカウント！",querySnapshot!.documents.count)
-                
-                if querySnapshot!.documents.count == 0 {
-                    
-                    
-                    
-                    comment(randomuserId: "",commentId: commentId)
-                    DB.document(chatRoomDocId!).collection("members").document(uid).setData(["randomUserId": randomUserId], merge: true)
-                    
-                    DB.document(chatRoomDocId!).setData([uid: true], merge: true)
-                    
-                    
-                } else if querySnapshot!.documents.count == 1 {
-                    
-                    DB.document(chatRoomDocId!).collection("members").document(uid).getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            let randomUserId = document["randomUserId"] as? String ?? "unknown"
-                            
-                            let comentId = randomString(length: 15)
-                            comment(randomuserId: randomUserId, commentId: comentId)
-                            DB.document(chatRoomDocId!).collection("messages").document(uid+"comentId").updateData(["randomUserId":randomUserId])
-                            
-                        }
-                    }
-                    
-                } else  {
-                    
-                    DB.document(chatRoomDocId!).collection("members").document(uid).getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            let randomUserId = document["randomUserId"] as? String ?? "unknown"
-                            
-                            let comentId = randomString(length: 15)
-                            comment(randomuserId: randomUserId, commentId: comentId)
-                        }
-                    }
-                }
-            }
-            
-            self.DB.document(chatRoomDocId!).collection("messages").getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    print(querySnapshot!.documents.count)
-                    self.DB.document(chatRoomDocId!).updateData(["messagecount":querySnapshot!.documents.count as Int])
-                }
-            }
-        }
-        dismiss(animated: true, completion: nil)
-    }
-    
-    
-    
-    @IBOutlet weak var stampCollcetionView: UICollectionView!
-    
+    @IBOutlet weak var teamCollectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        stampCollcetionView.delegate = self
-        stampCollcetionView.dataSource = self
         
-        imageView.isUserInteractionEnabled = true
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 30
-        
-        imageView.layer.borderWidth = 2
-        if teamName == "red" {
-            imageView.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
-        } else  if teamName == "yellow" {
-            imageView.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-        } else  if teamName == "blue" {
-            imageView.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
-        } else if teamName == "purple" {
-            imageView.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-        }
-        
-        imageView.alpha = 0
-        cancelButton.alpha = 0
-        laLabel.alpha = 0
-        
+        print("ssssss",UIScreen.main.bounds.size.width)
+        print("aaaaaaaa",UIScreen.main.nativeBounds.size.width)
+       
+        let widthImage = UIScreen.main.bounds.size.width/3
         // セルの詳細なレイアウトを設定する
         let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         // セルのサイズ
-        flowLayout.itemSize = CGSize(width: 100.0, height: 100.0)
+        flowLayout.itemSize = CGSize(width: widthImage, height: widthImage)
         // 縦・横のスペース
-        flowLayout.minimumLineSpacing = 10.0
-        flowLayout.minimumInteritemSpacing = 12.0
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
         //  スクロールの方向
-        flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
+        flowLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
         // 上で設定した内容を反映させる
-        self.stampCollcetionView.collectionViewLayout = flowLayout
+        self.teamCollectionView.collectionViewLayout = flowLayout
         // 背景色を設定
-        self.stampCollcetionView?.backgroundColor = .clear
+        self.teamCollectionView.backgroundColor = .clear
+        
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.55)
+        
+//        layout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+//        teamCollectionView.collectionViewLayout = layout
         
         imageUrls =  ["https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FA1osusume.png?alt=media&token=0da0367d-af96-4f12-b660-52388bf955d7",//A1
                      "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FA2itiosi.png?alt=media&token=2883e323-af38-4678-9e20-a0cc85fa980f",//A2
@@ -328,33 +127,58 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
                      "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FE9cooool.png?alt=media&token=cbd27498-f58d-4d9f-a954-edf4321925dc",//E9
                      "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FE10guuuu.png?alt=media&token=163fe3ad-3b3d-4b26-a6b2-52fe054bd83c",//E10
         ]
-  
     }
-}
- 
-class CollectionViewCell: UICollectionViewCell {
-
-    @IBOutlet weak var stampImageView: UIImageView!
     
-    let teamName = UserDefaults.standard.string(forKey: "color")
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return  imageUrls.count// 表示するセルの数
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            let horizontalSpace : CGFloat = 50
+            let cellSize : CGFloat = self.view.bounds.width / 3 - horizontalSpace
+            return CGSize(width: cellSize, height: cellSize)
+        }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! teamCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
+        
+        if let url = URL(string:imageUrls[indexPath.row]) {
+            Nuke.loadImage(with: url, into: cell.teamCollectionImage!)
+        } else {
+            cell.teamCollectionImage?.image = nil
+        }
+       
+        return cell
+    }
+
+}
+
+class teamCollectionViewCell: UICollectionViewCell {
+
+    
+    @IBOutlet weak var teamCollectionImage: UIImageView!
+    
+    @IBOutlet weak var teamCollectionView: teamCollectionViewCell!
+    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
         // cellの枠の太さ
-        self.layer.borderWidth = 1.5
+        self.layer.borderWidth = 1.0
         // cellの枠の色
-        if teamName == "red" {
-            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
-        } else  if teamName == "yellow" {
-            self.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-        } else  if teamName == "blue" {
-            self.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
-        } else if teamName == "purple" {
-            self.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-        }
+        self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        backgroundColor = .gray
+//        if teamName == "red" {
+//            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
+//        } else  if teamName == "yellow" {
+//            self.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
+//        } else  if teamName == "blue" {
+//            self.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
+//        } else if teamName == "purple" {
+//            self.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
+//        }
         // cellを丸くする
-        self.layer.cornerRadius = 8.0
+//        self.layer.cornerRadius = 2.0
     }
 }
 
