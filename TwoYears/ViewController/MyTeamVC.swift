@@ -32,8 +32,9 @@ class MyTeamVC:  UIViewController, UICollectionViewDataSource, UICollectionViewD
         // 上で設定した内容を反映させる
         self.teamCollectionView.collectionViewLayout = flowLayout
         // 背景色を設定
-        self.teamCollectionView.backgroundColor = .black
-//        view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.55)
+        self.teamCollectionView.backgroundColor = .clear
+        
+        view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.55)
         
 //        layout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
 //        teamCollectionView.collectionViewLayout = layout
@@ -166,6 +167,7 @@ class teamCollectionViewCell: UICollectionViewCell {
         self.layer.borderWidth = 1.0
         // cellの枠の色
         self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        backgroundColor = .gray
 //        if teamName == "red" {
 //            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
 //        } else  if teamName == "yellow" {
