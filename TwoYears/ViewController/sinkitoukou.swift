@@ -144,7 +144,6 @@ extension sinkitoukou: UITextViewDelegate {
             sinkiButton.isEnabled = true
             sinkiButton.backgroundColor = #colorLiteral(red: 0, green: 0.9052245021, blue: 0.6851730943, alpha: 1)
         }
-        
         if existingLines.count <= 5 {
             self.wordCountLabel.text = "残り\(maxWordCount - textView.text.count)文字"
         }

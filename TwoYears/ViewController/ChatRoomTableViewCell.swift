@@ -16,7 +16,7 @@ import TTTAttributedLabel
 class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
     
     
-    //　後で修正
+    // 後で修正
     var message: Message? {
         didSet {
             if let message = message {
@@ -62,7 +62,6 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
     @IBOutlet weak var userrandomId: UILabel!
     @IBOutlet weak var houkokuButton: UIButton!
     @IBAction func tappedHoukokuButton(_ sender: Any) {
-        
         //アラート生成
         //UIAlertControllerのスタイルがactionSheet
         let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)

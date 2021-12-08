@@ -154,52 +154,53 @@ class RankingViewController: UIViewController {
 
     private func lalaBai(teamname: String) {
         DBZ.collection("kokoniireru").order(by: "goodcount" ,descending: true).order(by: "createdLatestAt" ,descending: true).addSnapshotListener { [self] ( snapshots, err) in
-                    if let err = err {
-                        
-                        print("メッセージの取得に失敗、\(err)")
-                        return
-                    }
-                    snapshots?.documentChanges.forEach({ (Naruto) in
-                        switch Naruto.type {
-                        case .added:
-                            let dic = Naruto.document.data()
-                            let rarabai = Animal(dic: dic,user:teamname)
-                            
-                            let date: Date = rarabai.zikokudosei.dateValue()
-                            let momentType = moment(date)
-                            
-                            if blockList[rarabai.userId] == true {
-                                
-                            } else {
-                                if momentType >= moment() - 14.days {
-                                    if rarabai.admin == true {
-                                    }
-                                    self.animals.append(rarabai)
-                                }
-                            }
-                            
-                            print("でぃく",dic)
-                            print("ららばい",rarabai)
-                            
-                            
-                            print("でぃく",dic)
-                            print("ららばい",rarabai)
-                            self.animals.sort { (m1, m2) -> Bool in
-                                let m1View = m1.viewCount
-                                let m2View = m2.viewCount
-                                return m1View > m2View
-                            }
-                            
-                            self.chatListTableView.reloadData()
-
-                        case .modified, .removed:
-                            
-                            
-                            print("noproblem")
-                        }
-                    })
-                }
+            if let err = err {
+                
+                print("メッセージの取得に失敗、\(err)")
+                return
             }
+            
+            snapshots?.documentChanges.forEach({ (Naruto) in
+                switch Naruto.type {
+                case .added:
+                    let dic = Naruto.document.data()
+                    let rarabai = Animal(dic: dic,user:teamname)
+                    
+                    let date: Date = rarabai.zikokudosei.dateValue()
+                    let momentType = moment(date)
+                    
+                    if blockList[rarabai.userId] == true {
+                        
+                    } else {
+                        if momentType >= moment() - 14.days {
+                            if rarabai.admin == true {
+                            }
+                            self.animals.append(rarabai)
+                        }
+                    }
+                    
+                    print("でぃく",dic)
+                    print("ららばい",rarabai)
+                    
+                    
+                    print("でぃく",dic)
+                    print("ららばい",rarabai)
+                    self.animals.sort { (m1, m2) -> Bool in
+                        let m1View = m1.viewCount
+                        let m2View = m2.viewCount
+                        return m1View > m2View
+                    }
+                    
+                    self.chatListTableView.reloadData()
+                    
+                case .modified, .removed:
+                    
+                    
+                    print("noproblem")
+                }
+            })
+        }
+    }
 }
 extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
 
@@ -244,6 +245,7 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
 //                cell.messageLabel.backgroundColor = #colorLiteral(red: 0.3348371479, green: 0.9356233796, blue: 1, alpha: 0.4039117518)
 //            }
 //        }
+        
         if animals[indexPath.row].teamname == "yellow" {
             cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 1, green: 0.4894049657, blue: 0, alpha: 1)
         } else if animals[indexPath.row].teamname == "red" {
@@ -352,12 +354,9 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.messageCountLabel.text = String(animals[indexPath.row].messageCount)
         cell.goodCountLabel.text = String(animals[indexPath.row].GoodmanCount - 1)
         cell.viewCountLabel.text = String(animals[indexPath.row].viewCount)
-        
-        
 
         
         cell.userImageView.image = nil
-
         
         if animals[indexPath.row].userBrands == "TG1" {
             cell.userImageView.image = UIImage(named:"TG1")!

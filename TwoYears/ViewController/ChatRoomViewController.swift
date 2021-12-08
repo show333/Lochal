@@ -267,6 +267,8 @@ extension ChatRoomViewController: ChatInputAccessoryViewDelegate{
                 print("成功！")
             }
         }
+
+        
         self.DB.document(chatRoomDocId).collection("messages").whereField("userId", isEqualTo: uid).getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
