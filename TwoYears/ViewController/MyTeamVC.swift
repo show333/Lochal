@@ -11,13 +11,16 @@ import Nuke
 class MyTeamVC:  UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var imageUrls = [String]()
+    
+    @IBOutlet weak var headerView: UIView!
 
     @IBOutlet weak var teamCollectionView: UICollectionView!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("ssssss",UIScreen.main.bounds.size.width)
-        print("aaaaaaaa",UIScreen.main.nativeBounds.size.width)
+        headerView.backgroundColor = .yellow
        
         let widthImage = UIScreen.main.bounds.size.width/3
         // セルの詳細なレイアウトを設定する

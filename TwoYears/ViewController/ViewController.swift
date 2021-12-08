@@ -212,6 +212,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatListTableViewCell
+
         if animals[indexPath.row].company1 != ""{
             firebaseCompany.document(animals[indexPath.row].company1).getDocument { (document, error) in
                 if let document = document, document.exists {

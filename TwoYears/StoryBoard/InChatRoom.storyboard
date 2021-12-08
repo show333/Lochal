@@ -48,7 +48,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="In" image="homekit" catalog="system" id="qLw-gq-ejL"/>
-                    <navigationItem key="navigationItem" id="WEh-70-PYk"/>
+                    <navigationItem key="navigationItem" title="In" id="WEh-70-PYk"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="inChatTableView" destination="s6X-gr-1gx" id="bUR-d2-UpP"/>
