@@ -37,13 +37,28 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PY5-SU-lTK">
+                                <rect key="frame" x="304" y="743" width="80" height="40"/>
+                                <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="JrR-u3-EOn"/>
+                                    <constraint firstAttribute="height" constant="40" id="SxP-IF-zck"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="button:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="WIi-d9-5zr"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="s6X-gr-1gx" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="1gX-Bh-Mmf"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="PY5-SU-lTK" secondAttribute="trailing" constant="30" id="5ID-eX-4c1"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="s6X-gr-1gx" secondAttribute="trailing" id="Ihx-9q-rcZ"/>
                             <constraint firstItem="s6X-gr-1gx" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="K9S-UV-eqR"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="PY5-SU-lTK" secondAttribute="bottom" constant="30" id="YaM-U8-wvZ"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="s6X-gr-1gx" secondAttribute="bottom" id="nrD-Mm-zYx"/>
                         </constraints>
                     </view>
@@ -56,13 +71,16 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="299" y="46"/>
+            <point key="canvasLocation" x="298.55072463768118" y="45.535714285714285"/>
         </scene>
     </scenes>
     <resources>
         <image name="homekit" catalog="system" width="128" height="106"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -26,7 +26,7 @@
             </objects>
             <point key="canvasLocation" x="-609" y="110"/>
         </scene>
-        <!--Item-->
+        <!--Ranking-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="teamRankingVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="teamRankingVC" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
@@ -115,7 +115,7 @@
                             <constraint firstItem="8Ay-Pr-THF" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="zg8-8A-7Sb"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="8TF-gN-IIH"/>
+                    <tabBarItem key="tabBarItem" title="Ranking" image="crown.fill" catalog="system" id="8TF-gN-IIH"/>
                     <navigationItem key="navigationItem" id="nxZ-BZ-X1z"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -131,6 +131,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="crown.fill" catalog="system" width="128" height="92"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

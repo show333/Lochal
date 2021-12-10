@@ -15,6 +15,7 @@ protocol ChatInputAccessoryViewDelegate: class {
 class ChatInputAccessoryView: UIView{
     @IBOutlet weak var imageButton: UIButton!
     @IBOutlet weak var chatTextView: UITextView!
+
     @IBOutlet weak var sendButton: UIButton!
     @IBAction func tappedSendButton(_ sender: Any) {
         let textwhite = chatTextView.text.trimmingCharacters(in: .newlines)
