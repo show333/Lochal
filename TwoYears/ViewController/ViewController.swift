@@ -142,7 +142,7 @@ class ViewController: UIViewController{
         bubuButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         bubuButton.layer.shadowOpacity = 1
         bubuButton.layer.shadowRadius = 5
-        lalaBai(newColor: newColor!, teamname: teamName!)
+        fetchFireStore()
         chatListTableView.backgroundColor = #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
     }
     //うえのモーションするやつ
@@ -163,8 +163,8 @@ class ViewController: UIViewController{
             self?.chatListTableView.refreshControl?.endRefreshing()
         }
     }
-    private func lalaBai(newColor: String, teamname: String) {
-        DBZ.collection("kokoniireru").whereField("newColor", isEqualTo: newColor).order(by: "createdLatestAt" ,descending: true).limit(to: 1500).addSnapshotListener{ [self] ( snapshots, err) in
+    private func fetchFireStore() {
+        DBZ.collection("kokoniireru").addSnapshotListener{ [self] ( snapshots, err) in
             if let err = err {
                 print("メッセージの取得に失敗、\(err)")
                 return
@@ -173,22 +173,25 @@ class ViewController: UIViewController{
                 switch Naruto.type {
                 case .added:
                     let dic = Naruto.document.data()
-                    let rarabai = Animal(dic: dic,user:teamname)
+                    let rarabai = Animal(dic: dic,user:"teamname")
                     
-                    let date: Date = rarabai.zikokudosei.dateValue()
-                    let momentType = moment(date)
+//                    let date: Date = rarabai.zikokudosei.dateValue()
+//                    let momentType = moment(date)
                     
-                    if blockList[rarabai.userId] == true {
-                        
-                    } else {
-                        if momentType >= moment() - 14.days {
-                            if rarabai.admin == true {
-                            }
-                            self.animals.append(rarabai)
-                        }
-                    }
-                    print("でぃく",dic)
-                    print("ららばい",rarabai)
+//                    if blockList[rarabai.userId] == true {
+//
+//                    } else {
+//                        if momentType >= moment() - 14.days {
+//                            if rarabai.admin == true {
+//                            }
+//                            self.animals.append(rarabai)
+//                        }
+//                    }
+                    
+                    self.animals.append(rarabai)
+                    
+//                    print("でぃく",dic)
+//                    print("ららばい",rarabai)
                     self.animals.sort { (m1, m2) -> Bool in
                         let m1Date = m1.latestAt.dateValue()
                         let m2Date = m2.latestAt.dateValue()
@@ -333,33 +336,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
         }
         
-        if animals[indexPath.row].teamname == "red" || animals[indexPath.row].teamname == "yellow"{
-            Firestore.firestore().collection("teams").document("orange").updateData([
-                "viewcount": FieldValue.increment(Int64(1))
-            ])
-        } else if animals[indexPath.row].teamname == "blue" || animals[indexPath.row].teamname == "purple" {
-            Firestore.firestore().collection("teams").document("violet").updateData([
-                "viewcount": FieldValue.increment(Int64(1))
-            ])
-        }
-        
-        if animals[indexPath.row].teamname == "red" {
-            Firestore.firestore().collection("teams").document("red").updateData([
-                "viewcount": FieldValue.increment(Int64(1))
-            ])
-        } else if animals[indexPath.row].teamname == "blue" {
-            Firestore.firestore().collection("teams").document("blue").updateData([
-                "viewcount": FieldValue.increment(Int64(1))
-            ])
-        } else if animals[indexPath.row].teamname == "yellow" {
-            Firestore.firestore().collection("teams").document("yellow").updateData([
-                "viewcount": FieldValue.increment(Int64(1))
-            ])
-        } else if animals[indexPath.row].teamname == "purple" {
-            Firestore.firestore().collection("teams").document("purple").updateData([
-                "viewcount": FieldValue.increment(Int64(1))
-            ])
-        }
         navigationController?.pushViewController(chatRoomViewController, animated: true)
         
         tableView.deselectRow(at: indexPath, animated: true)

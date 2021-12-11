@@ -6,6 +6,10 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
+import FirebaseStorage
+import SwiftMoment
 
 class InChatRoomVC:UIViewController{
     
@@ -14,29 +18,72 @@ class InChatRoomVC:UIViewController{
     @IBOutlet weak var inChatTableView: UITableView!
     
     private let cellId = "cellId"
+    
+    private let accessoryHeight: CGFloat = 90
+    private var safeAreaBottom: CGFloat {
+        self.view.safeAreaInsets.bottom
+    }
     private lazy var chatInputAccessoryView: ChatInputAccessoryView = {
         let view = ChatInputAccessoryView()
-        view.frame = .init(x: 0, y: 0, width: view.frame.width, height: 100)
+        view.frame = .init(x: 0, y: 0, width: view.frame.width, height: 10000)
         view.delegate = self
         return view
     }()
     
     @IBAction func button(_ sender: Any) {
         chatInputAccessoryView.alpha = 1
-        chatInputAccessoryView.chatTextView.text = ""
         chatInputAccessoryView.chatTextView.becomeFirstResponder()
         print("a")
+        self.tabBarController?.tabBar.isHidden = true
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        setupNotification()
+        chatInputAccessoryView.alpha = 0
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        chatInputAccessoryView.alpha = 0
         
+
         inChatTableView.delegate = self
         inChatTableView.dataSource = self
         inChatTableView.register(UINib(nibName: "ChatRoomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
+        
+        inChatTableView.keyboardDismissMode = .interactive
 
+    }
+    
+    @objc public func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    @objc func keyboardWillShow(notification: NSNotification) {
+        print("keyboardWillShow")
+        
+        guard let userInfo = notification.userInfo else { return }
+        if let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
+            if keyboardFrame.height <= accessoryHeight { return }
+            let top = keyboardFrame.height - safeAreaBottom - 48
+            let bottom = inChatTableView.contentOffset.y
+            let moveY =  inChatTableView.contentOffset.y
+            print(bottom)
+            let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: top, right: 0)
+            inChatTableView.contentInset = contentInset
+            inChatTableView.scrollIndicatorInsets = contentInset
+            inChatTableView.contentOffset = CGPoint(x: 0, y: moveY + top)
+        }
+    }
+    @objc func keyboardWillHide() {
+        print("keyboardWillHide")
+        self.tabBarController?.tabBar.isHidden = false
+        inputAccessoryView?.alpha = 0
+        inChatTableView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
+        inChatTableView.scrollIndicatorInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
     }
     
     override var inputAccessoryView: UIView? {
@@ -141,5 +188,28 @@ extension InChatRoomVC: ChatInputAccessoryViewDelegate{
         //            self.DB.document(chatRoomDocId).setData(["createdLatestAt": FieldValue.serverTimestamp()],merge: true)
         //            self.DB.document(chatRoomDocId).updateData(["messagecount": FieldValue.increment(Int64(1))])
 //        }
+    }
+}
+
+extension UIView {
+    func InChatRoomVC() -> UIViewController? {
+        var ChatRoomtableViewResponder: UIResponder? = self
+        while true {
+            guard let ChatRoomtableViewCellResponder = ChatRoomtableViewResponder?.next else { return nil }
+            if let viewController = ChatRoomtableViewCellResponder as? UIViewController {
+                return viewController
+            }
+            ChatRoomtableViewResponder = ChatRoomtableViewCellResponder
+        }
+    }
+    func InChatRoomVC<T: UIView>(type: T.Type) -> T? {
+        var ChatRoomTableViewResponder: UIResponder? = self
+        while true {
+            guard let ChatRoomTableViewCellResponder = ChatRoomTableViewResponder?.next else { return nil }
+            if let view = ChatRoomTableViewCellResponder as? T {
+                return view
+            }
+            ChatRoomTableViewResponder = ChatRoomTableViewCellResponder
+        }
     }
 }
