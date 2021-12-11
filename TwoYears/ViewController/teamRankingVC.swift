@@ -14,6 +14,14 @@ class teamRankingVC:UIViewController, UICollectionViewDataSource, UICollectionVi
 
     
     @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var topViewConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var leftView: UIView!
+    
+    @IBOutlet weak var centerView: UIView!
+    
+    @IBOutlet weak var centerConstraint: NSLayoutConstraint!
+    @IBOutlet weak var rightView: UIView!
     
     @IBOutlet weak var teamCollectionView: UICollectionView!
     
@@ -25,11 +33,29 @@ class teamRankingVC:UIViewController, UICollectionViewDataSource, UICollectionVi
         
         let widthImage = UIScreen.main.bounds.size.width/3.0
         
-        collectionViewConstraint.constant = widthImage*2
+        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
+        
+        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
+        
+        let safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight
+        
+        
+        topViewConstraint.constant = safeArea/7*3
+        collectionViewConstraint.constant = safeArea/7*3
+        centerConstraint.constant = widthImage
+        
+//        backViewConstraint.constant = UIScreen.main.bounds.size.height - tabbarheight - statusBarHeight
+//
+//
+//        backUnderConstraint.constant = safeArea/2
+//        collectionViewConstraint.constant = safeArea/3
+        
+        
+        
         // セルの詳細なレイアウトを設定する
         let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         // セルのサイズ
-        flowLayout.itemSize = CGSize(width: widthImage, height: widthImage)
+        flowLayout.itemSize = CGSize(width: safeArea/14*3, height: safeArea/14*3)
         // 縦・横のスペース
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
@@ -39,6 +65,8 @@ class teamRankingVC:UIViewController, UICollectionViewDataSource, UICollectionVi
         self.teamCollectionView.collectionViewLayout = flowLayout
         // 背景色を設定
         self.teamCollectionView.backgroundColor = .clear
+        
+  
         
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.55)
         
