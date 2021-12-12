@@ -100,33 +100,11 @@ class ViewController: UIViewController{
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        let teamName = UserDefaults.standard.string(forKey: "color")
-        if teamName == "red" {
-            newColor = "orange"
-        } else if teamName == "yellow" {
-            newColor = "orange"
-        }  else if teamName == "blue" {
-            newColor = "violet"
-        }  else if teamName == "purple" {
-            newColor = "violet"
-        }
-        print("チーム！！",teamName!)
+
         //navigationbarのやつ
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
-        if teamName == "red" {
-            headerColorLabel.text = "Red&Yellow"
-            view.backgroundColor = #colorLiteral(red: 1, green: 0.7650444715, blue: 0.7913624219, alpha: 0.3036708048)
-        } else if teamName == "blue" {
-            headerColorLabel.text = "Blue&Purple"
-            view.backgroundColor = #colorLiteral(red: 0.4078431373, green: 0.9249009683, blue: 1, alpha: 0.2478060788)
-        } else if teamName == "yellow" {
-            headerColorLabel.text = "Yellow&Red"
-            view.backgroundColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0, alpha: 0.2508561644)
-        } else if teamName == "purple" {
-            headerColorLabel.text = "Purple&Blue"
-            view.backgroundColor = #colorLiteral(red: 0.9603754773, green: 0.7972929077, blue: 1, alpha: 0.2462007705)
-        }
+
         self.chatListTableView.estimatedRowHeight = 40
         self.chatListTableView.rowHeight = UITableView.automaticDimension
         //Pull To Refresh
@@ -173,7 +151,7 @@ class ViewController: UIViewController{
                 switch Naruto.type {
                 case .added:
                     let dic = Naruto.document.data()
-                    let rarabai = Animal(dic: dic,user:"teamname")
+                    let rarabai = Animal(dic: dic)
                     
 //                    let date: Date = rarabai.zikokudosei.dateValue()
 //                    let momentType = moment(date)
@@ -216,6 +194,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatListTableViewCell
 
+        print("アニマルズ！！",animals[1])
+        
         if animals[indexPath.row].company1 != ""{
             firebaseCompany.document(animals[indexPath.row].company1).getDocument { (document, error) in
                 if let document = document, document.exists {

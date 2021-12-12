@@ -17,6 +17,8 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     var stampUrls : String?
     let teamName = UserDefaults.standard.string(forKey: "color")
+    var imageUrls = [String]()
+    let DB = Firestore.firestore().collection("Rooms").document("karano").collection("kokoniireru")
     
     @IBOutlet weak var cancelButton: UIButton!
     
@@ -38,10 +40,6 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
         dismiss(animated: true, completion: nil)
     }
     
-    
-    var imageUrls = [String]()
-    
-    let DB = Firestore.firestore().collection("Rooms").document("karano").collection("kokoniireru")
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageUrls.count

@@ -58,6 +58,7 @@ class SplashViewController: UIViewController {
             }
             
             
+            
             Firestore.firestore().collection("users").document(uid!).getDocument {(document, error) in
                 if let document = document, document.exists {
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"

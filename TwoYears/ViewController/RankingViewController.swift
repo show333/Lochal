@@ -96,8 +96,7 @@ class RankingViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        let teamName = UserDefaults.standard.string(forKey: "color")
-        print("aaa",teamName!)
+
 
         tabBarController?.tabBar.isHidden = false
         self.chatListTableView.estimatedRowHeight = 40
@@ -118,8 +117,8 @@ class RankingViewController: UIViewController {
         chatListTableView.backgroundColor = #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
 //            #colorLiteral(red: 0.7238116197, green: 0.6172274334, blue: 0.5, alpha: 1)
 
-        lalaBai(teamname: teamName!)
 //        self.chatListTableView.reloadData()
+        lalaBai()
 
     }
     
@@ -152,7 +151,7 @@ class RankingViewController: UIViewController {
     }
 //    order(by: "goodcount" ,descending: true).
 
-    private func lalaBai(teamname: String) {
+    private func lalaBai() {
         DBZ.collection("kokoniireru").order(by: "goodcount" ,descending: true).order(by: "createdLatestAt" ,descending: true).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
@@ -164,7 +163,7 @@ class RankingViewController: UIViewController {
                 switch Naruto.type {
                 case .added:
                     let dic = Naruto.document.data()
-                    let rarabai = Animal(dic: dic,user:teamname)
+                    let rarabai = Animal(dic: dic)
                     
                     let date: Date = rarabai.zikokudosei.dateValue()
                     let momentType = moment(date)
@@ -172,11 +171,11 @@ class RankingViewController: UIViewController {
                     if blockList[rarabai.userId] == true {
                         
                     } else {
-                        if momentType >= moment() - 14.days {
-                            if rarabai.admin == true {
-                            }
+//                        if momentType >= moment() - 14.days {
+//                            if rarabai.admin == true {
+//                            }
                             self.animals.append(rarabai)
-                        }
+                        
                     }
                     
                     print("でぃく",dic)
@@ -211,11 +210,12 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if animals.count < 100 {
-            return animals.count
-        } else {
-            return 100
-        }
+//        if animals.count < 100 {
+//            return animals.count
+//        } else {
+//            return 100
+//        }
+        return animals.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

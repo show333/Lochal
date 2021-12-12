@@ -21,13 +21,12 @@ struct Animal {
     var messageCount : Int
     var viewCount: Int = 0
     var teamname : String
-    var userteamname : String
     var userId : String
     var admin : Bool
     var userBrands : String
     var company1 : String
     
-    init(dic: [String: Any], user: Any) {
+    init(dic: [String: Any]) {
         self.nameJP = dic["message"] as? String ?? ""
         self.documentId = dic["documentId"] as? String ?? ""
         self.zikokudosei = dic["createdAt"] as? Timestamp ?? Timestamp()
@@ -37,7 +36,6 @@ struct Animal {
         self.GoodmanCount = dic["goodcount"] as! Int
         self.viewCount = dic["viewcount"] as? Int ?? 0
         self.teamname = dic["teamname"] as? String ?? ""
-        self.userteamname = user as? String ?? ""
         self.userId = dic["userId"] as? String ?? ""
         self.admin = dic["admin"] as? Bool ?? false
         self.userBrands = dic["userBrands"] as? String ?? ""

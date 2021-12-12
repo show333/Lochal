@@ -91,6 +91,7 @@
                         <segue destination="ZMF-af-sUB" kind="relationship" relationship="viewControllers" id="X07-RC-IRw"/>
                         <segue destination="QUo-Ng-Ttd" kind="relationship" relationship="viewControllers" id="e00-w2-TcT"/>
                         <segue destination="DqZ-9v-0g2" kind="relationship" relationship="viewControllers" id="HrR-nn-DfP"/>
+                        <segue destination="4T5-Y8-FO4" kind="relationship" relationship="viewControllers" id="590-qn-QMR"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ioP-rw-Ry6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
