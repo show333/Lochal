@@ -24,6 +24,7 @@
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="ここに入れる" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Dp3-G0-YR1">
                     <rect key="frame" x="90" y="10" width="382" height="152"/>
                     <color key="backgroundColor" systemColor="systemGray4Color"/>
+                    <gestureRecognizers/>
                     <color key="textColor" systemColor="labelColor"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

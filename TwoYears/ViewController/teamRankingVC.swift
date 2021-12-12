@@ -1,5 +1,5 @@
 //
-//  MyTeamVC.swift
+//  teamRankingVC.swift
 //  TOTALGOOD
 //
 //  Created by 平田翔大 on 2021/12/08.
@@ -8,39 +8,69 @@
 import UIKit
 import Nuke
 
-class MyTeamVC:  UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class teamRankingVC:UIViewController, UICollectionViewDataSource, UICollectionViewDelegate{
     
     var imageUrls = [String]()
-    
-    @IBOutlet weak var headerView: UIView!
 
+    
+    @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var topViewConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var leftView: UIView!
+    
+    @IBOutlet weak var centerView: UIView!
+    
+    @IBOutlet weak var centerConstraint: NSLayoutConstraint!
+    @IBOutlet weak var rightView: UIView!
+    
     @IBOutlet weak var teamCollectionView: UICollectionView!
-
     
+    @IBOutlet weak var collectionViewConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var bottomView: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        headerView.backgroundColor = .yellow
-       
-        let widthImage = UIScreen.main.bounds.size.width/3
+        let widthImage = UIScreen.main.bounds.size.width/3.0
+        
+        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
+        
+        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
+        
+        let safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight
+        
+        
+        topViewConstraint.constant = safeArea/7*3
+        collectionViewConstraint.constant = safeArea/7*3
+        centerConstraint.constant = widthImage
+        
+//        backViewConstraint.constant = UIScreen.main.bounds.size.height - tabbarheight - statusBarHeight
+//
+//
+//        backUnderConstraint.constant = safeArea/2
+//        collectionViewConstraint.constant = safeArea/3
+        
+        
+        
         // セルの詳細なレイアウトを設定する
         let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         // セルのサイズ
-        flowLayout.itemSize = CGSize(width: widthImage, height: widthImage)
+        flowLayout.itemSize = CGSize(width: safeArea/14*3, height: safeArea/14*3)
         // 縦・横のスペース
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
         //  スクロールの方向
-        flowLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
+        flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
         // 上で設定した内容を反映させる
         self.teamCollectionView.collectionViewLayout = flowLayout
         // 背景色を設定
         self.teamCollectionView.backgroundColor = .clear
         
+  
+        
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.55)
         
-//        layout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-//        teamCollectionView.collectionViewLayout = layout
+        
         
         imageUrls =  ["https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FA1osusume.png?alt=media&token=0da0367d-af96-4f12-b660-52388bf955d7",//A1
                      "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FA2itiosi.png?alt=media&token=2883e323-af38-4678-9e20-a0cc85fa980f",//A2
@@ -130,6 +160,7 @@ class MyTeamVC:  UIViewController, UICollectionViewDataSource, UICollectionViewD
                      "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FE9cooool.png?alt=media&token=cbd27498-f58d-4d9f-a954-edf4321925dc",//E9
                      "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FE10guuuu.png?alt=media&token=163fe3ad-3b3d-4b26-a6b2-52fe054bd83c",//E10
         ]
+
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -142,26 +173,23 @@ class MyTeamVC:  UIViewController, UICollectionViewDataSource, UICollectionViewD
         }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! teamCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
-        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! rankingCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
         if let url = URL(string:imageUrls[indexPath.row]) {
-            Nuke.loadImage(with: url, into: cell.teamCollectionImage!)
+            Nuke.loadImage(with: url, into: cell.teamLogoImage!)
         } else {
-            cell.teamCollectionImage?.image = nil
+            cell.teamLogoImage?.image = nil
         }
-       
         return cell
     }
+    
 
 }
 
-class teamCollectionViewCell: UICollectionViewCell {
+class rankingCollectionViewCell: UICollectionViewCell {
 
     
-    @IBOutlet weak var teamCollectionImage: UIImageView!
-    
-    @IBOutlet weak var teamCollectionView: teamCollectionViewCell!
-    
+    @IBOutlet weak var backView: UIView!
+    @IBOutlet weak var teamLogoImage: UIImageView!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -169,7 +197,7 @@ class teamCollectionViewCell: UICollectionViewCell {
         // cellの枠の太さ
         self.layer.borderWidth = 1.0
         // cellの枠の色
-        self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        self.layer.borderColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
         backgroundColor = .gray
 //        if teamName == "red" {
 //            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
@@ -184,4 +212,3 @@ class teamCollectionViewCell: UICollectionViewCell {
 //        self.layer.cornerRadius = 2.0
     }
 }
-

@@ -22,34 +22,30 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var companyView: UIImageView!
     @IBAction func tappedSinkiButton(_ sender: Any) {
-        lulu(teamName: teamColor!)
+        sendMemoFireStore()
         dismiss(animated: true, completion: nil)
-        print("タップした後！",UserDefaults.standard.string(forKey: "color")!)
     }
-    var teamColor : String?
-    var newColor : String?
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    private func lulu(teamName: String) {
+    private func sendMemoFireStore() {
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             return String((0..<length).map{ _ in characters.randomElement()! })
         }
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let DB = Firestore.firestore().collection("Rooms").document("karano")
-        let iwayuruId = randomString(length: 20)
+        let db = Firestore.firestore()
+        let memoId = randomString(length: 20)
         let randomUserId = randomString(length: 8)
         let thisisMessage = self.textView.text.trimmingCharacters(in: .newlines)
         let comentId = uid + "comentId"
         let userBrands = UserDefaults.standard.string(forKey: "userBrands")
         
-        let rufi = [
+        let memoInfoDic = [
             "message" : thisisMessage as Any,
-            "documentId": iwayuruId,
+            "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "createdLatestAt": FieldValue.serverTimestamp(),
-            "teamname":  teamName,
             "memberscount": 1,
             "goodcount": 1,
             "messagecount": 1,
@@ -57,30 +53,34 @@ class sinkitoukou: UIViewController {
             uid: true,
             "userBrands": userBrands!,
             "admin": false,
-            "newColor": newColor!,
-            "company1":""
         ] as [String: Any]
         
         let zoro = [
             "message" : thisisMessage as Any,
             "comentId": comentId,
             "createdAt": FieldValue.serverTimestamp(),
-            "teamname":  teamName,
-            "documentId": iwayuruId,
+            "documentId": memoId,
             "userId": uid,
             "admin": false,
             "randomUserId": "",
             "userBrands": userBrands!,
             "sendImageURL":"",
-            "company1": company1Id!,
         ] as [String: Any]
         
-        Firestore.firestore().collection("users").document(uid).setData(["The_earliest":true], merge: true)
-        DB.collection("kokoniireru").document(iwayuruId).setData(rufi)
-        DB.collection("kokoniireru").document(iwayuruId).collection("members").document(uid).setData(["randomUserId": randomUserId])
-        DB.collection("kokoniireru").document(iwayuruId).collection("good").document("goodman").setData(["space":"X"])
-        DB.collection("kokoniireru").document(iwayuruId).collection("messages").document(comentId).setData(zoro)
-        print(rufi["createdAt"] as Any)
+        let grupeFollowerId = ["a","aa","aaa","aaaa","aaaaa","aaaaaa",]
+        
+        db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
+        grupeFollowerId.forEach{
+            print($0)
+            db.collection("users").document($0).collection("TimeLine").document(memoId).setData(memoInfoDic)
+        }
+        db.collection("Team").document("teamId").collection("teamTimeLine").document(memoId).setData(memoInfoDic)
+        
+        
+        db.collection("allOutMemo").document(memoId).collection("members").document(uid).setData(["randomUserId": randomUserId])
+        db.collection("allOutMemo").document(memoId).collection("good").document("goodman").setData(["space":"X"])
+        db.collection("allOutMemo").document(memoId).collection("messages").document(comentId).setData(zoro)
+        print(memoInfoDic["createdAt"] as Any)
         print(Timestamp().dateValue())
         let aaaa = FieldValue.serverTimestamp()
         print(aaaa)
@@ -104,13 +104,6 @@ class sinkitoukou: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        teamColor =  UserDefaults.standard.string(forKey: "color")!
-        
-        if teamColor == "red" || teamColor == "yellow" {
-            newColor = "orange"
-        } else if teamColor == "blue" || teamColor == "purple" {
-            newColor = "violet"
-        }
         ongakuLabel.text = "投稿は2週間で消えます"
         print("新規投稿",UserDefaults.standard.string(forKey: "color")!)
         self.textView.delegate = self

@@ -36,28 +36,12 @@ class ChatRoomViewController: UIViewController {
         view.delegate = self
         return view
     }()
-    private lazy var chatNoputAccessoryView: ChatInputAccessoryView = {
-        let view = ChatInputAccessoryView()
-        view.backgroundColor = .black
-        view.frame = .init(x: 10, y: 100, width: view.frame.width, height: 0)
-        view.delegate = self
-        return view
-    }()
     let differentView = UIView(frame:CGRect(x:100,y:100,width:0,height:0));
     @IBOutlet weak var chatRoomTableView: UITableView!
     @IBOutlet weak var differentLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        if dragons?.teamname == "red" || dragons?.teamname == "yellow" {
-            documentTeamColor = "orange"
-        } else if dragons?.teamname == "blue" || dragons?.teamname == "purple" {
-            documentTeamColor = "violet"
-        }
-        if dragons?.userteamname == "red" || dragons?.userteamname == "yellow" {
-            userTeamColor = "orange"
-        } else if dragons?.userteamname == "blue" || dragons?.userteamname == "purple" {
-            userTeamColor = "violet"
-        }
+
         UserDefaults.standard.set(dragons!.documentId, forKey: "documentId")
         setupNotification()
         setupChatRoomTableView()
@@ -103,26 +87,6 @@ class ChatRoomViewController: UIViewController {
             target: nil,
             action: nil
         )
-        differentLabel.textColor = .white
-        if dragons?.teamname == dragons?.userteamname {
-            differentLabel.text = ""
-            differentLabel.backgroundColor = .clear
-        } else if dragons?.teamname == "yellow"{
-            differentLabel.backgroundColor = #colorLiteral(red: 1, green: 0.8386732961, blue: 0.1333333403, alpha: 0.7974526849)
-            differentLabel.text = "チームカラーが違うため、コメントできません."
-        } else if dragons?.teamname == "red"{
-            differentLabel.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.7047755282)
-            differentLabel.text = "チームカラーが違うため、コメントできません."
-        } else if dragons?.teamname == "blue"{
-            differentLabel.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 0.7977552817)
-            differentLabel.text = "チームカラーが違うため、コメントできません."
-        } else if dragons?.teamname == "purple"{
-            differentLabel.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 0.7983879842)
-            differentLabel.text = "チームカラーが違うため、コメントできません."
-        } else if dragons?.teamname == "green" {
-            differentLabel.backgroundColor = #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 0.9030126284)
-            differentLabel.text = "チームカラーが違うため、コメントできません."
-        }
         chatRoomTableView.delegate = self
         chatRoomTableView.dataSource = self
         chatRoomTableView.keyboardDismissMode = .interactive
@@ -132,12 +96,7 @@ class ChatRoomViewController: UIViewController {
     }
     override var inputAccessoryView: UIView? {
         get {
-            if documentTeamColor == userTeamColor || dragons?.userBrands == userMyBrands
-            {
                 return chatInputAccessoryView
-            }else {
-                return differentView
-            }
         }
     }
     override var canBecomeFirstResponder: Bool {

@@ -13,9 +13,8 @@
         <!--Navigation Controller-->
         <scene sceneID="Lg2-ax-D9w">
             <objects>
-                <navigationController id="d2x-2u-QhB" sceneMemberID="viewController">
+                <navigationController navigationBarHidden="YES" id="d2x-2u-QhB" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="87h-ao-cef">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -35,7 +34,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="1xl-Hk-ZWF">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="344" width="414" height="469"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="p9X-bM-Fw4">
                                     <size key="itemSize" width="128" height="128"/>
@@ -43,6 +42,12 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <scrollView key="backgroundView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="ojb-MA-345">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="469"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <viewLayoutGuide key="contentLayoutGuide" id="ljp-xH-1gc"/>
+                                    <viewLayoutGuide key="frameLayoutGuide" id="BQj-ia-eho"/>
+                                </scrollView>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="vhR-6N-5pj" customClass="teamCollectionViewCell" customModule="TOTALGOOD" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
@@ -73,32 +78,46 @@
                                     <outlet property="delegate" destination="Y6W-OH-hqX" id="qWm-al-STI"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pou-Sc-raN">
+                                <rect key="frame" x="0.0" y="44" width="414" height="300"/>
+                                <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="f2w-OY-xA0"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="1xl-Hk-ZWF" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="4wY-G1-dUj"/>
+                            <constraint firstItem="1xl-Hk-ZWF" firstAttribute="top" secondItem="pou-Sc-raN" secondAttribute="bottom" id="4wY-G1-dUj"/>
                             <constraint firstItem="1xl-Hk-ZWF" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="FWw-9Y-hBn"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="1xl-Hk-ZWF" secondAttribute="bottom" id="IwZ-MB-Xh5"/>
+                            <constraint firstItem="pou-Sc-raN" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Vad-o1-mAv"/>
+                            <constraint firstItem="pou-Sc-raN" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="jYq-gs-zYk"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="1xl-Hk-ZWF" secondAttribute="trailing" id="lFc-he-yGO"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="pou-Sc-raN" secondAttribute="trailing" id="vfM-VJ-Ekb"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Myteam" image="circle.grid.2x2.fill" catalog="system" id="hp3-Cl-ccY"/>
                     <navigationItem key="navigationItem" id="Aab-cv-lU2"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="headerView" destination="pou-Sc-raN" id="lEv-9B-uZc"/>
                         <outlet property="teamCollectionView" destination="1xl-Hk-ZWF" id="0Ba-hS-iCD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="43" y="110"/>
+            <point key="canvasLocation" x="42.028985507246382" y="109.82142857142857"/>
         </scene>
     </scenes>
     <resources>
         <image name="circle.grid.2x2.fill" catalog="system" width="128" height="112"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
