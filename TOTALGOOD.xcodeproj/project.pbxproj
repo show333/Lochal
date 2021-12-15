@@ -13,8 +13,8 @@
 		A3B455002768BBB3006101E8 /* ChatSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B454FF2768BBB3006101E8 /* ChatSelectVC.swift */; };
 		A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */; };
 		A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */; };
-		A3EAFB41276059BE00942C97 /* MyTeam.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB40276059BE00942C97 /* MyTeam.storyboard */; };
-		A3EAFB43276059E400942C97 /* MyTeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB42276059E400942C97 /* MyTeamVC.swift */; };
+		A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB40276059BE00942C97 /* InChat.storyboard */; };
+		A3EAFB43276059E400942C97 /* InChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB42276059E400942C97 /* InChatVC.swift */; };
 		B1ECFF570D15E24B5D63F1D7 /* Pods_TOTALGOOD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 113A41803FF344D0EDE5D28D /* Pods_TOTALGOOD.framework */; };
 		CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */; };
 		CF0BD9D825D018FF004A1958 /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF0BD9D725D018FF004A1958 /* SignIn.storyboard */; };
@@ -95,8 +95,8 @@
 		A3B454FF2768BBB3006101E8 /* ChatSelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSelectVC.swift; sourceTree = "<group>"; };
 		A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChatRoom.storyboard; sourceTree = "<group>"; };
 		A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatRoomVC.swift; sourceTree = "<group>"; };
-		A3EAFB40276059BE00942C97 /* MyTeam.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyTeam.storyboard; sourceTree = "<group>"; };
-		A3EAFB42276059E400942C97 /* MyTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTeamVC.swift; sourceTree = "<group>"; };
+		A3EAFB40276059BE00942C97 /* InChat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChat.storyboard; sourceTree = "<group>"; };
+		A3EAFB42276059E400942C97 /* InChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatVC.swift; sourceTree = "<group>"; };
 		CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoutaiHakkou.swift; sourceTree = "<group>"; };
 		CF0BD9D725D018FF004A1958 /* SignIn.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignIn.storyboard; sourceTree = "<group>"; };
 		CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -287,7 +287,7 @@
 				CF43661326789CB500DABD78 /* CompanyViewController.swift */,
 				CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */,
 				A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */,
-				A3EAFB42276059E400942C97 /* MyTeamVC.swift */,
+				A3EAFB42276059E400942C97 /* InChatVC.swift */,
 				A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */,
 				A3B454FF2768BBB3006101E8 /* ChatSelectVC.swift */,
 			);
@@ -328,7 +328,7 @@
 				CF3D0C19267BD327006021FB /* UserSelf.storyboard */,
 				CFE6EBFA2689054400F33F3B /* example.storyboard */,
 				A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */,
-				A3EAFB40276059BE00942C97 /* MyTeam.storyboard */,
+				A3EAFB40276059BE00942C97 /* InChat.storyboard */,
 				A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */,
 				A3B454FD2768BB6D006101E8 /* ChatSelect.storyboard */,
 			);
@@ -441,7 +441,7 @@
 				CF41960525DC0F3400223C6C /* WhichOne.storyboard in Resources */,
 				CF4366102678966E00DABD78 /* Company.storyboard in Resources */,
 				CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */,
-				A3EAFB41276059BE00942C97 /* MyTeam.storyboard in Resources */,
+				A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */,
 				CFC07B5F266BC67200163D47 /* exampleeee.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -530,7 +530,7 @@
 				CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */,
 				A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */,
 				CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */,
-				A3EAFB43276059E400942C97 /* MyTeamVC.swift in Sources */,
+				A3EAFB43276059E400942C97 /* InChatVC.swift in Sources */,
 				CF2A223425C3FC7000C5BFC1 /* AppDelegate.swift in Sources */,
 				CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */,
 				CF2A223625C3FC7000C5BFC1 /* SceneDelegate.swift in Sources */,

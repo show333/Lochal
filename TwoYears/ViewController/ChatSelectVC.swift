@@ -59,15 +59,15 @@ class ChatSelectVC:UIViewController {
 //                        }
 //                    }
                     
-                    self.teamSelect.append(rarabai)
-                    
-//                    print("でぃく",dic)
-//                    print("ららばい",rarabai)
-                    self.teamSelect.sort { (m1, m2) -> Bool in
-                        let m1Date = m1.latestAt.dateValue()
-                        let m2Date = m2.latestAt.dateValue()
-                        return m1Date > m2Date
-                    }
+//                    self.teamSelect.append(rarabai)
+//
+////                    print("でぃく",dic)
+////                    print("ららばい",rarabai)
+//                    self.teamSelect.sort { (m1, m2) -> Bool in
+//                        let m1Date = m1.latestAt.dateValue()
+//                        let m2Date = m2.latestAt.dateValue()
+//                        return m1Date > m2Date
+//                    }
 //                    self.chatListTableView.reloadData()
                 case .modified, .removed:
                     print("noproblem")

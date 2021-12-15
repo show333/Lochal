@@ -89,8 +89,6 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
         if let url = URL(string:imageUrls[indexPath.row]) {
             Nuke.loadImage(with: url, into: imageView)
         }
-
-      
     }
     
     
