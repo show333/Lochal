@@ -42,7 +42,6 @@ class ChatRoomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        UserDefaults.standard.set(dragons!.documentId, forKey: "documentId")
         setupNotification()
         setupChatRoomTableView()
         setSwipeBack()
@@ -202,7 +201,6 @@ extension ChatRoomViewController: ChatInputAccessoryViewDelegate{
         }
         let randomUserId = randomString(length: 8)
         let chatRoomDocId = dragons!.documentId
-        let userteamname = dragons!.userteamname
         guard let uid = Auth.auth().currentUser?.uid else { return }
         func comment(randomuserId: String,commentId: String) {
             let docData = [
@@ -215,7 +213,6 @@ extension ChatRoomViewController: ChatInputAccessoryViewDelegate{
                 "randomUserId": randomuserId,
                 "userBrands": userMyBrands!,
                 "sendImageURL": "",
-                "teamname": userteamname,
             ] as [String: Any]
             
             DB.document(chatRoomDocId).collection("messages").document(commentId).setData(docData) { (err) in

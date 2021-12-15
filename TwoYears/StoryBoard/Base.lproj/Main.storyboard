@@ -230,8 +230,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ur0-Qe-7PK">
                                 <rect key="frame" x="0.0" y="44" width="428" height="60"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Out" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hka-zE-9Rs">
-                                        <rect key="frame" x="197" y="16.333333333333336" width="34" height="27.333333333333336"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OutMemo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hka-zE-9Rs">
+                                        <rect key="frame" x="168" y="16.333333333333336" width="92" height="27.333333333333336"/>
                                         <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="21"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -290,7 +290,7 @@
                             <constraint firstItem="Ur0-Qe-7PK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="mkx-gL-sjR"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" image="house" catalog="system" id="imD-UU-roQ"/>
+                    <tabBarItem key="tabBarItem" title="OutMemo" image="pencil" catalog="system" id="imD-UU-roQ"/>
                     <navigationItem key="navigationItem" title="HOME" id="aw6-WL-o5t">
                         <barButtonItem key="leftBarButtonItem" title="紹介" style="done" id="iw9-WE-cMt">
                             <color key="tintColor" red="0.0" green="0.89974850169999998" blue="0.62326091610000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -338,8 +338,8 @@
         <image name="clock.arrow.circlepath" catalog="system" width="128" height="110"/>
         <image name="eyes" catalog="system" width="128" height="99"/>
         <image name="hand.thumbsup" catalog="system" width="128" height="128"/>
-        <image name="house" catalog="system" width="128" height="106"/>
         <image name="message" catalog="system" width="128" height="113"/>
+        <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="pencil.slash" catalog="system" width="128" height="113"/>
         <image name="person.crop.circle.badge.plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">

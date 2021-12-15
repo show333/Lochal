@@ -163,7 +163,7 @@ class UserCommentViewController: UIViewController {
                         switch Naruto.type {
                         case .added:
                             let dic = Naruto.document.data()
-                            let rarabai = Animal(dic: dic,user:teamname)
+                            let rarabai = Animal(dic: dic)
 
                             let date: Date = rarabai.zikokudosei.dateValue()
                             let momentType = moment(date)

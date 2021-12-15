@@ -11,8 +11,8 @@
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
 		A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */; };
 		A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */; };
-		A3EAFB41276059BE00942C97 /* MyTeam.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB40276059BE00942C97 /* MyTeam.storyboard */; };
-		A3EAFB43276059E400942C97 /* MyTeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB42276059E400942C97 /* MyTeamVC.swift */; };
+		A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB40276059BE00942C97 /* InChat.storyboard */; };
+		A3EAFB43276059E400942C97 /* InChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB42276059E400942C97 /* InChatVC.swift */; };
 		B1ECFF570D15E24B5D63F1D7 /* Pods_TOTALGOOD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 113A41803FF344D0EDE5D28D /* Pods_TOTALGOOD.framework */; };
 		CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */; };
 		CF0BD9D825D018FF004A1958 /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF0BD9D725D018FF004A1958 /* SignIn.storyboard */; };
@@ -42,7 +42,7 @@
 		CF3107A12600AA6700746480 /* Tabbar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3107A02600AA6700746480 /* Tabbar.storyboard */; };
 		CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3107F726018BB200746480 /* ShoutaiHakkou.storyboard */; };
 		CF38CAD326655F2D00615D23 /* CountAnimationLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF38CAD126655E6400615D23 /* CountAnimationLabel.swift */; };
-		CF39377C260492BA0020BE97 /* Ranking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF39377B260492BA0020BE97 /* Ranking.storyboard */; };
+		CF39377C260492BA0020BE97 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF39377B260492BA0020BE97 /* Profile.storyboard */; };
 		CF39565625D39A450097DBAA /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF39565525D39A450097DBAA /* Team.swift */; };
 		CF39F27E26567D3F0006716A /* stampCollection.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF39F27D26567D3F0006716A /* stampCollection.storyboard */; };
 		CF39F28526567D960006716A /* stampViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF39F28426567D960006716A /* stampViewController.swift */; };
@@ -76,8 +76,7 @@
 		CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */; };
 		CFC07B5F266BC67200163D47 /* exampleeee.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFC07B5E266BC67200163D47 /* exampleeee.storyboard */; };
 		CFC07B62266BC70000163D47 /* exampleviewcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFC07B61266BC70000163D47 /* exampleviewcontroller.swift */; };
-		CFDBDEEB25ED6DCB004024F2 /* RankingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBDEEA25ED6DCB004024F2 /* RankingViewController.swift */; };
-		CFE6EBFB2689054400F33F3B /* example.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFE6EBFA2689054400F33F3B /* example.storyboard */; };
+		CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */; };
 		CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFE909142618F0AE001AFCFB /* EULA.storyboard */; };
 		CFE909182618F23E001AFCFB /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE909172618F23E001AFCFB /* EULAViewController.swift */; };
 		CFF8192E25D344C600524B81 /* blue.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFF8192D25D344C600524B81 /* blue.storyboard */; };
@@ -91,8 +90,8 @@
 		A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teamRankingVC.swift; sourceTree = "<group>"; };
 		A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChatRoom.storyboard; sourceTree = "<group>"; };
 		A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatRoomVC.swift; sourceTree = "<group>"; };
-		A3EAFB40276059BE00942C97 /* MyTeam.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyTeam.storyboard; sourceTree = "<group>"; };
-		A3EAFB42276059E400942C97 /* MyTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTeamVC.swift; sourceTree = "<group>"; };
+		A3EAFB40276059BE00942C97 /* InChat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChat.storyboard; sourceTree = "<group>"; };
+		A3EAFB42276059E400942C97 /* InChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatVC.swift; sourceTree = "<group>"; };
 		CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoutaiHakkou.swift; sourceTree = "<group>"; };
 		CF0BD9D725D018FF004A1958 /* SignIn.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignIn.storyboard; sourceTree = "<group>"; };
 		CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -122,7 +121,7 @@
 		CF3107A02600AA6700746480 /* Tabbar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tabbar.storyboard; sourceTree = "<group>"; };
 		CF3107F726018BB200746480 /* ShoutaiHakkou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ShoutaiHakkou.storyboard; sourceTree = "<group>"; };
 		CF38CAD126655E6400615D23 /* CountAnimationLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountAnimationLabel.swift; sourceTree = "<group>"; };
-		CF39377B260492BA0020BE97 /* Ranking.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Ranking.storyboard; sourceTree = "<group>"; };
+		CF39377B260492BA0020BE97 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		CF39565525D39A450097DBAA /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		CF39F27D26567D3F0006716A /* stampCollection.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = stampCollection.storyboard; sourceTree = "<group>"; };
 		CF39F28426567D960006716A /* stampViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stampViewController.swift; sourceTree = "<group>"; };
@@ -160,8 +159,7 @@
 		CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imagetoukouViewController.swift; sourceTree = "<group>"; };
 		CFC07B5E266BC67200163D47 /* exampleeee.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = exampleeee.storyboard; sourceTree = "<group>"; };
 		CFC07B61266BC70000163D47 /* exampleviewcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = exampleviewcontroller.swift; sourceTree = "<group>"; };
-		CFDBDEEA25ED6DCB004024F2 /* RankingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewController.swift; sourceTree = "<group>"; };
-		CFE6EBFA2689054400F33F3B /* example.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = example.storyboard; sourceTree = "<group>"; };
+		CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		CFE909142618F0AE001AFCFB /* EULA.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EULA.storyboard; sourceTree = "<group>"; };
 		CFE909172618F23E001AFCFB /* EULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
 		CFF8192D25D344C600524B81 /* blue.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = blue.storyboard; sourceTree = "<group>"; };
@@ -266,7 +264,6 @@
 				CF2A223725C3FC7000C5BFC1 /* ViewController.swift */,
 				CF0C14B125C9F028006A7C86 /* ChatRoomViewController.swift */,
 				CF24EF7825D7AAD6009FE517 /* SplashViewController.swift */,
-				CFDBDEEA25ED6DCB004024F2 /* RankingViewController.swift */,
 				CF41960725DC0FE700223C6C /* WhichOneViewController.swift */,
 				CF31079C2600AA1A00746480 /* TabbarController.swift */,
 				CFE909172618F23E001AFCFB /* EULAViewController.swift */,
@@ -282,8 +279,9 @@
 				CF1BAC36266FB2380025A660 /* MyAccountViewController.swift */,
 				CF43661326789CB500DABD78 /* CompanyViewController.swift */,
 				CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */,
+				CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */,
 				A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */,
-				A3EAFB42276059E400942C97 /* MyTeamVC.swift */,
+				A3EAFB42276059E400942C97 /* InChatVC.swift */,
 				A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */,
 			);
 			path = ViewController;
@@ -309,7 +307,6 @@
 				CF41960425DC0F3400223C6C /* WhichOne.storyboard */,
 				CF3107A02600AA6700746480 /* Tabbar.storyboard */,
 				CF3107F726018BB200746480 /* ShoutaiHakkou.storyboard */,
-				CF39377B260492BA0020BE97 /* Ranking.storyboard */,
 				CFE909142618F0AE001AFCFB /* EULA.storyboard */,
 				CF1E4210262D6D3B00CEF85A /* thanksfriends.storyboard */,
 				CF40F3442635827100A65E95 /* UserComment.storyboard */,
@@ -321,9 +318,9 @@
 				CF1BAC33266FB2210025A660 /* MyAccount.storyboard */,
 				CF43660F2678966E00DABD78 /* Company.storyboard */,
 				CF3D0C19267BD327006021FB /* UserSelf.storyboard */,
-				CFE6EBFA2689054400F33F3B /* example.storyboard */,
 				A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */,
-				A3EAFB40276059BE00942C97 /* MyTeam.storyboard */,
+				CF39377B260492BA0020BE97 /* Profile.storyboard */,
+				A3EAFB40276059BE00942C97 /* InChat.storyboard */,
 				A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */,
 			);
 			path = StoryBoard;
@@ -421,20 +418,19 @@
 				CF2A223B25C3FC7000C5BFC1 /* Main.storyboard in Resources */,
 				CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */,
 				CF3D0C1A267BD327006021FB /* UserSelf.storyboard in Resources */,
-				CFE6EBFB2689054400F33F3B /* example.storyboard in Resources */,
 				A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */,
 				CF0C14B525C9F36A006A7C86 /* ChatRoomTableViewCell.xib in Resources */,
 				CF1BAC34266FB2210025A660 /* MyAccount.storyboard in Resources */,
 				CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */,
 				CF3BDA2C26612A330023D84E /* teamsOV.storyboard in Resources */,
 				CF0C14AF25C9F003006A7C86 /* ChatRoom.storyboard in Resources */,
-				CF39377C260492BA0020BE97 /* Ranking.storyboard in Resources */,
+				CF39377C260492BA0020BE97 /* Profile.storyboard in Resources */,
 				CF4C5A44261FA3F300342675 /* packmanload.json in Resources */,
 				CF15444F26110E2700400D87 /* GoogleService-Info.plist in Resources */,
 				CF41960525DC0F3400223C6C /* WhichOne.storyboard in Resources */,
 				CF4366102678966E00DABD78 /* Company.storyboard in Resources */,
 				CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */,
-				A3EAFB41276059BE00942C97 /* MyTeam.storyboard in Resources */,
+				A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */,
 				CFC07B5F266BC67200163D47 /* exampleeee.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -522,7 +518,7 @@
 				CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */,
 				A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */,
 				CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */,
-				A3EAFB43276059E400942C97 /* MyTeamVC.swift in Sources */,
+				A3EAFB43276059E400942C97 /* InChatVC.swift in Sources */,
 				CF2A223425C3FC7000C5BFC1 /* AppDelegate.swift in Sources */,
 				CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */,
 				CF2A223625C3FC7000C5BFC1 /* SceneDelegate.swift in Sources */,
@@ -538,7 +534,7 @@
 				CF3DDC1B25C73C580016AB0F /* Animal.swift in Sources */,
 				CF40F348263582A000A65E95 /* UserCommentViewController.swift in Sources */,
 				CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */,
-				CFDBDEEB25ED6DCB004024F2 /* RankingViewController.swift in Sources */,
+				CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */,
 				CF3D0C1D267BD349006021FB /* UserSelfViewController.swift in Sources */,
 				CF31079D2600AA1A00746480 /* TabbarController.swift in Sources */,
 				CF4C5A2D261E2BC500342675 /* quizViewController.swift in Sources */,

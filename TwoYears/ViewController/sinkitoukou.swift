@@ -64,7 +64,6 @@ class sinkitoukou: UIViewController {
             "admin": false,
             "randomUserId": "",
             "userBrands": userBrands!,
-            "sendImageURL":"",
         ] as [String: Any]
         
         let grupeFollowerId = ["a","aa","aaa","aaaa","aaaaa","aaaaaa",]
@@ -105,7 +104,6 @@ class sinkitoukou: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ongakuLabel.text = "投稿は2週間で消えます"
-        print("新規投稿",UserDefaults.standard.string(forKey: "color")!)
         self.textView.delegate = self
         sinkiButton.isEnabled = false
         sinkiButton.backgroundColor = .gray

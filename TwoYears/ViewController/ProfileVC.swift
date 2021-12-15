@@ -1,5 +1,5 @@
 //
-//  RankingViewController.swift
+//  ProfileVC.swift
 //  TwoYears
 //
 //  Created by 平田翔大 on 2021/03/02.
@@ -11,7 +11,7 @@ import GuillotineMenu
 import FirebaseFirestore
 import SwiftMoment
 
-class RankingViewController: UIViewController {
+class ProfileVC: UIViewController {
 
     var animals: [Animal] = []
     let DBZ = Firestore.firestore().collection("Rooms").document("karano")
@@ -24,10 +24,18 @@ class RankingViewController: UIViewController {
     fileprivate let cellHeight: CGFloat = 210
     fileprivate let cellSpacing: CGFloat = 20
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
-    private let headerMoveHeight: CGFloat = 5
+    private let headerMoveHeight: CGFloat = 7
 
     
+    @IBOutlet weak var userImageView: UIImageView!
     
+    @IBOutlet weak var userImagehighConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var userImageTopConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var userImageLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var followLabel: UILabel!
     @IBOutlet weak var chatListTableView: UITableView!
     
     @IBOutlet weak var headerLabel: UILabel!
@@ -35,6 +43,21 @@ class RankingViewController: UIViewController {
     @IBOutlet weak var headerhightConstraint: NSLayoutConstraint!
     @IBOutlet weak var headertopConstraint: NSLayoutConstraint!
     @IBOutlet weak var headerView: UIView!
+    
+    @IBOutlet weak var teamCollectionView: UICollectionView!
+    
+    @IBOutlet weak var collectionHighConstraint: NSLayoutConstraint!
+    @IBOutlet weak var collectionBottom: NSLayoutConstraint!
+    @IBOutlet weak var collectionLeft: NSLayoutConstraint!
+    @IBOutlet weak var collectionRight: NSLayoutConstraint!
+    
+    @IBAction func tapImageView(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
+        let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
+        navigationController?.pushViewController(UserSelfViewController, animated: true)
+        
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if scrollView.contentOffset.y < 0 { return }
@@ -91,21 +114,72 @@ class RankingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+            
+        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         
+        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
+        
+        let safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight
+        
+        let headerHigh = safeArea/3.5
+        
+        headerhightConstraint.constant = headerHigh
+        
+        
+        
+//        topViewConstraint.constant = safeArea/7*3
+//        collectionViewConstraint.constant = safeArea/7*3
+//        centerConstraint.constant = widthImage
+        
+        userImageView.isUserInteractionEnabled = true
+        
+        userImagehighConstraint.constant = headerHigh/2
+        userImageTopConstraint.constant = headerHigh/20
+        userImageLeftConstraint.constant = headerHigh/20
+        
+       
+        
+        followLabel.clipsToBounds = true
+        followLabel.layer.cornerRadius = 5
+        followLabel.backgroundColor = .darkGray
+        
+        userImageView.image = UIImage(named:"TG1")!
+        userImageView.clipsToBounds = true
+        userImageView.layer.cornerRadius = headerHigh/4
+        
+        collectionHighConstraint.constant = headerHigh/4
+        collectionBottom.constant = headerHigh/20
+        collectionLeft.constant = headerHigh/20
+        collectionRight.constant = headerHigh/20
         
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        let teamName = UserDefaults.standard.string(forKey: "color")
-        print("aaa",teamName!)
-
-        tabBarController?.tabBar.isHidden = false
         self.chatListTableView.estimatedRowHeight = 40
         self.chatListTableView.rowHeight = UITableView.automaticDimension
 
 //        navigationbarのやつ
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
+        
+        
+        // セルの詳細なレイアウトを設定する
+        let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        // セルのサイズ
+        flowLayout.itemSize = CGSize(width: headerHigh/4, height: headerHigh/4)
+        // 縦・横のスペース
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
+        //  スクロールの方向
+        flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
+        // 上で設定した内容を反映させる
+        self.teamCollectionView.collectionViewLayout = flowLayout
+        // 背景色を設定
+        self.teamCollectionView.backgroundColor = .clear
+        
+        teamCollectionView.dataSource = self
+        teamCollectionView.delegate = self
+        teamCollectionView.reloadData()
 
         
         //Pull To Refresh
@@ -118,14 +192,14 @@ class RankingViewController: UIViewController {
         chatListTableView.backgroundColor = #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
 //            #colorLiteral(red: 0.7238116197, green: 0.6172274334, blue: 0.5, alpha: 1)
 
-        lalaBai(teamname: teamName!)
 //        self.chatListTableView.reloadData()
+        lalaBai()
 
     }
     
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
     }
 
@@ -152,7 +226,7 @@ class RankingViewController: UIViewController {
     }
 //    order(by: "goodcount" ,descending: true).
 
-    private func lalaBai(teamname: String) {
+    private func lalaBai() {
         DBZ.collection("kokoniireru").order(by: "goodcount" ,descending: true).order(by: "createdLatestAt" ,descending: true).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
@@ -164,7 +238,7 @@ class RankingViewController: UIViewController {
                 switch Naruto.type {
                 case .added:
                     let dic = Naruto.document.data()
-                    let rarabai = Animal(dic: dic,user:teamname)
+                    let rarabai = Animal(dic: dic)
                     
                     let date: Date = rarabai.zikokudosei.dateValue()
                     let momentType = moment(date)
@@ -172,11 +246,11 @@ class RankingViewController: UIViewController {
                     if blockList[rarabai.userId] == true {
                         
                     } else {
-                        if momentType >= moment() - 14.days {
-                            if rarabai.admin == true {
-                            }
+//                        if momentType >= moment() - 14.days {
+//                            if rarabai.admin == true {
+//                            }
                             self.animals.append(rarabai)
-                        }
+                        
                     }
                     
                     print("でぃく",dic)
@@ -202,7 +276,38 @@ class RankingViewController: UIViewController {
         }
     }
 }
-extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
+
+extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            let horizontalSpace : CGFloat = 50
+            let cellSize : CGFloat = self.view.bounds.width / 3 - horizontalSpace
+            return CGSize(width: cellSize, height: cellSize)
+        }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as!  profileCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
+        let teamRankIndex = indexPath.row + 3
+        
+        
+//        cell.teamNameLabel.text = teamInfo[teamRankIndex].teamName
+//
+//        if let url = URL(string:teamInfo[indexPath.row].teamImage) {
+//            Nuke.loadImage(with: url, into: cell.teamLogoImage!)
+//        } else {
+//            cell.teamLogoImage?.image = nil
+//        }
+        return cell
+//    }
+    }
+    
+    
+}
+
+extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         chatListTableView.estimatedRowHeight = 20
@@ -211,11 +316,12 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if animals.count < 100 {
-            return animals.count
-        } else {
-            return 100
-        }
+//        if animals.count < 100 {
+//            return animals.count
+//        } else {
+//            return 100
+//        }
+        return animals.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -223,28 +329,7 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
         
 
         cell.messageLabel.text = animals[indexPath.row].nameJP
-        
-//        if animals[indexPath.row].teamname == "yellow" {
-//            cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-//            if animals[indexPath.row].membersCount >= 2{
-//                cell.messageLabel.backgroundColor = #colorLiteral(red: 1, green: 0.9482958753, blue: 0, alpha: 0.3933758803)
-//            }
-//        } else if animals[indexPath.row].teamname == "red" {
-//            cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 1)
-//            if animals[indexPath.row].membersCount >= 2{
-//                cell.messageLabel.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 0.3906800176)
-//            }
-//        } else if animals[indexPath.row].teamname == "purple" {
-//            cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-//            if animals[indexPath.row].membersCount >= 2{
-//                cell.messageLabel.backgroundColor = #colorLiteral(red: 0.769806338, green: 0.4922828673, blue: 1, alpha: 0.4026463468)
-//            }
-//        } else if animals[indexPath.row].teamname == "blue" {
-//            cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
-//            if animals[indexPath.row].membersCount >= 2{
-//                cell.messageLabel.backgroundColor = #colorLiteral(red: 0.3348371479, green: 0.9356233796, blue: 1, alpha: 0.4039117518)
-//            }
-//        }
+
         
         if animals[indexPath.row].teamname == "yellow" {
             cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 1, green: 0.4894049657, blue: 0, alpha: 1)
@@ -265,22 +350,8 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backback.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
-//        #colorLiteral(red: 0.7238116197, green: 0.6172274334, blue: 0.5, alpha: 1)
-//        #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
-        
-        
-   
-        
-        headerLabel.text = "Ranking"
-        if animals[0].teamname == "yellow" {
-            headerLabel.tintColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-        } else if animals[0].teamname == "red" {
-            headerLabel.tintColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 1)
-        } else if animals[0].teamname == "blue" {
-            headerLabel.tintColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
-        } else if animals[0].teamname == "purple" {
-            headerLabel.tintColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-        }
+
+
         cell.shadowLayer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8583047945)
 //        #colorLiteral(red: 0.9411764706, green: 0.9411764706, blue: 0.9411764706, alpha: 0.7282213185)
         cell.rankingnumber.text = (String(indexPath.row + 1))
@@ -318,34 +389,11 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
             cell.aftertime.text = ""
         }
         
-//        if momentType < moment() - 5.days {
-//            cell.aftertime.text = "削除済みです"
-//        } else if momentType < moment() - 4.days - 23.hours - 30.minutes{
-//            cell.aftertime.text = "もうすぐ消えます"
-//        } else if momentType < moment() - 4.days - 23.hours{
-//            cell.aftertime.text = "1時間以内に消えます"
-//        } else if momentType < moment() - 4.days - 18.hours{
-//            cell.aftertime.text = "数時間後に消えます"
-//        } else if momentType < moment() - 4.days - 12.hours{
-//            cell.aftertime.text = "半日後に消えます"
-//        } else if momentType < moment() - 4.days{
-//            cell.aftertime.text = "1日後に消えます"
-//        } else if momentType < moment() - 3.days{
-//            cell.aftertime.text = "2日後に消えます"
-//        } else if momentType < moment() - 2.days{
-//            cell.aftertime.text = "3日後に消えます"
-//        } else if momentType < moment() - 1.days{
-//            cell.aftertime.text = "4日後に消えます"
-//        } else if momentType < moment(){
-//            cell.aftertime.text = "5日後に消えます"
-//        }
-        
         
         
         let comentjiLatestdate = animals[indexPath.row].latestAt.dateValue()
         let comentjiLatestmoment = moment(comentjiLatestdate)
 
-//        let dateformatted1 = comentjimoment.format("hh:mm")
         let dateformattedLatest = comentjiLatestmoment.format("MM/dd")
         cell.latestdateLabel.text = dateformattedLatest
         
@@ -446,6 +494,8 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 
+
+
 class ShadowRankingView: UIView {
     override var bounds: CGRect {
         didSet {
@@ -520,7 +570,37 @@ class ChatRankingTableViewCell: UITableViewCell {
 
 }
 
-extension RankingViewController: UIViewControllerTransitioningDelegate {
+class profileCollectionViewCell: UICollectionViewCell {
+
+    
+    @IBOutlet weak var teamCollectionImage: UIImageView!
+    
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        // cellの枠の太さ
+        self.layer.borderWidth = 1.0
+        // cellの枠の色
+        self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        backgroundColor = .gray
+//        if teamName == "red" {
+//            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
+//        } else  if teamName == "yellow" {
+//            self.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
+//        } else  if teamName == "blue" {
+//            self.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
+//        } else if teamName == "purple" {
+//            self.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
+//        }
+        // cellを丸くする
+//        self.layer.cornerRadius = 2.0
+    }
+}
+
+
+extension ProfileVC: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         presentationAnimator.mode = .presentation

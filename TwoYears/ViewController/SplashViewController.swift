@@ -57,6 +57,14 @@ class SplashViewController: UIViewController {
                 return String((0..<length).map{ _ in characters.randomElement()! })
             }
             
+            let dic = [
+                "first":[1,2,3],
+                "seconds":[4,6,7],
+                "third":[8,7,4],
+                "fourth":[5,5,3]
+            ]
+            
+            print("あああああああ",dic["first"] as Any)
             
             Firestore.firestore().collection("users").document(uid!).getDocument {(document, error) in
                 if let document = document, document.exists {
@@ -70,6 +78,12 @@ class SplashViewController: UIViewController {
                     let viewtcount = document["viewcount"] as? Int ?? 0
                     let goodcount = document["goodcount"] as? Int ?? 0
                     let earliest = document["The_earliest"] as? Bool ?? false
+                    
+                    let dicArray : Array = document["eieie"] as! Array<String>
+                    
+                    
+                    
+                    print("あいあいあいあいあい",dicArray[0])
                     
                     
                     
