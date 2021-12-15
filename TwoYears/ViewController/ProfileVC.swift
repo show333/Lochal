@@ -1,5 +1,5 @@
 //
-//  RankingViewController.swift
+//  ProfileVC.swift
 //  TwoYears
 //
 //  Created by 平田翔大 on 2021/03/02.
@@ -11,7 +11,7 @@ import GuillotineMenu
 import FirebaseFirestore
 import SwiftMoment
 
-class RankingViewController: UIViewController {
+class ProfileVC: UIViewController {
 
     var animals: [Animal] = []
     let DBZ = Firestore.firestore().collection("Rooms").document("karano")
@@ -27,7 +27,15 @@ class RankingViewController: UIViewController {
     private let headerMoveHeight: CGFloat = 7
 
     
+    @IBOutlet weak var userImageView: UIImageView!
     
+    @IBOutlet weak var userImagehighConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var userImageTopConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var userImageLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var followLabel: UILabel!
     @IBOutlet weak var chatListTableView: UITableView!
     
     @IBOutlet weak var headerLabel: UILabel!
@@ -35,6 +43,21 @@ class RankingViewController: UIViewController {
     @IBOutlet weak var headerhightConstraint: NSLayoutConstraint!
     @IBOutlet weak var headertopConstraint: NSLayoutConstraint!
     @IBOutlet weak var headerView: UIView!
+    
+    @IBOutlet weak var teamCollectionView: UICollectionView!
+    
+    @IBOutlet weak var collectionHighConstraint: NSLayoutConstraint!
+    @IBOutlet weak var collectionBottom: NSLayoutConstraint!
+    @IBOutlet weak var collectionLeft: NSLayoutConstraint!
+    @IBOutlet weak var collectionRight: NSLayoutConstraint!
+    
+    @IBAction func tapImageView(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
+        let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
+        navigationController?.pushViewController(UserSelfViewController, animated: true)
+        
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if scrollView.contentOffset.y < 0 { return }
@@ -91,22 +114,72 @@ class RankingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+            
+        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         
-        headerhightConstraint.constant = 200
+        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
         
+        let safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight
+        
+        let headerHigh = safeArea/3.5
+        
+        headerhightConstraint.constant = headerHigh
+        
+        
+        
+//        topViewConstraint.constant = safeArea/7*3
+//        collectionViewConstraint.constant = safeArea/7*3
+//        centerConstraint.constant = widthImage
+        
+        userImageView.isUserInteractionEnabled = true
+        
+        userImagehighConstraint.constant = headerHigh/2
+        userImageTopConstraint.constant = headerHigh/20
+        userImageLeftConstraint.constant = headerHigh/20
+        
+       
+        
+        followLabel.clipsToBounds = true
+        followLabel.layer.cornerRadius = 5
+        followLabel.backgroundColor = .darkGray
+        
+        userImageView.image = UIImage(named:"TG1")!
+        userImageView.clipsToBounds = true
+        userImageView.layer.cornerRadius = headerHigh/4
+        
+        collectionHighConstraint.constant = headerHigh/4
+        collectionBottom.constant = headerHigh/20
+        collectionLeft.constant = headerHigh/20
+        collectionRight.constant = headerHigh/20
         
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-
-
-        tabBarController?.tabBar.isHidden = false
         self.chatListTableView.estimatedRowHeight = 40
         self.chatListTableView.rowHeight = UITableView.automaticDimension
 
 //        navigationbarのやつ
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
+        
+        
+        // セルの詳細なレイアウトを設定する
+        let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        // セルのサイズ
+        flowLayout.itemSize = CGSize(width: headerHigh/4, height: headerHigh/4)
+        // 縦・横のスペース
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
+        //  スクロールの方向
+        flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
+        // 上で設定した内容を反映させる
+        self.teamCollectionView.collectionViewLayout = flowLayout
+        // 背景色を設定
+        self.teamCollectionView.backgroundColor = .clear
+        
+        teamCollectionView.dataSource = self
+        teamCollectionView.delegate = self
+        teamCollectionView.reloadData()
 
         
         //Pull To Refresh
@@ -125,8 +198,8 @@ class RankingViewController: UIViewController {
     }
     
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
     }
 
@@ -203,7 +276,38 @@ class RankingViewController: UIViewController {
         }
     }
 }
-extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
+
+extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            let horizontalSpace : CGFloat = 50
+            let cellSize : CGFloat = self.view.bounds.width / 3 - horizontalSpace
+            return CGSize(width: cellSize, height: cellSize)
+        }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as!  profileCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
+        let teamRankIndex = indexPath.row + 3
+        
+        
+//        cell.teamNameLabel.text = teamInfo[teamRankIndex].teamName
+//
+//        if let url = URL(string:teamInfo[indexPath.row].teamImage) {
+//            Nuke.loadImage(with: url, into: cell.teamLogoImage!)
+//        } else {
+//            cell.teamLogoImage?.image = nil
+//        }
+        return cell
+//    }
+    }
+    
+    
+}
+
+extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         chatListTableView.estimatedRowHeight = 20
@@ -247,17 +351,7 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
 
-        
-        headerLabel.text = "Ranking"
-        if animals[0].teamname == "yellow" {
-            headerLabel.tintColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-        } else if animals[0].teamname == "red" {
-            headerLabel.tintColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 1)
-        } else if animals[0].teamname == "blue" {
-            headerLabel.tintColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
-        } else if animals[0].teamname == "purple" {
-            headerLabel.tintColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-        }
+
         cell.shadowLayer.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8583047945)
 //        #colorLiteral(red: 0.9411764706, green: 0.9411764706, blue: 0.9411764706, alpha: 0.7282213185)
         cell.rankingnumber.text = (String(indexPath.row + 1))
@@ -400,6 +494,8 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 
+
+
 class ShadowRankingView: UIView {
     override var bounds: CGRect {
         didSet {
@@ -474,7 +570,37 @@ class ChatRankingTableViewCell: UITableViewCell {
 
 }
 
-extension RankingViewController: UIViewControllerTransitioningDelegate {
+class profileCollectionViewCell: UICollectionViewCell {
+
+    
+    @IBOutlet weak var teamCollectionImage: UIImageView!
+    
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+
+        // cellの枠の太さ
+        self.layer.borderWidth = 1.0
+        // cellの枠の色
+        self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        backgroundColor = .gray
+//        if teamName == "red" {
+//            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
+//        } else  if teamName == "yellow" {
+//            self.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
+//        } else  if teamName == "blue" {
+//            self.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
+//        } else if teamName == "purple" {
+//            self.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
+//        }
+        // cellを丸くする
+//        self.layer.cornerRadius = 2.0
+    }
+}
+
+
+extension ProfileVC: UIViewControllerTransitioningDelegate {
 
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         presentationAnimator.mode = .presentation

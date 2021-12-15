@@ -14,8 +14,15 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
     
 
     @IBOutlet weak var teamCollectionView: UICollectionView!
-
+    
     @IBOutlet weak var collectionViewConstraint: NSLayoutConstraint!
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tabBarController?.tabBar.isHidden = false
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,6 +138,10 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
 //        if let url = URL(string:imageUrls[indexPath.row]) {
 //            Nuke.loadImage(with: url, into: imageView)
 //        }
+        let storyboard = UIStoryboard.init(name: "InChatRoom", bundle: nil)
+        let InChatRoomVC = storyboard.instantiateViewController(withIdentifier: "InChatRoomVC") as! InChatRoomVC
+        navigationController?.pushViewController(InChatRoomVC, animated: true)
+
         print(indexPath.row)
         print("怒る")
     }
@@ -142,7 +153,6 @@ class teamCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var teamCollectionImage: UIImageView!
     
-    @IBOutlet weak var teamCollectionView: teamCollectionViewCell!
     
     
     required init?(coder aDecoder: NSCoder) {
