@@ -294,29 +294,40 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.messageLabel.layer.cornerRadius = 10
         return cell
     }
+    
+//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+//        
+//        animals.remove(at: indexPath.row)
+//        let indexPaths = [indexPath]
+//        chatListTableView.deleteRows(at: indexPaths, with: .automatic)
+//    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let storyboard = UIStoryboard.init(name: "ChatRoom", bundle: nil)
-        let chatRoomViewController = storyboard.instantiateViewController(withIdentifier: "ChatRoomViewController") as! ChatRoomViewController
-        chatRoomViewController.dragons = animals[indexPath.row]
-        print("ああああああああああああ",
-              chatRoomViewController.dragons as Any)
-        print(animals[indexPath.row])
-        chatRoomViewController.hidesBottomBarWhenPushed = true
-        let aaaaa = animals[indexPath.row].zikokudosei.dateValue()
-        print(aaaaa)
-        
-        if animals[indexPath.row].userId != uid {
-            DBU.document(animals[indexPath.row].userId).updateData([
-                "viewcount": FieldValue.increment(Int64(1))
-            ])
-            
-            DBZ.collection("kokoniireru").document(animals[indexPath.row].documentId).updateData([
-                "viewcount": FieldValue.increment(Int64(1))
-            ])
-        } else {
-        }
-        
-        navigationController?.pushViewController(chatRoomViewController, animated: true)
+//        let storyboard = UIStoryboard.init(name: "ChatRoom", bundle: nil)
+//        let chatRoomViewController = storyboard.instantiateViewController(withIdentifier: "ChatRoomViewController") as! ChatRoomViewController
+//        chatRoomViewController.dragons = animals[indexPath.row]
+//        print("ああああああああああああ",
+//              chatRoomViewController.dragons as Any)
+//        print(animals[indexPath.row])
+//        chatRoomViewController.hidesBottomBarWhenPushed = true
+//        let aaaaa = animals[indexPath.row].zikokudosei.dateValue()
+//        print(aaaaa)
+//
+//        if animals[indexPath.row].userId != uid {
+//            DBU.document(animals[indexPath.row].userId).updateData([
+//                "viewcount": FieldValue.increment(Int64(1))
+//            ])
+//
+//            DBZ.collection("kokoniireru").document(animals[indexPath.row].documentId).updateData([
+//                "viewcount": FieldValue.increment(Int64(1))
+//            ])
+//        } else {
+//        }
+//
+//        navigationController?.pushViewController(chatRoomViewController, animated: true)
+//        animals.remove(at: indexPath.row)
+//        let indexPaths = [indexPath]
+//        chatListTableView.deleteRows(at: indexPaths, with: .automatic)
         
         tableView.deselectRow(at: indexPath, animated: true)
     }

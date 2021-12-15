@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A3AE6F4C2760AB0B00E2219C /* teamRanking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */; };
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
+		A3B454FE2768BB6E006101E8 /* ChatSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3B454FD2768BB6D006101E8 /* ChatSelect.storyboard */; };
+		A3B455002768BBB3006101E8 /* ChatSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B454FF2768BBB3006101E8 /* ChatSelectVC.swift */; };
 		A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */; };
 		A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */; };
 		A3EAFB41276059BE00942C97 /* MyTeam.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB40276059BE00942C97 /* MyTeam.storyboard */; };
@@ -89,6 +91,8 @@
 		8F568B91F637BC6D82FF9569 /* Pods-TOTALGOOD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TOTALGOOD.release.xcconfig"; path = "Target Support Files/Pods-TOTALGOOD/Pods-TOTALGOOD.release.xcconfig"; sourceTree = "<group>"; };
 		A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = teamRanking.storyboard; sourceTree = "<group>"; };
 		A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teamRankingVC.swift; sourceTree = "<group>"; };
+		A3B454FD2768BB6D006101E8 /* ChatSelect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChatSelect.storyboard; sourceTree = "<group>"; };
+		A3B454FF2768BBB3006101E8 /* ChatSelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatSelectVC.swift; sourceTree = "<group>"; };
 		A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChatRoom.storyboard; sourceTree = "<group>"; };
 		A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatRoomVC.swift; sourceTree = "<group>"; };
 		A3EAFB40276059BE00942C97 /* MyTeam.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MyTeam.storyboard; sourceTree = "<group>"; };
@@ -285,6 +289,7 @@
 				A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */,
 				A3EAFB42276059E400942C97 /* MyTeamVC.swift */,
 				A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */,
+				A3B454FF2768BBB3006101E8 /* ChatSelectVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -325,6 +330,7 @@
 				A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */,
 				A3EAFB40276059BE00942C97 /* MyTeam.storyboard */,
 				A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */,
+				A3B454FD2768BB6D006101E8 /* ChatSelect.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -425,6 +431,7 @@
 				A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */,
 				CF0C14B525C9F36A006A7C86 /* ChatRoomTableViewCell.xib in Resources */,
 				CF1BAC34266FB2210025A660 /* MyAccount.storyboard in Resources */,
+				A3B454FE2768BB6E006101E8 /* ChatSelect.storyboard in Resources */,
 				CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */,
 				CF3BDA2C26612A330023D84E /* teamsOV.storyboard in Resources */,
 				CF0C14AF25C9F003006A7C86 /* ChatRoom.storyboard in Resources */,
@@ -507,6 +514,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3B455002768BBB3006101E8 /* ChatSelectVC.swift in Sources */,
 				CF0C14B225C9F028006A7C86 /* ChatRoomViewController.swift in Sources */,
 				CF7ADECA263A54DD001D91E1 /* brandsViewController.swift in Sources */,
 				CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */,

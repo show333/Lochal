@@ -42,7 +42,6 @@ class ChatRoomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        UserDefaults.standard.set(dragons!.documentId, forKey: "documentId")
         setupNotification()
         setupChatRoomTableView()
         setSwipeBack()

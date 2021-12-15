@@ -18,35 +18,30 @@ class InChatRoomVC:UIViewController{
     @IBOutlet weak var inChatTableView: UITableView!
     
     private let cellId = "cellId"
-    
-    private let accessoryHeight: CGFloat = 90
+    private let accessoryHeight: CGFloat = 900
     private var safeAreaBottom: CGFloat {
         self.view.safeAreaInsets.bottom
     }
     private lazy var chatInputAccessoryView: ChatInputAccessoryView = {
         let view = ChatInputAccessoryView()
-        view.frame = .init(x: 0, y: 0, width: view.frame.width, height: 10000)
+        view.frame = .init(x: 0, y: 0, width: view.frame.width, height: 1000)
         view.delegate = self
         return view
     }()
     
-    @IBAction func button(_ sender: Any) {
-        chatInputAccessoryView.alpha = 1
-        chatInputAccessoryView.chatTextView.becomeFirstResponder()
-        print("a")
-        self.tabBarController?.tabBar.isHidden = true
-    }
+    let db = Firestore.firestore()
     
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        setupNotification()
-        chatInputAccessoryView.alpha = 0
+        self.tabBarController?.tabBar.isHidden = true
+        
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        setupNotification()
         inChatTableView.delegate = self
         inChatTableView.dataSource = self
         inChatTableView.register(UINib(nibName: "ChatRoomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
@@ -54,6 +49,51 @@ class InChatRoomVC:UIViewController{
         inChatTableView.keyboardDismissMode = .interactive
 
     }
+    
+    
+    
+//    private func fetchFireStore() {
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        db.collection("users").document(uid).collection("belong_Team").addSnapshotListener{ [self] ( snapshots, err) in
+//            if let err = err {
+//                print("メッセージの取得に失敗、\(err)")
+//                return
+//            }
+//            snapshots?.documentChanges.forEach({ (Naruto) in
+//                switch Naruto.type {
+//                case .added:
+//                    let dic = Naruto.document.data()
+//                    let rarabai = Animal(dic: dic)
+//
+////                    let date: Date = rarabai.zikokudosei.dateValue()
+////                    let momentType = moment(date)
+//
+////                    if blockList[rarabai.userId] == true {
+////
+////                    } else {
+////                        if momentType >= moment() - 14.days {
+////                            if rarabai.admin == true {
+////                            }
+////                            self.animals.append(rarabai)
+////                        }
+////                    }
+//
+//                    self.animals.append(rarabai)
+//
+////                    print("でぃく",dic)
+////                    print("ららばい",rarabai)
+//                    self.animals.sort { (m1, m2) -> Bool in
+//                        let m1Date = m1.latestAt.dateValue()
+//                        let m2Date = m2.latestAt.dateValue()
+//                        return m1Date > m2Date
+//                    }
+//                    self.chatListTableView.reloadData()
+//                case .modified, .removed:
+//                    print("noproblem")
+//                }
+//            })
+//        }
+//    }
     
     @objc public func dismissKeyboard() {
         view.endEditing(true)
@@ -80,7 +120,6 @@ class InChatRoomVC:UIViewController{
     }
     @objc func keyboardWillHide() {
         print("keyboardWillHide")
-        self.tabBarController?.tabBar.isHidden = false
         inputAccessoryView?.alpha = 0
         inChatTableView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         inChatTableView.scrollIndicatorInsets = .init(top: 0, left: 0, bottom: 0, right: 0)

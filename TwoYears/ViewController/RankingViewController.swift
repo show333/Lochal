@@ -24,7 +24,7 @@ class RankingViewController: UIViewController {
     fileprivate let cellHeight: CGFloat = 210
     fileprivate let cellSpacing: CGFloat = 20
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
-    private let headerMoveHeight: CGFloat = 5
+    private let headerMoveHeight: CGFloat = 7
 
     
     
@@ -91,6 +91,8 @@ class RankingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        headerhightConstraint.constant = 200
         
         
         self.navigationController?.navigationBar.isHidden = true
@@ -223,28 +225,7 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
         
 
         cell.messageLabel.text = animals[indexPath.row].nameJP
-        
-//        if animals[indexPath.row].teamname == "yellow" {
-//            cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-//            if animals[indexPath.row].membersCount >= 2{
-//                cell.messageLabel.backgroundColor = #colorLiteral(red: 1, green: 0.9482958753, blue: 0, alpha: 0.3933758803)
-//            }
-//        } else if animals[indexPath.row].teamname == "red" {
-//            cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 1)
-//            if animals[indexPath.row].membersCount >= 2{
-//                cell.messageLabel.backgroundColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 0.3906800176)
-//            }
-//        } else if animals[indexPath.row].teamname == "purple" {
-//            cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-//            if animals[indexPath.row].membersCount >= 2{
-//                cell.messageLabel.backgroundColor = #colorLiteral(red: 0.769806338, green: 0.4922828673, blue: 1, alpha: 0.4026463468)
-//            }
-//        } else if animals[indexPath.row].teamname == "blue" {
-//            cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
-//            if animals[indexPath.row].membersCount >= 2{
-//                cell.messageLabel.backgroundColor = #colorLiteral(red: 0.3348371479, green: 0.9356233796, blue: 1, alpha: 0.4039117518)
-//            }
-//        }
+
         
         if animals[indexPath.row].teamname == "yellow" {
             cell.shadowLayer.layer.shadowColor = #colorLiteral(red: 1, green: 0.4894049657, blue: 0, alpha: 1)
@@ -265,11 +246,7 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backback.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
-//        #colorLiteral(red: 0.7238116197, green: 0.6172274334, blue: 0.5, alpha: 1)
-//        #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
-        
-        
-   
+
         
         headerLabel.text = "Ranking"
         if animals[0].teamname == "yellow" {
@@ -318,34 +295,11 @@ extension RankingViewController: UITableViewDelegate, UITableViewDataSource {
             cell.aftertime.text = ""
         }
         
-//        if momentType < moment() - 5.days {
-//            cell.aftertime.text = "削除済みです"
-//        } else if momentType < moment() - 4.days - 23.hours - 30.minutes{
-//            cell.aftertime.text = "もうすぐ消えます"
-//        } else if momentType < moment() - 4.days - 23.hours{
-//            cell.aftertime.text = "1時間以内に消えます"
-//        } else if momentType < moment() - 4.days - 18.hours{
-//            cell.aftertime.text = "数時間後に消えます"
-//        } else if momentType < moment() - 4.days - 12.hours{
-//            cell.aftertime.text = "半日後に消えます"
-//        } else if momentType < moment() - 4.days{
-//            cell.aftertime.text = "1日後に消えます"
-//        } else if momentType < moment() - 3.days{
-//            cell.aftertime.text = "2日後に消えます"
-//        } else if momentType < moment() - 2.days{
-//            cell.aftertime.text = "3日後に消えます"
-//        } else if momentType < moment() - 1.days{
-//            cell.aftertime.text = "4日後に消えます"
-//        } else if momentType < moment(){
-//            cell.aftertime.text = "5日後に消えます"
-//        }
-        
         
         
         let comentjiLatestdate = animals[indexPath.row].latestAt.dateValue()
         let comentjiLatestmoment = moment(comentjiLatestdate)
 
-//        let dateformatted1 = comentjimoment.format("hh:mm")
         let dateformattedLatest = comentjiLatestmoment.format("MM/dd")
         cell.latestdateLabel.text = dateformattedLatest
         
