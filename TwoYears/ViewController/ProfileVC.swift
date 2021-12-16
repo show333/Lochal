@@ -51,10 +51,15 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var collectionLeft: NSLayoutConstraint!
     @IBOutlet weak var collectionRight: NSLayoutConstraint!
     
+    
+    
+    @IBOutlet var tapImage: UITapGestureRecognizer!
     @IBAction func tapImageView(_ sender: Any) {
-        let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
-        let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
-        navigationController?.pushViewController(UserSelfViewController, animated: true)
+        
+        return
+//        let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
+//        let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
+//        navigationController?.pushViewController(UserSelfViewController, animated: true)
         
     }
     
@@ -114,7 +119,8 @@ class ProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            
+        
+        
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         
         let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)

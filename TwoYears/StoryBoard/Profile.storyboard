@@ -313,6 +313,7 @@
                         <outlet property="headerView" destination="L0G-gd-PAF" id="6fa-qx-WxX"/>
                         <outlet property="headerhightConstraint" destination="khG-Gl-FjE" id="x6u-Wl-QOC"/>
                         <outlet property="headertopConstraint" destination="iKB-pN-XFu" id="PM6-NX-PsK"/>
+                        <outlet property="tapImage" destination="oCs-r7-SgQ" id="pOZ-bj-5ag"/>
                         <outlet property="teamCollectionView" destination="h92-iJ-PQW" id="Jet-EB-Lmk"/>
                         <outlet property="userImageLeftConstraint" destination="JDB-1f-qOH" id="q9U-Ba-J7p"/>
                         <outlet property="userImageTopConstraint" destination="umf-5S-gHX" id="LRW-qV-c0i"/>
