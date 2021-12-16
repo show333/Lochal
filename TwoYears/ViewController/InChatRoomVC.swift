@@ -13,8 +13,9 @@ import SwiftMoment
 
 class InChatRoomVC:UIViewController{
     
-    
-    
+    var teamRoomDic : Team?
+    var ChatRoomInfo = [ChatsInfo]()
+
     @IBOutlet weak var inChatTableView: UITableView!
     
     private let cellId = "cellId"
@@ -41,59 +42,61 @@ class InChatRoomVC:UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("ゼルダの伝説",teamRoomDic)
+        
         setupNotification()
         inChatTableView.delegate = self
         inChatTableView.dataSource = self
         inChatTableView.register(UINib(nibName: "ChatRoomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
         
         inChatTableView.keyboardDismissMode = .interactive
-
+        fetchFireStore()
     }
     
     
     
-//    private func fetchFireStore() {
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        db.collection("users").document(uid).collection("belong_Team").addSnapshotListener{ [self] ( snapshots, err) in
-//            if let err = err {
-//                print("メッセージの取得に失敗、\(err)")
-//                return
-//            }
-//            snapshots?.documentChanges.forEach({ (Naruto) in
-//                switch Naruto.type {
-//                case .added:
-//                    let dic = Naruto.document.data()
-//                    let rarabai = Animal(dic: dic)
+    private func fetchFireStore() {
+        guard let teamId = teamRoomDic?.teamId else { return }
+        db.collection("Team").document(teamId).collection("ChatRoom").addSnapshotListener{ [self] ( snapshots, err) in
+            if let err = err {
+                print("メッセージの取得に失敗、\(err)")
+                return
+            }
+            snapshots?.documentChanges.forEach({ (Naruto) in
+                switch Naruto.type {
+                case .added:
+                    let dic = Naruto.document.data()
+                    let chatsInfo = ChatsInfo(dic: dic)
+
+//                    let date: Date = rarabai.zikokudosei.dateValue()
+//                    let momentType = moment(date)
+
+//                    if blockList[rarabai.userId] == true {
 //
-////                    let date: Date = rarabai.zikokudosei.dateValue()
-////                    let momentType = moment(date)
-//
-////                    if blockList[rarabai.userId] == true {
-////
-////                    } else {
-////                        if momentType >= moment() - 14.days {
-////                            if rarabai.admin == true {
-////                            }
-////                            self.animals.append(rarabai)
-////                        }
-////                    }
-//
-//                    self.animals.append(rarabai)
-//
-////                    print("でぃく",dic)
-////                    print("ららばい",rarabai)
-//                    self.animals.sort { (m1, m2) -> Bool in
-//                        let m1Date = m1.latestAt.dateValue()
-//                        let m2Date = m2.latestAt.dateValue()
-//                        return m1Date > m2Date
+//                    } else {
+//                        if momentType >= moment() - 14.days {
+//                            if rarabai.admin == true {
+//                            }
+//                            self.animals.append(rarabai)
+//                        }
 //                    }
-//                    self.chatListTableView.reloadData()
-//                case .modified, .removed:
-//                    print("noproblem")
-//                }
-//            })
-//        }
-//    }
+
+                    self.ChatRoomInfo.append(chatsInfo)
+                    print("dイックs",chatsInfo)
+//                    print("でぃく",dic)
+//                    print("ららばい",rarabai)
+                    self.ChatRoomInfo.sort { (m1, m2) -> Bool in
+                        let m1Date = m1.createdTime.dateValue()
+                        let m2Date = m2.createdTime.dateValue()
+                        return m1Date > m2Date
+                    }
+                    self.inChatTableView.reloadData()
+                case .modified, .removed:
+                    print("noproblem")
+                }
+            })
+        }
+    }
     
     @objc public func dismissKeyboard() {
         view.endEditing(true)
@@ -140,12 +143,12 @@ class InChatRoomVC:UIViewController{
 
 extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        return ChatRoomInfo.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = inChatTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatRoomTableViewCell
-        cell.messageLabel.text = "a"
+        cell.dateLabel.text = ChatRoomInfo[indexPath.row].message
         return cell
     }
 }
