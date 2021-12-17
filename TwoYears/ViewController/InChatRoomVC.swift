@@ -10,6 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 import SwiftMoment
+import Nuke
 
 class InChatRoomVC:UIViewController{
     
@@ -33,15 +34,17 @@ class InChatRoomVC:UIViewController{
     let db = Firestore.firestore()
     
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
         self.tabBarController?.tabBar.isHidden = true
         
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         inChatTableView.backgroundColor = .systemBlue
+        setSwipeBack()
         setupNotification()
         inChatTableView.delegate = self
         inChatTableView.dataSource = self
@@ -84,9 +87,9 @@ class InChatRoomVC:UIViewController{
 //                    print("でぃく",dic)
 //                    print("ららばい",rarabai)
                     self.ChatRoomInfo.sort { (m1, m2) -> Bool in
-                        let m1Date = m1.createdTime.dateValue()
-                        let m2Date = m2.createdTime.dateValue()
-                        return m1Date > m2Date
+                        let m1Date = m1.createdAt.dateValue()
+                        let m2Date = m2.createdAt.dateValue()
+                        return m1Date < m2Date
                     }
                     self.inChatTableView.reloadData()
                 case .modified, .removed:
@@ -146,8 +149,22 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = inChatTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatRoomTableViewCell
         cell.messageLabel.text = ChatRoomInfo[indexPath.row].message
-        let uid = Auth.auth().currentUser?.uid
+        cell.sendImageView.image = nil
+        cell.userImage.image = nil
+        cell.backView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8024133134)
+        cell.Imageheight.constant = 0
+        if ChatRoomInfo[indexPath.row].sendImageURL != "" {
+            if let url = URL(string: ChatRoomInfo[indexPath.row].sendImageURL) {
+                Nuke.loadImage(with: url, into: cell.sendImageView!)
+                let width = UIScreen.main.bounds.size.width
+                cell.Imageheight.constant = width*0.55
+                cell.backView.backgroundColor = .clear
+            }
+        }
         
+        
+        
+        let uid = Auth.auth().currentUser?.uid
         db.collection("users").document(uid!).addSnapshotListener { documentSnapshot, error in
               guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
@@ -198,6 +215,13 @@ extension InChatRoomVC: ChatInputAccessoryViewDelegate{
 }
 
 extension UIView {
+    
+    func setSwipeBack() {
+        let target = ViewController()?.navigationController?.value(forKey: "_cachedInteractionController")
+        let recognizer = UIPanGestureRecognizer(target: target, action: Selector(("handleNavigationTransition:")))
+        self.InChatRoomVC()?.view.addGestureRecognizer(recognizer)
+    }
+    
     func InChatRoomVC() -> UIViewController? {
         var ChatRoomtableViewResponder: UIResponder? = self
         while true {

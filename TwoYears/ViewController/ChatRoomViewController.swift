@@ -45,7 +45,7 @@ class ChatRoomViewController: UIViewController {
         setupNotification()
         setupChatRoomTableView()
         setSwipeBack()
-//        fetchMessages()
+        fetchMessages()
         goodmanmember()
         messagemember()
     }
@@ -320,7 +320,7 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             cell.iineButton.tintColor = .gray
         }
         cell.backgroundColor = .clear
-        print(rurubus.count)
+
         cell.userrandomId.text = rurubus[indexPath.row].randomUserId
         cell.message = rurubus[indexPath.row]
         cell.userImage.image = nil
@@ -340,6 +340,7 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
             cell.userImage.image = UIImage(named:"TG5")!
         }
         cell.userImage.layer.cornerRadius = 17.5
+        
         if rurubus[indexPath.row].sendImageURL != "" {
             if let url = URL(string: rurubus[indexPath.row].sendImageURL) {
                 Nuke.loadImage(with: url, into: cell.sendImageView!)

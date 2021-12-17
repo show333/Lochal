@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="d2x-2u-QhB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="d2x-2u-QhB">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -88,7 +87,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="csy-dN-DOm" secondAttribute="trailing" id="xmS-YG-uX0"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="InChat" image="rectangle.inset.topright.filled" catalog="system" id="hp3-Cl-ccY"/>
+                    <tabBarItem key="tabBarItem" title="InChat" image="rectangle.inset.topright.fill" catalog="system" id="hp3-Cl-ccY"/>
                     <navigationItem key="navigationItem" title="InChat" id="Aab-cv-lU2"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -102,7 +101,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="rectangle.inset.topright.filled" catalog="system" width="128" height="93"/>
+        <image name="rectangle.inset.topright.fill" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

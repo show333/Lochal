@@ -178,6 +178,8 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
 //        if let url = URL(string:imageUrls[indexPath.row]) {
 //            Nuke.loadImage(with: url, into: imageView)
 //        }
+        let teamRoomId = teamInfo[indexPath.row].teamId
+        UserDefaults.standard.set(teamRoomId, forKey: "teamRoomId")
         
         let storyboard = UIStoryboard.init(name: "InChatRoom", bundle: nil)
         let InChatRoomVC = storyboard.instantiateViewController(withIdentifier: "InChatRoomVC") as! InChatRoomVC
