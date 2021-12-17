@@ -290,13 +290,13 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
         cell.thedayLabel.text = dateformatted2
         cell.chatnumbers.text = (String(indexPath.row + 1))
         
-        if rurubus[indexPath.row].uid == uid {
-            cell.houkokuButton.isHidden = true
-            cell.iineButton.isHidden = true
-        } else {
-            cell.houkokuButton.isHidden = false
-            cell.iineButton.isHidden = false
-        }
+//        if rurubus[indexPath.row].uid == uid {
+//            cell.houkokuButton.isHidden = true
+//            cell.iineButton.isHidden = true
+//        } else {
+//            cell.houkokuButton.isHidden = false
+//            cell.iineButton.isHidden = false
+//        }
         
         if dragons?.userId == rurubus[indexPath.row].uid {
             if dragons?.teamname == "red"{

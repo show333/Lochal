@@ -41,9 +41,7 @@ class InChatRoomVC:UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("ゼルダの伝説",teamRoomDic)
-        
+        inChatTableView.backgroundColor = .systemBlue
         setupNotification()
         inChatTableView.delegate = self
         inChatTableView.dataSource = self
@@ -123,7 +121,6 @@ class InChatRoomVC:UIViewController{
     }
     @objc func keyboardWillHide() {
         print("keyboardWillHide")
-        inputAccessoryView?.alpha = 0
         inChatTableView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         inChatTableView.scrollIndicatorInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
     }
@@ -148,7 +145,25 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = inChatTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatRoomTableViewCell
-        cell.dateLabel.text = ChatRoomInfo[indexPath.row].message
+        cell.messageLabel.text = ChatRoomInfo[indexPath.row].message
+        let uid = Auth.auth().currentUser?.uid
+        
+        db.collection("users").document(uid!).addSnapshotListener { documentSnapshot, error in
+              guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
+              }
+              guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+              }
+            cell.userImage.image = UIImage(named:data["userBrands"] as! String)!
+              print("Current data: \(data)")
+            }
+
+        db.collection("users").document()
+        
+        
         return cell
     }
 }
@@ -158,78 +173,27 @@ extension InChatRoomVC: ChatInputAccessoryViewDelegate{
     }
     private func addMessageToFirestore(text: String) {
         chatInputAccessoryView.removeText()
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let teamId = teamRoomDic?.teamId else { return }
+        
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             return String((0..<length).map{ _ in characters.randomElement()! })
         }
-//
-//        let randomUserId = randomString(length: 8)
-//        let chatRoomDocId = dragons!.documentId
-//        let userteamname = dragons!.userteamname
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        func comment(randomuserId: String,commentId: String) {
-//            let docData = [
-//                "createdAt": FieldValue.serverTimestamp(),
-//                "message": text,
-//                "userId": uid,
-//                "documentId": chatRoomDocId,
-//                "comentId" : commentId,
-//                "admin": false,
-//                "randomUserId": randomuserId,
-//                "userBrands": userMyBrands!,
-//                "sendImageURL": "",
-//                "teamname": userteamname,
-//            ] as [String: Any]
-//
-//            DB.document(chatRoomDocId).collection("messages").document(commentId).setData(docData) { (err) in
-//                if let err = err {
-//                    print("メッセージ情報の保存に失敗しました。ss\(err)")
-//                    return
-//                }
-//                print("成功！")
-        //            }
-        //        }
-        //
-        //
-        //        self.DB.document(chatRoomDocId).collection("messages").whereField("userId", isEqualTo: uid).getDocuments() { [self] (querySnapshot, err) in
-        //            if let err = err {
-        //                print("Error getting documents: \(err)")
-        //            } else {
-        //                print("クエリースナップショットカウント！",querySnapshot!.documents.count)
-        //                if querySnapshot!.documents.count == 0 {
-        //                    let commentId = uid+"comentId"
-        //                    comment(randomuserId: "",commentId: commentId)
-        //                    DB.document(chatRoomDocId).collection("members").document(uid).setData(["randomUserId": randomUserId], merge: true)
-        //                    DB.document(chatRoomDocId).setData([uid: true], merge: true)
-        //                    Firestore.firestore().collection("users").document(uid).setData(["The_earliest":true], merge: true)
-        //                } else if querySnapshot!.documents.count == 1 {
-        //                    print("ln")
-        //                    DB.document(chatRoomDocId).collection("members").document(uid).getDocument { (document, error) in
-        //                        if let document = document, document.exists {
-        //                            let randomUserId = document["randomUserId"] as? String ?? "unknown"
-        //
-        //                            print(randomUserId,"aaaaaaaaa")
-        //                            print("aaaa")
-        //                            let comentId = randomString(length: 15)
-        //                            comment(randomuserId: randomUserId, commentId: comentId)
-        //                            DB.document(chatRoomDocId).collection("messages").document(uid+"comentId").updateData(["randomUserId":randomUserId])
-        //                        }
-        //                    }
-        //                } else if querySnapshot!.documents.count >= 2 {
-        //
-        //                    DB.document(chatRoomDocId).collection("members").document(uid).getDocument { (document, error) in
-        //                        if let document = document, document.exists {
-        //                            let randomUserId = document["randomUserId"] as? String ?? "unknown"
-        //
-        //                            let comentId = randomString(length: 15)
-        //                            comment(randomuserId: randomUserId, commentId: comentId)
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //            self.DB.document(chatRoomDocId).setData(["createdLatestAt": FieldValue.serverTimestamp()],merge: true)
-        //            self.DB.document(chatRoomDocId).updateData(["messagecount": FieldValue.increment(Int64(1))])
-//        }
+        let commentId = randomString(length: 20)
+                    let docData = [
+                        "createdAt": FieldValue.serverTimestamp(),
+                        "message": text,
+                        "userId": uid,
+                        "teamId": teamRoomDic?.teamId as Any,
+                        "comentId" : commentId,
+                        "admin": false,
+                        "sendImageURL": "",
+                    ] as [String: Any]
+        
+        db.collection("Team").document(teamId).collection("ChatRoom").document(commentId).setData(docData)
+        
     }
 }
 
