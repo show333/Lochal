@@ -11,6 +11,7 @@ import FirebaseFirestore
 import FirebaseStorage
 import SwiftMoment
 import Nuke
+import TTTAttributedLabel
 
 class InChatRoomVC:UIViewController{
     
@@ -37,7 +38,6 @@ class InChatRoomVC:UIViewController{
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         self.tabBarController?.tabBar.isHidden = true
-        
     }
     
     

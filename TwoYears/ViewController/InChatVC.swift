@@ -35,8 +35,6 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         
         fetchUserTeamInfo()
         
-        
-                
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
         
