@@ -1,8 +1,8 @@
 //
-//  Message.swift
-//  protain
+//  ChatsInfo.swift
+//  TOTALGOOD
 //
-//  Created by 平田翔大 on 2021/02/04.
+//  Created by 平田翔大 on 2021/12/16.
 //
 
 import Foundation
@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 import SwiftMoment
 
-class Message {
+class ChatsInfo {
     
 //    let name: String
     var message: String
@@ -19,13 +19,11 @@ class Message {
     var documentId : String
     var comentId : String
     var randomUserId : String
-    var iineman : String
-
     var admin: Bool
     var userBrands : String
     var sendImageURL: String
     
-    init(dic: [String: Any],iineman: String) {
+    init(dic: [String: Any]) {
 //        self.name = dic["name"] as? String ?? ""
         self.message = dic["message"] as? String ?? "a"
         self.uid = dic["userId"] as? String ?? ""
@@ -33,7 +31,6 @@ class Message {
         self.createdTime = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.documentId = dic["documentId"] as? String ?? ""
         self.comentId = dic["comentId"] as? String ?? ""
-        self.iineman = dic["iineman"] as? String ?? ""
         self.randomUserId = dic["randomUserId"] as? String ?? ""
         self.admin = dic["admin"] as? Bool ?? false
         self.userBrands = dic["userBrands"] as? String ?? ""

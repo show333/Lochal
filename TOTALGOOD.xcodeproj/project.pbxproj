@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C8614276B7C45002078A0 /* ChatsInfo.swift */; };
 		A3AE6F4C2760AB0B00E2219C /* teamRanking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */; };
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
 		A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */; };
@@ -86,6 +87,7 @@
 		113A41803FF344D0EDE5D28D /* Pods_TOTALGOOD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TOTALGOOD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81BB0B529C4EF808153685BF /* Pods-TOTALGOOD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TOTALGOOD.debug.xcconfig"; path = "Target Support Files/Pods-TOTALGOOD/Pods-TOTALGOOD.debug.xcconfig"; sourceTree = "<group>"; };
 		8F568B91F637BC6D82FF9569 /* Pods-TOTALGOOD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TOTALGOOD.release.xcconfig"; path = "Target Support Files/Pods-TOTALGOOD/Pods-TOTALGOOD.release.xcconfig"; sourceTree = "<group>"; };
+		A39C8614276B7C45002078A0 /* ChatsInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsInfo.swift; sourceTree = "<group>"; };
 		A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = teamRanking.storyboard; sourceTree = "<group>"; };
 		A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teamRankingVC.swift; sourceTree = "<group>"; };
 		A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChatRoom.storyboard; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				CF0C14C925CC26C6006A7C86 /* Message.swift */,
 				CF3DDC1A25C73C580016AB0F /* Animal.swift */,
 				CF39565525D39A450097DBAA /* Team.swift */,
+				A39C8614276B7C45002078A0 /* ChatsInfo.swift */,
 			);
 			path = inisyaraiz;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 				CF3D0C1D267BD349006021FB /* UserSelfViewController.swift in Sources */,
 				CF31079D2600AA1A00746480 /* TabbarController.swift in Sources */,
 				CF4C5A2D261E2BC500342675 /* quizViewController.swift in Sources */,
+				A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */,
 				CF1E420D262AF05C00CEF85A /* CopyUILabel.swift in Sources */,
 				CF449799264424A700A2F873 /* Bridging-Header.m in Sources */,
 			);

@@ -9,6 +9,7 @@ import Foundation
 import Firebase
 
 struct Team  {
+    var teamId : String
     var teamName : String
     var invitedId : String
     var CreatedAt : Timestamp
@@ -17,6 +18,7 @@ struct Team  {
 
     
     init(dic: [String: Any]){
+        self.teamId = dic["teamId"] as? String ?? ""
         self.teamName = dic["teamName"] as? String ?? ""
         self.invitedId = dic["招待した人のID"] as? String ?? ""
         self.CreatedAt = dic["CreatedAt"] as? Timestamp ?? Timestamp()

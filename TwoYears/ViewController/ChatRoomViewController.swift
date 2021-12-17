@@ -2,9 +2,9 @@
 //  ChatRoomViewController.swift
 //  protain
 //
-//  Created by 平田翔大 on 2021/02/03.
+////  Created by 平田翔大 on 2021/02/03.
+////
 //
-
 import UIKit
 import Firebase
 import FirebaseFirestore
@@ -45,7 +45,7 @@ class ChatRoomViewController: UIViewController {
         setupNotification()
         setupChatRoomTableView()
         setSwipeBack()
-        fetchMessages()
+//        fetchMessages()
         goodmanmember()
         messagemember()
     }
@@ -150,9 +150,9 @@ class ChatRoomViewController: UIViewController {
     }
     private func fetchMessages() {
         let chatRoomDocId = dragons!.documentId
-        
+
         DB.document(chatRoomDocId).collection("messages").addSnapshotListener{ [self] (snapshots, err) in
-            
+
             if let err = err {
                 print("失敗やで、、、\(err)")
                 return
@@ -179,7 +179,7 @@ class ChatRoomViewController: UIViewController {
                         let m1Date = m1.createdTime.dateValue()
                         let m2Date = m2.createdTime.dateValue()
                         return m1Date < m2Date
-                        
+
                     }
                     self.chatRoomTableView.reloadData()
                 case .modified, .removed:
@@ -290,13 +290,13 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
         cell.thedayLabel.text = dateformatted2
         cell.chatnumbers.text = (String(indexPath.row + 1))
         
-        if rurubus[indexPath.row].uid == uid {
-            cell.houkokuButton.isHidden = true
-            cell.iineButton.isHidden = true
-        } else {
-            cell.houkokuButton.isHidden = false
-            cell.iineButton.isHidden = false
-        }
+//        if rurubus[indexPath.row].uid == uid {
+//            cell.houkokuButton.isHidden = true
+//            cell.iineButton.isHidden = true
+//        } else {
+//            cell.houkokuButton.isHidden = false
+//            cell.iineButton.isHidden = false
+//        }
         
         if dragons?.userId == rurubus[indexPath.row].uid {
             if dragons?.teamname == "red"{
@@ -314,12 +314,11 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.messageLabel.textColor = #colorLiteral(red: 0.0431372549, green: 0.0431372549, blue: 0.0431372549, alpha: 0.8024133134)
         
-        if rurubus[indexPath.row].iineId == "good" {
+        if rurubus[indexPath.row].iineman == "good" {
             cell.iineButton.tintColor = #colorLiteral(red: 0.9462587036, green: 0.3739997732, blue: 0.6042566379, alpha: 1)
         } else {
             cell.iineButton.tintColor = .gray
         }
-        print("いいねぼたん！！！！！",rurubus[indexPath.row].iineId)
         cell.backgroundColor = .clear
         print(rurubus.count)
         cell.userrandomId.text = rurubus[indexPath.row].randomUserId
