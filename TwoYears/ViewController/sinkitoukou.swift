@@ -46,6 +46,7 @@ class sinkitoukou: UIViewController {
             "userId":uid,
             "anonymous":false,
             "admin": false,
+            "sendImageURL": ""
         ] as [String: Any]
         
         

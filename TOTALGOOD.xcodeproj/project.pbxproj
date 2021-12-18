@@ -15,6 +15,7 @@
 		A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB40276059BE00942C97 /* InChat.storyboard */; };
 		A3EAFB43276059E400942C97 /* InChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB42276059E400942C97 /* InChatVC.swift */; };
 		B1ECFF570D15E24B5D63F1D7 /* Pods_TOTALGOOD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 113A41803FF344D0EDE5D28D /* Pods_TOTALGOOD.framework */; };
+		CF083C7F276D0184006F6102 /* OutMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF083C7E276D0184006F6102 /* OutMemo.swift */; };
 		CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */; };
 		CF0BD9D825D018FF004A1958 /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF0BD9D725D018FF004A1958 /* SignIn.storyboard */; };
 		CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */; };
@@ -94,6 +95,7 @@
 		A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatRoomVC.swift; sourceTree = "<group>"; };
 		A3EAFB40276059BE00942C97 /* InChat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChat.storyboard; sourceTree = "<group>"; };
 		A3EAFB42276059E400942C97 /* InChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatVC.swift; sourceTree = "<group>"; };
+		CF083C7E276D0184006F6102 /* OutMemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutMemo.swift; sourceTree = "<group>"; };
 		CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoutaiHakkou.swift; sourceTree = "<group>"; };
 		CF0BD9D725D018FF004A1958 /* SignIn.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignIn.storyboard; sourceTree = "<group>"; };
 		CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 				CF3DDC1A25C73C580016AB0F /* Animal.swift */,
 				CF39565525D39A450097DBAA /* Team.swift */,
 				A39C8614276B7C45002078A0 /* ChatsInfo.swift */,
+				CF083C7E276D0184006F6102 /* OutMemo.swift */,
 			);
 			path = inisyaraiz;
 			sourceTree = "<group>";
@@ -527,6 +530,7 @@
 				CF2A223625C3FC7000C5BFC1 /* SceneDelegate.swift in Sources */,
 				CFC07B62266BC70000163D47 /* exampleviewcontroller.swift in Sources */,
 				A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */,
+				CF083C7F276D0184006F6102 /* OutMemo.swift in Sources */,
 				CF0C14CA25CC26C6006A7C86 /* Message.swift in Sources */,
 				CF4C5A34261E85CD00342675 /* ScoreViewController.swift in Sources */,
 				CF43661426789CB500DABD78 /* CompanyViewController.swift in Sources */,

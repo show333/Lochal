@@ -12,7 +12,6 @@ import SwiftMoment
 
 class ChatsInfo {
     
-//    let name: String
     var message: String
     var uid: String
     var createdAt: Timestamp
@@ -24,10 +23,8 @@ class ChatsInfo {
     var sendImageURL: String
     
     init(dic: [String: Any]) {
-//        self.name = dic["name"] as? String ?? ""
         self.message = dic["message"] as? String ?? "a"
         self.uid = dic["userId"] as? String ?? ""
-//        self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.documentId = dic["documentId"] as? String ?? ""
         self.comentId = dic["comentId"] as? String ?? ""

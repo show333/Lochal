@@ -130,7 +130,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         
         var imageString = String()
         imageString = teamInfo[indexPath.row].teamImage
-        
+                
         print("どどん",teamInfo[indexPath.row])
         
         if let url = URL(string:imageString) {
@@ -208,6 +208,7 @@ class teamCollectionViewCell: UICollectionViewCell {
         // cellの枠の色
         self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         backgroundColor = .gray
+        
 //        if teamName == "red" {
 //            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
 //        } else  if teamName == "yellow" {
