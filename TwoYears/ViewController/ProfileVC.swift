@@ -14,6 +14,8 @@ import SwiftMoment
 class ProfileVC: UIViewController {
     
     var outMemo: [OutMemo] = []
+    var userId: String? = nil
+    var cellImageTap : Bool = false
     let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
     let DBU = Firestore.firestore().collection("users")
@@ -120,13 +122,27 @@ class ProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+//        self.navigationController?.navigationBar.isHidden = true
+
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         
-        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
+//        guard let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height))  // then節の中ではaは非オプショナル定数として扱われる
+//        else {
+//            let tabbarHeight = 0// aがnilの場合の処理
+//        }
         
-        let safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight
-        
+//        if tabbarHeight != nil {
+//            tabbarHeight = CGFloat(((tabBarController?.tabBar.frame.size.height)!))
+//        } else {
+//            tabbarHeight = 0
+//        }
+
+//        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
+
+//        let safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight
+
+        let safeArea = UIScreen.main.bounds.size.height - 0 - statusbarHeight
+
         let headerHigh = safeArea/3.5
         
         headerhightConstraint.constant = headerHigh
@@ -158,8 +174,10 @@ class ProfileVC: UIViewController {
         collectionLeft.constant = headerHigh/20
         collectionRight.constant = headerHigh/20
         
-        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        setSwipeBack()
+
         
         self.chatListTableView.estimatedRowHeight = 40
         self.chatListTableView.rowHeight = UITableView.automaticDimension
@@ -206,10 +224,18 @@ class ProfileVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
+        print("アイウエオ",userId)
+        if cellImageTap == true {
+        self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.navigationBar.isHidden = false
+        } else {
+//            navigationController?.setNavigationBarHidden(true, animated: false)]
+            self.tabBarController?.tabBar.isHidden = false
+            self.navigationController?.navigationBar.isHidden = true
+
+        }
     }
-    
-    
+
     
     
     //Pull to Refresh
@@ -443,9 +469,7 @@ class ChatRankingTableViewCell: UITableViewCell {
     }
     
     
-    @IBOutlet weak var messageCountLabel: UILabel!
-    @IBOutlet weak var goodCountLabel: UILabel!
-    @IBOutlet weak var viewCountLabel: UILabel!
+
     @IBOutlet weak var aftertime: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var rankingnumber: UILabel!
@@ -458,6 +482,10 @@ class ChatRankingTableViewCell: UITableViewCell {
     @IBOutlet weak var latestdateLabel: UILabel!
     
     
+    @IBAction func tappedButton(_ sender: Any) {
+        
+        print("ssoieiei")
+    }
     
     override class func awakeFromNib() {
         super.awakeFromNib()
@@ -506,4 +534,3 @@ class profileCollectionViewCell: UICollectionViewCell {
         //        self.layer.cornerRadius = 2.0
     }
 }
-

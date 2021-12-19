@@ -10,6 +10,7 @@
 		A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C8614276B7C45002078A0 /* ChatsInfo.swift */; };
 		A3AE6F4C2760AB0B00E2219C /* teamRanking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */; };
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
+		A3D13E2C276F3074002599B9 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D13E2B276F3074002599B9 /* Reaction.swift */; };
 		A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */; };
 		A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */; };
 		A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB40276059BE00942C97 /* InChat.storyboard */; };
@@ -91,6 +92,7 @@
 		A39C8614276B7C45002078A0 /* ChatsInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsInfo.swift; sourceTree = "<group>"; };
 		A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = teamRanking.storyboard; sourceTree = "<group>"; };
 		A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teamRankingVC.swift; sourceTree = "<group>"; };
+		A3D13E2B276F3074002599B9 /* Reaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
 		A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChatRoom.storyboard; sourceTree = "<group>"; };
 		A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatRoomVC.swift; sourceTree = "<group>"; };
 		A3EAFB40276059BE00942C97 /* InChat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChat.storyboard; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				CF39565525D39A450097DBAA /* Team.swift */,
 				A39C8614276B7C45002078A0 /* ChatsInfo.swift */,
 				CF083C7E276D0184006F6102 /* OutMemo.swift */,
+				A3D13E2B276F3074002599B9 /* Reaction.swift */,
 			);
 			path = inisyaraiz;
 			sourceTree = "<group>";
@@ -515,6 +518,7 @@
 				CF39565625D39A450097DBAA /* Team.swift in Sources */,
 				CF2A223825C3FC7000C5BFC1 /* ViewController.swift in Sources */,
 				CFE909182618F23E001AFCFB /* EULAViewController.swift in Sources */,
+				A3D13E2C276F3074002599B9 /* Reaction.swift in Sources */,
 				CF2A223E25C3FC7000C5BFC1 /* protain.xcdatamodeld in Sources */,
 				CF3BDA2F26612AFA0023D84E /* teamsOVViewController.swift in Sources */,
 				CF24EF7925D7AAD6009FE517 /* SplashViewController.swift in Sources */,

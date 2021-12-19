@@ -14,7 +14,7 @@ import Firebase
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
-    let gcmMessageIDKey = ""
+    let gcmMessageIDKey = "porte"
 
 
     var window: UIWindow?
