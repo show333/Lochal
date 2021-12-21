@@ -23,7 +23,8 @@ class OutMemo {
     
     init(dic: [String: Any]) {
         self.userId = dic["userId"] as? String ?? ""
-        self.message = dic["message"] as? String ?? "a"
+        
+        self.message = dic["message"] as? String ?? "unKnown"
         self.sendImageURL = dic["sendImageURL"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.documentId = dic["documentId"] as? String ?? ""

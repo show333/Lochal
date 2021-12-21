@@ -196,19 +196,47 @@
                                             <constraint firstAttribute="height" constant="40" id="yWX-O3-ewo"/>
                                         </constraints>
                                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="y3X-Id-Aid">
-                                            <size key="itemSize" width="128" height="128"/>
+                                            <size key="itemSize" width="45" height="42"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="XPd-Yg-Mck" customClass="profileCollectionViewCell" customModule="TOTALGOOD" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="45" height="42"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="NuT-sH-pVt">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="45" height="42"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lOf-U9-ft7">
+                                                            <rect key="frame" x="0.0" y="0.0" width="45" height="42"/>
+                                                            <subviews>
+                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5hW-QN-v74">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="45" height="42"/>
+                                                                </imageView>
+                                                            </subviews>
+                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="bottom" secondItem="5hW-QN-v74" secondAttribute="bottom" id="LnM-02-ETQ"/>
+                                                                <constraint firstItem="5hW-QN-v74" firstAttribute="top" secondItem="lOf-U9-ft7" secondAttribute="top" id="WIL-jo-cwA"/>
+                                                                <constraint firstAttribute="trailing" secondItem="5hW-QN-v74" secondAttribute="trailing" id="a6a-dA-9Q6"/>
+                                                                <constraint firstItem="5hW-QN-v74" firstAttribute="leading" secondItem="lOf-U9-ft7" secondAttribute="leading" id="rc7-ON-A9A"/>
+                                                            </constraints>
+                                                        </view>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="lOf-U9-ft7" firstAttribute="top" secondItem="NuT-sH-pVt" secondAttribute="top" id="Cv0-PE-D0i"/>
+                                                        <constraint firstAttribute="bottom" secondItem="lOf-U9-ft7" secondAttribute="bottom" id="Je8-07-ZTM"/>
+                                                        <constraint firstAttribute="trailing" secondItem="lOf-U9-ft7" secondAttribute="trailing" id="KGA-rG-Geo"/>
+                                                        <constraint firstItem="lOf-U9-ft7" firstAttribute="leading" secondItem="NuT-sH-pVt" secondAttribute="leading" id="oPK-F0-9C3"/>
+                                                    </constraints>
                                                 </collectionViewCellContentView>
+                                                <size key="customSize" width="45" height="42"/>
+                                                <connections>
+                                                    <outlet property="backView" destination="lOf-U9-ft7" id="l2Y-Hb-3h7"/>
+                                                    <outlet property="teamCollectionImage" destination="5hW-QN-v74" id="CGI-Y0-7zH"/>
+                                                </connections>
                                             </collectionViewCell>
                                         </cells>
                                     </collectionView>

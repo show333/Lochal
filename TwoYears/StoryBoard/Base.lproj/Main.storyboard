@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--HOME-->
+        <!--OutMemo-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
@@ -226,7 +226,7 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="OutMemo" image="pencil" catalog="system" id="imD-UU-roQ"/>
-                    <navigationItem key="navigationItem" title="HOME" id="aw6-WL-o5t">
+                    <navigationItem key="navigationItem" title="OutMemo" id="aw6-WL-o5t">
                         <barButtonItem key="leftBarButtonItem" title="紹介" style="done" id="iw9-WE-cMt">
                             <color key="tintColor" red="0.0" green="0.89974850169999998" blue="0.62326091610000001" alpha="1" colorSpace="calibratedRGB"/>
                         </barButtonItem>

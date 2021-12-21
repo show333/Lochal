@@ -17,6 +17,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
     var imageUrls = [String]()
     var teamInfo : [Team] = []
     var reaction : [Reaction] = []
+    var safeArea : CGFloat = 0
     let db = Firestore.firestore()
     private let cellId = "cellId"
 
@@ -48,7 +49,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         
         let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
         
-        let safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight - navigationbarHeight
+        safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight - navigationbarHeight
         
         collectionViewConstraint.constant = safeArea/4
         
@@ -58,7 +59,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         // セルのサイズ
         flowLayout.itemSize = CGSize(width: safeArea/4, height: safeArea/4)
         // 縦・横のスペース
-        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumLineSpacing = 5
         flowLayout.minimumInteritemSpacing = 0
         //  スクロールの方向
         flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
@@ -177,6 +178,8 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         var imageString = String()
         imageString = teamInfo[indexPath.row].teamImage
                 
+        cell.backView.clipsToBounds = true
+        cell.backView.layer.cornerRadius = safeArea/16
         print("どどん",teamInfo[indexPath.row])
         
         if let url = URL(string:imageString) {
@@ -242,6 +245,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
 class teamCollectionViewCell: UICollectionViewCell {
 
     
+    @IBOutlet weak var backView: UIView!
     @IBOutlet weak var teamCollectionImage: UIImageView!
     
     
@@ -250,10 +254,11 @@ class teamCollectionViewCell: UICollectionViewCell {
         super.init(coder: aDecoder)
 
         // cellの枠の太さ
-        self.layer.borderWidth = 1.0
+//        self.layer.borderWidth = 1.0
         // cellの枠の色
         self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        backgroundColor = .gray
+//        backgroundColor = .gray
+
         
 //        if teamName == "red" {
 //            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)

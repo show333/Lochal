@@ -21,8 +21,9 @@ class ViewController: UIViewController{
     
     var temes : [Team] = []
     var outMemo: [OutMemo] = []
-    var newColor : String?
-    let DBZ = Firestore.firestore().collection("Rooms").document("karano")
+    var userName: String? = "unKnown"
+    var userImage: String? = ""
+    let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
     let DBU = Firestore.firestore().collection("users")
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
@@ -129,7 +130,8 @@ class ViewController: UIViewController{
         bubuButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         bubuButton.layer.shadowOpacity = 1
         bubuButton.layer.shadowRadius = 5
-        fetchFireStore()
+//        fetchFireStore()
+        getAlloutMemo()
         chatListTableView.backgroundColor = #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
     }
     //うえのモーションするやつ
@@ -144,22 +146,22 @@ class ViewController: UIViewController{
         present(menuViewController, animated: true, completion: nil)
     }
     //Pull to Refresh
-    @objc private func onRefresh(_ sender: AnyObject) {
+    @objc func onRefresh(_ sender: AnyObject) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            self?.chatListTableView.reloadData()
-            self?.chatListTableView.refreshControl?.endRefreshing()
+            self?.getAlloutMemo()
+
         }
     }
-    private func fetchFireStore() {
-        DBZ.collection("kokoniireru").addSnapshotListener{ [self] ( snapshots, err) in
+    
+    func getAlloutMemo() {
+        db.collection("AllOutMemo").getDocuments() { (querySnapshot, err) in
             if let err = err {
-                print("メッセージの取得に失敗、\(err)")
-                return
-            }
-            snapshots?.documentChanges.forEach({ (Naruto) in
-                switch Naruto.type {
-                case .added:
-                    let dic = Naruto.document.data()
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    
+                    let dic = document.data()
                     let outMemoDic = OutMemo(dic: dic)
                     
 //                    let date: Date = rarabai.zikokudosei.dateValue()
@@ -184,13 +186,15 @@ class ViewController: UIViewController{
                         let m2Date = m2.createdAt.dateValue()
                         return m1Date > m2Date
                     }
-                    self.chatListTableView.reloadData()
-                case .modified, .removed:
-                    print("noproblem")
+                    
+                    
                 }
-            })
+                self.chatListTableView.reloadData()
+                self.chatListTableView.refreshControl?.endRefreshing()
+            }
         }
     }
+
 }
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -200,52 +204,47 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return outMemo.count
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatListTableViewCell
-
-        print("アニマルズ！！",outMemo[1])
-        
-        
-//        if animals[indexPath.row].company1 != ""{
-//            firebaseCompany.document(animals[indexPath.row].company1).getDocument { (document, error) in
-//                if let document = document, document.exists {
-//                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-//                    let companyLogoImage = document.data()?["companyLogoImage"]as? String?
-//                    if let url = URL(string: companyLogoImage!!) {
-//                        Nuke.loadImage(with: url, into: cell.companyImageView!)
-//                    }
-//                }
-//            }
-//        }
-        
-//        cell.userImageView.image = #imageLiteral(resourceName: "heart")
         
         cell.messageLabel.text = outMemo[indexPath.row].message
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
         let date: Date = outMemo[indexPath.row].createdAt.dateValue()
+        
         print("デート！！",date)
         let momentType = moment(date)
-
+        
+        
+        print(momentType)
+       
         
         cell.userImageView.image = nil
         cell.IndividualImageView.image = nil
-//        if outMemo[indexPath.row].userBrands == "TG1" {
-//            cell.userImageView.image = UIImage(named:"TG1")!
-//
-//        } else if outMemo[indexPath.row].userBrands == "TG2" {
-//            cell.userImageView.image = UIImage(named:"TG2")!
-//
-//        } else if animals[indexPath.row].userBrands == "TG3" {
-//            cell.userImageView.image = UIImage(named:"TG3")!
-//
-//        } else if animals[indexPath.row].userBrands == "TG4" {
-//            cell.userImageView.image = UIImage(named:"TG4")!
-//
-//        } else if animals[indexPath.row].userBrands == "TG5" {
-//            cell.userImageView.image = UIImage(named:"TG5")!
-//        }
+        fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
+        
+        
+        
         let comentjidate = outMemo[indexPath.row].createdAt.dateValue()
         let comentjimoment = moment(comentjidate)
         let dateformatted2 = comentjimoment.format("MM/dd")
@@ -271,6 +270,34 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //        db.collection("users").document(userId).collection("Reaction").document().setData(["userId":uid ?? "unKnown"] as [String : Any])
         print("ieiei")
     }
+    
+    
+    func fetchUserProfile(userId:String,cell:ChatListTableViewCell){
+
+        db.collection("users").document(userId).collection("Profile").document("profile")
+            .addSnapshotListener { [self] documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                print("Current data: \(data)")
+                userName = document["userName"] as? String ?? "unKnown"
+                userImage = document["userImage"] as? String ?? ""
+                
+                cell.nameLabel.text = userName
+                
+                if let url = URL(string:userImage ?? "") {
+                    Nuke.loadImage(with: url, into: cell.userImageView)
+                } else {
+                    cell.userImageView?.image = nil
+                }
+            }
+    }
+    
     
 //    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 //        
@@ -415,6 +442,7 @@ class ChatListTableViewCell: UITableViewCell {
     @objc func imageTapped(_ sender: UITapGestureRecognizer) {
         let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
         let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        ProfileVC.userId = outMemo?.userId
         ProfileVC.cellImageTap = true
         ProfileVC.tabBarController?.tabBar.isHidden = true
         ViewController()?.navigationController?.navigationBar.isHidden = false
