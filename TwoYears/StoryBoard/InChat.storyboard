@@ -34,9 +34,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="csy-dN-DOm">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="csy-dN-DOm">
                                 <rect key="frame" x="0.0" y="288" width="414" height="525"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cellId" rowHeight="70" id="MxW-Ts-6B8" customClass="InChatTableViewCell" customModule="TOTALGOOD" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="70"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MxW-Ts-6B8" id="596-TP-s8R">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="70"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eNn-S1-qW0">
+                                                    <rect key="frame" x="43" y="24" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="messageLabel" destination="eNn-S1-qW0" id="aFT-nb-mDV"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gaF-r6-SGU">
                                 <rect key="frame" x="0.0" y="88" width="414" height="200"/>
@@ -58,19 +80,32 @@
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vcI-4s-JXa">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pVs-Wu-CaK">
                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                                </imageView>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kaF-46-6Oe">
+                                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <constraints>
+                                                        <constraint firstItem="kaF-46-6Oe" firstAttribute="top" secondItem="pVs-Wu-CaK" secondAttribute="top" id="CsK-OI-Hvk"/>
+                                                        <constraint firstItem="kaF-46-6Oe" firstAttribute="leading" secondItem="pVs-Wu-CaK" secondAttribute="leading" id="Ozv-3V-foE"/>
+                                                        <constraint firstAttribute="trailing" secondItem="kaF-46-6Oe" secondAttribute="trailing" id="kSm-UE-Unp"/>
+                                                        <constraint firstAttribute="bottom" secondItem="kaF-46-6Oe" secondAttribute="bottom" id="wav-KI-Ohv"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="vcI-4s-JXa" firstAttribute="top" secondItem="2ch-ng-kR5" secondAttribute="top" id="FLh-7N-kiD"/>
-                                                <constraint firstItem="vcI-4s-JXa" firstAttribute="leading" secondItem="2ch-ng-kR5" secondAttribute="leading" id="GZd-NK-Ty5"/>
-                                                <constraint firstAttribute="trailing" secondItem="vcI-4s-JXa" secondAttribute="trailing" id="lcE-m8-xxY"/>
-                                                <constraint firstAttribute="bottom" secondItem="vcI-4s-JXa" secondAttribute="bottom" id="xaP-DN-6yk"/>
+                                                <constraint firstAttribute="trailing" secondItem="pVs-Wu-CaK" secondAttribute="trailing" id="0Q9-KX-FcU"/>
+                                                <constraint firstItem="pVs-Wu-CaK" firstAttribute="leading" secondItem="2ch-ng-kR5" secondAttribute="leading" id="YHo-8a-IgN"/>
+                                                <constraint firstAttribute="bottom" secondItem="pVs-Wu-CaK" secondAttribute="bottom" id="kBk-IA-PW4"/>
+                                                <constraint firstItem="pVs-Wu-CaK" firstAttribute="top" secondItem="2ch-ng-kR5" secondAttribute="top" id="qUX-3z-rZR"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
-                                            <outlet property="teamCollectionImage" destination="vcI-4s-JXa" id="V8o-Pc-Q5a"/>
+                                            <outlet property="backView" destination="pVs-Wu-CaK" id="pjC-Dk-Xf9"/>
+                                            <outlet property="teamCollectionImage" destination="kaF-46-6Oe" id="TgA-C4-RrB"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -88,11 +123,12 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="csy-dN-DOm" secondAttribute="trailing" id="xmS-YG-uX0"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="InChat" image="rectangle.inset.topright.filled" catalog="system" id="hp3-Cl-ccY"/>
+                    <tabBarItem key="tabBarItem" title="InChat" image="rectangle.inset.topright.fill" catalog="system" id="hp3-Cl-ccY"/>
                     <navigationItem key="navigationItem" title="InChat" id="Aab-cv-lU2"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionViewConstraint" destination="2oe-zm-Tqp" id="fDo-Bt-wD0"/>
+                        <outlet property="reactionTableView" destination="csy-dN-DOm" id="kBB-ii-5I2"/>
                         <outlet property="teamCollectionView" destination="gaF-r6-SGU" id="FdR-BG-8lP"/>
                     </connections>
                 </viewController>
@@ -102,7 +138,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="rectangle.inset.topright.filled" catalog="system" width="128" height="93"/>
+        <image name="rectangle.inset.topright.fill" catalog="system" width="128" height="93"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

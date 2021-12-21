@@ -15,13 +15,8 @@ import Nuke
 class UserSelfViewController : UIViewController {
     
     let uid = Auth.auth().currentUser?.uid
-
-    var companyId : String?
-    
+    let db = Firestore.firestore()
     var imageString : String?
-
-    
-    let firebaseCompany = Firestore.firestore().collection("Company1").document("Company1_document").collection("Company2").document("Company2_document").collection("Company3")
     
     @IBOutlet weak var imageBackView: UIView!
     
@@ -59,60 +54,45 @@ class UserSelfViewController : UIViewController {
             if imageString == nil || userNameString == "" {
                 UIView.animate(withDuration: 0.5, delay: 0, animations: {
                     self.tyuuiLabel.alpha = 1
-    
+                    
                 }) { bool in
                     UIView.animate(withDuration: 0.5, delay: 3, animations: {
                         self.tyuuiLabel.alpha = 0
-
-                })}
-                
+                    })}
             } else {
                 
-
-            
-
-                    
-                    let storageRef = Storage.storage().reference().child("Campany_Logo").child(imageString!)
-                    let teamname = UserDefaults.standard.string(forKey: "color")
-                    let userMyBrands = UserDefaults.standard.string(forKey: "userBrands")
+                let storageRef = Storage.storage().reference().child("User_Image").child(imageString!)
+                guard let image = imageButton.imageView?.image  else { return }
+                guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
                 
-                    guard let image = imageButton.imageView?.image  else { return }
-                    guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
-                    
-                    storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
+                storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
+                    if let err = err {
+                        print("firestrageへの情報の保存に失敗、、\(err)")
+                        return
+                    }
+                    print("storageへの保存に成功!!")
+                    storageRef.downloadURL { [self](url, err) in
                         if let err = err {
-                            print("firestrageへの情報の保存に失敗、、\(err)")
+                            print("firestorageからのダウンロードに失敗\(err)")
                             return
                         }
-                        print("storageへの保存に成功!!")
-                        storageRef.downloadURL { [self](url, err) in
-                            if let err = err {
-                                print("firestorageからのダウンロードに失敗\(err)")
-                                return
-                            }
+                        
+                        guard let urlString = url?.absoluteString else { return }
+                        print("urlString:", urlString)
+                        
+                        let userDate = [
+                            "userId":uid!,
+                            "userName": userNameString,
+                            "userImage": urlString,
+                            "admin": false,
                             
-                            guard let urlString = url?.absoluteString else { return }
-                            print("urlString:", urlString)
-                            
-                            let userDate = [
-                                "JoindTime": FieldValue.serverTimestamp(),
-                                "uid":uid!,
-                                "userColor": teamname!,
-                                "userBrands": userMyBrands!,
-                                "userImage1": urlString,
-                                "userName1": userNameString,
-                                "belong": true,
-                                
-                            ] as [String: Any]
-                            Firestore.firestore().collection("users").document(uid!).setData(["userImage1": urlString,"userName1": userNameString,],merge: true)
-                            if companyId != "none" {
-                                firebaseCompany.document(companyId!).collection("members").document(uid!).setData(userDate)
-                            }
-
-                        }
+                        ] as [String: Any]
+                        Firestore.firestore().collection("users").document(uid!).collection("Profile").document("profile").setData(userDate,merge: true)
+                        
                     }
-                    
-                 
+                }
+                
+                
                 self.navigationController?.popViewController(animated: true)
                 
             }
@@ -122,16 +102,16 @@ class UserSelfViewController : UIViewController {
     @IBOutlet weak var tyuuiLabel: UILabel!
     
     
-
+    
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tyuuiLabel.text = "ユーザーロゴと名前の両方を入力してください"
+        tyuuiLabel.text = "画像と名前の両方を入力してください"
         tyuuiLabel.alpha = 0
-
+        
         
         let tapGR: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGR.cancelsTouchesInView = false
@@ -173,7 +153,7 @@ class UserSelfViewController : UIViewController {
     }
 }
 extension UserSelfViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let editImage = info[.editedImage] as? UIImage {
             imageButton.setImage(editImage.withRenderingMode(.alwaysOriginal), for: .normal)
@@ -190,10 +170,10 @@ extension UserSelfViewController: UIImagePickerControllerDelegate, UINavigationC
             imageString = NSUUID().uuidString
             
         }
-
-            print("aaa")
         
-
+        print("aaa")
+        
+        
         imageButton.imageView?.contentMode = .scaleAspectFit
         self.dismiss(animated: true, completion: nil)
     }

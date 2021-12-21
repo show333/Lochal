@@ -16,10 +16,8 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     
     var stampUrls : String?
-    let teamName = UserDefaults.standard.string(forKey: "color")
     var imageUrls = [String]()
-    let DB = Firestore.firestore().collection("Rooms").document("karano").collection("kokoniireru")
-    
+    let db = Firestore.firestore()
     @IBOutlet weak var cancelButton: UIButton!
     
     @IBAction func cancelTappedButton(_ sender: Any) {
@@ -65,8 +63,8 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
         UIView.animate(withDuration: 0.2, delay: 0.1, animations: {
             self.imageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             self.imageView.alpha = 1
-
-            
+//
+//
         }) { bool in
         // ②アイコンを大きくする
             UIView.animate(withDuration: 0.1, delay: 0, animations: {
@@ -92,105 +90,30 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     
     
-    func addMessageToFirestore(urlString: String) {
-       
+    private func addMessageToFirestore(urlString: String) {
+        let teamId : String =  UserDefaults.standard.string(forKey: "teamRoomId")!
+
         
-        let chatRoomDocId =  UserDefaults.standard.string(forKey: "documentId")
-        let userMyBrands = UserDefaults.standard.string(forKey: "userBrands")
-        let teamname = UserDefaults.standard.string(forKey: "color")
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
-               
-       func randomString(length: Int) -> String {
-           let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-           return String((0..<length).map{ _ in characters.randomElement()! })
-       }
-       
-       let randomUserId = randomString(length: 8)
-       guard let uid = Auth.auth().currentUser?.uid else { return }
-       
-       
-        func comment(randomuserId: String,commentId: String) {
-            
-            
-            
-            let docData = [
-                "createdAt": FieldValue.serverTimestamp(),
-                "message": "",
-                "userId": uid,
-                "documentId": chatRoomDocId!,
-                "comentId" : commentId,
-                "admin": false,
-                "randomUserId": randomuserId,
-                "userBrands": userMyBrands!,
-                "sendImageURL": urlString,
-                "teamname": teamname!,
-                "company1":""
-            ] as [String: Any]
-            
-            DB.document(chatRoomDocId!).collection("messages").document(commentId).setData(docData) { (err) in
-                if let err = err {
-                    print("メッセージ情報の保存に失敗しました。ss\(err)")
-                    return
-                }
-                print("成功！")
-            }
-            
+        func randomString(length: Int) -> String {
+            let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            return String((0..<length).map{ _ in characters.randomElement()! })
         }
+        let commentId = randomString(length: 20)
+                    let docData = [
+                        "createdAt": FieldValue.serverTimestamp(),
+                        "message": "",
+                        "userId": uid,
+                        "teamId": teamId,
+                        "comentId" : commentId,
+                        "admin": false,
+                        "sendImageURL": urlString,
+                    ] as [String: Any]
         
-        let commentId = uid+"comentId"
-        
-        self.DB.document(chatRoomDocId!).collection("messages").whereField("userId", isEqualTo: uid).getDocuments() { [self] (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                print("クエリースナップショットカウント！",querySnapshot!.documents.count)
-                
-                if querySnapshot!.documents.count == 0 {
-                    
-                    
-                    
-                    comment(randomuserId: "",commentId: commentId)
-                    DB.document(chatRoomDocId!).collection("members").document(uid).setData(["randomUserId": randomUserId], merge: true)
-                    
-                    DB.document(chatRoomDocId!).setData([uid: true], merge: true)
-                    
-                    
-                } else if querySnapshot!.documents.count == 1 {
-                    
-                    DB.document(chatRoomDocId!).collection("members").document(uid).getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            let randomUserId = document["randomUserId"] as? String ?? "unknown"
-                            
-                            let comentId = randomString(length: 15)
-                            comment(randomuserId: randomUserId, commentId: comentId)
-                            DB.document(chatRoomDocId!).collection("messages").document(uid+"comentId").updateData(["randomUserId":randomUserId])
-                            
-                        }
-                    }
-                    
-                } else  {
-                    
-                    DB.document(chatRoomDocId!).collection("members").document(uid).getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            let randomUserId = document["randomUserId"] as? String ?? "unknown"
-                            
-                            let comentId = randomString(length: 15)
-                            comment(randomuserId: randomUserId, commentId: comentId)
-                        }
-                    }
-                }
-            }
-            
-            self.DB.document(chatRoomDocId!).collection("messages").getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    print(querySnapshot!.documents.count)
-                    self.DB.document(chatRoomDocId!).updateData(["messagecount":querySnapshot!.documents.count as Int])
-                }
-            }
-        }
+        db.collection("Team").document(teamId).collection("ChatRoom").document(commentId).setData(docData)
         dismiss(animated: true, completion: nil)
+
     }
     
     
@@ -207,15 +130,6 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
         imageView.layer.cornerRadius = 30
         
         imageView.layer.borderWidth = 2
-        if teamName == "red" {
-            imageView.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
-        } else  if teamName == "yellow" {
-            imageView.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-        } else  if teamName == "blue" {
-            imageView.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
-        } else if teamName == "purple" {
-            imageView.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-        }
         
         imageView.alpha = 0
         cancelButton.alpha = 0

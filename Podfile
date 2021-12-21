@@ -12,6 +12,7 @@ target 'TOTALGOOD' do
   # https://firebase.google.com/docs/ios/setup#available-pods
     pod 'Firebase/Firestore'
     pod 'Firebase/Auth'
+    pod 'Firebase/Messaging'
     pod 'BATabBarController', '~> 2.0.0'
     pod 'GuillotineMenu'
     pod 'SOTabBar'

@@ -16,6 +16,7 @@ import Nuke
 class sinkitoukou: UIViewController {
     let uid = UserDefaults.standard.string(forKey: "userId")
     var company1Id : String?
+    var followerId : [String] = []
     @IBOutlet weak var wordCountLabel: UILabel!
     @IBOutlet weak var ongakuLabel: UILabel!
     @IBOutlet weak var sinkiButton: UIButton!
@@ -36,49 +37,31 @@ class sinkitoukou: UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let db = Firestore.firestore()
         let memoId = randomString(length: 20)
-        let randomUserId = randomString(length: 8)
         let thisisMessage = self.textView.text.trimmingCharacters(in: .newlines)
-        let comentId = uid + "comentId"
-        let userBrands = UserDefaults.standard.string(forKey: "userBrands")
         
         let memoInfoDic = [
             "message" : thisisMessage as Any,
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
-            "createdLatestAt": FieldValue.serverTimestamp(),
-            "memberscount": 1,
-            "goodcount": 1,
-            "messagecount": 1,
             "userId":uid,
-            uid: true,
-            "userBrands": userBrands!,
+            "anonymous":false,
             "admin": false,
+            "sendImageURL": ""
         ] as [String: Any]
         
-        let zoro = [
-            "message" : thisisMessage as Any,
-            "comentId": comentId,
-            "createdAt": FieldValue.serverTimestamp(),
-            "documentId": memoId,
-            "userId": uid,
-            "admin": false,
-            "randomUserId": "",
-            "userBrands": userBrands!,
-        ] as [String: Any]
         
-        let grupeFollowerId = ["a","aa","aaa","aaaa","aaaaa","aaaaaa",]
-        
-        db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
-        grupeFollowerId.forEach{
+        followerId = ["a","aa","aaa","aaaa","aaaaa","aaaaaa",]
+        followerId.forEach{
             print($0)
             db.collection("users").document($0).collection("TimeLine").document(memoId).setData(memoInfoDic)
         }
-        db.collection("Team").document("teamId").collection("teamTimeLine").document(memoId).setData(memoInfoDic)
         
         
-        db.collection("allOutMemo").document(memoId).collection("members").document(uid).setData(["randomUserId": randomUserId])
-        db.collection("allOutMemo").document(memoId).collection("good").document("goodman").setData(["space":"X"])
-        db.collection("allOutMemo").document(memoId).collection("messages").document(comentId).setData(zoro)
+        db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
+        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
+        
+        
+        
         print(memoInfoDic["createdAt"] as Any)
         print(Timestamp().dateValue())
         let aaaa = FieldValue.serverTimestamp()

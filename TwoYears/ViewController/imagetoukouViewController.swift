@@ -6,16 +6,17 @@
 //
 
 import UIKit
-import Firebase
+import FirebaseAuth
+import FirebaseFirestore
 import FirebaseStorage
+import Nuke
 
 class imagetoukouViewController: UIViewController {
     
     var roomId: String?
     
     
-    let DB = Firestore.firestore().collection("Rooms").document("karano").collection("kokoniireru")
-
+    let db = Firestore.firestore()
     
     @IBOutlet weak var imageButton: UIButton!
     @IBOutlet weak var sendButton: UIButton!
@@ -48,110 +49,30 @@ class imagetoukouViewController: UIViewController {
         }
     }
     
-    
-    func addMessageToFirestore(urlString: String) {
-       
+    private func addMessageToFirestore(urlString: String) {
+        let teamId : String =  UserDefaults.standard.string(forKey: "teamRoomId")!
+
         
-        let chatRoomDocId =  UserDefaults.standard.string(forKey: "documentId")
-        let userMyBrands = UserDefaults.standard.string(forKey: "userBrands")
-        let teamname = UserDefaults.standard.string(forKey: "color")
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             return String((0..<length).map{ _ in characters.randomElement()! })
         }
+        let commentId = randomString(length: 20)
+                    let docData = [
+                        "createdAt": FieldValue.serverTimestamp(),
+                        "message": "",
+                        "userId": uid,
+                        "teamId": teamId,
+                        "comentId" : commentId,
+                        "admin": false,
+                        "sendImageURL": urlString,
+                    ] as [String: Any]
         
-        let randomUserId = randomString(length: 8)
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        
-        func comment(randomuserId: String,commentId: String) {
-            
-            
-            
-            let docData = [
-                "createdAt": FieldValue.serverTimestamp(),
-                "message": "",
-                "userId": uid,
-                "documentId": chatRoomDocId!,
-                "comentId" : commentId,
-                "admin": false,
-                "randomUserId": randomuserId,
-                "userBrands": userMyBrands!,
-                "sendImageURL": urlString,
-                "teamname" : teamname!,
-                "company1":""
-            ] as [String: Any]
-            
-            DB.document(chatRoomDocId!).collection("messages").document(commentId).setData(docData) { (err) in
-                if let err = err {
-                    print("メッセージ情報の保存に失敗しました。ss\(err)")
-                    return
-                }
-                print("成功！")
-            }
-           
-       }
-        
-        let commentId = uid+"comentId"
-        
-        self.DB.document(chatRoomDocId!).collection("messages").whereField("userId", isEqualTo: uid).getDocuments() { [self] (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                print("クエリースナップショットカウント！",querySnapshot!.documents.count)
-                
-                if querySnapshot!.documents.count == 0 {
-                    
-                    
-                    
-                    comment(randomuserId: "",commentId: commentId)
-                    DB.document(chatRoomDocId!).collection("members").document(uid).setData(["randomUserId": randomUserId], merge: true)
-                    
-                    DB.document(chatRoomDocId!).setData([uid: true], merge: true)
-                    
-                    
-                } else if querySnapshot!.documents.count == 1 {
-                    
-                    DB.document(chatRoomDocId!).collection("members").document(uid).getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            let randomUserId = document["randomUserId"] as? String ?? "unknown"
-                            
-                            let comentId = randomString(length: 15)
-                            comment(randomuserId: randomUserId, commentId: comentId)
-                            DB.document(chatRoomDocId!).collection("messages").document(uid+"comentId").updateData(["randomUserId":randomUserId])
-                            
-                        }
-                    }
-                    
-                } else  {
-                    
-                    DB.document(chatRoomDocId!).collection("members").document(uid).getDocument { (document, error) in
-                        if let document = document, document.exists {
-                            let randomUserId = document["randomUserId"] as? String ?? "unknown"
-                            
-                            let comentId = randomString(length: 15)
-                            comment(randomuserId: randomUserId, commentId: comentId)
-                        }
-                    }
-                }
-            }
-            
-            self.DB.document(chatRoomDocId!).collection("messages").getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Error getting documents: \(err)")
-                } else {
-                    print(querySnapshot!.documents.count)
-                    self.DB.document(chatRoomDocId!).updateData(["messagecount":querySnapshot!.documents.count as Int])
-                    
-                }
-            }
-        }
-        
-        
-        
-        
+        db.collection("Team").document(teamId).collection("ChatRoom").document(commentId).setData(docData)
         dismiss(animated: true, completion: nil)
+
     }
     
     

@@ -20,9 +20,10 @@ class ViewController: UIViewController{
     private let headerMoveHeight: CGFloat = 5
     
     var temes : [Team] = []
-    var animals: [Animal] = []
-    var newColor : String?
-    let DBZ = Firestore.firestore().collection("Rooms").document("karano")
+    var outMemo: [OutMemo] = []
+    var userName: String? = "unKnown"
+    var userImage: String? = ""
+    let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
     let DBU = Firestore.firestore().collection("users")
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
@@ -53,7 +54,7 @@ class ViewController: UIViewController{
         }
         guard let presentIndexPath = chatListTableView.indexPathForRow(at: scrollView.contentOffset) else { return }
         if scrollView.contentOffset.y < 0 { return }
-        if presentIndexPath.row >= animals.count - 6 { return }
+        if presentIndexPath.row >= outMemo.count - 6 { return }
         
         let alphaRatio = 1 / headerhightConstraint.constant
         
@@ -96,6 +97,15 @@ class ViewController: UIViewController{
     @IBOutlet weak var bubuButton: UIButton!
     @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet var backView: UIView!
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = true
+
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = true
@@ -120,7 +130,8 @@ class ViewController: UIViewController{
         bubuButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         bubuButton.layer.shadowOpacity = 1
         bubuButton.layer.shadowRadius = 5
-        fetchFireStore()
+//        fetchFireStore()
+        getAlloutMemo()
         chatListTableView.backgroundColor = #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
     }
     //うえのモーションするやつ
@@ -135,23 +146,23 @@ class ViewController: UIViewController{
         present(menuViewController, animated: true, completion: nil)
     }
     //Pull to Refresh
-    @objc private func onRefresh(_ sender: AnyObject) {
+    @objc func onRefresh(_ sender: AnyObject) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            self?.chatListTableView.reloadData()
-            self?.chatListTableView.refreshControl?.endRefreshing()
+            self?.getAlloutMemo()
+
         }
     }
-    private func fetchFireStore() {
-        DBZ.collection("kokoniireru").addSnapshotListener{ [self] ( snapshots, err) in
+    
+    func getAlloutMemo() {
+        db.collection("AllOutMemo").getDocuments() { (querySnapshot, err) in
             if let err = err {
-                print("メッセージの取得に失敗、\(err)")
-                return
-            }
-            snapshots?.documentChanges.forEach({ (Naruto) in
-                switch Naruto.type {
-                case .added:
-                    let dic = Naruto.document.data()
-                    let rarabai = Animal(dic: dic)
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    
+                    let dic = document.data()
+                    let outMemoDic = OutMemo(dic: dic)
                     
 //                    let date: Date = rarabai.zikokudosei.dateValue()
 //                    let momentType = moment(date)
@@ -166,22 +177,24 @@ class ViewController: UIViewController{
 //                        }
 //                    }
                     
-                    self.animals.append(rarabai)
+                    self.outMemo.append(outMemoDic)
                     
 //                    print("でぃく",dic)
 //                    print("ららばい",rarabai)
-                    self.animals.sort { (m1, m2) -> Bool in
-                        let m1Date = m1.latestAt.dateValue()
-                        let m2Date = m2.latestAt.dateValue()
+                    self.outMemo.sort { (m1, m2) -> Bool in
+                        let m1Date = m1.createdAt.dateValue()
+                        let m2Date = m2.createdAt.dateValue()
                         return m1Date > m2Date
                     }
-                    self.chatListTableView.reloadData()
-                case .modified, .removed:
-                    print("noproblem")
+                    
+                    
                 }
-            })
+                self.chatListTableView.reloadData()
+                self.chatListTableView.refreshControl?.endRefreshing()
+            }
         }
     }
+
 }
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -189,89 +202,102 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return UITableView.automaticDimension
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return animals.count
+        return outMemo.count
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatListTableViewCell
-
-        print("アニマルズ！！",animals[1])
         
-//        if animals[indexPath.row].company1 != ""{
-//            firebaseCompany.document(animals[indexPath.row].company1).getDocument { (document, error) in
-//                if let document = document, document.exists {
-//                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-//                    let companyLogoImage = document.data()?["companyLogoImage"]as? String?
-//                    if let url = URL(string: companyLogoImage!!) {
-//                        Nuke.loadImage(with: url, into: cell.companyImageView!)
-//                    }
-//                }
-//            }
-//        }
-        cell.messageLabel.text = animals[indexPath.row].nameJP
+        cell.messageLabel.text = outMemo[indexPath.row].message
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
-        let date: Date = animals[indexPath.row].zikokudosei.dateValue()
+        let date: Date = outMemo[indexPath.row].createdAt.dateValue()
+        
         print("デート！！",date)
         let momentType = moment(date)
-        if momentType < moment() - 15.days {
-            cell.dateLabel.text = "削除済みです"
-        } else if momentType < moment() - 14.days - 23.hours - 30.minutes{
-            cell.dateLabel.text = "もうすぐ消えます"
-        } else if momentType < moment() - 14.days - 23.hours{
-            cell.dateLabel.text = "1時間以内に消えます"
-        } else if momentType < moment() - 14.days - 18.hours{
-            cell.dateLabel.text = "数時間後に消えます"
-        } else if momentType < moment() - 14.days - 12.hours{
-            cell.dateLabel.text = "半日後に消えます"
-        } else if momentType < moment() - 14.days{
-            cell.dateLabel.text = "1日後に消えます"
-        } else if momentType < moment() - 13.days{
-            cell.dateLabel.text = "2日後に消えます"
-        } else if momentType < moment() - 12.days{
-            cell.dateLabel.text = "3日後に消えます"
-        } else if momentType < moment() - 11.days{
-            cell.dateLabel.text = "4日後に消えます"
-        } else if momentType < moment() - 10.days{
-            cell.dateLabel.text = "5日後に消えます"
-        } else {
-            cell.dateLabel.text = ""
-        }
+        
+        
+        print(momentType)
+       
         
         cell.userImageView.image = nil
         cell.IndividualImageView.image = nil
-        if animals[indexPath.row].userBrands == "TG1" {
-            cell.userImageView.image = UIImage(named:"TG1")!
-            
-        } else if animals[indexPath.row].userBrands == "TG2" {
-            cell.userImageView.image = UIImage(named:"TG2")!
-            
-        } else if animals[indexPath.row].userBrands == "TG3" {
-            cell.userImageView.image = UIImage(named:"TG3")!
-            
-        } else if animals[indexPath.row].userBrands == "TG4" {
-            cell.userImageView.image = UIImage(named:"TG4")!
-            
-        } else if animals[indexPath.row].userBrands == "TG5" {
-            cell.userImageView.image = UIImage(named:"TG5")!
-        }
-        let comentjidate = animals[indexPath.row].zikokudosei.dateValue()
+        fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
+        
+        
+        
+        let comentjidate = outMemo[indexPath.row].createdAt.dateValue()
         let comentjimoment = moment(comentjidate)
         let dateformatted2 = comentjimoment.format("MM/dd")
-        let comentjiLatestdate = animals[indexPath.row].latestAt.dateValue()
+        let comentjiLatestdate = outMemo[indexPath.row].createdAt.dateValue()
         let comentjiLatestmoment = moment(comentjiLatestdate)
         let dateformattedLatest = comentjiLatestmoment.format("MM/dd")
-        cell.firstdateLabel.text = dateformatted2
         cell.userImageView.layer.cornerRadius = 22
         cell.IndividualImageView.layer.cornerRadius = 22
         cell.mainBackground.layer.cornerRadius = 8
         cell.mainBackground.layer.masksToBounds = true
-        cell.animals = animals[indexPath.row]
+        cell.outMemo = outMemo[indexPath.row]
         cell.messageLabel.numberOfLines = 0
         cell.messageLabel.clipsToBounds = true
         cell.messageLabel.layer.cornerRadius = 10
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        print(outMemo[indexPath.row].userId)
+//
+//        let userId = outMemo[indexPath.row].userId
+//        //dic作ってドキュメントIdとそれに対しての時間とメッセージ内容といいねの種類についても載せる荒らしになるため,基本的にはsetDataはsetData?わかんないけど
+//        db.collection("users").document(userId).collection("Reaction").document().setData(["userId":uid ?? "unKnown"] as [String : Any])
+        print("ieiei")
+    }
+    
+    
+    func fetchUserProfile(userId:String,cell:ChatListTableViewCell){
+
+        db.collection("users").document(userId).collection("Profile").document("profile")
+            .addSnapshotListener { [self] documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                print("Current data: \(data)")
+                userName = document["userName"] as? String ?? "unKnown"
+                userImage = document["userImage"] as? String ?? ""
+                
+                cell.nameLabel.text = userName
+                
+                if let url = URL(string:userImage ?? "") {
+                    Nuke.loadImage(with: url, into: cell.userImageView)
+                } else {
+                    cell.userImageView?.image = nil
+                }
+            }
+    }
+    
     
 //    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 //        
@@ -302,23 +328,33 @@ class ChatListTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         messageLabel.backgroundColor = .clear
+        
     }
-    var animals : Animal? {
-        didSet{
-            if let animals = animals {
-                messageLabel.text = animals.nameJP
-            }
-        }
-    }
+    
+    
+    var outMemo : OutMemo?
+
+    
+//    var outMemo : OutMemo? {
+//        didSet{
+//            if let outMemo = outMemo {
+//                messageLabel.text = outMemo.userId
+//            }
+//        }
+//    }
     @IBOutlet weak var backBack: UIView!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var mainBackground: UIView!
     @IBOutlet weak var shadowLayer: UIView!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var firstdateLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var IndividualImageView: UIImageView!
+    @IBOutlet weak var IndevidualSecondImageView: UIImageView!
+    
     @IBOutlet weak var individualwidthConstraint: NSLayoutConstraint!
+    
+
 
     @IBAction func tappedFlagButton(_ sender: Any) {
         //アラート生成
@@ -398,9 +434,25 @@ class ChatListTableViewCell: UITableViewCell {
         //実際にAlertを表示する
         ViewController()?.present(actionSheet, animated: true, completion: nil)
     }
-    override class func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
+        userImageView.isUserInteractionEnabled = true
+        userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
     }
+    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
+        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        ProfileVC.userId = outMemo?.userId
+        ProfileVC.cellImageTap = true
+        ProfileVC.tabBarController?.tabBar.isHidden = true
+        ViewController()?.navigationController?.navigationBar.isHidden = false
+        ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
+        print("トントンとんとn",outMemo?.userId)
+
+        //        print(outMemo?.userId)
+    }
+    
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }

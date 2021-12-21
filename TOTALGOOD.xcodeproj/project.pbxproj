@@ -10,11 +10,14 @@
 		A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C8614276B7C45002078A0 /* ChatsInfo.swift */; };
 		A3AE6F4C2760AB0B00E2219C /* teamRanking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */; };
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
+		A3D13E2C276F3074002599B9 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D13E2B276F3074002599B9 /* Reaction.swift */; };
+		A3D13E2E276FC4B1002599B9 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D13E2D276FC4B1002599B9 /* Users.swift */; };
 		A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */; };
 		A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */; };
 		A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB40276059BE00942C97 /* InChat.storyboard */; };
 		A3EAFB43276059E400942C97 /* InChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB42276059E400942C97 /* InChatVC.swift */; };
 		B1ECFF570D15E24B5D63F1D7 /* Pods_TOTALGOOD.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 113A41803FF344D0EDE5D28D /* Pods_TOTALGOOD.framework */; };
+		CF083C7F276D0184006F6102 /* OutMemo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF083C7E276D0184006F6102 /* OutMemo.swift */; };
 		CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */; };
 		CF0BD9D825D018FF004A1958 /* SignIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF0BD9D725D018FF004A1958 /* SignIn.storyboard */; };
 		CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */; };
@@ -90,10 +93,13 @@
 		A39C8614276B7C45002078A0 /* ChatsInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsInfo.swift; sourceTree = "<group>"; };
 		A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = teamRanking.storyboard; sourceTree = "<group>"; };
 		A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teamRankingVC.swift; sourceTree = "<group>"; };
+		A3D13E2B276F3074002599B9 /* Reaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
+		A3D13E2D276FC4B1002599B9 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChatRoom.storyboard; sourceTree = "<group>"; };
 		A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatRoomVC.swift; sourceTree = "<group>"; };
 		A3EAFB40276059BE00942C97 /* InChat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChat.storyboard; sourceTree = "<group>"; };
 		A3EAFB42276059E400942C97 /* InChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatVC.swift; sourceTree = "<group>"; };
+		CF083C7E276D0184006F6102 /* OutMemo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutMemo.swift; sourceTree = "<group>"; };
 		CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoutaiHakkou.swift; sourceTree = "<group>"; };
 		CF0BD9D725D018FF004A1958 /* SignIn.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SignIn.storyboard; sourceTree = "<group>"; };
 		CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -249,9 +255,12 @@
 			isa = PBXGroup;
 			children = (
 				CF0C14C925CC26C6006A7C86 /* Message.swift */,
+				A3D13E2D276FC4B1002599B9 /* Users.swift */,
 				CF3DDC1A25C73C580016AB0F /* Animal.swift */,
 				CF39565525D39A450097DBAA /* Team.swift */,
 				A39C8614276B7C45002078A0 /* ChatsInfo.swift */,
+				CF083C7E276D0184006F6102 /* OutMemo.swift */,
+				A3D13E2B276F3074002599B9 /* Reaction.swift */,
 			);
 			path = inisyaraiz;
 			sourceTree = "<group>";
@@ -512,6 +521,7 @@
 				CF39565625D39A450097DBAA /* Team.swift in Sources */,
 				CF2A223825C3FC7000C5BFC1 /* ViewController.swift in Sources */,
 				CFE909182618F23E001AFCFB /* EULAViewController.swift in Sources */,
+				A3D13E2C276F3074002599B9 /* Reaction.swift in Sources */,
 				CF2A223E25C3FC7000C5BFC1 /* protain.xcdatamodeld in Sources */,
 				CF3BDA2F26612AFA0023D84E /* teamsOVViewController.swift in Sources */,
 				CF24EF7925D7AAD6009FE517 /* SplashViewController.swift in Sources */,
@@ -519,6 +529,7 @@
 				CF1BAC37266FB2380025A660 /* MyAccountViewController.swift in Sources */,
 				CF41960825DC0FE700223C6C /* WhichOneViewController.swift in Sources */,
 				CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */,
+				A3D13E2E276FC4B1002599B9 /* Users.swift in Sources */,
 				A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */,
 				CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */,
 				A3EAFB43276059E400942C97 /* InChatVC.swift in Sources */,
@@ -527,6 +538,7 @@
 				CF2A223625C3FC7000C5BFC1 /* SceneDelegate.swift in Sources */,
 				CFC07B62266BC70000163D47 /* exampleviewcontroller.swift in Sources */,
 				A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */,
+				CF083C7F276D0184006F6102 /* OutMemo.swift in Sources */,
 				CF0C14CA25CC26C6006A7C86 /* Message.swift in Sources */,
 				CF4C5A34261E85CD00342675 /* ScoreViewController.swift in Sources */,
 				CF43661426789CB500DABD78 /* CompanyViewController.swift in Sources */,

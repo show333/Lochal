@@ -47,7 +47,7 @@ class MyAccountViewController: UIViewController {
     @IBAction func UserSelfTapp(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
         let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
-        UserSelfViewController.companyId = companyId
+//        UserSelfViewController.companyId = companyId
         navigationController?.pushViewController(UserSelfViewController, animated: true)
     }
     

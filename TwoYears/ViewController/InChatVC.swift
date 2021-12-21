@@ -13,16 +13,18 @@ import Nuke
 
 class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDelegate{
     
+    
     var imageUrls = [String]()
     var teamInfo : [Team] = []
-    
+    var reaction : [Reaction] = []
+    var safeArea : CGFloat = 0
     let db = Firestore.firestore()
-    
+    private let cellId = "cellId"
 
     @IBOutlet weak var teamCollectionView: UICollectionView!
-    
     @IBOutlet weak var collectionViewConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var reactionTableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -34,19 +36,20 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         super.viewDidLoad()
         
         fetchUserTeamInfo()
+        fetchReaction()
         
-        
-                
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
+        
+        reactionTableView.dataSource = self
+        reactionTableView.delegate = self
         
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)
         
         let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
         
-        let safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight - navigationbarHeight
-        
+        safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight - navigationbarHeight
         
         collectionViewConstraint.constant = safeArea/4
         
@@ -56,7 +59,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         // セルのサイズ
         flowLayout.itemSize = CGSize(width: safeArea/4, height: safeArea/4)
         // 縦・横のスペース
-        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumLineSpacing = 5
         flowLayout.minimumInteritemSpacing = 0
         //  スクロールの方向
         flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
@@ -73,6 +76,48 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
 //        teamCollectionView.collectionViewLayout = layout
         
 
+    }
+    func fetchReaction() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(uid).collection("Reaction").addSnapshotListener{ [self] ( snapshots, err) in
+            if let err = err {
+                print("メッセージの取得に失敗、\(err)")
+                return
+            }
+            snapshots?.documentChanges.forEach({ (Naruto) in
+                switch Naruto.type {
+                case .added:
+                    let dic = Naruto.document.data()
+                    let reactionDic = Reaction(dic: dic)
+                    
+//                    let date: Date = rarabai.zikokudosei.dateValue()
+//                    let momentType = moment(date)
+                    
+//                    if blockList[rarabai.userId] == true {
+//
+//                    } else {
+//                        if momentType >= moment() - 14.days {
+//                            if rarabai.admin == true {
+//                            }
+//                            self.animals.append(rarabai)
+//                        }
+//                    }
+                    
+                    self.reaction.append(reactionDic)
+                    
+//                    print("でぃく",dic)
+//                    print("ららばい",rarabai)
+                    self.reaction.sort { (m1, m2) -> Bool in
+                        let m1Date = m1.createdAt.dateValue()
+                        let m2Date = m2.createdAt.dateValue()
+                        return m1Date > m2Date
+                    }
+                    self.reactionTableView.reloadData()
+                case .modified, .removed:
+                    print("noproblem")
+                }
+            })
+        }
     }
     
     func fetchUserTeamInfo(){
@@ -132,7 +177,9 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         
         var imageString = String()
         imageString = teamInfo[indexPath.row].teamImage
-        
+                
+        cell.backView.clipsToBounds = true
+        cell.backView.layer.cornerRadius = safeArea/16
         print("どどん",teamInfo[indexPath.row])
         
         if let url = URL(string:imageString) {
@@ -178,6 +225,8 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
 //        if let url = URL(string:imageUrls[indexPath.row]) {
 //            Nuke.loadImage(with: url, into: imageView)
 //        }
+        let teamRoomId = teamInfo[indexPath.row].teamId
+        UserDefaults.standard.set(teamRoomId, forKey: "teamRoomId")
         
         let storyboard = UIStoryboard.init(name: "InChatRoom", bundle: nil)
         let InChatRoomVC = storyboard.instantiateViewController(withIdentifier: "InChatRoomVC") as! InChatRoomVC
@@ -196,6 +245,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
 class teamCollectionViewCell: UICollectionViewCell {
 
     
+    @IBOutlet weak var backView: UIView!
     @IBOutlet weak var teamCollectionImage: UIImageView!
     
     
@@ -204,10 +254,12 @@ class teamCollectionViewCell: UICollectionViewCell {
         super.init(coder: aDecoder)
 
         // cellの枠の太さ
-        self.layer.borderWidth = 1.0
+//        self.layer.borderWidth = 1.0
         // cellの枠の色
         self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        backgroundColor = .gray
+//        backgroundColor = .gray
+
+        
 //        if teamName == "red" {
 //            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
 //        } else  if teamName == "yellow" {
@@ -222,3 +274,25 @@ class teamCollectionViewCell: UICollectionViewCell {
     }
 }
 
+extension InChat:UITableViewDataSource, UITableViewDelegate{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return reaction.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = reactionTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! InChatTableViewCell
+        cell.messageLabel.text = reaction[indexPath.row].userId
+        return cell
+    }
+    
+    
+}
+
+class InChatTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var messageLabel: UILabel!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+}
