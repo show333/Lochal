@@ -21,6 +21,7 @@ class ViewController: UIViewController{
     
     var temes : [Team] = []
     var outMemo: [OutMemo] = []
+    var teamInfo : [Team] = []
     var userName: String? = "unKnown"
     var userImage: String? = ""
     let db = Firestore.firestore()
@@ -206,27 +207,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatListTableViewCell
         
-        cell.messageLabel.text = outMemo[indexPath.row].message
+//        cell.messageLabel.text = outMemo[indexPath.row].message
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
@@ -237,13 +221,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         
         print(momentType)
-       
         
+        cell.flagButton.tag = indexPath.row
+        cell.flagButton.addTarget(self, action: #selector(buttonEvemt), for: UIControl.Event.touchUpInside)
+//        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)
+                                 
         cell.userImageView.image = nil
-        cell.IndividualImageView.image = nil
+//        cell.IndividualImageView.image = nil
         fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
         
-        
+        print(cell.outMemo?.userId ?? "")
         
         let comentjidate = outMemo[indexPath.row].createdAt.dateValue()
         let comentjimoment = moment(comentjidate)
@@ -252,7 +239,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let comentjiLatestmoment = moment(comentjiLatestdate)
         let dateformattedLatest = comentjiLatestmoment.format("MM/dd")
         cell.userImageView.layer.cornerRadius = 22
-        cell.IndividualImageView.layer.cornerRadius = 22
+//        cell.IndividualImageView.layer.cornerRadius = 22
         cell.mainBackground.layer.cornerRadius = 8
         cell.mainBackground.layer.masksToBounds = true
         cell.outMemo = outMemo[indexPath.row]
@@ -262,15 +249,100 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    @objc func buttonEvemt(_ sender: UIButton){
+        //アラート生成
+        //UIAlertControllerのスタイルがactionSheet
+        let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+        
+        let uid = Auth.auth().currentUser?.uid
+        let report = [
+            "reporter": uid,
+            "documentId": outMemo[sender.tag].documentId,
+            "問題のコメント": outMemo[sender.tag].message,
+            "問題と思われるユーザー": outMemo[sender.tag].userId,
+            "createdAt": FieldValue.serverTimestamp(),
+        ] as [String: Any]
+
+
+        // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
+        let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
+            (action: UIAlertAction!) in
+            //実際の処理
+            let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
+            // 選択肢(ボタン)を2つ(OKとCancel)追加します
+            //   titleには、選択肢として表示される文字列を指定します
+            //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
+            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
+                
+                if UserDefaults.standard.object(forKey: "blocked") == nil{
+                    let XXX = ["XX" : true]
+                    UserDefaults.standard.set(XXX, forKey: "blocked")
+                }
+                var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
+                
+                print("あいえいえいいえいえ",outMemo[sender.tag].userId)
+                blockDic[outMemo[sender.tag].userId] = true
+                UserDefaults.standard.set(blockDic, forKey: "blocked")
+//                let uid = Auth.auth().currentUser?.uid
+                
+                
+                
+                print("tapped: \([sender.tag])番目のcell")
+                
+                
+
+                self.outMemo.remove(at: sender.tag)
+                self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
+                self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
+                self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
+            }))
+            dialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            // 生成したダイアログを実際に表示します
+            self.present(dialog, animated: true, completion: nil)
+            print("このユーザーを非表示にする")
+        })
+        // 表示させたいタイトル2ボタンが押された時の処理をクロージャ実装する
+        let action2 = UIAlertAction(title: "このユーザーを報告する", style: UIAlertAction.Style.default, handler: {
+            (action: UIAlertAction!) in
+            //実際の処理
+            
+            self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
+            self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
+            print("このユーザーを報告する")
+
+        })
+        // 閉じるボタンが押された時の処理をクロージャ実装する
+        //UIAlertActionのスタイルがCancelなので赤く表示される
+        let close = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.destructive, handler: {
+            (action: UIAlertAction!) in
+            //実際の処理
+            print("キャンセル")
+        })
+        //UIAlertControllerにタイトル1ボタンとタイトル2ボタンと閉じるボタンをActionを追加
+        actionSheet.addAction(action1)
+        actionSheet.addAction(action2)
+        actionSheet.addAction(close)
+
+        actionSheet.popoverPresentationController?.sourceView = self.view
+
+        let screenSize = UIScreen.main.bounds
+        actionSheet.popoverPresentationController?.sourceRect=CGRect(x:screenSize.size.width/2,y:screenSize.size.height,width:0,height:0)
+        //実際にAlertを表示する
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        print(outMemo[indexPath.row].userId)
 //
+        outMemo.remove(at: indexPath.row)
+        let indexPaths = [indexPath]
+        chatListTableView.deleteRows(at: indexPaths, with: .automatic)
 //        let userId = outMemo[indexPath.row].userId
 //        //dic作ってドキュメントIdとそれに対しての時間とメッセージ内容といいねの種類についても載せる荒らしになるため,基本的にはsetDataはsetData?わかんないけど
 //        db.collection("users").document(userId).collection("Reaction").document().setData(["userId":uid ?? "unKnown"] as [String : Any])
         print("ieiei")
     }
-    
+
     
     func fetchUserProfile(userId:String,cell:ChatListTableViewCell){
 
@@ -285,10 +357,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     return
                 }
                 print("Current data: \(data)")
+                let userId = document["userId"] as? String ?? "unKnown"
                 userName = document["userName"] as? String ?? "unKnown"
                 userImage = document["userImage"] as? String ?? ""
                 
                 cell.nameLabel.text = userName
+//                getUserTeamInfo(userId: userId, cell: cell)
                 
                 if let url = URL(string:userImage ?? "") {
                     Nuke.loadImage(with: url, into: cell.userImageView)
@@ -298,172 +372,51 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             }
     }
     
-    
-//    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-//        
-//        animals.remove(at: indexPath.row)
-//        let indexPaths = [indexPath]
-//        chatListTableView.deleteRows(at: indexPaths, with: .automatic)
-//    }
-
-
-}
-class ShadowView: UIView {
-    override var bounds: CGRect {
-        didSet {
-            setupShadow()
-        }
-    }
-    private func setupShadow() {
-        self.layer.cornerRadius = 8
-        self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowRadius = 5
-        self.layer.shadowOpacity = 1
-        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 8, height: 8)).cgPath
-        self.layer.shouldRasterize = true
-        self.layer.rasterizationScale = UIScreen.main.scale
-    }
-}
-class ChatListTableViewCell: UITableViewCell {
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        messageLabel.backgroundColor = .clear
-        
-    }
-    
-    
-    var outMemo : OutMemo?
-
-    
-//    var outMemo : OutMemo? {
-//        didSet{
-//            if let outMemo = outMemo {
-//                messageLabel.text = outMemo.userId
+//    func getUserTeamInfo(userId:String,cell:ChatListTableViewCell){
+//        db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
+//            if let document = document, document.exists {
+//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+//                print("Document data: \(dataDescription)")
+//
+//                let teamIdArray = document.data()!["teamId"] as! Array<String>
+//                print(teamIdArray)
+//                print(teamIdArray[0])
+//
+//                print("カカかっかっっっカカかかかあいあいいあいいえいえいえおをを")
+//
+//                teamIdArray.forEach{
+//                    self.getTeamInfo(teamId: $0,cell: cell)
+//
+//                }
+//
+//            } else {
+//                print("Document does not exist")
 //            }
 //        }
 //    }
-    @IBOutlet weak var backBack: UIView!
-    @IBOutlet weak var userImageView: UIImageView!
-    @IBOutlet weak var mainBackground: UIView!
-    @IBOutlet weak var shadowLayer: UIView!
-    @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var IndividualImageView: UIImageView!
-    @IBOutlet weak var IndevidualSecondImageView: UIImageView!
-    
-    @IBOutlet weak var individualwidthConstraint: NSLayoutConstraint!
-    
-
-
-    @IBAction func tappedFlagButton(_ sender: Any) {
-        //アラート生成
-        //UIAlertControllerのスタイルがactionSheet
-        let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
-
-        // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
-        let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
-            (action: UIAlertAction!) in
-            //実際の処理
-            let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
-            // 選択肢(ボタン)を2つ(OKとCancel)追加します
-            //   titleには、選択肢として表示される文字列を指定します
-            //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
-            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
-                if UserDefaults.standard.object(forKey: "blocked") == nil{
-                    let XXX = ["XX" : true]
-                    UserDefaults.standard.set(XXX, forKey: "blocked")
-                }
-                var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
-//                blockDic[message!.uid] = true
-                UserDefaults.standard.set(blockDic, forKey: "blocked")
-//                print(blockDic[message!.uid]! as Bool)
-                let uid = Auth.auth().currentUser?.uid
-                let docData = [
-                    "createdAt": FieldValue.serverTimestamp(),
-                    "message": "",
-                    "userId": "",
-                    "documentId": "",
-                    "comentId" : "",
-                    "randomUserId": "",
-                    "admin": true
-                ] as [String: Any]
-//                Firestore.firestore().collection("Rooms").document("karano").collection("kokoniireru").document(message!.documentId).collection("messages").document("block" + uid!).setData(docData)
 //
-//                Firestore.firestore().collection("Rooms").document("karano").collection("kokoniireru").document(message!.documentId).collection("messages").document("block" + uid!).delete()
-                print("a")
-                self.ViewController()?.navigationController?.popViewController(animated: true)
-            }))
-            dialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            // 生成したダイアログを実際に表示します
-            self.ViewController()?.present(dialog, animated: true, completion: nil)
-            print("このユーザーを非表示にする")
-        })
-        // 表示させたいタイトル2ボタンが押された時の処理をクロージャ実装する
-        let action2 = UIAlertAction(title: "このユーザーを報告する", style: UIAlertAction.Style.default, handler: { [self]
-            (action: UIAlertAction!) in
-            //実際の処理
-            let uid = Auth.auth().currentUser?.uid
-            let report = [
-                uid: "報告者",
-//                "comentId": message!.comentId,
-//                "documentId": message!.documentId,
-//                "問題のコメント": message!.message,
-//                "問題と思われるユーザー": message!.uid,
-            ] as! [String: Any]
-//            Firestore.firestore().collection("report").document(message!.comentId).setData(report, merge: true)
-            print("このユーザーを報告する")
+//    func getTeamInfo(teamId:String,cell:ChatListTableViewCell){
+//        db.collection("Team").document(teamId).getDocument { (document, error) in
+//            if let document = document, document.exists {
+//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+//                print("Document data: \(dataDescription)")
+//                let teamDic = Team(dic: document.data()!)
+//                ChatListTableViewCell.teamInfo.append(teamDic)
+//                print("翼をください！",teamId)
+//                print("翼をください！",document.data()!)
+//                print("asefiosejof",teamDic)
+//
+//                cell.teamCollectionView.reloadData()
+//            } else {
+//                print("Document does not exist")
+//            }
+//        }
+//    }
     
-        })
-        // 閉じるボタンが押された時の処理をクロージャ実装する
-        //UIAlertActionのスタイルがCancelなので赤く表示される
-        let close = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.destructive, handler: {
-            (action: UIAlertAction!) in
-            //実際の処理
-            print("キャンセル")
-        })
-        //UIAlertControllerにタイトル1ボタンとタイトル2ボタンと閉じるボタンをActionを追加
-        actionSheet.addAction(action1)
-        actionSheet.addAction(action2)
-        actionSheet.addAction(close)
-        
-        actionSheet.popoverPresentationController?.sourceView = self.ViewController()?.view
 
-        let screenSize = UIScreen.main.bounds
-        actionSheet.popoverPresentationController?.sourceRect=CGRect(x:screenSize.size.width/2,y:screenSize.size.height,width:0,height:0)
-        //実際にAlertを表示する
-        ViewController()?.present(actionSheet, animated: true, completion: nil)
-    }
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        userImageView.isUserInteractionEnabled = true
-        userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
-    }
-    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
-        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        ProfileVC.userId = outMemo?.userId
-        ProfileVC.cellImageTap = true
-        ProfileVC.tabBarController?.tabBar.isHidden = true
-        ViewController()?.navigationController?.navigationBar.isHidden = false
-        ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
-        print("トントンとんとn",outMemo?.userId)
 
-        //        print(outMemo?.userId)
-    }
-    
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    private func dateFormatterForDateLabel(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        formatter.dateStyle = .short
-        formatter.locale = Locale(identifier: "ja_JP")
-        return formatter.string(from: date)
-    }
 }
+
 extension ViewController: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -499,3 +452,260 @@ extension UIView {
         }
     }
 }
+
+class ShadowView: UIView {
+    override var bounds: CGRect {
+        didSet {
+            setupShadow()
+        }
+    }
+    private func setupShadow() {
+        self.layer.cornerRadius = 8
+        self.layer.shadowOffset = CGSize(width: 0, height: 0)
+        self.layer.shadowRadius = 5
+        self.layer.shadowOpacity = 1
+        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 8, height: 8)).cgPath
+        self.layer.shouldRasterize = true
+        self.layer.rasterizationScale = UIScreen.main.scale
+    }
+}
+
+
+
+class ChatListTableViewCell: UITableViewCell {
+    
+    
+    let db = Firestore.firestore()
+    var teamInfo : [Team] = []
+    var outMemo : OutMemo?
+    var indexPath : [Int] = []
+    
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        messageLabel.backgroundColor = .clear
+//        getUserTeamInfo(userId: outMemo?.userId ?? "")
+        
+
+    }
+
+    
+    
+    
+    @IBOutlet weak var backBack: UIView!
+    @IBOutlet weak var userImageView: UIImageView!
+    @IBOutlet weak var mainBackground: UIView!
+    @IBOutlet weak var shadowLayer: UIView!
+    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    
+    @IBOutlet weak var teamCollectionView: UICollectionView!
+    
+        
+
+    @IBOutlet weak var flagButton: UIButton!
+    
+    @IBAction func tappedFlagButton(_ sender: UIButton) {
+        
+
+    }
+    
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        userImageView.isUserInteractionEnabled = true
+        userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
+        
+        teamCollectionView.dataSource = self
+        teamCollectionView.delegate = self
+        
+//
+//        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
+//        let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)
+//
+//        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
+//
+//        safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight - navigationbarHeight
+//
+//        collectionViewConstraint.constant = safeArea/4
+        
+        // セルの詳細なレイアウトを設定する
+        let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        // セルのサイズ
+        flowLayout.itemSize = CGSize(width: 44, height: 44)
+        // 縦・横のスペース
+        flowLayout.minimumLineSpacing = 5
+        flowLayout.minimumInteritemSpacing = 0
+        //  スクロールの方向
+        flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
+        // 上で設定した内容を反映させる
+        self.teamCollectionView.collectionViewLayout = flowLayout
+        // 背景色を設定
+        self.teamCollectionView.backgroundColor = .blue
+        
+//        if let outMemo = outMemo {
+//                messageLabel.text = outMemo.userId
+////                fetchUserTeamInfo(userId: outMemo.userId ?? "")
+//                getUserTeamInfo(userId: outMemo.userId ?? "")
+//                print("えええええええ")
+//            }//これはダメ
+
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
+            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "")
+        }
+    }
+    
+    func configure(with outMemo: OutMemo?) {
+        self.outMemo = outMemo
+        teamCollectionView.reloadData()
+    }
+    
+    func fetchUserTeamInfo(userId:String){
+        
+        db.collection("users").document(userId).collection("belong_Team").document("teamId")
+            .addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                print("Current data: \(data)")
+                let teamIdArray = data["teamId"] as! Array<String>
+                print(teamIdArray)
+                print(teamIdArray[0])
+                
+                teamIdArray.forEach{
+                    self.getTeamInfo(teamId: $0)
+                    
+                }
+            }
+        
+    }
+    
+    func getUserTeamInfo(userId:String){
+        db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+
+                let teamIdArray = document.data()!["teamId"] as! Array<String>
+                print(teamIdArray)
+                print(teamIdArray[0])
+                
+                print("カカかっかっっっカカかかかあいあいいあいいえいえいえおをを")
+
+                teamIdArray.forEach{
+                    self.getTeamInfo(teamId: $0)
+
+                }
+
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func getTeamInfo(teamId:String){
+        db.collection("Team").document(teamId).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                let teamDic = Team(dic: document.data()!)
+                self.teamInfo.append(teamDic)
+                print("翼をください！",teamId)
+                print("翼をください！",document.data()!)
+                print("asefiosejof",teamDic)
+                
+                self.teamCollectionView.reloadData()
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
+        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        ProfileVC.userId = outMemo?.userId
+        ProfileVC.cellImageTap = true
+        ProfileVC.tabBarController?.tabBar.isHidden = true
+        ViewController()?.navigationController?.navigationBar.isHidden = false
+        ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
+        print("トントンとんとn",outMemo?.userId)
+
+    }
+    
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+    }
+    private func dateFormatterForDateLabel(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .full
+        formatter.dateStyle = .short
+        formatter.locale = Locale(identifier: "ja_JP")
+        return formatter.string(from: date)
+    }
+}
+
+extension ChatListTableViewCell:UICollectionViewDataSource,UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return teamInfo.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as!  VCteamCollectionViewCell
+        
+        if let url = URL(string: teamInfo[indexPath.row].teamImage) {
+            Nuke.loadImage(with: url, into: cell.teamImageView)
+        } else {
+            cell.teamImageView?.image = nil
+        }
+        
+//        getTeamInfo(teamId: outMemo?.userId ?? "")
+        return cell
+    }
+    
+    
+    
+    
+}
+class VCteamCollectionViewCell: UICollectionViewCell {
+    
+    
+    @IBOutlet weak var teamImageView: UIImageView!
+    
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        backgroundColor = .blue
+
+        // cellの枠の太さ
+        //        self.layer.borderWidth = 1.0
+        //        // cellの枠の色
+        //        self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        //        backgroundColor = .gray
+        //        if teamName == "red" {
+        //            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
+        //        } else  if teamName == "yellow" {
+        //            self.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
+        //        } else  if teamName == "blue" {
+        //            self.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
+        //        } else if teamName == "purple" {
+        //            self.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
+        //        }
+        // cellを丸くする
+        //        self.layer.cornerRadius = 2.0
+    }
+}
+
+
+
