@@ -214,11 +214,10 @@ class ProfileVC: UIViewController {
         //            #colorLiteral(red: 0.7238116197, green: 0.6172274334, blue: 0.5, alpha: 1)
         
         //        self.chatListTableView.reloadData()
-        fetchFireStore(userId: userId ?? "")
-//        getAlloutMemo(userId: userId ?? "")
+//        fetchFireStore(userId: userId ?? "")
+        getAlloutMemo(userId: userId ?? "")
         fetchUserTeamInfo(userId: userId ?? "")
         fetchUserProfile(userId: userId ?? "")
-        chatListTableView.reloadData()
     }
     
     
@@ -241,52 +240,50 @@ class ProfileVC: UIViewController {
     @objc private func onRefresh(_ sender: AnyObject) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             self?.fetchFireStore(userId: self?.userId ?? "")
-            self?.chatListTableView.reloadData()
-            self?.chatListTableView.refreshControl?.endRefreshing()
+
         }
     }
     
-//    func getAlloutMemo(userId:String) {
-//        db.collection("AllOutMemo").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).getDocuments() { (querySnapshot, err) in
-//            if let err = err {
-//                print("Error getting documents: \(err)")
-//            } else {
-//                for document in querySnapshot!.documents {
-//                    print("\(document.documentID) => \(document.data())")
+    func getAlloutMemo(userId:String) {
+        db.collection("AllOutMemo").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+
+                    let dic = document.data()
+                    let outMemoDic = OutMemo(dic: dic)
+
+//                    let date: Date = rarabai.zikokudosei.dateValue()
+//                    let momentType = moment(date)
+
+//                    if blockList[rarabai.userId] == true {
 //
-//                    let dic = document.data()
-//                    let outMemoDic = OutMemo(dic: dic)
-//
-////                    let date: Date = rarabai.zikokudosei.dateValue()
-////                    let momentType = moment(date)
-//
-////                    if blockList[rarabai.userId] == true {
-////
-////                    } else {
-////                        if momentType >= moment() - 14.days {
-////                            if rarabai.admin == true {
-////                            }
-////                            self.animals.append(rarabai)
-////                        }
-////                    }
-//
-//                    self.outMemo.append(outMemoDic)
-//
-////                    print("でぃく",dic)
-////                    print("ららばい",rarabai)
-//                    self.outMemo.sort { (m1, m2) -> Bool in
-//                        let m1Date = m1.createdAt.dateValue()
-//                        let m2Date = m2.createdAt.dateValue()
-//                        return m1Date > m2Date
+//                    } else {
+//                        if momentType >= moment() - 14.days {
+//                            if rarabai.admin == true {
+//                            }
+//                            self.animals.append(rarabai)
+//                        }
 //                    }
-//
-//
-//                }
-//                self.chatListTableView.reloadData()
-//                self.chatListTableView.refreshControl?.endRefreshing()
-//            }
-//        }
-//    }
+
+                    self.outMemo.append(outMemoDic)
+
+//                    print("でぃく",dic)
+//                    print("ららばい",rarabai)
+                    self.outMemo.sort { (m1, m2) -> Bool in
+                        let m1Date = m1.createdAt.dateValue()
+                        let m2Date = m2.createdAt.dateValue()
+                        return m1Date > m2Date
+                    }
+
+
+                }
+                self.chatListTableView.reloadData()
+            }
+        }
+    }
     
     private func fetchFireStore(userId:String) {
         db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).addSnapshotListener { [self] ( snapshots, err) in
@@ -322,6 +319,8 @@ class ProfileVC: UIViewController {
                 case .modified, .removed:
                     print("noproblem")
                 }
+                self.chatListTableView.reloadData()
+                self.chatListTableView.refreshControl?.endRefreshing()
             })
         }
     }
@@ -352,7 +351,6 @@ class ProfileVC: UIViewController {
     }
     
     func fetchUserTeamInfo(userId:String){
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         db.collection("users").document(userId).collection("belong_Team").document("teamId")
             .addSnapshotListener { documentSnapshot, error in
