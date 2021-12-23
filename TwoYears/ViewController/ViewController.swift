@@ -25,7 +25,7 @@ class ViewController: UIViewController{
     var userName: String? = "unKnown"
     var userImage: String? = ""
     let db = Firestore.firestore()
-    let uid = Auth.auth().currentUser?.uid
+//    let uid = Auth.auth().currentUser?.uid
     let DBU = Firestore.firestore().collection("users")
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
     let firebaseCompany = Firestore.firestore().collection("Company1").document("Company1_document").collection("Company2").document("Company2_document").collection("Company3")
@@ -36,14 +36,14 @@ class ViewController: UIViewController{
     @IBOutlet weak var sendImageView: UIImageView!
     
     @IBAction func tappedBubuButton(_ sender: Any) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
         let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou")
         self.present(sinkitoukou, animated: true, completion: nil)
-        Firestore.firestore().collection("users").document(uid!).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
+        Firestore.firestore().collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
         //        try? Auth.auth().signOut()
     }
     
-    @IBOutlet weak var headerColorLabel: UILabel!
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var headerhightConstraint: NSLayoutConstraint!
     @IBOutlet weak var headertopConstraint: NSLayoutConstraint!
@@ -109,6 +109,7 @@ class ViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
 
@@ -131,71 +132,53 @@ class ViewController: UIViewController{
         bubuButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         bubuButton.layer.shadowOpacity = 1
         bubuButton.layer.shadowRadius = 5
-//        fetchFireStore()
-        getAlloutMemo()
+        fetchFireStore(userId: uid)
+//        getAlloutMemo()
         chatListTableView.backgroundColor = #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
     }
-    //うえのモーションするやつ
-    @IBAction func GuillotineTappedButton(_ sender: UIButton) {
-        let storyboard: UIStoryboard = UIStoryboard(name: "ShoutaiHakkou", bundle: nil)//遷移先のStoryboardを設定
-        let menuViewController = storyboard.instantiateViewController(withIdentifier: "ShoutaiHakkou")
-        menuViewController.modalPresentationStyle = .custom
-        menuViewController.transitioningDelegate = self
-        presentationAnimator.animationDelegate = menuViewController as? GuillotineAnimationDelegate
-        presentationAnimator.supportView = navigationController!.navigationBar
-        presentationAnimator.presentButton = sender
-        present(menuViewController, animated: true, completion: nil)
-    }
+
     //Pull to Refresh
     @objc func onRefresh(_ sender: AnyObject) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            self?.getAlloutMemo()
-
+            self?.chatListTableView.refreshControl?.endRefreshing()
         }
     }
     
-    func getAlloutMemo() {
-        db.collection("AllOutMemo").getDocuments() { (querySnapshot, err) in
+    private func fetchFireStore(userId:String) {
+        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
+                
+                print("メッセージの取得に失敗、\(err)")
+                return
+            }
+            snapshots?.documentChanges.forEach({ (Naruto) in
+                switch Naruto.type {
+                case .added:
+                    let dic = Naruto.document.data()
+                    let rarabai = OutMemo(dic: dic)
                     
-                    let dic = document.data()
-                    let outMemoDic = OutMemo(dic: dic)
+                    let date: Date = rarabai.createdAt.dateValue()
+                    let momentType = moment(date)
                     
-//                    let date: Date = rarabai.zikokudosei.dateValue()
-//                    let momentType = moment(date)
-                    
-//                    if blockList[rarabai.userId] == true {
-//
-//                    } else {
-//                        if momentType >= moment() - 14.days {
-//                            if rarabai.admin == true {
-//                            }
-//                            self.animals.append(rarabai)
-//                        }
-//                    }
-                    
-                    self.outMemo.append(outMemoDic)
-                    
-//                    print("でぃく",dic)
-//                    print("ららばい",rarabai)
+                    if blockList[rarabai.userId] == true {
+                    } else {
+                        //                        if momentType >= moment() - 14.days {
+                        //                            if rarabai.admin == true {
+                        //                            }
+                        self.outMemo.append(rarabai)
+                    }
                     self.outMemo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
                         let m2Date = m2.createdAt.dateValue()
                         return m1Date > m2Date
                     }
-                    
-                    
+                case .modified, .removed:
+                    print("noproblem")
                 }
                 self.chatListTableView.reloadData()
-                self.chatListTableView.refreshControl?.endRefreshing()
-            }
+            })
         }
     }
-
 }
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -210,7 +193,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatListTableViewCell
         
-//        cell.messageLabel.text = outMemo[indexPath.row].message
+        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
+        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
+        
+        cell.messageLabel.text = outMemo[indexPath.row].message
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
@@ -238,8 +224,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         let comentjiLatestdate = outMemo[indexPath.row].createdAt.dateValue()
         let comentjiLatestmoment = moment(comentjiLatestdate)
         let dateformattedLatest = comentjiLatestmoment.format("MM/dd")
-        cell.userImageView.layer.cornerRadius = 22
-//        cell.IndividualImageView.layer.cornerRadius = 22
+                
+        cell.userImageView.layer.cornerRadius = 25
         cell.mainBackground.layer.cornerRadius = 8
         cell.mainBackground.layer.masksToBounds = true
         cell.outMemo = outMemo[indexPath.row]
@@ -332,15 +318,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        print(outMemo[indexPath.row].userId)
-//
-        outMemo.remove(at: indexPath.row)
-        let indexPaths = [indexPath]
-        chatListTableView.deleteRows(at: indexPaths, with: .automatic)
-//        let userId = outMemo[indexPath.row].userId
-//        //dic作ってドキュメントIdとそれに対しての時間とメッセージ内容といいねの種類についても載せる荒らしになるため,基本的にはsetDataはsetData?わかんないけど
-//        db.collection("users").document(userId).collection("Reaction").document().setData(["userId":uid ?? "unKnown"] as [String : Any])
-        print("ieiei")
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
+        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
+        
+        ReactionVC.message = outMemo[indexPath.row].message
+        ReactionVC.userId = outMemo[indexPath.row].userId
+        
+        self.present(ReactionVC, animated: true, completion: nil)
+
     }
 
     
@@ -361,6 +348,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 userName = document["userName"] as? String ?? "unKnown"
                 userImage = document["userImage"] as? String ?? ""
                 
+                
                 cell.nameLabel.text = userName
 //                getUserTeamInfo(userId: userId, cell: cell)
                 
@@ -371,49 +359,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
     }
-    
-//    func getUserTeamInfo(userId:String,cell:ChatListTableViewCell){
-//        db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-//                print("Document data: \(dataDescription)")
-//
-//                let teamIdArray = document.data()!["teamId"] as! Array<String>
-//                print(teamIdArray)
-//                print(teamIdArray[0])
-//
-//                print("カカかっかっっっカカかかかあいあいいあいいえいえいえおをを")
-//
-//                teamIdArray.forEach{
-//                    self.getTeamInfo(teamId: $0,cell: cell)
-//
-//                }
-//
-//            } else {
-//                print("Document does not exist")
-//            }
-//        }
-//    }
-//
-//    func getTeamInfo(teamId:String,cell:ChatListTableViewCell){
-//        db.collection("Team").document(teamId).getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-//                print("Document data: \(dataDescription)")
-//                let teamDic = Team(dic: document.data()!)
-//                ChatListTableViewCell.teamInfo.append(teamDic)
-//                print("翼をください！",teamId)
-//                print("翼をください！",document.data()!)
-//                print("asefiosejof",teamDic)
-//
-//                cell.teamCollectionView.reloadData()
-//            } else {
-//                print("Document does not exist")
-//            }
-//        }
-//    }
-    
-
 
 }
 
@@ -484,11 +429,9 @@ class ChatListTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         messageLabel.backgroundColor = .clear
-//        getUserTeamInfo(userId: outMemo?.userId ?? "")
-        
-
     }
-
+    
+    
     
     
     
@@ -501,15 +444,9 @@ class ChatListTableViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     
     @IBOutlet weak var teamCollectionView: UICollectionView!
-    
         
 
     @IBOutlet weak var flagButton: UIButton!
-    
-    @IBAction func tappedFlagButton(_ sender: UIButton) {
-        
-
-    }
     
     
     override func awakeFromNib() {
@@ -533,7 +470,7 @@ class ChatListTableViewCell: UITableViewCell {
         // セルの詳細なレイアウトを設定する
         let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         // セルのサイズ
-        flowLayout.itemSize = CGSize(width: 44, height: 44)
+        flowLayout.itemSize = CGSize(width: 40, height: 40)
         // 縦・横のスペース
         flowLayout.minimumLineSpacing = 5
         flowLayout.minimumInteritemSpacing = 0
@@ -542,26 +479,15 @@ class ChatListTableViewCell: UITableViewCell {
         // 上で設定した内容を反映させる
         self.teamCollectionView.collectionViewLayout = flowLayout
         // 背景色を設定
-        self.teamCollectionView.backgroundColor = .blue
-        
-//        if let outMemo = outMemo {
-//                messageLabel.text = outMemo.userId
-////                fetchUserTeamInfo(userId: outMemo.userId ?? "")
-//                getUserTeamInfo(userId: outMemo.userId ?? "")
-//                print("えええええええ")
-//            }//これはダメ
+        self.teamCollectionView.backgroundColor = .clear
 
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
             self.getUserTeamInfo(userId: self.outMemo?.userId ?? "")
         }
     }
+
     
-    func configure(with outMemo: OutMemo?) {
-        self.outMemo = outMemo
-        teamCollectionView.reloadData()
-    }
     
     func fetchUserTeamInfo(userId:String){
         
@@ -637,8 +563,6 @@ class ChatListTableViewCell: UITableViewCell {
         ProfileVC.tabBarController?.tabBar.isHidden = true
         ViewController()?.navigationController?.navigationBar.isHidden = false
         ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
-        print("トントンとんとn",outMemo?.userId)
-
     }
     
     
@@ -662,6 +586,9 @@ extension ChatListTableViewCell:UICollectionViewDataSource,UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as!  VCteamCollectionViewCell
         
+        cell.teamImageView.clipsToBounds = true
+        cell.teamImageView.layer.cornerRadius = 10
+        
         if let url = URL(string: teamInfo[indexPath.row].teamImage) {
             Nuke.loadImage(with: url, into: cell.teamImageView)
         } else {
@@ -672,9 +599,6 @@ extension ChatListTableViewCell:UICollectionViewDataSource,UICollectionViewDeleg
         return cell
     }
     
-    
-    
-    
 }
 class VCteamCollectionViewCell: UICollectionViewCell {
     
@@ -682,29 +606,9 @@ class VCteamCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var teamImageView: UIImageView!
     
     
-    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        backgroundColor = .blue
-
-        // cellの枠の太さ
-        //        self.layer.borderWidth = 1.0
-        //        // cellの枠の色
-        //        self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        //        backgroundColor = .gray
-        //        if teamName == "red" {
-        //            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
-        //        } else  if teamName == "yellow" {
-        //            self.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-        //        } else  if teamName == "blue" {
-        //            self.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
-        //        } else if teamName == "purple" {
-        //            self.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-        //        }
-        // cellを丸くする
-        //        self.layer.cornerRadius = 2.0
-    }
+            }
 }
 
 

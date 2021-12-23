@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,8 +12,9 @@
         <!--Navigation Controller-->
         <scene sceneID="aBg-vF-uaP">
             <objects>
-                <navigationController navigationBarHidden="YES" id="LQJ-SF-diy" sceneMemberID="viewController">
+                <navigationController id="LQJ-SF-diy" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="enO-fH-QXA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -23,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="-519" y="112"/>
         </scene>
-        <!--Company View Controller-->
+        <!--New Team-->
         <scene sceneID="h1V-CJ-p8b">
             <objects>
                 <viewController storyboardIdentifier="CompanyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="8sf-2o-WXj" customClass="CompanyViewController" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
@@ -31,12 +33,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BEb-m2-5Y4">
-                                <rect key="frame" x="87.5" y="80" width="200" height="200"/>
+                            <view contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="BEb-m2-5Y4">
+                                <rect key="frame" x="87.5" y="124" width="200" height="200"/>
                                 <subviews>
                                     <button opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nFi-2c-0px">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
-                                        <state key="normal" image="company"/>
+                                        <state key="normal" image="circle.grid.2x2.fill" catalog="system"/>
                                         <connections>
                                             <action selector="imageTappedButton:" destination="8sf-2o-WXj" eventType="touchUpInside" id="4OQ-Kh-pQi"/>
                                         </connections>
@@ -53,7 +55,7 @@
                                 </constraints>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="チーム名を入力" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G2P-1F-8Kq">
-                                <rect key="frame" x="77.5" y="340" width="220" height="34"/>
+                                <rect key="frame" x="77.5" y="384" width="220" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="220" id="GQL-iu-WGa"/>
                                 </constraints>
@@ -61,7 +63,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xe5-fp-1RU">
-                                <rect key="frame" x="142.5" y="404" width="90" height="50"/>
+                                <rect key="frame" x="142.5" y="448" width="90" height="50"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="0sf-Hl-KBd"/>
@@ -75,43 +77,27 @@
                                     <action selector="bubuButton:" destination="8sf-2o-WXj" eventType="touchUpInside" id="A8U-bi-x7D"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eHe-2G-oZB">
-                                <rect key="frame" x="15" y="20" width="52.5" height="22"/>
-                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Back" image="chevron.backward" catalog="system">
-                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="backButton:" destination="8sf-2o-WXj" eventType="touchUpInside" id="r93-Nj-1e3"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A company logo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UX7-OS-b5c">
-                                <rect key="frame" x="129.5" y="48" width="116.5" height="22"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Team Logo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UX7-OS-b5c">
+                                <rect key="frame" x="147" y="92" width="81" height="22"/>
                                 <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" name="LaoSangamMN" family="Lao Sangam MN" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbl-AD-PVJ">
-                                <rect key="frame" x="130.5" y="307.5" width="114" height="22.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Team Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sbl-AD-PVJ">
+                                <rect key="frame" x="143.5" y="351.5" width="88" height="22.5"/>
                                 <fontDescription key="fontDescription" name="LaoSangamMN" family="Lao Sangam MN" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Company(オリジナルチーム)のイメージ画像と名前を入力してください。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1m-by-PVg">
-                                <rect key="frame" x="30" y="544" width="314.5" height="33.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="このCompanyに所属したユーザーが招待したアカウントは同じCompanyとなります。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0uk-T7-Gew">
-                                <rect key="frame" x="30" y="607.5" width="304" height="33.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="チームのイメージ画像と名前を入力してください。" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u1m-by-PVg">
+                                <rect key="frame" x="30" y="588" width="286" height="33.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MAD-sb-XFz">
-                                <rect key="frame" x="20" y="469" width="335" height="20.5"/>
+                                <rect key="frame" x="20" y="513" width="335" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -120,14 +106,11 @@
                         <viewLayoutGuide key="safeArea" id="erl-5a-DhI"/>
                         <color key="backgroundColor" red="0.0" green="0.89974850169999998" blue="0.62326091610000001" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="eHe-2G-oZB" firstAttribute="top" secondItem="erl-5a-DhI" secondAttribute="top" constant="20" id="0fG-nV-qwV"/>
                             <constraint firstItem="xe5-fp-1RU" firstAttribute="centerX" secondItem="5bt-xE-Nwy" secondAttribute="centerX" id="1US-76-GHO"/>
                             <constraint firstItem="UX7-OS-b5c" firstAttribute="centerX" secondItem="5bt-xE-Nwy" secondAttribute="centerX" id="1z2-Oa-KXw"/>
-                            <constraint firstItem="eHe-2G-oZB" firstAttribute="leading" secondItem="erl-5a-DhI" secondAttribute="leading" constant="15" id="2Rn-rd-Hp6"/>
                             <constraint firstItem="xe5-fp-1RU" firstAttribute="top" secondItem="G2P-1F-8Kq" secondAttribute="bottom" constant="30" id="6gF-Vk-kaG"/>
                             <constraint firstItem="MAD-sb-XFz" firstAttribute="centerX" secondItem="5bt-xE-Nwy" secondAttribute="centerX" id="AAq-UW-qSa"/>
                             <constraint firstItem="u1m-by-PVg" firstAttribute="leading" secondItem="erl-5a-DhI" secondAttribute="leading" constant="30" id="Dkg-qt-041"/>
-                            <constraint firstItem="erl-5a-DhI" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0uk-T7-Gew" secondAttribute="trailing" constant="30" id="F1O-rA-glW"/>
                             <constraint firstItem="MAD-sb-XFz" firstAttribute="top" secondItem="xe5-fp-1RU" secondAttribute="bottom" constant="15" id="F2D-Ds-Pdb"/>
                             <constraint firstItem="G2P-1F-8Kq" firstAttribute="top" secondItem="BEb-m2-5Y4" secondAttribute="bottom" constant="60" id="HoF-Ep-irC"/>
                             <constraint firstItem="BEb-m2-5Y4" firstAttribute="centerX" secondItem="5bt-xE-Nwy" secondAttribute="centerX" id="NYm-Ws-HMU"/>
@@ -137,17 +120,14 @@
                             <constraint firstItem="G2P-1F-8Kq" firstAttribute="top" secondItem="sbl-AD-PVJ" secondAttribute="bottom" constant="10" id="V4e-dk-Y6g"/>
                             <constraint firstItem="BEb-m2-5Y4" firstAttribute="top" secondItem="erl-5a-DhI" secondAttribute="top" constant="80" id="Voj-Xb-vkk"/>
                             <constraint firstItem="sbl-AD-PVJ" firstAttribute="centerX" secondItem="5bt-xE-Nwy" secondAttribute="centerX" id="ehc-5p-A5M"/>
-                            <constraint firstItem="0uk-T7-Gew" firstAttribute="top" secondItem="u1m-by-PVg" secondAttribute="bottom" constant="30" id="ige-RI-4vh"/>
                             <constraint firstItem="G2P-1F-8Kq" firstAttribute="centerX" secondItem="5bt-xE-Nwy" secondAttribute="centerX" id="oQZ-vz-PSt"/>
                             <constraint firstItem="erl-5a-DhI" firstAttribute="trailing" secondItem="MAD-sb-XFz" secondAttribute="trailing" constant="20" id="uT5-xB-shU"/>
-                            <constraint firstItem="0uk-T7-Gew" firstAttribute="leading" secondItem="erl-5a-DhI" secondAttribute="leading" constant="30" id="wkJ-08-z3W"/>
                             <constraint firstItem="u1m-by-PVg" firstAttribute="top" secondItem="xe5-fp-1RU" secondAttribute="bottom" constant="90" id="xsH-Lp-PEU"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="2vX-5n-tTK"/>
+                    <navigationItem key="navigationItem" title="New Team" id="2vX-5n-tTK"/>
                     <connections>
                         <outlet property="companyImageView" destination="BEb-m2-5Y4" id="dco-kF-dTi"/>
-                        <outlet property="companyTap" destination="j2O-4V-2j9" id="NcG-T2-DMO"/>
                         <outlet property="imageButton" destination="nFi-2c-0px" id="az1-5V-kBv"/>
                         <outlet property="kakteiButton" destination="xe5-fp-1RU" id="4gK-uI-9hc"/>
                         <outlet property="nameTextField" destination="G2P-1F-8Kq" id="h3b-Lv-z1z"/>
@@ -155,18 +135,12 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="z4G-vY-2wa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer id="j2O-4V-2j9">
-                    <connections>
-                        <action selector="companyTap:" destination="8sf-2o-WXj" id="EvY-4Z-dCU"/>
-                    </connections>
-                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="317.60000000000002" y="111.99400299850076"/>
         </scene>
     </scenes>
     <resources>
-        <image name="chevron.backward" catalog="system" width="96" height="128"/>
-        <image name="company" width="128" height="128"/>
+        <image name="circle.grid.2x2.fill" catalog="system" width="128" height="112"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

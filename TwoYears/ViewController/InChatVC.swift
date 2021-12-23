@@ -20,16 +20,24 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
     var safeArea : CGFloat = 0
     let db = Firestore.firestore()
     private let cellId = "cellId"
-
+    
+    @IBOutlet weak var CreateButton: UIButton!
+    
+    @IBAction func CreateTappedButton(_ sender: Any) {
+        
+        let storyboard = UIStoryboard.init(name: "CreateTeam", bundle: nil)
+        let CreateTeamVC = storyboard.instantiateViewController(withIdentifier: "CreateTeamVC") as! CreateTeamVC
+        navigationController?.pushViewController(CreateTeamVC, animated: true)
+    }
+    
+    
     @IBOutlet weak var teamCollectionView: UICollectionView!
     @IBOutlet weak var collectionViewConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var reactionTableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.tabBarController?.tabBar.isHidden = false
-        
     }
     
     override func viewDidLoad() {
@@ -66,7 +74,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         // 上で設定した内容を反映させる
         self.teamCollectionView.collectionViewLayout = flowLayout
         // 背景色を設定
-        self.teamCollectionView.backgroundColor = .blue
+        self.teamCollectionView.backgroundColor = .systemTeal
         
         
         
@@ -125,22 +133,27 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         
         db.collection("users").document(uid).collection("belong_Team").document("teamId")
             .addSnapshotListener { documentSnapshot, error in
-              guard let document = documentSnapshot else {
-                print("Error fetching document: \(error!)")
-                return
-              }
-              guard let data = document.data() else {
-                print("Document data was empty.")
-                return
-              }
-              print("Current data: \(data)")
-                let teamIdArray = data["teamId"] as! Array<String>
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                print("Current data: \(data)")
+                var teamIdArray = data["teamId"] as! Array<String>
                 print(teamIdArray)
                 print(teamIdArray[0])
+                print("ドドド",self.teamInfo)
                 
-                teamIdArray.forEach{
-                    self.getTeamInfo(teamId: $0)
-
+                self.teamInfo.removeAll()
+                self.teamCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    
+                    teamIdArray.forEach{
+                        self.getTeamInfo(teamId: $0)
+                    }
                 }
             }
         
@@ -174,7 +187,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! teamCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
-        
+
         var imageString = String()
         imageString = teamInfo[indexPath.row].teamImage
                 

@@ -51,6 +51,7 @@ class ProfileVC: UIViewController {
     @IBOutlet weak var collectionRight: NSLayoutConstraint!
     
     
+
     
     @IBOutlet var tapImage: UITapGestureRecognizer!
     @IBAction func tapImageView(_ sender: Any) {
@@ -213,11 +214,9 @@ class ProfileVC: UIViewController {
         chatListTableView.backgroundColor = #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
         //            #colorLiteral(red: 0.7238116197, green: 0.6172274334, blue: 0.5, alpha: 1)
         
-        //        self.chatListTableView.reloadData()
-//        fetchFireStore(userId: userId ?? "")
-        getAlloutMemo(userId: userId ?? "")
-        fetchUserTeamInfo(userId: userId ?? "")
+        fetchFireStore(userId: userId ?? "")
         fetchUserProfile(userId: userId ?? "")
+        fetchUserTeamInfo(userId: userId ?? "")
     }
     
     
@@ -239,52 +238,10 @@ class ProfileVC: UIViewController {
     //Pull to Refresh
     @objc private func onRefresh(_ sender: AnyObject) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            self?.fetchFireStore(userId: self?.userId ?? "")
+            self?.chatListTableView.refreshControl?.endRefreshing()
 
         }
     }
-    
-    func getAlloutMemo(userId:String) {
-        db.collection("AllOutMemo").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    print("\(document.documentID) => \(document.data())")
-
-                    let dic = document.data()
-                    let outMemoDic = OutMemo(dic: dic)
-
-//                    let date: Date = rarabai.zikokudosei.dateValue()
-//                    let momentType = moment(date)
-
-//                    if blockList[rarabai.userId] == true {
-//
-//                    } else {
-//                        if momentType >= moment() - 14.days {
-//                            if rarabai.admin == true {
-//                            }
-//                            self.animals.append(rarabai)
-//                        }
-//                    }
-
-                    self.outMemo.append(outMemoDic)
-
-//                    print("でぃく",dic)
-//                    print("ららばい",rarabai)
-                    self.outMemo.sort { (m1, m2) -> Bool in
-                        let m1Date = m1.createdAt.dateValue()
-                        let m2Date = m2.createdAt.dateValue()
-                        return m1Date > m2Date
-                    }
-
-
-                }
-                self.chatListTableView.reloadData()
-            }
-        }
-    }
-    
     private func fetchFireStore(userId:String) {
         db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
@@ -308,9 +265,7 @@ class ProfileVC: UIViewController {
                         //                            if rarabai.admin == true {
                         //                            }
                         self.outMemo.append(rarabai)
-                        
                     }
-
                     self.outMemo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
                         let m2Date = m2.createdAt.dateValue()
@@ -320,14 +275,13 @@ class ProfileVC: UIViewController {
                     print("noproblem")
                 }
                 self.chatListTableView.reloadData()
-                self.chatListTableView.refreshControl?.endRefreshing()
             })
         }
     }
     
     func fetchUserProfile(userId:String){
-
-        db.collection("users").document(userId).collection("Profile").document("profile")
+        
+            self.db.collection("users").document(userId).collection("Profile").document("profile")
             .addSnapshotListener { [self] documentSnapshot, error in
                 guard let document = documentSnapshot else {
                     print("Error fetching document: \(error!)")
@@ -351,8 +305,9 @@ class ProfileVC: UIViewController {
     }
     
     func fetchUserTeamInfo(userId:String){
+
         
-        db.collection("users").document(userId).collection("belong_Team").document("teamId")
+        self.db.collection("users").document(userId).collection("belong_Team").document("teamId")
             .addSnapshotListener { documentSnapshot, error in
                 guard let document = documentSnapshot else {
                     print("Error fetching document: \(error!)")
@@ -367,9 +322,14 @@ class ProfileVC: UIViewController {
                 print(teamIdArray)
                 print(teamIdArray[0])
                 
-                teamIdArray.forEach{
-                    self.getTeamInfo(teamId: $0)
+                self.teamInfo.removeAll()
+                self.teamCollectionView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     
+                    teamIdArray.forEach{
+                        self.getTeamInfo(teamId: $0)
+                        
+                    }
                 }
             }
         
