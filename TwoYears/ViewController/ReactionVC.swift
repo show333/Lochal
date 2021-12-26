@@ -49,6 +49,9 @@ class ReactionVC: UIViewController {
         collectionViewConstraint.constant = safeArea
         upViewConstraint.constant = safeArea/4
         
+        userImageView.clipsToBounds = true
+        userImageConstraint.constant = safeArea/6
+        userImageView.layer.cornerRadius = safeArea/12
        
         // セルの詳細なレイアウトを設定する
         let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -95,6 +98,8 @@ class ReactionVC: UIViewController {
 }
 
 extension ReactionVC :UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return imageUrls.count
     }
@@ -135,6 +140,7 @@ extension ReactionVC :UICollectionViewDataSource, UICollectionViewDelegate {
                         "documentId" : documentId,
                         "reaction": urlString,
                         "theMessage":message ?? "",
+                        "anonymous":false,
                         "admin": false,
                     ] as [String: Any]
         db.collection("users").document(userId ?? "").collection("Reaction").document().setData(docData)

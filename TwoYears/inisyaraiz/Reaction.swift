@@ -14,8 +14,8 @@ import SwiftMoment
 class Reaction {
     
     var userId: String
-    var message: String
-    var sendImageURL: String
+    var theMessage: String
+    var reaction: String
     var createdAt: Timestamp
     var documentId : String
     var admin: Bool
@@ -24,8 +24,8 @@ class Reaction {
     
     init(dic: [String: Any]) {
         self.userId = dic["userId"] as? String ?? ""
-        self.message = dic["message"] as? String ?? ""
-        self.sendImageURL = dic["sendImageURL"] as? String ?? ""
+        self.theMessage = dic["theMessage"] as? String ?? ""
+        self.reaction = dic["reaction"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.documentId = dic["documentId"] as? String ?? ""
         self.admin = dic["admin"] as? Bool ?? false
