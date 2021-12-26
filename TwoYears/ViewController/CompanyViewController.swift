@@ -16,10 +16,11 @@ class CompanyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var imageString : String?
     var companynameString : String?
-    var CompanyId : String?
     var UserId : String?
     
     var randamUserImageInt: Int?
+    
+    
     
     let userImage : Array = ["https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FA11gusya.png?alt=media&token=fc744cee-7365-441c-81d4-8f877076ec13",
     "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FB2hyokkori.png?alt=media&token=13eb5fa7-d790-451b-a7a2-43c1b1b532f8",
@@ -34,6 +35,8 @@ class CompanyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     
     let firebaseCompany = Firestore.firestore().collection("Company1").document("Company1_document").collection("Company2").document("Company2_document").collection("Company3")
+    
+    let db = Firestore.firestore()
     
 
 
@@ -52,15 +55,10 @@ class CompanyViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var kakteiButton: UIButton!
     
-    @IBOutlet var companyTap: UITapGestureRecognizer!
-    
-    @IBAction func companyTap(_ sender: Any) {
-  
-    }
 
     @IBAction func bubuButton(_ sender: Any) {
         
-        if let companynameString = nameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
+        if let teamNameString = nameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
             if imageString == nil || companynameString == "" {
                 UIView.animate(withDuration: 0.5, delay: 0, animations: {
                     self.tyuuiLabel.alpha = 1
@@ -72,74 +70,39 @@ class CompanyViewController: UIViewController, UIGestureRecognizerDelegate {
                 
             } else {
                 
-                if CompanyId != nil {
-                    firebaseUpdate(companyName: companynameString)
-                } else{
-                    if  UserId == "none"{
-                        firebaseSet(companyName: companynameString)
-                    } else {
-                        firebaseHadUser(companyName: companynameString)
-                    }
-                }
+                setTeam(teamName: teamNameString)
                 
-                self.navigationController?.popViewController(animated: true)
+//                if CompanyId != nil {
+//                    firebaseUpdate(companyName: companynameString)
+//                } else{
+//                    if  UserId == "none"{
+//                        firebaseSet(companyName: companynameString)
+//                    } else {
+//                        firebaseHadUser(companyName: companynameString)
+//                    }
+//                }
                 
+                self.navigationController?.popToRootViewController(animated: true)
+//                self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+//                self.navigationController?.popToViewController(navigationController!.viewControllers[2], animated: true)
             }
         }
     }
     
     
-    func firebaseUpdate(companyName: String?) {
-        
-        let storageRef = Storage.storage().reference().child("Campany_Logo").child(imageString!)
+    func setTeam(teamName:String){
+        let storageRef = Storage.storage().reference().child("Team_Image").child(imageString!)
         
         guard let image = imageButton.imageView?.image  else { return }
         guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
-        
-        storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
-            if let err = err {
-                print("firestrageへの情報の保存に失敗、、\(err)")
-                return
-            }
-            print("storageへの保存に成功!!")
-            storageRef.downloadURL { [self] (url, err) in
-                if let err = err {
-                    print("firestorageからのダウンロードに失敗\(err)")
-                    return
-                }
-                
-                guard let urlString = url?.absoluteString else { return }
-                print("urlString:", urlString)
-                
-                let companyData = [
-                    "createdLatestAt": FieldValue.serverTimestamp(),
-                    "companyLogoImage": urlString,
-                    "companyName": companyName!,
-                    
-                ] as [String: Any]
-
-                firebaseCompany.document(CompanyId!).setData(companyData,merge: true)
-            }
-        }
-        
-    }
-    
-    func firebaseHadUser(companyName: String?) {
-        
-        let storageRef = Storage.storage().reference().child("Campany_Logo").child(imageString!)
-        let teamname = UserDefaults.standard.string(forKey: "color")
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             return String((0..<length).map{ _ in characters.randomElement()! })
         }
-        
-        let randomCompanyId = randomString(length: 20)
-  
-
-        guard let image = imageButton.imageView?.image  else { return }
-        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let randomId = randomString(length: 16)
+        let chatId = randomString(length: 20)
         
         storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
             if let err = err {
@@ -152,100 +115,193 @@ class CompanyViewController: UIViewController, UIGestureRecognizerDelegate {
                     print("firestorageからのダウンロードに失敗\(err)")
                     return
                 }
-                
                 guard let urlString = url?.absoluteString else { return }
                 print("urlString:", urlString)
                 
-                let companyData = [
+                let teamDic = [
                     "createdAt": FieldValue.serverTimestamp(),
-                    "createdLatestAt": FieldValue.serverTimestamp(),
+                    "documentId": randomId,
+                    "teamId":randomId,
+                    "teamName": teamName,
+                    "teamImage": urlString,
                     "Founder": uid,
-                    "companyId": randomCompanyId,
-                    "companyLogoImage": urlString,
-                    "companyName": companyName!,
-                    "FounderColor": teamname!,
-                    
                 ] as [String: Any]
-                
-
-                
-                firebaseCompany.document(randomCompanyId).setData(companyData)
-                firebaseCompany.document(randomCompanyId).collection("userColor").document("company_1_Color").setData([teamname! + "User" : 1])
-                Firestore.firestore().collection("users").document(uid).setData(["company1": randomCompanyId,"Founder":true],merge: true)
+                let firstChatDic = [
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "userId":uid,
+                    "documentId": chatId,
+                    "message":"私は\(randomId)が好きです",
+                    "sendImageURL": "",
+                    "teamId":randomId,
+                    "admin":false,
+                ] as [String : Any]
+                db.collection("Team").document(randomId).setData(teamDic)
+                db.collection("Team").document(randomId).collection("ChatRoom").document(chatId).setData(firstChatDic)
+                db.collection("users").document(uid).collection("belong_Team").document("teamId").setData([
+                    "teamId": FieldValue.arrayUnion([randomId]) ], merge: true)
             }
         }
     }
     
-    func firebaseSet(companyName: String?) {
-        
-        let storageRef = Storage.storage().reference().child("Campany_Logo").child(imageString!)
-        let teamname = UserDefaults.standard.string(forKey: "color")
-        let userMyBrands = UserDefaults.standard.string(forKey: "userBrands")
-        
-        func randomString(length: Int) -> String {
-            let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-            return String((0..<length).map{ _ in characters.randomElement()! })
-        }
-        
-
-        
-        let randomCompanyId = randomString(length: 20)
-        let randamUserName = "初期name-" + randomString(length: 15)
-  
-
-        guard let image = imageButton.imageView?.image  else { return }
-        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
-            if let err = err {
-                print("firestrageへの情報の保存に失敗、、\(err)")
-                return
-            }
-            print("storageへの保存に成功!!")
-            storageRef.downloadURL { [self] (url, err) in
-                if let err = err {
-                    print("firestorageからのダウンロードに失敗\(err)")
-                    return
-                }
-                
-                guard let urlString = url?.absoluteString else { return }
-                print("urlString:", urlString)
-                
-                let companyData = [
-                    "createdAt": FieldValue.serverTimestamp(),
-                    "createdLatestAt": FieldValue.serverTimestamp(),
-                    "Founder": uid,
-                    "companyId": randomCompanyId,
-                    "companyLogoImage": urlString,
-                    "companyName": companyName!,
-                    "FounderColor": teamname!,
-                    "companyViewCount": 0,
-                    "companyGoodCount": 0,
-                    
-                ] as [String: Any]
-                
-                let userDate = [
-                    "JoindTime": FieldValue.serverTimestamp(),
-                    "uid":uid,
-                    "userColor": teamname!,
-                    "userBrands": userMyBrands!,
-                    "userImage1": self.userImage[self.randamUserImageInt!],
-                    "userName1": randamUserName,
-                    "belong": true,
-                    
-                ] as [String: Any]
-                
-                firebaseCompany.document(randomCompanyId).setData(companyData)
-                firebaseCompany.document(randomCompanyId).collection("members").document(uid).setData(userDate)
-                firebaseCompany.document(randomCompanyId).collection("userColor").document("company_1_Color").setData([teamname! + "User" : 1])
-                Firestore.firestore().collection("users").document(uid).setData(["userImage1":self.userImage[self.randamUserImageInt!],"userName1":randamUserName] as [String : Any] , merge: true)
-                
-                
-                Firestore.firestore().collection("users").document(uid).setData(["company1": randomCompanyId,"Founder":true],merge: true)
-            }
-        }
-    }
+    
+    
+//    func firebaseUpdate(companyName: String?) {
+//
+//        let storageRef = Storage.storage().reference().child("Campany_Logo").child(imageString!)
+//
+//        guard let image = imageButton.imageView?.image  else { return }
+//        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
+//
+//        storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
+//            if let err = err {
+//                print("firestrageへの情報の保存に失敗、、\(err)")
+//                return
+//            }
+//            print("storageへの保存に成功!!")
+//            storageRef.downloadURL { [self] (url, err) in
+//                if let err = err {
+//                    print("firestorageからのダウンロードに失敗\(err)")
+//                    return
+//                }
+//
+//                guard let urlString = url?.absoluteString else { return }
+//                print("urlString:", urlString)
+//
+//                let companyData = [
+//                    "createdLatestAt": FieldValue.serverTimestamp(),
+//                    "companyLogoImage": urlString,
+//                    "companyName": companyName!,
+//
+//                ] as [String: Any]
+//
+////                firebaseCompany.document(CompanyId!).setData(companyData,merge: true)
+//            }
+//        }
+//
+//    }
+    
+//    func firebaseHadUser(companyName: String?) {
+//
+//        let storageRef = Storage.storage().reference().child("Campany_Logo").child(imageString!)
+//        let teamname = UserDefaults.standard.string(forKey: "color")
+//
+//        func randomString(length: Int) -> String {
+//            let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+//            return String((0..<length).map{ _ in characters.randomElement()! })
+//        }
+//
+//        let randomCompanyId = randomString(length: 20)
+//
+//
+//        guard let image = imageButton.imageView?.image  else { return }
+//        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//
+//        storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
+//            if let err = err {
+//                print("firestrageへの情報の保存に失敗、、\(err)")
+//                return
+//            }
+//            print("storageへの保存に成功!!")
+//            storageRef.downloadURL { [self] (url, err) in
+//                if let err = err {
+//                    print("firestorageからのダウンロードに失敗\(err)")
+//                    return
+//                }
+//
+//                guard let urlString = url?.absoluteString else { return }
+//                print("urlString:", urlString)
+//
+//                let companyData = [
+//                    "createdAt": FieldValue.serverTimestamp(),
+//                    "createdLatestAt": FieldValue.serverTimestamp(),
+//                    "Founder": uid,
+//                    "companyId": randomCompanyId,
+//                    "companyLogoImage": urlString,
+//                    "companyName": companyName!,
+//                    "FounderColor": teamname!,
+//
+//                ] as [String: Any]
+//
+//
+//
+//                firebaseCompany.document(randomCompanyId).setData(companyData)
+//                firebaseCompany.document(randomCompanyId).collection("userColor").document("company_1_Color").setData([teamname! + "User" : 1])
+//                Firestore.firestore().collection("users").document(uid).setData(["company1": randomCompanyId,"Founder":true],merge: true)
+//            }
+//        }
+//    }
+//
+//    func firebaseSet(companyName: String?) {
+//
+//        let storageRef = Storage.storage().reference().child("Campany_Logo").child(imageString!)
+//        let teamname = UserDefaults.standard.string(forKey: "color")
+//        let userMyBrands = UserDefaults.standard.string(forKey: "userBrands")
+//
+//        func randomString(length: Int) -> String {
+//            let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+//            return String((0..<length).map{ _ in characters.randomElement()! })
+//        }
+//
+//
+//
+//        let randomCompanyId = randomString(length: 20)
+//        let randamUserName = "初期name-" + randomString(length: 15)
+//
+//
+//        guard let image = imageButton.imageView?.image  else { return }
+//        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//
+//        storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
+//            if let err = err {
+//                print("firestrageへの情報の保存に失敗、、\(err)")
+//                return
+//            }
+//            print("storageへの保存に成功!!")
+//            storageRef.downloadURL { [self] (url, err) in
+//                if let err = err {
+//                    print("firestorageからのダウンロードに失敗\(err)")
+//                    return
+//                }
+//
+//                guard let urlString = url?.absoluteString else { return }
+//                print("urlString:", urlString)
+//
+//                let companyData = [
+//                    "createdAt": FieldValue.serverTimestamp(),
+//                    "createdLatestAt": FieldValue.serverTimestamp(),
+//                    "Founder": uid,
+//                    "companyId": randomCompanyId,
+//                    "companyLogoImage": urlString,
+//                    "companyName": companyName!,
+//                    "FounderColor": teamname!,
+//                    "companyViewCount": 0,
+//                    "companyGoodCount": 0,
+//
+//                ] as [String: Any]
+//
+//                let userDate = [
+//                    "JoindTime": FieldValue.serverTimestamp(),
+//                    "uid":uid,
+//                    "userColor": teamname!,
+//                    "userBrands": userMyBrands!,
+//                    "userImage1": self.userImage[self.randamUserImageInt!],
+//                    "userName1": randamUserName,
+//                    "belong": true,
+//
+//                ] as [String: Any]
+//
+//                firebaseCompany.document(randomCompanyId).setData(companyData)
+//                firebaseCompany.document(randomCompanyId).collection("members").document(uid).setData(userDate)
+//                firebaseCompany.document(randomCompanyId).collection("userColor").document("company_1_Color").setData([teamname! + "User" : 1])
+//                Firestore.firestore().collection("users").document(uid).setData(["userImage1":self.userImage[self.randamUserImageInt!],"userName1":randamUserName] as [String : Any] , merge: true)
+//
+//
+//                Firestore.firestore().collection("users").document(uid).setData(["company1": randomCompanyId,"Founder":true],merge: true)
+//            }
+//        }
+//    }
     
     
   
@@ -253,9 +309,6 @@ class CompanyViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var tyuuiLabel: UILabel!
     
     
-    @IBAction func backButton(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-    }
     
   
     
@@ -269,9 +322,7 @@ class CompanyViewController: UIViewController, UIGestureRecognizerDelegate {
         randamUserImageInt = Int(randomString(length: 1))
         print(randamUserImageInt!)
         
-        
-        companyTap.delegate = self
-        
+                
         tyuuiLabel.text = "カンパニーロゴとカンパニー名の\n両方を入力してください"
         tyuuiLabel.alpha = 0
         
@@ -284,7 +335,6 @@ class CompanyViewController: UIViewController, UIGestureRecognizerDelegate {
           if let document = document {
 //            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
 
-            self.CompanyId = document.data()?["company1"] as? String
             
           } else {
             print("Document does not exist in cache")
@@ -303,7 +353,6 @@ class CompanyViewController: UIViewController, UIGestureRecognizerDelegate {
             action: nil
         )
         
-        self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         imageButton.clipsToBounds = true

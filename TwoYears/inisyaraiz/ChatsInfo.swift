@@ -16,7 +16,6 @@ class ChatsInfo {
     var uid: String
     var createdAt: Timestamp
     var documentId : String
-    var comentId : String
     var randomUserId : String
     var admin: Bool
     var userBrands : String
@@ -27,7 +26,6 @@ class ChatsInfo {
         self.uid = dic["userId"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.documentId = dic["documentId"] as? String ?? ""
-        self.comentId = dic["comentId"] as? String ?? ""
         self.randomUserId = dic["randomUserId"] as? String ?? ""
         self.admin = dic["admin"] as? Bool ?? false
         self.userBrands = dic["userBrands"] as? String ?? ""

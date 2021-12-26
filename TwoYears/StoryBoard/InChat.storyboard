@@ -124,9 +124,22 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="InChat" image="rectangle.inset.topright.fill" catalog="system" id="hp3-Cl-ccY"/>
-                    <navigationItem key="navigationItem" title="InChat" id="Aab-cv-lU2"/>
+                    <navigationItem key="navigationItem" title="InChat" id="Aab-cv-lU2">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="D2P-si-sUb">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="uOk-D9-gDL">
+                                <rect key="frame" x="302" y="5" width="92" height="34.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="CreateTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="VTQ-ss-5pi"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="CreateButton" destination="uOk-D9-gDL" id="XDJ-Ub-oTC"/>
                         <outlet property="collectionViewConstraint" destination="2oe-zm-Tqp" id="fDo-Bt-wD0"/>
                         <outlet property="reactionTableView" destination="csy-dN-DOm" id="kBB-ii-5I2"/>
                         <outlet property="teamCollectionView" destination="gaF-r6-SGU" id="FdR-BG-8lP"/>

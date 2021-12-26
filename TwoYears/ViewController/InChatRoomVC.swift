@@ -198,18 +198,18 @@ extension InChatRoomVC: ChatInputAccessoryViewDelegate{
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             return String((0..<length).map{ _ in characters.randomElement()! })
         }
-        let commentId = randomString(length: 20)
+        let documentId = randomString(length: 20)
                     let docData = [
                         "createdAt": FieldValue.serverTimestamp(),
                         "message": text,
                         "userId": uid,
                         "teamId": teamRoomDic?.teamId as Any,
-                        "comentId" : commentId,
+                        "documentId" : documentId,
                         "admin": false,
                         "sendImageURL": "",
                     ] as [String: Any]
         
-        db.collection("Team").document(teamId).collection("ChatRoom").document(commentId).setData(docData)
+        db.collection("Team").document(teamId).collection("ChatRoom").document(documentId).setData(docData)
         
     }
 }

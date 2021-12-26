@@ -10,8 +10,14 @@
 		A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C8614276B7C45002078A0 /* ChatsInfo.swift */; };
 		A3AE6F4C2760AB0B00E2219C /* teamRanking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */; };
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
+		A3C0D9E42773976200AC64D3 /* EnterTeam.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3C0D9E32773976200AC64D3 /* EnterTeam.storyboard */; };
+		A3C0D9E6277397AD00AC64D3 /* EnterTeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C0D9E5277397AD00AC64D3 /* EnterTeamVC.swift */; };
+		A3C0D9EA2774859C00AC64D3 /* ReactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */; };
+		A3C0D9EC277488BD00AC64D3 /* Reaction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3C0D9EB277488BD00AC64D3 /* Reaction.storyboard */; };
 		A3D13E2C276F3074002599B9 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D13E2B276F3074002599B9 /* Reaction.swift */; };
 		A3D13E2E276FC4B1002599B9 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D13E2D276FC4B1002599B9 /* Users.swift */; };
+		A3D13E3227737184002599B9 /* CreateTeam.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3D13E3127737184002599B9 /* CreateTeam.storyboard */; };
+		A3D13E34277371EC002599B9 /* CreateTeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D13E33277371EC002599B9 /* CreateTeamVC.swift */; };
 		A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */; };
 		A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */; };
 		A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3EAFB40276059BE00942C97 /* InChat.storyboard */; };
@@ -93,8 +99,14 @@
 		A39C8614276B7C45002078A0 /* ChatsInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsInfo.swift; sourceTree = "<group>"; };
 		A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = teamRanking.storyboard; sourceTree = "<group>"; };
 		A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teamRankingVC.swift; sourceTree = "<group>"; };
+		A3C0D9E32773976200AC64D3 /* EnterTeam.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EnterTeam.storyboard; sourceTree = "<group>"; };
+		A3C0D9E5277397AD00AC64D3 /* EnterTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterTeamVC.swift; sourceTree = "<group>"; };
+		A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionVC.swift; sourceTree = "<group>"; };
+		A3C0D9EB277488BD00AC64D3 /* Reaction.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reaction.storyboard; sourceTree = "<group>"; };
 		A3D13E2B276F3074002599B9 /* Reaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
 		A3D13E2D276FC4B1002599B9 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		A3D13E3127737184002599B9 /* CreateTeam.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CreateTeam.storyboard; sourceTree = "<group>"; };
+		A3D13E33277371EC002599B9 /* CreateTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTeamVC.swift; sourceTree = "<group>"; };
 		A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChatRoom.storyboard; sourceTree = "<group>"; };
 		A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InChatRoomVC.swift; sourceTree = "<group>"; };
 		A3EAFB40276059BE00942C97 /* InChat.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InChat.storyboard; sourceTree = "<group>"; };
@@ -295,6 +307,9 @@
 				A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */,
 				A3EAFB42276059E400942C97 /* InChatVC.swift */,
 				A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */,
+				A3D13E33277371EC002599B9 /* CreateTeamVC.swift */,
+				A3C0D9E5277397AD00AC64D3 /* EnterTeamVC.swift */,
+				A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -334,6 +349,9 @@
 				CF39377B260492BA0020BE97 /* Profile.storyboard */,
 				A3EAFB40276059BE00942C97 /* InChat.storyboard */,
 				A3AE6F4B2760AB0B00E2219C /* teamRanking.storyboard */,
+				A3D13E3127737184002599B9 /* CreateTeam.storyboard */,
+				A3C0D9E32773976200AC64D3 /* EnterTeam.storyboard */,
+				A3C0D9EB277488BD00AC64D3 /* Reaction.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -411,6 +429,7 @@
 			files = (
 				CF3107A12600AA6700746480 /* Tabbar.storyboard in Resources */,
 				CF8B45062665698500CA6DE1 /* red_yellow.json in Resources */,
+				A3C0D9E42773976200AC64D3 /* EnterTeam.storyboard in Resources */,
 				CF4C5A31261E3A4900342675 /* quiz.csv in Resources */,
 				CFF8192E25D344C600524B81 /* blue.storyboard in Resources */,
 				CF4BF17F260FAB4D00942E6F /* YasashisaGothic.otf in Resources */,
@@ -428,8 +447,10 @@
 				CF1E4211262D6D3C00CEF85A /* thanksfriends.storyboard in Resources */,
 				CF0BD9D825D018FF004A1958 /* SignIn.storyboard in Resources */,
 				CF2A223B25C3FC7000C5BFC1 /* Main.storyboard in Resources */,
+				A3D13E3227737184002599B9 /* CreateTeam.storyboard in Resources */,
 				CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */,
 				CF3D0C1A267BD327006021FB /* UserSelf.storyboard in Resources */,
+				A3C0D9EC277488BD00AC64D3 /* Reaction.storyboard in Resources */,
 				A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */,
 				CF0C14B525C9F36A006A7C86 /* ChatRoomTableViewCell.xib in Resources */,
 				CF1BAC34266FB2210025A660 /* MyAccount.storyboard in Resources */,
@@ -516,6 +537,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF0C14B225C9F028006A7C86 /* ChatRoomViewController.swift in Sources */,
+				A3C0D9EA2774859C00AC64D3 /* ReactionVC.swift in Sources */,
 				CF7ADECA263A54DD001D91E1 /* brandsViewController.swift in Sources */,
 				CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */,
 				CF39565625D39A450097DBAA /* Team.swift in Sources */,
@@ -539,6 +561,7 @@
 				CFC07B62266BC70000163D47 /* exampleviewcontroller.swift in Sources */,
 				A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */,
 				CF083C7F276D0184006F6102 /* OutMemo.swift in Sources */,
+				A3C0D9E6277397AD00AC64D3 /* EnterTeamVC.swift in Sources */,
 				CF0C14CA25CC26C6006A7C86 /* Message.swift in Sources */,
 				CF4C5A34261E85CD00342675 /* ScoreViewController.swift in Sources */,
 				CF43661426789CB500DABD78 /* CompanyViewController.swift in Sources */,
@@ -554,6 +577,7 @@
 				CF31079D2600AA1A00746480 /* TabbarController.swift in Sources */,
 				CF4C5A2D261E2BC500342675 /* quizViewController.swift in Sources */,
 				A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */,
+				A3D13E34277371EC002599B9 /* CreateTeamVC.swift in Sources */,
 				CF1E420D262AF05C00CEF85A /* CopyUILabel.swift in Sources */,
 				CF449799264424A700A2F873 /* Bridging-Header.m in Sources */,
 			);
