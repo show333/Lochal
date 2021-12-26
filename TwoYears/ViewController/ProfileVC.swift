@@ -120,6 +120,10 @@ class ProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        chatListTableView.register(UINib(nibName: "OutMemoCellVC", bundle: nil), forCellReuseIdentifier: cellId)
+
+        
         //        self.navigationController?.navigationBar.isHidden = true
         
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
@@ -366,13 +370,13 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as!  profileCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
-        cell.backView.clipsToBounds = true
-        cell.backView.layer.cornerRadius = safeArea/3.5/4/4
-        if let url = URL(string:teamInfo[indexPath.row].teamImage) {
-            Nuke.loadImage(with: url, into: cell.teamCollectionImage!)
-        } else {
-            cell.teamCollectionImage?.image = nil
-        }
+//        cell.backView.clipsToBounds = true
+//        cell.backView.layer.cornerRadius = safeArea/3.5/4/4
+//        if let url = URL(string:teamInfo[indexPath.row].teamImage) {
+//            Nuke.loadImage(with: url, into: cell.teamCollectionImage!)
+//        } else {
+//            cell.teamCollectionImage?.image = nil
+//        }
         return cell
     }
     
@@ -412,7 +416,6 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         
         cell.shadowLayer.backgroundColor = .white
         //        #colorLiteral(red: 0.9411764706, green: 0.9411764706, blue: 0.9411764706, alpha: 0.7282213185)
-        cell.rankingnumber.text = (String(indexPath.row + 1))
         print(outMemo[indexPath.row].createdAt)
         
         let date: Date = outMemo[indexPath.row].createdAt.dateValue()
@@ -420,40 +423,12 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         print("デート！！",date)
         
         let momentType = moment(date)
-        
-        
-        
-        if momentType < moment() - 15.days {
-            cell.aftertime.text = "削除済みです"
-        } else if momentType < moment() - 14.days - 23.hours - 30.minutes{
-            cell.aftertime.text = "もうすぐ消えます"
-        } else if momentType < moment() - 14.days - 23.hours{
-            cell.aftertime.text = "1時間以内に消えます"
-        } else if momentType < moment() - 14.days - 18.hours{
-            cell.aftertime.text = "数時間後に消えます"
-        } else if momentType < moment() - 14.days - 12.hours{
-            cell.aftertime.text = "半日後に消えます"
-        } else if momentType < moment() - 14.days{
-            cell.aftertime.text = "1日後に消えます"
-        } else if momentType < moment() - 13.days{
-            cell.aftertime.text = "2日後に消えます"
-        } else if momentType < moment() - 12.days{
-            cell.aftertime.text = "3日後に消えます"
-        } else if momentType < moment() - 11.days{
-            cell.aftertime.text = "4日後に消えます"
-        } else if momentType < moment() - 10.days{
-            cell.aftertime.text = "5日後に消えます"
-        } else {
-            cell.aftertime.text = ""
-        }
-        
-        
-        
+ 
         let comentjiLatestdate = outMemo[indexPath.row].createdAt.dateValue()
         let comentjiLatestmoment = moment(comentjiLatestdate)
         
         let dateformattedLatest = comentjiLatestmoment.format("MM/dd")
-        cell.latestdateLabel.text = dateformattedLatest
+//        cell.latestdateLabel.text = dateformattedLatest
         
         
         cell.userImageView.image = nil
@@ -494,34 +469,66 @@ class ShadowRankingView: UIView {
 }
 class ChatRankingTableViewCell: UITableViewCell {
     
+    let db = Firestore.firestore()
+    var teamInfo : [Team] = []
+    var outMemo : OutMemo?
+    var indexPath : [Int] = []
     
     override func prepareForReuse() {
         super.prepareForReuse()
         messageLabel.backgroundColor = .clear
     }
     
-    var animals : Animal? {
-        didSet{
-            if let animals = animals {
-                messageLabel.text = animals.nameJP
-            }
-        }
-    }
-    @IBOutlet weak var aftertime: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
-    @IBOutlet weak var rankingnumber: UILabel!
     @IBOutlet weak var backback: UIView!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var mainBackground: UIView!
     @IBOutlet weak var shadowLayer: UIView!
-    @IBOutlet weak var companyImageView: UIImageView!
-    @IBOutlet weak var IndividualImageView: UIImageView!
-    @IBOutlet weak var latestdateLabel: UILabel!
+
+    @IBOutlet weak var teamCollectionView: UICollectionView!
+    
     @IBAction func tappedButton(_ sender: Any) {
         print("ssoieiei")
     }
     override class func awakeFromNib() {
         super.awakeFromNib()
+        
+        
+        
+//        userImageView.isUserInteractionEnabled = true
+//        userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
+//        
+//        teamCollectionView.dataSource = self
+//        teamCollectionView.delegate = self
+//        
+////
+////        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
+////        let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)
+////
+////        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
+////
+////        safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight - navigationbarHeight
+////
+////        collectionViewConstraint.constant = safeArea/4
+//        
+//        // セルの詳細なレイアウトを設定する
+//        let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        // セルのサイズ
+//        flowLayout.itemSize = CGSize(width: 40, height: 40)
+//        // 縦・横のスペース
+//        flowLayout.minimumLineSpacing = 5
+//        flowLayout.minimumInteritemSpacing = 0
+//        //  スクロールの方向
+//        flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
+//        // 上で設定した内容を反映させる
+//        self.teamCollectionView.collectionViewLayout = flowLayout
+//        // 背景色を設定
+//        self.teamCollectionView.backgroundColor = .clear
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//            // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
+//            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "")
+//        }
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -536,10 +543,6 @@ class ChatRankingTableViewCell: UITableViewCell {
 }
 
 class profileCollectionViewCell: UICollectionViewCell {
-    
-    @IBOutlet weak var backView: UIView!
-    
-    @IBOutlet weak var teamCollectionImage: UIImageView!
     
     
     
@@ -564,3 +567,15 @@ class profileCollectionViewCell: UICollectionViewCell {
         //        self.layer.cornerRadius = 2.0
     }
 }
+
+class ProfileteamCollectionViewCell: UICollectionViewCell {
+    
+    
+    @IBOutlet weak var teamImageView: UIImageView!
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+            }
+}
+

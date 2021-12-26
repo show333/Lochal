@@ -116,6 +116,9 @@ class ViewController: UIViewController{
         //navigationbarのやつ
         let navBar = self.navigationController?.navigationBar
         navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
+        
+        chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
+
 
         self.chatListTableView.estimatedRowHeight = 40
         self.chatListTableView.rowHeight = UITableView.automaticDimension
@@ -191,47 +194,47 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatListTableViewCell
+        let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutMemoCell
         
-        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
-        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
-        
-        cell.messageLabel.text = outMemo[indexPath.row].message
-        cell.backBack.backgroundColor = .clear
-        cell.backgroundColor = .clear
-        tableView.backgroundColor = .clear
-        let date: Date = outMemo[indexPath.row].createdAt.dateValue()
-        
-        print("デート！！",date)
-        let momentType = moment(date)
-        
-        
-        print(momentType)
-        
-        cell.flagButton.tag = indexPath.row
-        cell.flagButton.addTarget(self, action: #selector(buttonEvemt), for: UIControl.Event.touchUpInside)
-//        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)
-                                 
-        cell.userImageView.image = nil
-//        cell.IndividualImageView.image = nil
-        fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
-        
-        print(cell.outMemo?.userId ?? "")
-        
-        let comentjidate = outMemo[indexPath.row].createdAt.dateValue()
-        let comentjimoment = moment(comentjidate)
-        let dateformatted2 = comentjimoment.format("MM/dd")
-        let comentjiLatestdate = outMemo[indexPath.row].createdAt.dateValue()
-        let comentjiLatestmoment = moment(comentjiLatestdate)
-        let dateformattedLatest = comentjiLatestmoment.format("MM/dd")
-                
-        cell.userImageView.layer.cornerRadius = 25
-        cell.mainBackground.layer.cornerRadius = 8
-        cell.mainBackground.layer.masksToBounds = true
-        cell.outMemo = outMemo[indexPath.row]
-        cell.messageLabel.numberOfLines = 0
-        cell.messageLabel.clipsToBounds = true
-        cell.messageLabel.layer.cornerRadius = 10
+//        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
+//        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
+//
+//        cell.messageLabel.text = outMemo[indexPath.row].message
+//        cell.backBack.backgroundColor = .clear
+//        cell.backgroundColor = .clear
+//        tableView.backgroundColor = .clear
+//        let date: Date = outMemo[indexPath.row].createdAt.dateValue()
+//
+//        print("デート！！",date)
+//        let momentType = moment(date)
+//
+//
+//        print(momentType)
+//
+//        cell.flagButton.tag = indexPath.row
+//        cell.flagButton.addTarget(self, action: #selector(buttonEvemt), for: UIControl.Event.touchUpInside)
+////        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)
+//
+//        cell.userImageView.image = nil
+////        cell.IndividualImageView.image = nil
+//        fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
+//
+//        print(cell.outMemo?.userId ?? "")
+//
+//        let comentjidate = outMemo[indexPath.row].createdAt.dateValue()
+//        let comentjimoment = moment(comentjidate)
+//        let dateformatted2 = comentjimoment.format("MM/dd")
+//        let comentjiLatestdate = outMemo[indexPath.row].createdAt.dateValue()
+//        let comentjiLatestmoment = moment(comentjiLatestdate)
+//        let dateformattedLatest = comentjiLatestmoment.format("MM/dd")
+//
+//        cell.userImageView.layer.cornerRadius = 30
+//        cell.mainBackground.layer.cornerRadius = 8
+//        cell.mainBackground.layer.masksToBounds = true
+//        cell.outMemo = outMemo[indexPath.row]
+//        cell.messageLabel.numberOfLines = 0
+//        cell.messageLabel.clipsToBounds = true
+//        cell.messageLabel.layer.cornerRadius = 10
         return cell
     }
     
@@ -331,7 +334,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     
-    func fetchUserProfile(userId:String,cell:ChatListTableViewCell){
+    func fetchUserProfile(userId:String,cell:OutMemoCell){
 
         db.collection("users").document(userId).collection("Profile").document("profile")
             .addSnapshotListener { [self] documentSnapshot, error in
@@ -344,12 +347,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     return
                 }
                 print("Current data: \(data)")
-                let userId = document["userId"] as? String ?? "unKnown"
-                userName = document["userName"] as? String ?? "unKnown"
+//                let userId = document["userId"] as? String ?? "unKnown"
+//                userName = document["userName"] as? String ?? "unKnown"
                 userImage = document["userImage"] as? String ?? ""
                 
                 
-                cell.nameLabel.text = userName
+//                cell.nameLabel.text = userName
 //                getUserTeamInfo(userId: userId, cell: cell)
                 
                 if let url = URL(string:userImage ?? "") {
@@ -397,219 +400,3 @@ extension UIView {
         }
     }
 }
-
-class ShadowView: UIView {
-    override var bounds: CGRect {
-        didSet {
-            setupShadow()
-        }
-    }
-    private func setupShadow() {
-        self.layer.cornerRadius = 8
-        self.layer.shadowOffset = CGSize(width: 0, height: 0)
-        self.layer.shadowRadius = 5
-        self.layer.shadowOpacity = 1
-        self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 8, height: 8)).cgPath
-        self.layer.shouldRasterize = true
-        self.layer.rasterizationScale = UIScreen.main.scale
-    }
-}
-
-
-
-class ChatListTableViewCell: UITableViewCell {
-    
-    
-    let db = Firestore.firestore()
-    var teamInfo : [Team] = []
-    var outMemo : OutMemo?
-    var indexPath : [Int] = []
-    
-
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        messageLabel.backgroundColor = .clear
-    }
-    
-    
-    
-    
-    
-    @IBOutlet weak var backBack: UIView!
-    @IBOutlet weak var userImageView: UIImageView!
-    @IBOutlet weak var mainBackground: UIView!
-    @IBOutlet weak var shadowLayer: UIView!
-    @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var nameLabel: UILabel!
-    
-    @IBOutlet weak var teamCollectionView: UICollectionView!
-        
-
-    @IBOutlet weak var flagButton: UIButton!
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        userImageView.isUserInteractionEnabled = true
-        userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
-        
-        teamCollectionView.dataSource = self
-        teamCollectionView.delegate = self
-        
-//
-//        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
-//        let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)
-//
-//        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
-//
-//        safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight - navigationbarHeight
-//
-//        collectionViewConstraint.constant = safeArea/4
-        
-        // セルの詳細なレイアウトを設定する
-        let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        // セルのサイズ
-        flowLayout.itemSize = CGSize(width: 40, height: 40)
-        // 縦・横のスペース
-        flowLayout.minimumLineSpacing = 5
-        flowLayout.minimumInteritemSpacing = 0
-        //  スクロールの方向
-        flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
-        // 上で設定した内容を反映させる
-        self.teamCollectionView.collectionViewLayout = flowLayout
-        // 背景色を設定
-        self.teamCollectionView.backgroundColor = .clear
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
-            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "")
-        }
-    }
-
-    
-    
-    func fetchUserTeamInfo(userId:String){
-        
-        db.collection("users").document(userId).collection("belong_Team").document("teamId")
-            .addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let teamIdArray = data["teamId"] as! Array<String>
-                print(teamIdArray)
-                print(teamIdArray[0])
-                
-                teamIdArray.forEach{
-                    self.getTeamInfo(teamId: $0)
-                    
-                }
-            }
-        
-    }
-    
-    func getUserTeamInfo(userId:String){
-        db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-
-                let teamIdArray = document.data()!["teamId"] as! Array<String>
-                print(teamIdArray)
-                print(teamIdArray[0])
-                
-                print("カカかっかっっっカカかかかあいあいいあいいえいえいえおをを")
-
-                teamIdArray.forEach{
-                    self.getTeamInfo(teamId: $0)
-
-                }
-
-            } else {
-                print("Document does not exist")
-            }
-        }
-    }
-    
-    func getTeamInfo(teamId:String){
-        db.collection("Team").document(teamId).getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-                let teamDic = Team(dic: document.data()!)
-                self.teamInfo.append(teamDic)
-                print("翼をください！",teamId)
-                print("翼をください！",document.data()!)
-                print("asefiosejof",teamDic)
-                
-                self.teamCollectionView.reloadData()
-            } else {
-                print("Document does not exist")
-            }
-        }
-    }
-    
-    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
-        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        ProfileVC.userId = outMemo?.userId
-        ProfileVC.cellImageTap = true
-        ProfileVC.tabBarController?.tabBar.isHidden = true
-        ViewController()?.navigationController?.navigationBar.isHidden = false
-        ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
-    }
-    
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    private func dateFormatterForDateLabel(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .full
-        formatter.dateStyle = .short
-        formatter.locale = Locale(identifier: "ja_JP")
-        return formatter.string(from: date)
-    }
-}
-
-extension ChatListTableViewCell:UICollectionViewDataSource,UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return teamInfo.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as!  VCteamCollectionViewCell
-        
-        cell.teamImageView.clipsToBounds = true
-        cell.teamImageView.layer.cornerRadius = 10
-        
-        if let url = URL(string: teamInfo[indexPath.row].teamImage) {
-            Nuke.loadImage(with: url, into: cell.teamImageView)
-        } else {
-            cell.teamImageView?.image = nil
-        }
-        
-//        getTeamInfo(teamId: outMemo?.userId ?? "")
-        return cell
-    }
-    
-}
-class VCteamCollectionViewCell: UICollectionViewCell {
-    
-    
-    @IBOutlet weak var teamImageView: UIImageView!
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-            }
-}
-
-
-

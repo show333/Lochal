@@ -14,6 +14,8 @@
 		A3C0D9E6277397AD00AC64D3 /* EnterTeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C0D9E5277397AD00AC64D3 /* EnterTeamVC.swift */; };
 		A3C0D9EA2774859C00AC64D3 /* ReactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */; };
 		A3C0D9EC277488BD00AC64D3 /* Reaction.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3C0D9EB277488BD00AC64D3 /* Reaction.storyboard */; };
+		A3C0D9F02778603400AC64D3 /* outMemoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A3C0D9EF2778603400AC64D3 /* outMemoCell.xib */; };
+		A3C0D9F22778609F00AC64D3 /* OutmMemoCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C0D9F12778609F00AC64D3 /* OutmMemoCellVC.swift */; };
 		A3D13E2C276F3074002599B9 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D13E2B276F3074002599B9 /* Reaction.swift */; };
 		A3D13E2E276FC4B1002599B9 /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3D13E2D276FC4B1002599B9 /* Users.swift */; };
 		A3D13E3227737184002599B9 /* CreateTeam.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3D13E3127737184002599B9 /* CreateTeam.storyboard */; };
@@ -103,6 +105,8 @@
 		A3C0D9E5277397AD00AC64D3 /* EnterTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterTeamVC.swift; sourceTree = "<group>"; };
 		A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionVC.swift; sourceTree = "<group>"; };
 		A3C0D9EB277488BD00AC64D3 /* Reaction.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reaction.storyboard; sourceTree = "<group>"; };
+		A3C0D9EF2778603400AC64D3 /* outMemoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = outMemoCell.xib; sourceTree = "<group>"; };
+		A3C0D9F12778609F00AC64D3 /* OutmMemoCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutmMemoCellVC.swift; sourceTree = "<group>"; };
 		A3D13E2B276F3074002599B9 /* Reaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
 		A3D13E2D276FC4B1002599B9 /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		A3D13E3127737184002599B9 /* CreateTeam.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CreateTeam.storyboard; sourceTree = "<group>"; };
@@ -310,6 +314,7 @@
 				A3D13E33277371EC002599B9 /* CreateTeamVC.swift */,
 				A3C0D9E5277397AD00AC64D3 /* EnterTeamVC.swift */,
 				A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */,
+				A3C0D9F12778609F00AC64D3 /* OutmMemoCellVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -319,6 +324,7 @@
 			children = (
 				CF0C14B425C9F36A006A7C86 /* ChatRoomTableViewCell.xib */,
 				CF0C14BE25CA04C5006A7C86 /* ChatInputAccessoryView.xib */,
+				A3C0D9EF2778603400AC64D3 /* outMemoCell.xib */,
 			);
 			path = XibFile;
 			sourceTree = "<group>";
@@ -434,6 +440,7 @@
 				CFF8192E25D344C600524B81 /* blue.storyboard in Resources */,
 				CF4BF17F260FAB4D00942E6F /* YasashisaGothic.otf in Resources */,
 				CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */,
+				A3C0D9F02778603400AC64D3 /* outMemoCell.xib in Resources */,
 				CF2A224325C3FC7200C5BFC1 /* LaunchScreen.storyboard in Resources */,
 				CF39F27E26567D3F0006716A /* stampCollection.storyboard in Resources */,
 				CF4BF17B260FA5CA00942E6F /* 07にくまるフォント.otf in Resources */,
@@ -558,6 +565,7 @@
 				CF2A223425C3FC7000C5BFC1 /* AppDelegate.swift in Sources */,
 				CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */,
 				CF2A223625C3FC7000C5BFC1 /* SceneDelegate.swift in Sources */,
+				A3C0D9F22778609F00AC64D3 /* OutmMemoCellVC.swift in Sources */,
 				CFC07B62266BC70000163D47 /* exampleviewcontroller.swift in Sources */,
 				A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */,
 				CF083C7F276D0184006F6102 /* OutMemo.swift in Sources */,

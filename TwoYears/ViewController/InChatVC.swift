@@ -82,8 +82,6 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         
 //        layout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
 //        teamCollectionView.collectionViewLayout = layout
-        
-
     }
     func fetchReaction() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -156,7 +154,6 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
                     }
                 }
             }
-        
     }
     
     func getTeamInfo(teamId:String){
@@ -210,34 +207,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-//        UIView.animate(withDuration: 0.2, delay: 0.1, animations: {
-//            self.imageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-//            self.imageView.alpha = 1
-//
-//
-//        }) { bool in
-//        // ②アイコンを大きくする
-//            UIView.animate(withDuration: 0.1, delay: 0, animations: {
-//                self.imageView.transform = CGAffineTransform(scaleX: 1.15, y: 1.15)
-//
-//        }) { bool in
-//            // ②アイコンを大きくする
-//            UIView.animate(withDuration: 0.1, delay: 0, animations: {
-//                self.imageView.transform = CGAffineTransform(scaleX: 1, y: 1)
-//
-//            })
-//            }
-//        }
-//
-//        laLabel.alpha = 1
-//        cancelButton.alpha = 0.7
-//
-//        stampUrls = imageUrls[indexPath.row]
-//
-//        if let url = URL(string:imageUrls[indexPath.row]) {
-//            Nuke.loadImage(with: url, into: imageView)
-//        }
+
         let teamRoomId = teamInfo[indexPath.row].teamId
         UserDefaults.standard.set(teamRoomId, forKey: "teamRoomId")
         
@@ -248,9 +218,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         print(teamInfo[indexPath.row].teamId)
 
         navigationController?.pushViewController(InChatRoomVC, animated: true)
-
         print(indexPath.row)
-        print("怒る")
     }
 
 }
@@ -272,37 +240,94 @@ class teamCollectionViewCell: UICollectionViewCell {
         self.layer.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
 //        backgroundColor = .gray
 
-        
-//        if teamName == "red" {
-//            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
-//        } else  if teamName == "yellow" {
-//            self.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-//        } else  if teamName == "blue" {
-//            self.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
-//        } else if teamName == "purple" {
-//            self.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-//        }
-        // cellを丸くする
-//        self.layer.cornerRadius = 2.0
     }
 }
 
 extension InChat:UITableViewDataSource, UITableViewDelegate{
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return reaction.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = reactionTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! InChatTableViewCell
-        cell.messageLabel.text = reaction[indexPath.row].userId
+        cell.userImageView.clipsToBounds = true
+        cell.userImageView.layer.cornerRadius = 30
+        cell.userImageView.image = nil
+        cell.reactionView.image = nil
+        cell.messageLabel.text = reaction[indexPath.row].theMessage
+        if let url = URL(string:reaction[indexPath.row].reaction) {
+            Nuke.loadImage(with: url, into: cell.reactionView!)
+        } else {
+            cell.reactionView?.image = nil
+        }
+//        fetchUserProfile(userId: reaction[indexPath.row].userId, cell: cell)
+        getUserInfo(userId: reaction[indexPath.row].userId, cell: cell)
+        
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        ProfileVC.userId = reaction[indexPath.row].userId
+        ProfileVC.cellImageTap = true
+        navigationController?.pushViewController(ProfileVC, animated: true)
+
+    }
+    
+    
+    func getUserInfo(userId:String,cell:InChatTableViewCell){
+        db.collection("users").document(userId).collection("Profile").document("profile").getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                let userImage = document["userImage"] as? String ?? ""
+                if let url = URL(string:userImage) {
+                    Nuke.loadImage(with: url, into: cell.userImageView)
+                } else {
+                    cell.userImageView?.image = nil
+                }
+                self.teamCollectionView.reloadData()
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func getUserProfile(userId:String,cell:InChatTableViewCell){
+
+        db.collection("users").document(userId).collection("Profile").document("profile")
+            .addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                print("Current data: \(data)")
+                let userImage = document["userImage"] as? String ?? ""
+                                
+                if let url = URL(string:userImage) {
+                    Nuke.loadImage(with: url, into: cell.userImageView)
+                } else {
+                    cell.userImageView?.image = nil
+                }
+                self.reactionTableView.reloadData()
+            }
+    }
     
 }
 
 class InChatTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var userImageView: UIImageView!
+    @IBOutlet weak var reactionView: UIImageView!
     @IBOutlet weak var messageLabel: UILabel!
     
     override func prepareForReuse() {
