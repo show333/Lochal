@@ -26,7 +26,6 @@ class ViewController: UIViewController{
     var userImage: String? = ""
     let db = Firestore.firestore()
 //    let uid = Auth.auth().currentUser?.uid
-    let DBU = Firestore.firestore().collection("users")
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
     let firebaseCompany = Firestore.firestore().collection("Company1").document("Company1_document").collection("Company2").document("Company2_document").collection("Company3")
     //    navigationvarのやつ
@@ -119,7 +118,7 @@ class ViewController: UIViewController{
         
         chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
 
-
+//        self.chatListTableView.rowHeight = 100
         self.chatListTableView.estimatedRowHeight = 40
         self.chatListTableView.rowHeight = UITableView.automaticDimension
         //Pull To Refresh
@@ -194,147 +193,147 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutMemoCell
+        let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
         
-//        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
-//        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
-//
-//        cell.messageLabel.text = outMemo[indexPath.row].message
-//        cell.backBack.backgroundColor = .clear
-//        cell.backgroundColor = .clear
-//        tableView.backgroundColor = .clear
-//        let date: Date = outMemo[indexPath.row].createdAt.dateValue()
-//
-//        print("デート！！",date)
-//        let momentType = moment(date)
-//
-//
-//        print(momentType)
-//
-//        cell.flagButton.tag = indexPath.row
-//        cell.flagButton.addTarget(self, action: #selector(buttonEvemt), for: UIControl.Event.touchUpInside)
-////        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)
-//
-//        cell.userImageView.image = nil
-////        cell.IndividualImageView.image = nil
-//        fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
-//
-//        print(cell.outMemo?.userId ?? "")
-//
-//        let comentjidate = outMemo[indexPath.row].createdAt.dateValue()
-//        let comentjimoment = moment(comentjidate)
-//        let dateformatted2 = comentjimoment.format("MM/dd")
-//        let comentjiLatestdate = outMemo[indexPath.row].createdAt.dateValue()
-//        let comentjiLatestmoment = moment(comentjiLatestdate)
-//        let dateformattedLatest = comentjiLatestmoment.format("MM/dd")
-//
-//        cell.userImageView.layer.cornerRadius = 30
-//        cell.mainBackground.layer.cornerRadius = 8
-//        cell.mainBackground.layer.masksToBounds = true
-//        cell.outMemo = outMemo[indexPath.row]
-//        cell.messageLabel.numberOfLines = 0
-//        cell.messageLabel.clipsToBounds = true
-//        cell.messageLabel.layer.cornerRadius = 10
+        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
+        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
+
+        cell.messageLabel.text = outMemo[indexPath.row].message
+        cell.backBack.backgroundColor = .clear
+        cell.backgroundColor = .clear
+        tableView.backgroundColor = .clear
+        let date: Date = outMemo[indexPath.row].createdAt.dateValue()
+
+        print("デート！！",date)
+        let momentType = moment(date)
+
+
+        print(momentType)
+
+        cell.flagButton.tag = indexPath.row
+        cell.flagButton.addTarget(self, action: #selector(buttonEvemt), for: UIControl.Event.touchUpInside)
+//        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)
+
+        cell.userImageView.image = nil
+//        cell.IndividualImageView.image = nil
+        fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
+
+        print(cell.outMemo?.userId ?? "")
+
+        let comentjidate = outMemo[indexPath.row].createdAt.dateValue()
+        let comentjimoment = moment(comentjidate)
+        let dateformatted2 = comentjimoment.format("MM/dd")
+
+        
+        
+        cell.dateLabel.text = dateformatted2
+
+        cell.userImageView.layer.cornerRadius = 30
+        cell.mainBackground.layer.cornerRadius = 8
+        cell.mainBackground.layer.masksToBounds = true
+        cell.outMemo = outMemo[indexPath.row]
+        cell.messageLabel.numberOfLines = 0
+        cell.messageLabel.clipsToBounds = true
+        cell.messageLabel.layer.cornerRadius = 10
         return cell
     }
     
     @objc func buttonEvemt(_ sender: UIButton){
-        //アラート生成
-        //UIAlertControllerのスタイルがactionSheet
-        let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
-        
-        let uid = Auth.auth().currentUser?.uid
-        let report = [
-            "reporter": uid,
-            "documentId": outMemo[sender.tag].documentId,
-            "問題のコメント": outMemo[sender.tag].message,
-            "問題と思われるユーザー": outMemo[sender.tag].userId,
-            "createdAt": FieldValue.serverTimestamp(),
-        ] as [String: Any]
+           //アラート生成
+           //UIAlertControllerのスタイルがactionSheet
+           let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+           
+           let uid = Auth.auth().currentUser?.uid
+           let report = [
+               "reporter": uid,
+               "documentId": outMemo[sender.tag].documentId,
+               "問題のコメント": outMemo[sender.tag].message,
+               "問題と思われるユーザー": outMemo[sender.tag].userId,
+               "createdAt": FieldValue.serverTimestamp(),
+           ] as [String: Any]
 
 
-        // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
-        let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
-            (action: UIAlertAction!) in
-            //実際の処理
-            let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
-            // 選択肢(ボタン)を2つ(OKとCancel)追加します
-            //   titleには、選択肢として表示される文字列を指定します
-            //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
-            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
-                
-                if UserDefaults.standard.object(forKey: "blocked") == nil{
-                    let XXX = ["XX" : true]
-                    UserDefaults.standard.set(XXX, forKey: "blocked")
-                }
-                var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
-                
-                print("あいえいえいいえいえ",outMemo[sender.tag].userId)
-                blockDic[outMemo[sender.tag].userId] = true
-                UserDefaults.standard.set(blockDic, forKey: "blocked")
-//                let uid = Auth.auth().currentUser?.uid
-                
-                
-                
-                print("tapped: \([sender.tag])番目のcell")
-                
-                
+           // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
+           let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
+               (action: UIAlertAction!) in
+               //実際の処理
+               let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
+               // 選択肢(ボタン)を2つ(OKとCancel)追加します
+               //   titleには、選択肢として表示される文字列を指定します
+               //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
+               dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
+                   
+                   if UserDefaults.standard.object(forKey: "blocked") == nil{
+                       let XXX = ["XX" : true]
+                       UserDefaults.standard.set(XXX, forKey: "blocked")
+                   }
+                   var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
+                   
+                   print("あいえいえいいえいえ",outMemo[sender.tag].userId)
+                   blockDic[outMemo[sender.tag].userId] = true
+                   UserDefaults.standard.set(blockDic, forKey: "blocked")
+   //                let uid = Auth.auth().currentUser?.uid
+                   
+                   print("tapped: \([sender.tag])番目のcell")
+                   
+                   
 
-                self.outMemo.remove(at: sender.tag)
-                self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
-                self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
-                self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
-            }))
-            dialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            // 生成したダイアログを実際に表示します
-            self.present(dialog, animated: true, completion: nil)
-            print("このユーザーを非表示にする")
-        })
-        // 表示させたいタイトル2ボタンが押された時の処理をクロージャ実装する
-        let action2 = UIAlertAction(title: "このユーザーを報告する", style: UIAlertAction.Style.default, handler: {
-            (action: UIAlertAction!) in
-            //実際の処理
-            
-            self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
-            self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
-            print("このユーザーを報告する")
+                   self.outMemo.remove(at: sender.tag)
+                   self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
+                   self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
+                   self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
+               }))
+               dialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+               // 生成したダイアログを実際に表示します
+               self.present(dialog, animated: true, completion: nil)
+               print("このユーザーを非表示にする")
+           })
+           // 表示させたいタイトル2ボタンが押された時の処理をクロージャ実装する
+           let action2 = UIAlertAction(title: "このユーザーを報告する", style: UIAlertAction.Style.default, handler: {
+               (action: UIAlertAction!) in
+               //実際の処理
+               
+               self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
+               self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
+               print("このユーザーを報告する")
 
-        })
-        // 閉じるボタンが押された時の処理をクロージャ実装する
-        //UIAlertActionのスタイルがCancelなので赤く表示される
-        let close = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.destructive, handler: {
-            (action: UIAlertAction!) in
-            //実際の処理
-            print("キャンセル")
-        })
-        //UIAlertControllerにタイトル1ボタンとタイトル2ボタンと閉じるボタンをActionを追加
-        actionSheet.addAction(action1)
-        actionSheet.addAction(action2)
-        actionSheet.addAction(close)
+           })
+           // 閉じるボタンが押された時の処理をクロージャ実装する
+           //UIAlertActionのスタイルがCancelなので赤く表示される
+           let close = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.destructive, handler: {
+               (action: UIAlertAction!) in
+               //実際の処理
+               print("キャンセル")
+           })
+           //UIAlertControllerにタイトル1ボタンとタイトル2ボタンと閉じるボタンをActionを追加
+           actionSheet.addAction(action1)
+           actionSheet.addAction(action2)
+           actionSheet.addAction(close)
 
-        actionSheet.popoverPresentationController?.sourceView = self.view
+           actionSheet.popoverPresentationController?.sourceView = self.view
 
-        let screenSize = UIScreen.main.bounds
-        actionSheet.popoverPresentationController?.sourceRect=CGRect(x:screenSize.size.width/2,y:screenSize.size.height,width:0,height:0)
-        //実際にAlertを表示する
-        self.present(actionSheet, animated: true, completion: nil)
+           let screenSize = UIScreen.main.bounds
+           actionSheet.popoverPresentationController?.sourceRect=CGRect(x:screenSize.size.width/2,y:screenSize.size.height,width:0,height:0)
+           //実際にAlertを表示する
+           self.present(actionSheet, animated: true, completion: nil)
     }
     
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
         let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
-        
+
         ReactionVC.message = outMemo[indexPath.row].message
         ReactionVC.userId = outMemo[indexPath.row].userId
         
         self.present(ReactionVC, animated: true, completion: nil)
-
+        
     }
 
     
-    func fetchUserProfile(userId:String,cell:OutMemoCell){
+    func fetchUserProfile(userId:String,cell:OutmMemoCellVC){
 
         db.collection("users").document(userId).collection("Profile").document("profile")
             .addSnapshotListener { [self] documentSnapshot, error in

@@ -1,5 +1,5 @@
 //
-//  outmMemoCellVC.swift
+//  OutmMemoCellVC.swift
 //  TOTALGOOD
 //
 //  Created by 平田翔大 on 2021/12/26.
@@ -30,7 +30,7 @@ class ShadowView: UIView {
 
 
 
-class OutMemoCell: UITableViewCell {
+class OutmMemoCellVC: UITableViewCell {
     
     
     let db = Firestore.firestore()
@@ -38,13 +38,11 @@ class OutMemoCell: UITableViewCell {
     var outMemo : OutMemo?
     var indexPath : [Int] = []
     
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         messageLabel.backgroundColor = .clear
     }
-    
-    
     
     
     
@@ -55,7 +53,7 @@ class OutMemoCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
-        
+    
     @IBOutlet weak var teamCollectionView: UICollectionView!
     
     @IBOutlet weak var flagButton: UIButton!
@@ -69,15 +67,19 @@ class OutMemoCell: UITableViewCell {
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
         
-//
-//        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
-//        let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)
-//
-//        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
-//
-//        safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight - navigationbarHeight
-//
-//        collectionViewConstraint.constant = safeArea/4
+        let nib = UINib(nibName: "TeamCollectionViewCell", bundle: nil)
+        teamCollectionView.register(nib, forCellWithReuseIdentifier: "Cell")
+        
+        
+        //
+        //        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
+        //        let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)
+        //
+        //        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
+        //
+        //        safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight - navigationbarHeight
+        //
+        //        collectionViewConstraint.constant = safeArea/4
         
         // セルの詳細なレイアウトを設定する
         let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -92,13 +94,13 @@ class OutMemoCell: UITableViewCell {
         self.teamCollectionView.collectionViewLayout = flowLayout
         // 背景色を設定
         self.teamCollectionView.backgroundColor = .clear
-
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
             self.getUserTeamInfo(userId: self.outMemo?.userId ?? "")
         }
     }
-
+    
     
     
     func fetchUserTeamInfo(userId:String){
@@ -131,18 +133,18 @@ class OutMemoCell: UITableViewCell {
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
-
+                
                 let teamIdArray = document.data()!["teamId"] as! Array<String>
                 print(teamIdArray)
                 print(teamIdArray[0])
                 
                 print("カカかっかっっっカカかかかあいあいいあいいえいえいえおをを")
-
+                
                 teamIdArray.forEach{
                     self.getTeamInfo(teamId: $0)
-
+                    
                 }
-
+                
             } else {
                 print("Document does not exist")
             }
@@ -190,14 +192,13 @@ class OutMemoCell: UITableViewCell {
     }
 }
 
-extension OutMemoCell :UICollectionViewDataSource,UICollectionViewDelegate {
+extension OutmMemoCellVC :UICollectionViewDataSource,UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return teamInfo.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as!  VCteamCollectionViewCell
-        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! TeamCollectionViewCellVC
         cell.teamImageView.clipsToBounds = true
         cell.teamImageView.layer.cornerRadius = 10
         
@@ -207,21 +208,12 @@ extension OutMemoCell :UICollectionViewDataSource,UICollectionViewDelegate {
             cell.teamImageView?.image = nil
         }
         
-//        getTeamInfo(teamId: outMemo?.userId ?? "")
+        //        getTeamInfo(teamId: outMemo?.userId ?? "")
         return cell
     }
     
 }
-class VCteamCollectionViewCell: UICollectionViewCell {
-    
-    
-    @IBOutlet weak var teamImageView: UIImageView!
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-            }
-}
+
 
 
 
