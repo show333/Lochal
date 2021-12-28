@@ -81,6 +81,7 @@
 		CF4C5A31261E3A4900342675 /* quiz.csv in Resources */ = {isa = PBXBuildFile; fileRef = CF4C5A30261E3A4900342675 /* quiz.csv */; };
 		CF4C5A34261E85CD00342675 /* ScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4C5A33261E85CD00342675 /* ScoreViewController.swift */; };
 		CF4C5A44261FA3F300342675 /* packmanload.json in Resources */ = {isa = PBXBuildFile; fileRef = CF4C5A43261FA3F300342675 /* packmanload.json */; };
+		CF766550277A3220006AD673 /* forexample.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF76654F277A3220006AD673 /* forexample.storyboard */; };
 		CF7ADEC72639D0D2001D91E1 /* brands.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF7ADEC62639D0D2001D91E1 /* brands.storyboard */; };
 		CF7ADECA263A54DD001D91E1 /* brandsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7ADEC9263A54DD001D91E1 /* brandsViewController.swift */; };
 		CF7E8E4227788677003E3E84 /* TeamCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E8E4127788677003E3E84 /* TeamCollectionViewCell.xib */; };
@@ -178,6 +179,7 @@
 		CF4C5A30261E3A4900342675 /* quiz.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = quiz.csv; sourceTree = "<group>"; };
 		CF4C5A33261E85CD00342675 /* ScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreViewController.swift; sourceTree = "<group>"; };
 		CF4C5A43261FA3F300342675 /* packmanload.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = packmanload.json; sourceTree = "<group>"; };
+		CF76654F277A3220006AD673 /* forexample.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = forexample.storyboard; sourceTree = "<group>"; };
 		CF7ADEC62639D0D2001D91E1 /* brands.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = brands.storyboard; sourceTree = "<group>"; };
 		CF7ADEC9263A54DD001D91E1 /* brandsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = brandsViewController.swift; sourceTree = "<group>"; };
 		CF7E8E4127788677003E3E84 /* TeamCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TeamCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				A3D13E3127737184002599B9 /* CreateTeam.storyboard */,
 				A3C0D9E32773976200AC64D3 /* EnterTeam.storyboard */,
 				A3C0D9EB277488BD00AC64D3 /* Reaction.storyboard */,
+				CF76654F277A3220006AD673 /* forexample.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				CF2A224325C3FC7200C5BFC1 /* LaunchScreen.storyboard in Resources */,
 				CF39F27E26567D3F0006716A /* stampCollection.storyboard in Resources */,
 				CF4BF17B260FA5CA00942E6F /* 07にくまるフォント.otf in Resources */,
+				CF766550277A3220006AD673 /* forexample.storyboard in Resources */,
 				CF40F3452635827100A65E95 /* UserComment.storyboard in Resources */,
 				A3AE6F4C2760AB0B00E2219C /* teamRanking.storyboard in Resources */,
 				CF40D36D26296C6E00F62858 /* goodloadingcolor.json in Resources */,

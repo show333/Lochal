@@ -203,15 +203,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
         let date: Date = outMemo[indexPath.row].createdAt.dateValue()
-
+        
+        cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         print("デート！！",date)
         let momentType = moment(date)
 
 
         print(momentType)
+        
+        print("とととt",UITableView.automaticDimension)
 
         cell.flagButton.tag = indexPath.row
-        cell.flagButton.addTarget(self, action: #selector(buttonEvemt), for: UIControl.Event.touchUpInside)
+        cell.flagButton.addTarget(self, action: #selector(flagButtonEvemt), for: UIControl.Event.touchUpInside)
 //        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)
 
         cell.userImageView.image = nil
@@ -237,8 +240,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.messageLabel.layer.cornerRadius = 10
         return cell
     }
-    
-    @objc func buttonEvemt(_ sender: UIButton){
+
+    @objc func flagButtonEvemt(_ sender: UIButton){
            //アラート生成
            //UIAlertControllerのスタイルがactionSheet
            let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
@@ -320,10 +323,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
         let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
+        
 
         ReactionVC.message = outMemo[indexPath.row].message
         ReactionVC.userId = outMemo[indexPath.row].userId

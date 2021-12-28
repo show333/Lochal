@@ -215,7 +215,7 @@ class ProfileVC: UIViewController {
         chatListTableView.delegate = self
         chatListTableView.dataSource = self
         chatListTableView.separatorStyle = .none
-        chatListTableView.backgroundColor = #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
+        chatListTableView.backgroundColor = .clear
         //            #colorLiteral(red: 0.7238116197, green: 0.6172274334, blue: 0.5, alpha: 1)
         
         fetchFireStore(userId: userId ?? "")
@@ -409,10 +409,11 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         
         cell.mainBackground.layer.cornerRadius = 8
         cell.mainBackground.layer.masksToBounds = true
+        cell.backBack.backgroundColor = .clear
+        cell.backgroundColor = .clear
+        tableView.backgroundColor = .clear
         
-        
-        cell.shadowLayer.backgroundColor = .white
-        
+            
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(buttonEvemt), for: UIControl.Event.touchUpInside)
         

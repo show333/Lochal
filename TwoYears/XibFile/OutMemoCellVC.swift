@@ -25,6 +25,9 @@ class ShadowView: UIView {
         self.layer.shadowPath = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: 8, height: 8)).cgPath
         self.layer.shouldRasterize = true
         self.layer.rasterizationScale = UIScreen.main.scale
+        self.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+//        self.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        
     }
 }
 
@@ -53,7 +56,9 @@ class OutmMemoCellVC: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+    @IBOutlet weak var coverView: UIView!
     
+    @IBOutlet weak var coverViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var teamCollectionView: UICollectionView!
     
     @IBOutlet weak var flagButton: UIButton!
@@ -70,7 +75,8 @@ class OutmMemoCellVC: UITableViewCell {
         let nib = UINib(nibName: "TeamCollectionViewCell", bundle: nil)
         teamCollectionView.register(nib, forCellWithReuseIdentifier: "Cell")
         
-        
+        mainBackground.backgroundColor = .tertiarySystemGroupedBackground
+        coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         //
         //        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         //        let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)

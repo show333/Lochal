@@ -109,7 +109,6 @@ class SplashViewController: UIViewController {
             UIView.animate(withDuration: 0.4, delay: 0, animations: {
                 self.titleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
                 self.subTitleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-                self.view.alpha = 0.9
 
             }) { bool in
                 // ②アイコンを大きくする
