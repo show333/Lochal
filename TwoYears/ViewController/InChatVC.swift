@@ -43,6 +43,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         fetchUserTeamInfo()
         fetchReaction()
         
@@ -77,9 +78,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         self.teamCollectionView.backgroundColor = .systemTeal
         
         
-        
-        view.backgroundColor = #colorLiteral(red: 0.984652102, green: 0.5573557019, blue: 0, alpha: 1)
-        
+
 //        layout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
 //        teamCollectionView.collectionViewLayout = layout
     }
@@ -197,7 +196,6 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         } else {
             cell.teamCollectionImage?.image = nil
         }
-        print("aa",imageString)
    
         
         print(indexPath.row)

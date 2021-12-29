@@ -11,8 +11,8 @@ class CreateTeamVC : UIViewController {
     
     @IBOutlet weak var upButton: UIButton!
     @IBAction func upTappedButton(_ sender: Any) {
-        let storyboard = UIStoryboard.init(name: "Company", bundle: nil)
-        let CompanyViewController = storyboard.instantiateViewController(withIdentifier: "CompanyViewController") as! CompanyViewController
+        let storyboard = UIStoryboard.init(name: "NewCreateTeam", bundle: nil)
+        let CompanyViewController = storyboard.instantiateViewController(withIdentifier: "NewCreateTeamVC") as! NewCreateTeamVC
         navigationController?.pushViewController(CompanyViewController, animated: true)
         
     }

@@ -36,7 +36,7 @@ class MyAccountViewController: UIViewController {
     
     @IBAction func tappedCompanyBack(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "Company", bundle: nil)
-        let CompanyViewController = storyboard.instantiateViewController(withIdentifier: "CompanyViewController") as! CompanyViewController
+        let CompanyViewController = storyboard.instantiateViewController(withIdentifier: "CompanyViewController") as! NewCreateTeamVC
         CompanyViewController.UserId = UserId
         navigationController?.pushViewController(CompanyViewController, animated: true)
 

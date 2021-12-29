@@ -83,9 +83,6 @@ class SplashViewController: UIViewController {
                     
                     
                     
-                    print("あいあいあいあいあい",dicArray[0])
-                    
-                    
                     
                     UserDefaults.standard.set(email, forKey: "email")
                     UserDefaults.standard.set(userid, forKey: "userid")
@@ -109,7 +106,6 @@ class SplashViewController: UIViewController {
             UIView.animate(withDuration: 0.4, delay: 0, animations: {
                 self.titleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
                 self.subTitleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-                self.view.alpha = 0.9
 
             }) { bool in
                 // ②アイコンを大きくする
@@ -131,13 +127,15 @@ class SplashViewController: UIViewController {
             
             UIView.animate(withDuration: 0.4, delay: 0, animations: {
                 self.titleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-                self.view.alpha = 0.9
+                self.subTitleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
                 
             }) { bool in
                 // ②アイコンを大きくする
                 UIView.animate(withDuration: 0.15, delay: 0, animations: {
                     self.titleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
                     self.titleLabel.alpha = 0
+                    self.subTitleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
+                    self.subTitleLabel.alpha = 0
                 }) { bool in
                     self.present(SignInViewController, animated: true, completion: nil)
                     
