@@ -222,14 +222,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
 
         print(cell.outMemo?.userId ?? "")
-
-        let comentjidate = outMemo[indexPath.row].createdAt.dateValue()
-        let comentjimoment = moment(comentjidate)
-        let dateformatted2 = comentjimoment.format("MM/dd")
-
         
         
-        cell.dateLabel.text = dateformatted2
+        cell.dateLabel.text = date.agoText()
 
         cell.userImageView.layer.cornerRadius = 30
         cell.mainBackground.layer.cornerRadius = 8

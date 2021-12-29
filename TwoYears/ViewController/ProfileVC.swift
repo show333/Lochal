@@ -56,10 +56,13 @@ class ProfileVC: UIViewController {
     @IBOutlet var tapImage: UITapGestureRecognizer!
     @IBAction func tapImageView(_ sender: Any) {
         
-//        return
+        if userId == uid {
         let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
         let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
         navigationController?.pushViewController(UserSelfViewController, animated: true)
+        } else {
+            return
+        }
         
     }
     

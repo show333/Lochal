@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jlW-5j-VZJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jlW-5j-VZJ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -27,26 +26,6 @@
             </objects>
             <point key="canvasLocation" x="-1592" y="-104"/>
         </scene>
-        <!--MyAccount-->
-        <scene sceneID="C7z-M7-ePI">
-            <objects>
-                <viewControllerPlaceholder storyboardName="MyAccount" id="EpK-Cf-4x6" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="YgJ-uY-r16"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="pdY-Vc-NF3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1591" y="110"/>
-        </scene>
-        <!--ChatSelect-->
-        <scene sceneID="i9A-wD-m2s">
-            <objects>
-                <viewControllerPlaceholder storyboardName="ChatSelect" id="rMD-co-oDJ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="kBR-d3-L4B"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lL0-GU-7Gc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1575" y="-14"/>
-        </scene>
         <!--InChat-->
         <scene sceneID="OeE-F7-T0y">
             <objects>
@@ -56,26 +35,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vWs-gP-M4R" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1591" y="-170"/>
-        </scene>
-        <!--teamRanking-->
-        <scene sceneID="7C8-VS-ymh">
-            <objects>
-                <viewControllerPlaceholder storyboardName="teamRanking" id="QUo-Ng-Ttd" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="afK-Hf-qWQ"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kiq-Jv-Zvr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1593" y="17"/>
-        </scene>
-        <!--teamsOV-->
-        <scene sceneID="3fD-D3-cMS">
-            <objects>
-                <viewControllerPlaceholder storyboardIdentifier="teamsOV" storyboardName="teamsOV" id="WY8-GN-2q3" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="7qq-Re-Nsx"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4k3-i8-nuA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1592" y="61"/>
         </scene>
         <!--Tabbar Controller-->
         <scene sceneID="lJC-73-MPn">

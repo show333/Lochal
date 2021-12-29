@@ -83,9 +83,6 @@ class SplashViewController: UIViewController {
                     
                     
                     
-                    print("あいあいあいあいあい",dicArray[0])
-                    
-                    
                     
                     UserDefaults.standard.set(email, forKey: "email")
                     UserDefaults.standard.set(userid, forKey: "userid")
