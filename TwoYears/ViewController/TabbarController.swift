@@ -19,19 +19,15 @@ class TabbarController: UITabBarController{
         let iconchoose = UserDefaults.standard.integer(forKey: "EULA")
         
         if iconchoose == 1 {
-
             
         } else {
             let storyboard = UIStoryboard.init(name: "EULA", bundle: nil)
             let brands = storyboard.instantiateViewController(withIdentifier: "EULAViewController")
             brands.modalPresentationStyle = .fullScreen
             self.present(brands, animated: true, completion: nil)
-            
         }
-        
     }
     
-
     
     
     override func viewDidLoad() {
