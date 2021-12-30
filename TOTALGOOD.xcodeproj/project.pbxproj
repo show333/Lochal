@@ -116,7 +116,7 @@
 		CF1BAC36266FB2380025A660 /* MyAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccountViewController.swift; sourceTree = "<group>"; };
 		CF1E420C262AF05700CEF85A /* CopyUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyUILabel.swift; sourceTree = "<group>"; };
 		CF24EF7825D7AAD6009FE517 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
-		CF2A223025C3FC7000C5BFC1 /* AndU.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AndU.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF2A223025C3FC7000C5BFC1 /* TOTALGOOD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TOTALGOOD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF2A223325C3FC7000C5BFC1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CF2A223525C3FC7000C5BFC1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CF2A223725C3FC7000C5BFC1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -205,7 +205,7 @@
 		CF2A223125C3FC7000C5BFC1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CF2A223025C3FC7000C5BFC1 /* AndU.app */,
+				CF2A223025C3FC7000C5BFC1 /* TOTALGOOD.app */,
 			);
 			name = Products;
 			path = ..;
@@ -353,7 +353,7 @@
 			);
 			name = TOTALGOOD;
 			productName = protain;
-			productReference = CF2A223025C3FC7000C5BFC1 /* AndU.app */;
+			productReference = CF2A223025C3FC7000C5BFC1 /* TOTALGOOD.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -701,7 +701,7 @@
 				);
 				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = zebra.TOTALGOOD;
-				PRODUCT_NAME = AndU;
+				PRODUCT_NAME = TOTALGOOD;
 				SWIFT_OBJC_BRIDGING_HEADER = "TwoYears/TOTALGOOD-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -728,7 +728,7 @@
 				);
 				MARKETING_VERSION = 3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = zebra.TOTALGOOD;
-				PRODUCT_NAME = AndU;
+				PRODUCT_NAME = TOTALGOOD;
 				SWIFT_OBJC_BRIDGING_HEADER = "TwoYears/TOTALGOOD-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
