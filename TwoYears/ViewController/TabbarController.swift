@@ -16,22 +16,18 @@ class TabbarController: UITabBarController{
     // iconを決めてない人は画面遷移
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        let iconchoose = UserDefaults.standard.bool(forKey: "userIcon")
+        let iconchoose = UserDefaults.standard.integer(forKey: "EULA")
         
-        if iconchoose == true {
-
+        if iconchoose == 1 {
             
         } else {
-            let storyboard = UIStoryboard.init(name: "brands", bundle: nil)
-            let brands = storyboard.instantiateViewController(withIdentifier: "brandsViewController")
+            let storyboard = UIStoryboard.init(name: "EULA", bundle: nil)
+            let brands = storyboard.instantiateViewController(withIdentifier: "EULAViewController")
             brands.modalPresentationStyle = .fullScreen
             self.present(brands, animated: true, completion: nil)
-            
         }
-        
     }
     
-
     
     
     override func viewDidLoad() {
