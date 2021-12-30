@@ -260,13 +260,13 @@
 			isa = PBXGroup;
 			children = (
 				CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */,
+				CF24EF7825D7AAD6009FE517 /* SplashViewController.swift */,
 				CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */,
 				CF0C14C125CA067C006A7C86 /* ChatInputAccessoryView.swift */,
 				CF0C14BB25C9F494006A7C86 /* ChatRoomTableViewCell.swift */,
 				CF3DDC0425C4597E0016AB0F /* sinkitoukou.swift */,
 				CF2A223725C3FC7000C5BFC1 /* ViewController.swift */,
 				CF0C14B125C9F028006A7C86 /* ChatRoomViewController.swift */,
-				CF24EF7825D7AAD6009FE517 /* SplashViewController.swift */,
 				CF31079C2600AA1A00746480 /* TabbarController.swift */,
 				CFE909172618F23E001AFCFB /* EULAViewController.swift */,
 				CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */,

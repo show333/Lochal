@@ -14,6 +14,7 @@ class EULAViewController: UIViewController {
     
     @IBAction func euTappedButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+        UserDefaults.standard.set(1, forKey: "EULA")
     }
     
     override func viewDidLoad() {
