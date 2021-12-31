@@ -54,12 +54,15 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
     @IBOutlet weak var Imageheight: NSLayoutConstraint!
     @IBOutlet weak var sendImageView: UIImageView!
     @IBOutlet weak var userImage: UIImageView!
-    @IBOutlet weak var thedayLabel: UILabel!
     @IBOutlet weak var messageLabel: TTTAttributedLabel!
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var chatnumbers: UILabel!
-    @IBOutlet weak var userrandomId: UILabel!
+    @IBOutlet weak var userNameLabel: UILabel!
+    
+    @IBOutlet weak var myBackView: UIView!
+    @IBOutlet weak var myMessageLabel: UILabel!
+    @IBOutlet weak var myDateLabel: UILabel!
+    
     @IBOutlet weak var iineButton: UIButton!
     @IBAction func tappedIineButton(_ sender: Any) {
         guard let uid = Auth.auth().currentUser?.uid else { return }

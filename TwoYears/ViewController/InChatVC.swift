@@ -75,7 +75,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         // 上で設定した内容を反映させる
         self.teamCollectionView.collectionViewLayout = flowLayout
         // 背景色を設定
-        self.teamCollectionView.backgroundColor = .systemTeal
+        self.teamCollectionView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         
         
 

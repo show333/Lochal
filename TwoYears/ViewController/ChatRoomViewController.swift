@@ -287,8 +287,8 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
         let dateformatted1 = comentjimoment.format("hh:mm")
         let dateformatted2 = comentjimoment.format("MM/dd")
         cell.dateLabel.text = dateformatted1
-        cell.thedayLabel.text = dateformatted2
-        cell.chatnumbers.text = (String(indexPath.row + 1))
+//        cell.thedayLabel.text = dateformatted2
+//        cell.chatnumbers.text = (String(indexPath.row + 1))
         
 //        if rurubus[indexPath.row].uid == uid {
 //            cell.houkokuButton.isHidden = true
@@ -321,7 +321,7 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
         }
         cell.backgroundColor = .clear
 
-        cell.userrandomId.text = rurubus[indexPath.row].randomUserId
+//        cell.userrandomId.text = rurubus[indexPath.row].randomUserId
         cell.message = rurubus[indexPath.row]
         cell.userImage.image = nil
         if rurubus[indexPath.row].userBrands == "TG1" {

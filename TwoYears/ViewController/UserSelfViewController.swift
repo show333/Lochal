@@ -109,6 +109,9 @@ class UserSelfViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setSwipeBack()
+
+        
         tyuuiLabel.text = "画像と名前の両方を入力してください"
         tyuuiLabel.alpha = 0
         

@@ -202,14 +202,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
-        let date: Date = outMemo[indexPath.row].createdAt.dateValue()
         
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-        print("デート！！",date)
-        let momentType = moment(date)
-
-
-        print(momentType)
         
         print("とととt",UITableView.automaticDimension)
 
@@ -223,7 +217,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
         print(cell.outMemo?.userId ?? "")
         
-        
+        let date: Date = outMemo[indexPath.row].createdAt.dateValue()
+
         cell.dateLabel.text = date.agoText()
 
         cell.userImageView.layer.cornerRadius = 30

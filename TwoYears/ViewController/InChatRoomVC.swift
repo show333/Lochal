@@ -43,7 +43,8 @@ class InChatRoomVC:UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        inChatTableView.backgroundColor = .systemBlue
+//        #colorLiteral(red: 0.9387103873, green: 0.8334191148, blue: 0.6862602769, alpha: 1)
+        inChatTableView.backgroundColor = .systemBrown
         setSwipeBack()
         setupNotification()
         inChatTableView.delegate = self
@@ -151,8 +152,8 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
         cell.messageLabel.text = ChatRoomInfo[indexPath.row].message
         cell.sendImageView.image = nil
         cell.userImage.image = nil
-        cell.backView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8024133134)
         cell.Imageheight.constant = 0
+        
         if ChatRoomInfo[indexPath.row].sendImageURL != "" {
             if let url = URL(string: ChatRoomInfo[indexPath.row].sendImageURL) {
                 Nuke.loadImage(with: url, into: cell.sendImageView!)
@@ -162,6 +163,10 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
             }
         }
         
+        let messageDate = ChatRoomInfo[indexPath.row].createdAt.dateValue()
+        let messageMoment = moment(messageDate)
+        let dateformatted = messageMoment.format("MM/dd hh:mm")
+        cell.dateLabel.text = dateformatted
         
         
         let uid = Auth.auth().currentUser?.uid
