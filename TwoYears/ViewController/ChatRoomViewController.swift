@@ -314,11 +314,11 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.messageLabel.textColor = #colorLiteral(red: 0.0431372549, green: 0.0431372549, blue: 0.0431372549, alpha: 0.8024133134)
         
-        if rurubus[indexPath.row].iineman == "good" {
-            cell.iineButton.tintColor = #colorLiteral(red: 0.9462587036, green: 0.3739997732, blue: 0.6042566379, alpha: 1)
-        } else {
-            cell.iineButton.tintColor = .gray
-        }
+//        if rurubus[indexPath.row].iineman == "good" {
+//            cell.iineButton.tintColor = #colorLiteral(red: 0.9462587036, green: 0.3739997732, blue: 0.6042566379, alpha: 1)
+//        } else {
+//            cell.iineButton.tintColor = .gray
+//        }
         cell.backgroundColor = .clear
 
 //        cell.userrandomId.text = rurubus[indexPath.row].randomUserId
