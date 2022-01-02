@@ -212,7 +212,8 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
         kakteiButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         kakteiButton.layer.shadowOpacity = 0.7
         kakteiButton.layer.shadowRadius = 5
-        
+        setSwipeBack()
+
     }
 
     

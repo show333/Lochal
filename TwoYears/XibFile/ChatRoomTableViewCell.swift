@@ -53,58 +53,28 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
     
     @IBOutlet weak var Imageheight: NSLayoutConstraint!
     @IBOutlet weak var sendImageView: UIImageView!
+    @IBOutlet weak var imageRightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var imageLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var userImage: UIImageView!
-    @IBOutlet weak var thedayLabel: UILabel!
     @IBOutlet weak var messageLabel: TTTAttributedLabel!
     @IBOutlet weak var backView: UIView!
+    @IBOutlet weak var backViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imageDateLabel: UILabel!
+    
+    
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var chatnumbers: UILabel!
-    @IBOutlet weak var userrandomId: UILabel!
-    @IBOutlet weak var iineButton: UIButton!
-    @IBAction func tappedIineButton(_ sender: Any) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let documentId = message?.documentId else { return }
-        guard let comentId = message?.comentId else { return }
-        print("部屋のID", documentId)
-        print("コメントのId", comentId)
-        let DB = Firestore.firestore().collection("Rooms").document("karano").collection("kokoniireru").document(documentId)
-        if iineButton.tintColor == #colorLiteral(red: 0.9462587036, green: 0.3739997732, blue: 0.6042566379, alpha: 1){
-            self.iineButton.tintColor = .gray
-            //部屋そのものとコメントそのものに対していいねを追加
-            UIView.animate(withDuration: 0.3, delay: 0, animations: {
-                self.iineButton.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-            }) { bool in
-                // ②アイコンを大きくする
-                UIView.animate(withDuration: 0.2, delay: 0, animations: {
-                    self.iineButton.transform = CGAffineTransform(scaleX: 1, y: 1)
-                })
-            }
-            DB.collection("good").document("goodman").updateData([comentId + uid: FieldValue.delete(),])
-            DB.collection("messages").document(comentId).updateData([uid: FieldValue.delete(),])
-            Firestore.firestore().collection("users").document(message!.uid).updateData([
-                "goodcount": FieldValue.increment(Int64(-1))])
-            return
-        }else{
-            UIView.animate(withDuration: 0.10, delay: 0, animations: {
-                self.iineButton.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-            }) { bool in
-            // ②アイコンを大きくする
-                UIView.animate(withDuration: 0.2, delay: 0, animations: {
-                    self.iineButton.transform = CGAffineTransform(scaleX: 1.8, y: 1.8)
-                }) { bool in
-                    UIView.animate(withDuration: 0.1, delay: 0, animations: {
-                        self.iineButton.transform = CGAffineTransform(scaleX: 1, y: 1)
-                    })
-                }
-            }
-            self.iineButton.tintColor = #colorLiteral(red: 0.9462587036, green: 0.3739997732, blue: 0.6042566379, alpha: 1)
-            DB.collection("good").document("goodman").setData([comentId + uid:"good"],merge:true)
-            DB.collection("messages").document(comentId).setData([uid:"good"],merge:true)
-            Firestore.firestore().collection("users").document(message!.uid).updateData([
-                "goodcount": FieldValue.increment(Int64(1))])
-            return
-        }
-    }
+    @IBOutlet weak var userNameLabel: UILabel!
+    
+    @IBOutlet weak var myBackView: UIView!
+    
+    @IBOutlet weak var myBackViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var myMessageLabel: TTTAttributedLabel!
+    @IBOutlet weak var myDateLabel: UILabel!
+    
+    @IBOutlet weak var myImageDateLabel: UILabel!
+    
+
 //    コピー機能(位置がおかしいので後で修正)
     @objc func showMenu(sender:AnyObject?) {
         self.becomeFirstResponder()
@@ -116,6 +86,7 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
     }
     override func copy(_ sender: Any?) {
         let pasteBoard = UIPasteboard.general
+        //このVC内では同一のためこれで
         pasteBoard.string = messageLabel.text as? String
         let contextMenu = UIMenuController.shared
         contextMenu.setMenuVisible(false, animated: true)
@@ -126,15 +97,30 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         return action == #selector(UIResponderStandardEditActions.copy)
     }
-    @IBOutlet weak var messageTextViewWidthConstraint: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()
         messageLabel.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue
         messageLabel.delegate = self
+        
+        myMessageLabel.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue
+        myMessageLabel.delegate = self
+        
+        
+        
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+        
+        backViewConstraint.constant = safeAreaWidth/4
+        myBackViewConstraint.constant = safeAreaWidth/4 + 43
+        
+        
+        
+        
+        
         //この機能で一をつける
         let myTap: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(ChatRoomTableViewCell.showMenu(sender:)))
         self.messageLabel.addGestureRecognizer(myTap)
+        self.myMessageLabel.addGestureRecognizer(myTap)
         backgroundColor = .clear
 //        messageLabel.layer.masksToBounds = true
 //        messageLabel.layer.cornerRadius = 12
@@ -144,6 +130,15 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
         
         messageLabel.numberOfLines = 0
         userIdHakkou()
+        
+        userImage.clipsToBounds = true
+        userImage.layer.cornerRadius = 17.5
+        
+        myBackView.clipsToBounds = true
+        myBackView.layer.cornerRadius = 18
+        
+        
+        
     }
     //urlリンク飛ぶ
     func attributedLabel(_ label: TTTAttributedLabel!, didSelectLinkWith url: URL!) {

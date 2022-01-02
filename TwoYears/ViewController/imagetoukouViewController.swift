@@ -97,7 +97,6 @@ class imagetoukouViewController: UIViewController {
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = false
         
-        
         self.present(imagePickerController, animated: true, completion: nil)
     }
 }

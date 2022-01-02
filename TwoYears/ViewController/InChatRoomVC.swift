@@ -43,7 +43,8 @@ class InChatRoomVC:UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        inChatTableView.backgroundColor = .systemBlue
+//        #colorLiteral(red: 0.9387103873, green: 0.8334191148, blue: 0.6862602769, alpha: 1)
+        inChatTableView.backgroundColor = .systemBrown
         setSwipeBack()
         setupNotification()
         inChatTableView.delegate = self
@@ -148,24 +149,77 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = inChatTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatRoomTableViewCell
+        let width = UIScreen.main.bounds.size.width
+        
         cell.messageLabel.text = ChatRoomInfo[indexPath.row].message
+        cell.myMessageLabel.text = ChatRoomInfo[indexPath.row].message
+        
         cell.sendImageView.image = nil
         cell.userImage.image = nil
-        cell.backView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8024133134)
+        cell.myBackView.backgroundColor = nil
+        cell.backView.backgroundColor = nil
+        
+        cell.backView.backgroundColor = .tertiarySystemGroupedBackground
+        cell.myBackView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        
         cell.Imageheight.constant = 0
+        
         if ChatRoomInfo[indexPath.row].sendImageURL != "" {
             if let url = URL(string: ChatRoomInfo[indexPath.row].sendImageURL) {
                 Nuke.loadImage(with: url, into: cell.sendImageView!)
-                let width = UIScreen.main.bounds.size.width
                 cell.Imageheight.constant = width*0.55
                 cell.backView.backgroundColor = .clear
+                cell.myBackView.backgroundColor = .clear
+                cell.myImageDateLabel.alpha = 1
+                cell.imageDateLabel.alpha = 1
+                cell.dateLabel.alpha = 0
+                cell.myDateLabel.alpha = 0
             }
+        } else {
+            cell.myImageDateLabel.alpha = 0
+            cell.imageDateLabel.alpha = 0
         }
+
+        
+        let messageDate = ChatRoomInfo[indexPath.row].createdAt.dateValue()
+        let messageMoment = moment(messageDate)
+        let dateformatted = messageMoment.format("MM/dd hh:mm")
+        cell.dateLabel.text = dateformatted
+        cell.myDateLabel.text = dateformatted
+        cell.imageDateLabel.text = dateformatted
+        cell.myImageDateLabel.text = dateformatted
+        
         
         
         
         let uid = Auth.auth().currentUser?.uid
-        db.collection("users").document(uid!).addSnapshotListener { documentSnapshot, error in
+        userGetInfo(userId: uid!,cell: cell)
+        
+        
+        if ChatRoomInfo[indexPath.row].uid != uid{
+            cell.myBackView.alpha = 0
+            cell.myMessageLabel.alpha = 0
+            cell.myDateLabel.alpha = 0
+            cell.myImageDateLabel.alpha = 0
+            cell.imageRightConstraint.constant = width/4
+            cell.imageLeftConstraint.constant = 50
+
+        } else {
+            cell.backView.alpha = 0
+            cell.userNameLabel.alpha = 0
+            cell.messageLabel.alpha = 0
+            cell.dateLabel.alpha = 0
+            cell.userImage.alpha = 0
+            cell.imageDateLabel.alpha = 0
+            cell.imageRightConstraint.constant = 8
+            cell.imageLeftConstraint.constant = width/4 + 42
+        }
+        
+        return cell
+    }
+    
+    func userGetInfo(userId:String,cell:ChatRoomTableViewCell){
+        db.collection("users").document(userId).collection("Profile").document("profile").addSnapshotListener { documentSnapshot, error in
               guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
                 return
@@ -174,14 +228,22 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
                 print("Document data was empty.")
                 return
               }
-            cell.userImage.image = UIImage(named:data["userBrands"] as! String)!
+//            cell.userImage.image = UIImage(named:data["userImage"] as! String)!
+            print("愛絵あいあい")
+            let userImage = document["userImage"] as? String ?? ""
+            cell.userNameLabel.text = document["userName"] as? String ?? ""
+            if let url = URL(string:userImage) {
+                Nuke.loadImage(with: url, into: cell.userImage)
+            } else {
+                cell.userImage.image = nil
+            }
+
               print("Current data: \(data)")
             }
 
         db.collection("users").document()
         
         
-        return cell
     }
 }
 extension InChatRoomVC: ChatInputAccessoryViewDelegate{

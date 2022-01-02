@@ -426,13 +426,8 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
 
         
-        let comentjidate = outMemo[indexPath.row].createdAt.dateValue()
-        let comentjimoment = moment(comentjidate)
-        let dateformatted2 = comentjimoment.format("MM/dd")
-
-        cell.dateLabel.text = dateformatted2
-        
-        
+        let date: Date = outMemo[indexPath.row].createdAt.dateValue()
+        cell.dateLabel.text = date.agoText()
 
         
         cell.outMemo = outMemo[indexPath.row]

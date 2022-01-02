@@ -78,7 +78,7 @@
 		CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */; };
 		CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFE909142618F0AE001AFCFB /* EULA.storyboard */; };
 		CFE909182618F23E001AFCFB /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE909172618F23E001AFCFB /* EULAViewController.swift */; };
-		CFF8192E25D344C600524B81 /* blue.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFF8192D25D344C600524B81 /* blue.storyboard */; };
+		CFF8192E25D344C600524B81 /* Splash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFF8192D25D344C600524B81 /* Splash.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -160,7 +160,7 @@
 		CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		CFE909142618F0AE001AFCFB /* EULA.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EULA.storyboard; sourceTree = "<group>"; };
 		CFE909172618F23E001AFCFB /* EULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
-		CFF8192D25D344C600524B81 /* blue.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = blue.storyboard; sourceTree = "<group>"; };
+		CFF8192D25D344C600524B81 /* Splash.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Splash.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,7 +263,6 @@
 				CF24EF7825D7AAD6009FE517 /* SplashViewController.swift */,
 				CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */,
 				CF0C14C125CA067C006A7C86 /* ChatInputAccessoryView.swift */,
-				CF0C14BB25C9F494006A7C86 /* ChatRoomTableViewCell.swift */,
 				CF3DDC0425C4597E0016AB0F /* sinkitoukou.swift */,
 				CF2A223725C3FC7000C5BFC1 /* ViewController.swift */,
 				CF0C14B125C9F028006A7C86 /* ChatRoomViewController.swift */,
@@ -288,8 +287,9 @@
 		CF3A766325D08A0900088D56 /* XibFile */ = {
 			isa = PBXGroup;
 			children = (
-				CF0C14B425C9F36A006A7C86 /* ChatRoomTableViewCell.xib */,
 				CF0C14BE25CA04C5006A7C86 /* ChatInputAccessoryView.xib */,
+				CF0C14B425C9F36A006A7C86 /* ChatRoomTableViewCell.xib */,
+				CF0C14BB25C9F494006A7C86 /* ChatRoomTableViewCell.swift */,
 				A3C0D9EF2778603400AC64D3 /* OutMemoCell.xib */,
 				A3C0D9F12778609F00AC64D3 /* OutMemoCellVC.swift */,
 				CF7E8E4127788677003E3E84 /* TeamCollectionViewCell.xib */,
@@ -305,7 +305,7 @@
 				CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */,
 				CF0BD9D725D018FF004A1958 /* SignIn.storyboard */,
 				CF0C14AE25C9F003006A7C86 /* ChatRoom.storyboard */,
-				CFF8192D25D344C600524B81 /* blue.storyboard */,
+				CFF8192D25D344C600524B81 /* Splash.storyboard */,
 				CF3107A02600AA6700746480 /* Tabbar.storyboard */,
 				CF3107F726018BB200746480 /* ShoutaiHakkou.storyboard */,
 				CFE909142618F0AE001AFCFB /* EULA.storyboard */,
@@ -398,7 +398,7 @@
 				CF8B45062665698500CA6DE1 /* red_yellow.json in Resources */,
 				A3C0D9E42773976200AC64D3 /* EnterTeam.storyboard in Resources */,
 				CF4C5A31261E3A4900342675 /* quiz.csv in Resources */,
-				CFF8192E25D344C600524B81 /* blue.storyboard in Resources */,
+				CFF8192E25D344C600524B81 /* Splash.storyboard in Resources */,
 				CF4BF17F260FAB4D00942E6F /* YasashisaGothic.otf in Resources */,
 				CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */,
 				A3C0D9F02778603400AC64D3 /* OutMemoCell.xib in Resources */,

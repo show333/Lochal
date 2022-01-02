@@ -19,18 +19,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window = self.window
         
-//        let windows = UIWindow(windowScene: scene as! UIWindowScene)
-//        self.window = windows
-//        windows.makeKeyAndVisible()
-
-//        let sb = UIStoryboard(name: "Main", bundle: Bundle.main)
-//        if A {
-//            let vc = sb.instantiateViewController(withIdentifier: "blue")
-//            window!.rootViewController = vc
-//        } else {
-//            let vc = sb.instantiateViewController(withIdentifier: ストーリーボードID)
-//            window!.rootViewController = vc
-//        }
+        let window = UIWindow(windowScene: scene as! UIWindowScene)
+          self.window = window
+          window.makeKeyAndVisible()
+          // Storyboard の場合
+          let storyboard = UIStoryboard(name: "Splash", bundle: nil)
+          let vc  = storyboard.instantiateViewController(identifier: "SplashViewController")
+          // Viewをコードで書いている場合
+          // let vc = SecondViewController()
+          window.rootViewController = vc
         
         
         guard let _ = (scene as? UIWindowScene) else { return }

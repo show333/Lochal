@@ -25,7 +25,8 @@ class CreateTeamVC : UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setSwipeBack()
+
         
     }
     
