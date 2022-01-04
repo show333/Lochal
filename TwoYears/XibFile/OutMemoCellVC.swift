@@ -45,6 +45,9 @@ class OutmMemoCellVC: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         messageLabel.backgroundColor = .clear
+//        coverView.backgroundColor = .clear
+//        coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+
     }
     
     
@@ -58,7 +61,11 @@ class OutmMemoCellVC: UITableViewCell {
     
     @IBOutlet weak var coverView: UIView!
     
+    @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var coverViewConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var messageBottomConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var teamCollectionView: UICollectionView!
     
     @IBOutlet weak var flagButton: UIButton!
@@ -76,7 +83,7 @@ class OutmMemoCellVC: UITableViewCell {
         teamCollectionView.register(nib, forCellWithReuseIdentifier: "Cell")
         
         mainBackground.backgroundColor = .tertiarySystemGroupedBackground
-        coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+//        coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         //
         //        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         //        let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)

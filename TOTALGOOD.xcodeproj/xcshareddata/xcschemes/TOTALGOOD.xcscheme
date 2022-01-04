@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CF2A222F25C3FC7000C5BFC1"
-               BuildableName = "AndU.app"
+               BuildableName = "TOTALGOOD.app"
                BlueprintName = "TOTALGOOD"
                ReferencedContainer = "container:TOTALGOOD.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CF2A222F25C3FC7000C5BFC1"
-            BuildableName = "AndU.app"
+            BuildableName = "TOTALGOOD.app"
             BlueprintName = "TOTALGOOD"
             ReferencedContainer = "container:TOTALGOOD.xcodeproj">
          </BuildableReference>
@@ -68,7 +68,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CF2A222F25C3FC7000C5BFC1"
-            BuildableName = "AndU.app"
+            BuildableName = "TOTALGOOD.app"
             BlueprintName = "TOTALGOOD"
             ReferencedContainer = "container:TOTALGOOD.xcodeproj">
          </BuildableReference>

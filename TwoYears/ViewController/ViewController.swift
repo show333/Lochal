@@ -142,6 +142,7 @@ class ViewController: UIViewController{
     //Pull to Refresh
     @objc func onRefresh(_ sender: AnyObject) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.chatListTableView.reloadData()
             self?.chatListTableView.refreshControl?.endRefreshing()
         }
     }
@@ -203,7 +204,35 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
         
+//        cell.coverView.backgroundColor = nil
+        
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+
+//        cell.messageBottomConstraint.constant =  105
+        
+        if  outMemo[indexPath.row].readLog == true {
+            print("aaaaaa")
+            cell.coverView.backgroundColor = .clear
+            cell.coverViewConstraint.constant = 0
+            cell.messageBottomConstraint.constant = 30
+            cell.messageLabel.numberOfLines = 0
+
+        } else {
+            cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            cell.coverViewConstraint.constant = 100
+            cell.messageBottomConstraint.constant =  105
+            cell.messageLabel.numberOfLines = 1
+
+
+        }
+        
+        
+//        if outMemo[indexPath.row].readLog == true {
+//            cell.coverView.backgroundColor = .clear
+//        } else {
+//            cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+//
+//        }
         
         print("とととt",UITableView.automaticDimension)
 
@@ -225,11 +254,46 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.mainBackground.layer.cornerRadius = 8
         cell.mainBackground.layer.masksToBounds = true
         cell.outMemo = outMemo[indexPath.row]
-        cell.messageLabel.numberOfLines = 0
         cell.messageLabel.clipsToBounds = true
         cell.messageLabel.layer.cornerRadius = 10
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+//        tableView.deselectRow(at: indexPath, animated: false)
+        
+
+        //　タップされたセルの取得
+        let cell = self.chatListTableView.cellForRow(at:indexPath) as! OutmMemoCellVC
+
+        // セルの背景色を変更する
+//        cell.backgroundColor = UIColor.lightGray
+                
+//
+        
+        outMemo[indexPath.row].readLog = true
+        
+        
+        db.collection("users").document(uid).collection("TimeLine").document(outMemo[indexPath.row].documentId).setData(["readLog":true],merge: true)
+        cell.coverView.backgroundColor = .clear
+        
+//        cell.userImageView.image = nil
+//        chatListTableView.reloadRows(at: [indexPath], with: .fade)
+//
+//        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
+//        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
+        
+
+//        ReactionVC.message = outMemo[indexPath.row].message
+//        ReactionVC.userId = outMemo[indexPath.row].userId
+        
+//        self.present(ReactionVC, animated: true, completion: nil)
+        
+    }
+
 
     @objc func flagButtonEvemt(_ sender: UIButton){
            //アラート生成
@@ -311,20 +375,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
            self.present(actionSheet, animated: true, completion: nil)
     }
     
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
-        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
-        
-
-        ReactionVC.message = outMemo[indexPath.row].message
-        ReactionVC.userId = outMemo[indexPath.row].userId
-        
-        self.present(ReactionVC, animated: true, completion: nil)
-        
-    }
 
     
     func fetchUserProfile(userId:String,cell:OutmMemoCellVC){

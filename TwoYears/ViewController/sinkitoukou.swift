@@ -44,6 +44,7 @@ class sinkitoukou: UIViewController {
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "userId":uid,
+            "readLog": false,
             "anonymous":false,
             "admin": false,
             "sendImageURL": ""
