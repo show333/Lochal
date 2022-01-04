@@ -17,17 +17,18 @@ class OutMemo {
     var sendImageURL: String
     var createdAt: Timestamp
     var documentId : String
+    var readLog: Bool
     var admin: Bool
     var anonymous: Bool
     
     
     init(dic: [String: Any]) {
         self.userId = dic["userId"] as? String ?? ""
-        
         self.message = dic["message"] as? String ?? "unKnown"
         self.sendImageURL = dic["sendImageURL"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.documentId = dic["documentId"] as? String ?? ""
+        self.readLog = dic["readLog"] as? Bool ?? false
         self.admin = dic["admin"] as? Bool ?? false
         self.anonymous = dic["admin"] as? Bool ?? false
 

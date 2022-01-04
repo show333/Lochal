@@ -44,7 +44,7 @@ class InChatRoomVC:UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
 //        #colorLiteral(red: 0.9387103873, green: 0.8334191148, blue: 0.6862602769, alpha: 1)
-        inChatTableView.backgroundColor = .systemBrown
+        inChatTableView.backgroundColor = .systemBackground
         setSwipeBack()
         setupNotification()
         inChatTableView.delegate = self
