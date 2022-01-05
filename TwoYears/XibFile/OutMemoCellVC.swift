@@ -61,6 +61,9 @@ class OutmMemoCellVC: UITableViewCell {
     
     @IBOutlet weak var coverView: UIView!
     
+    
+    @IBOutlet weak var textMaskLabel: UILabel!
+    
     @IBOutlet weak var coverImageView: UIImageView!
     @IBOutlet weak var coverViewConstraint: NSLayoutConstraint!
 

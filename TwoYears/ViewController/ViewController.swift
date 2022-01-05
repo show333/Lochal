@@ -211,19 +211,28 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //        cell.messageBottomConstraint.constant =  105
         
         if  outMemo[indexPath.row].readLog == true {
-            print("aaaaaa")
             cell.coverView.backgroundColor = .clear
             cell.coverViewConstraint.constant = 0
             cell.messageBottomConstraint.constant = 30
             cell.messageLabel.numberOfLines = 0
+            cell.coverImageView.alpha = 0
+            cell.textMaskLabel.alpha = 0
 
         } else {
             cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             cell.coverViewConstraint.constant = 100
             cell.messageBottomConstraint.constant =  105
             cell.messageLabel.numberOfLines = 1
+            cell.coverImageView.alpha = 0.8
+            cell.textMaskLabel.alpha = 1
 
 
+        }
+                
+        if let url = URL(string:outMemo[indexPath.row].textMask) {
+            Nuke.loadImage(with: url, into: cell.coverImageView)
+        } else {
+            cell.coverImageView?.image = nil
         }
         
         
@@ -260,38 +269,27 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        let cell = self.chatListTableView.cellForRow(at:indexPath) as! OutmMemoCellVC
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-//        tableView.deselectRow(at: indexPath, animated: false)
         
-
-        //　タップされたセルの取得
-        let cell = self.chatListTableView.cellForRow(at:indexPath) as! OutmMemoCellVC
-
-        // セルの背景色を変更する
-//        cell.backgroundColor = UIColor.lightGray
-                
-//
-        
-        outMemo[indexPath.row].readLog = true
-        
-        
-        db.collection("users").document(uid).collection("TimeLine").document(outMemo[indexPath.row].documentId).setData(["readLog":true],merge: true)
-        cell.coverView.backgroundColor = .clear
-        
-//        cell.userImageView.image = nil
-//        chatListTableView.reloadRows(at: [indexPath], with: .fade)
-//
-//        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
-//        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
-        
-
-//        ReactionVC.message = outMemo[indexPath.row].message
-//        ReactionVC.userId = outMemo[indexPath.row].userId
-        
-//        self.present(ReactionVC, animated: true, completion: nil)
-        
+        if outMemo[indexPath.row].readLog == true{
+            
+            let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
+            let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
+            
+            ReactionVC.message = outMemo[indexPath.row].message
+            ReactionVC.userId = outMemo[indexPath.row].userId
+            self.present(ReactionVC, animated: true, completion: nil)
+            
+        } else {
+            
+            outMemo[indexPath.row].readLog = true
+            db.collection("users").document(uid).collection("TimeLine").document(outMemo[indexPath.row].documentId).setData(["readLog":true],merge: true)
+            cell.coverView.backgroundColor = .clear
+            cell.coverImageView.alpha = 0
+            cell.textMaskLabel.alpha = 0
+        }
     }
 
 
