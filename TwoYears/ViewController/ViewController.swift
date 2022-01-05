@@ -275,12 +275,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         if outMemo[indexPath.row].readLog == true{
             
-            let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
-            let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
-            
-            ReactionVC.message = outMemo[indexPath.row].message
-            ReactionVC.userId = outMemo[indexPath.row].userId
-            self.present(ReactionVC, animated: true, completion: nil)
+            if outMemo[indexPath.row].userId != uid {
+
+                let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
+                let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
+                
+                ReactionVC.message = outMemo[indexPath.row].message
+                ReactionVC.userId = outMemo[indexPath.row].userId
+                self.present(ReactionVC, animated: true, completion: nil)
+            } else {
+                
+                let storyboard = UIStoryboard.init(name: "ReadLog", bundle: nil)
+                let ReadLogVC = storyboard.instantiateViewController(withIdentifier: "ReadLogVC") as! ReadLogVC
+                
+                self.present(ReadLogVC, animated: true, completion: nil)
+                
+   
+            }
             
         } else {
             
@@ -290,29 +301,30 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
         }
+        
     }
-
-
+    
+    
     @objc func flagButtonEvemt(_ sender: UIButton){
-           //アラート生成
-           //UIAlertControllerのスタイルがactionSheet
-           let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
-           
-           let uid = Auth.auth().currentUser?.uid
-           let report = [
-               "reporter": uid,
-               "documentId": outMemo[sender.tag].documentId,
-               "問題のコメント": outMemo[sender.tag].message,
-               "問題と思われるユーザー": outMemo[sender.tag].userId,
-               "createdAt": FieldValue.serverTimestamp(),
-           ] as [String: Any]
-
-
-           // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
-           let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
-               (action: UIAlertAction!) in
-               //実際の処理
-               let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
+        //アラート生成
+        //UIAlertControllerのスタイルがactionSheet
+        let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+        
+        let uid = Auth.auth().currentUser?.uid
+        let report = [
+            "reporter": uid,
+            "documentId": outMemo[sender.tag].documentId,
+            "問題のコメント": outMemo[sender.tag].message,
+            "問題と思われるユーザー": outMemo[sender.tag].userId,
+            "createdAt": FieldValue.serverTimestamp(),
+        ] as [String: Any]
+        
+        
+        // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
+        let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
+            (action: UIAlertAction!) in
+            //実際の処理
+            let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
                // 選択肢(ボタン)を2つ(OKとCancel)追加します
                //   titleには、選択肢として表示される文字列を指定します
                //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
