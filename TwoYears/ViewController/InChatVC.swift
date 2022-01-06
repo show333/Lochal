@@ -43,9 +43,12 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        
         
         fetchUserTeamInfo()
-        fetchReaction()
+        fetchReaction(userId:uid)
         
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
@@ -82,9 +85,8 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
 //        layout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
 //        teamCollectionView.collectionViewLayout = layout
     }
-    func fetchReaction() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        db.collection("users").document(uid).collection("Reaction").addSnapshotListener{ [self] ( snapshots, err) in
+    func fetchReaction(userId:String) {
+        db.collection("users").document(userId).collection("Reaction").addSnapshotListener{ [self] ( snapshots, err) in
             if let err = err {
                 print("メッセージの取得に失敗、\(err)")
                 return

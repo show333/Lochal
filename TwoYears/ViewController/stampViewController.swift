@@ -246,23 +246,15 @@ class CollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var stampImageView: UIImageView!
     
-    let teamName = UserDefaults.standard.string(forKey: "color")
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
         // cellの枠の太さ
         self.layer.borderWidth = 1.5
-        // cellの枠の色
-        if teamName == "red" {
-            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
-        } else  if teamName == "yellow" {
-            self.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-        } else  if teamName == "blue" {
-            self.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
-        } else if teamName == "purple" {
-            self.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-        }
+    
+        self.layer.borderColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+
         // cellを丸くする
         self.layer.cornerRadius = 8.0
     }

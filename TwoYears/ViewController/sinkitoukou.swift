@@ -67,10 +67,11 @@ class sinkitoukou: UIViewController {
             "createdAt": FieldValue.serverTimestamp(),
             "userId":uid,
             "textMask":textMask.randomElement() ?? "",
+            "sendImageURL": "",
             "readLog": false,
             "anonymous":false,
             "admin": false,
-            "sendImageURL": ""
+            "delete": false,
         ] as [String: Any]
         
         
@@ -83,16 +84,15 @@ class sinkitoukou: UIViewController {
         
         db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
         db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
+        db.collection("users").document(uid).collection("MyPost").document(memoId).setData(memoInfoDic)
         
-        
-        
-        print(memoInfoDic["createdAt"] as Any)
-        print(Timestamp().dateValue())
-        let aaaa = FieldValue.serverTimestamp()
-        print(aaaa)
     }
+    
+    
+    
+    
     fileprivate let placeholder: String = "今、何を聴いてる?\nこういう人、どう思う？\netc." //プレイスホルダー
-    fileprivate var maxWordCount: Int = 70 //最大文字数
+    fileprivate var maxWordCount: Int = 200 //最大文字数
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Firestore.firestore().collection("users").document(uid!).getDocument{ (document, error) in
@@ -122,7 +122,7 @@ class sinkitoukou: UIViewController {
         textView.layer.cornerRadius = 8
         sinkiButton.clipsToBounds = true
         sinkiButton.layer.cornerRadius = 5
-        wordCountLabel.text = "70文字まで"
+        wordCountLabel.text = "200文字まで"
     }
 }
 extension sinkitoukou: UITextViewDelegate {
@@ -130,7 +130,7 @@ extension sinkitoukou: UITextViewDelegate {
         let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
         let newLines = text.components(separatedBy: .newlines)//新規改行数
         let linesAfterChange = existingLines.count + newLines.count - 1 //最終改行数。-1は編集したら必ず1改行としてカウントされるから。
-        return linesAfterChange <= 5 && textView.text.count + (text.count - range.length) <= maxWordCount
+        return linesAfterChange <= 20 && textView.text.count + (text.count - range.length) <= maxWordCount
     }
     func textViewDidChange(_ textView: UITextView) {
         let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
@@ -142,7 +142,7 @@ extension sinkitoukou: UITextViewDelegate {
             sinkiButton.isEnabled = true
             sinkiButton.backgroundColor = #colorLiteral(red: 0, green: 0.9052245021, blue: 0.6851730943, alpha: 1)
         }
-        if existingLines.count <= 5 {
+        if existingLines.count <= 20 {
             self.wordCountLabel.text = "残り\(maxWordCount - textView.text.count)文字"
         }
     }

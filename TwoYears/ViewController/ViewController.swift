@@ -22,8 +22,9 @@ class ViewController: UIViewController{
     var temes : [Team] = []
     var outMemo: [OutMemo] = []
     var teamInfo : [Team] = []
-    var userName: String? = "unKnown"
-    var userImage: String? = ""
+    var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
+    var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
+    var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     let db = Firestore.firestore()
 //    let uid = Auth.auth().currentUser?.uid
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
@@ -165,9 +166,9 @@ class ViewController: UIViewController{
                     
                     if blockList[rarabai.userId] == true {
                     } else {
-                        //                        if momentType >= moment() - 14.days {
-                        //                            if rarabai.admin == true {
-                        //                            }
+//                        if momentType >= moment() - 2.days {
+//                            if rarabai.admin == true {
+//                            }
                         self.outMemo.append(rarabai)
                     }
                     self.outMemo.sort { (m1, m2) -> Bool in
@@ -243,7 +244,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //
 //        }
         
-        print("とととt",UITableView.automaticDimension)
 
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(flagButtonEvemt), for: UIControl.Event.touchUpInside)
@@ -288,15 +288,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 let storyboard = UIStoryboard.init(name: "ReadLog", bundle: nil)
                 let ReadLogVC = storyboard.instantiateViewController(withIdentifier: "ReadLogVC") as! ReadLogVC
                 
-                self.present(ReadLogVC, animated: true, completion: nil)
+                ReadLogVC.documentId=outMemo[indexPath.row].documentId
                 
-   
+                self.present(ReadLogVC, animated: true, completion: nil)
             }
             
         } else {
+            let readLogDic = [
+                "userId":uid,
+                "userName":userName ?? "unKnown",
+                "userImage":userImage ?? "",
+                "userFrontId":userFrontId ?? "unKnown",
+                "createdAt": FieldValue.serverTimestamp(),
+            ] as [String:Any]
             
             outMemo[indexPath.row].readLog = true
             db.collection("users").document(uid).collection("TimeLine").document(outMemo[indexPath.row].documentId).setData(["readLog":true],merge: true)
+            db.collection("users").document(outMemo[indexPath.row].userId).collection("MyPost").document(outMemo[indexPath.row].documentId).collection("Readlog").document(uid).setData(readLogDic)
             cell.coverView.backgroundColor = .clear
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0

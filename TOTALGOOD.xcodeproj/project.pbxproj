@@ -57,6 +57,7 @@
 		CF39F28526567D960006716A /* stampViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF39F28426567D960006716A /* stampViewController.swift */; };
 		CF3B829E2785181400B4A257 /* ReadLog.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3B829D2785181400B4A257 /* ReadLog.storyboard */; };
 		CF3B82A12785185500B4A257 /* ReadLogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A02785185500B4A257 /* ReadLogVC.swift */; };
+		CF3B82A427868DEF00B4A257 /* ReadLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A327868DEF00B4A257 /* ReadLog.swift */; };
 		CF3D0C1A267BD327006021FB /* UserSelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0C19267BD327006021FB /* UserSelf.storyboard */; };
 		CF3D0C1D267BD349006021FB /* UserSelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */; };
 		CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */; };
@@ -137,6 +138,7 @@
 		CF39F28426567D960006716A /* stampViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stampViewController.swift; sourceTree = "<group>"; };
 		CF3B829D2785181400B4A257 /* ReadLog.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReadLog.storyboard; sourceTree = "<group>"; };
 		CF3B82A02785185500B4A257 /* ReadLogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadLogVC.swift; sourceTree = "<group>"; };
+		CF3B82A327868DEF00B4A257 /* ReadLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadLog.swift; sourceTree = "<group>"; };
 		CF3D0C19267BD327006021FB /* UserSelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserSelf.storyboard; sourceTree = "<group>"; };
 		CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelfViewController.swift; sourceTree = "<group>"; };
 		CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = sinkitoukou.storyboard; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				A39C8614276B7C45002078A0 /* ChatsInfo.swift */,
 				CF083C7E276D0184006F6102 /* OutMemo.swift */,
 				A3D13E2B276F3074002599B9 /* Reaction.swift */,
+				CF3B82A327868DEF00B4A257 /* ReadLog.swift */,
 			);
 			path = inisyaraiz;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */,
 				CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */,
 				A3EAFB43276059E400942C97 /* InChatVC.swift in Sources */,
+				CF3B82A427868DEF00B4A257 /* ReadLog.swift in Sources */,
 				CF361A01277C829800C08160 /* Date-extension.swift in Sources */,
 				CF2A223425C3FC7000C5BFC1 /* AppDelegate.swift in Sources */,
 				CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */,
