@@ -16,6 +16,7 @@ class OutMemo {
     var message: String
     var sendImageURL: String
     var createdAt: Timestamp
+    var textMask: String
     var documentId : String
     var readLog: Bool
     var admin: Bool
@@ -27,6 +28,7 @@ class OutMemo {
         self.message = dic["message"] as? String ?? "unKnown"
         self.sendImageURL = dic["sendImageURL"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
+        self.textMask = dic["textMask"] as? String ?? ""
         self.documentId = dic["documentId"] as? String ?? ""
         self.readLog = dic["readLog"] as? Bool ?? false
         self.admin = dic["admin"] as? Bool ?? false
