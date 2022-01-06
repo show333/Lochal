@@ -58,6 +58,7 @@
 		CF3B829E2785181400B4A257 /* ReadLog.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3B829D2785181400B4A257 /* ReadLog.storyboard */; };
 		CF3B82A12785185500B4A257 /* ReadLogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A02785185500B4A257 /* ReadLogVC.swift */; };
 		CF3B82A427868DEF00B4A257 /* ReadLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A327868DEF00B4A257 /* ReadLog.swift */; };
+		CF3B82A72786C90A00B4A257 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A62786C90900B4A257 /* UserInfo.swift */; };
 		CF3D0C1A267BD327006021FB /* UserSelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0C19267BD327006021FB /* UserSelf.storyboard */; };
 		CF3D0C1D267BD349006021FB /* UserSelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */; };
 		CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */; };
@@ -139,6 +140,7 @@
 		CF3B829D2785181400B4A257 /* ReadLog.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReadLog.storyboard; sourceTree = "<group>"; };
 		CF3B82A02785185500B4A257 /* ReadLogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadLogVC.swift; sourceTree = "<group>"; };
 		CF3B82A327868DEF00B4A257 /* ReadLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadLog.swift; sourceTree = "<group>"; };
+		CF3B82A62786C90900B4A257 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		CF3D0C19267BD327006021FB /* UserSelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserSelf.storyboard; sourceTree = "<group>"; };
 		CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelfViewController.swift; sourceTree = "<group>"; };
 		CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = sinkitoukou.storyboard; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 				CF083C7E276D0184006F6102 /* OutMemo.swift */,
 				A3D13E2B276F3074002599B9 /* Reaction.swift */,
 				CF3B82A327868DEF00B4A257 /* ReadLog.swift */,
+				CF3B82A62786C90900B4A257 /* UserInfo.swift */,
 			);
 			path = inisyaraiz;
 			sourceTree = "<group>";
@@ -547,6 +550,7 @@
 				A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */,
 				A3D13E34277371EC002599B9 /* CreateTeamVC.swift in Sources */,
 				CF1E420D262AF05C00CEF85A /* CopyUILabel.swift in Sources */,
+				CF3B82A72786C90A00B4A257 /* UserInfo.swift in Sources */,
 				CF449799264424A700A2F873 /* Bridging-Header.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -83,7 +83,9 @@ class sinkitoukou: UIViewController {
         
         
         db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
+        
         db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
+        
         db.collection("users").document(uid).collection("MyPost").document(memoId).setData(memoInfoDic)
         
     }

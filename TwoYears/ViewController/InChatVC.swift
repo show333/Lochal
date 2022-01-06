@@ -141,7 +141,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
                     return
                 }
                 print("Current data: \(data)")
-                var teamIdArray = data["teamId"] as! Array<String>
+                let teamIdArray = data["teamId"] as! Array<String>
                 print(teamIdArray)
                 print(teamIdArray[0])
                 print("ドドド",self.teamInfo)

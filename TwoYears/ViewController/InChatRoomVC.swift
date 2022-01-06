@@ -17,6 +17,7 @@ class InChatRoomVC:UIViewController{
     
     var teamRoomDic : Team?
     var ChatRoomInfo = [ChatsInfo]()
+    var userInfo : [UserInfo] = []
 
     @IBOutlet weak var inChatTableView: UITableView!
     
@@ -53,6 +54,53 @@ class InChatRoomVC:UIViewController{
         
         inChatTableView.keyboardDismissMode = .interactive
         fetchFireStore()
+//        fetchUserInfo()
+    }
+    
+    func fetchUserInfo(){
+        guard let teamId = teamRoomDic?.teamId else { return }
+        db.collection("Team").document(teamId).collection("MembersId").document("membersId")
+            .addSnapshotListener { documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                print("Current data: \(data)")
+                let userIdArray = data["userId"] as! Array<String>
+                print("ドドド",self.userInfo)
+                print("アイア背負fじゃせ",userIdArray)
+                
+                self.userInfo.removeAll()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    
+                    userIdArray.forEach{
+                        self.getUserProfile(userId: $0)
+                    }
+                }
+            }
+    }
+    func getUserProfile(userId:String){
+        print("イア言い合いアイア",userId)
+        db.collection("users").document(userId).collection("Profile").document("profile").getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                let userInfoDic = UserInfo(dic: document.data()!)
+                self.userInfo.append(userInfoDic)
+                print(userInfoDic)
+                print(document.data())
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    print("おあいせjフォア伊勢jフォイアsジェフォイじゃせおfじゃ教えjフォしじぇf",self.userInfo)
+                }
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
     
     
