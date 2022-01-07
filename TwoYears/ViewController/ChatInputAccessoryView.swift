@@ -81,7 +81,7 @@ extension ChatInputAccessoryView: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let textWhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)//空白、改行のみを防ぐ
-        sendButton.tintColor = .green
+        sendButton.tintColor = #colorLiteral(red: 0, green: 0.9052245021, blue: 0.6851730943, alpha: 1)
         if textWhite.isEmpty {
             sendButton.isEnabled = false
         } else {

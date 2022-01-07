@@ -66,32 +66,24 @@ class SplashViewController: UIViewController {
             
             print("あああああああ",dic["first"] as Any)
             
-            Firestore.firestore().collection("users").document(uid!).getDocument {(document, error) in
+            Firestore.firestore().collection("users").document(uid!).collection("Profile").document("profile").getDocument {(document, error) in
                 if let document = document, document.exists {
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                     print("Document data: \(dataDescription)")
                     
-                    let email = document["この人のアドレス"] as? String ?? "none"
-                    let userid = document["この人のuid"] as? String ?? "none"
-                    let friends = document["friends"] as? Bool ?? false
-                    let userBrands = document["userBrands"] as? String ?? "none"
-                    let viewtcount = document["viewcount"] as? Int ?? 0
-                    let goodcount = document["goodcount"] as? Int ?? 0
-                    let earliest = document["The_earliest"] as? Bool ?? false
+                    let userId = document["userId"] as? String ?? ""
+                    let userName = document["userName"] as? String ?? ""
+                    let userImage = document["userImage"] as? String ?? ""
+                    let userFrontId = document["userFrontId"] as? String ?? ""
                     
-                    let dicArray : Array = document["eieie"] as! Array<String>
+//                    let dicArray : Array = document["eieie"] as! Array<String>
                     
                     
-                    
-                    
-                    UserDefaults.standard.set(email, forKey: "email")
-                    UserDefaults.standard.set(userid, forKey: "userid")
-                    UserDefaults.standard.set(friends, forKey: "friends")
-                    UserDefaults.standard.set(uid, forKey: "userId")
-                    UserDefaults.standard.set(userBrands, forKey: "userBrands")
-                    UserDefaults.standard.set(viewtcount, forKey: "userviewcount")
-                    UserDefaults.standard.set(goodcount, forKey: "usergoodcount")
-                    UserDefaults.standard.set(earliest, forKey: "earliest")
+                    UserDefaults.standard.set(userId, forKey: "userId")
+                    UserDefaults.standard.set(userName, forKey: "userName")
+                    UserDefaults.standard.set(userImage, forKey: "userImage")
+                    UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
+
                 }
             }
             

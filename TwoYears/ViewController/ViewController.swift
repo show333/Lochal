@@ -22,8 +22,9 @@ class ViewController: UIViewController{
     var temes : [Team] = []
     var outMemo: [OutMemo] = []
     var teamInfo : [Team] = []
-    var userName: String? = "unKnown"
-    var userImage: String? = ""
+    var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
+    var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
+    var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     let db = Firestore.firestore()
 //    let uid = Auth.auth().currentUser?.uid
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
@@ -94,6 +95,24 @@ class ViewController: UIViewController{
             })
         }
     }
+    
+    
+    @IBOutlet weak var notificationNumber: UILabel!
+    
+    
+    @IBOutlet weak var notificationButton: UIButton!
+    
+    @IBAction func TappedNotificationButton(_ sender: Any) {
+        
+        let storyboard: UIStoryboard = UIStoryboard(name: "Notification", bundle: nil)//遷移先のStoryboardを設定
+        let NotificationVC = storyboard.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC//遷移先のViewControllerを設定
+        NotificationVC.notificationTab = true
+        NotificationVC.tabBarController?.tabBar.isHidden = true
+        ViewController().navigationController?.navigationBar.isHidden = false
+        self.navigationController?.pushViewController(NotificationVC, animated: true)//遷移する
+        
+    }
+    
     @IBOutlet weak var bubuButton: UIButton!
     @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet var backView: UIView!
@@ -111,10 +130,14 @@ class ViewController: UIViewController{
         guard let uid = Auth.auth().currentUser?.uid else { return }
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        notificationButton.tintColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        notificationNumber.clipsToBounds = true
+        notificationNumber.layer.cornerRadius = 10
 
         //navigationbarのやつ
-        let navBar = self.navigationController?.navigationBar
-        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
+//        let navBar = self.navigationController?.navigationBar
+//        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
         
         chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
 
@@ -165,9 +188,9 @@ class ViewController: UIViewController{
                     
                     if blockList[rarabai.userId] == true {
                     } else {
-                        //                        if momentType >= moment() - 14.days {
-                        //                            if rarabai.admin == true {
-                        //                            }
+//                        if momentType >= moment() - 2.days {
+//                            if rarabai.admin == true {
+//                            }
                         self.outMemo.append(rarabai)
                     }
                     self.outMemo.sort { (m1, m2) -> Bool in
@@ -243,7 +266,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //
 //        }
         
-        print("とととt",UITableView.automaticDimension)
 
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(flagButtonEvemt), for: UIControl.Event.touchUpInside)
@@ -275,44 +297,64 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         if outMemo[indexPath.row].readLog == true{
             
-            let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
-            let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
-            
-            ReactionVC.message = outMemo[indexPath.row].message
-            ReactionVC.userId = outMemo[indexPath.row].userId
-            self.present(ReactionVC, animated: true, completion: nil)
+            if outMemo[indexPath.row].userId != uid {
+
+                let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
+                let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
+                
+                ReactionVC.message = outMemo[indexPath.row].message
+                ReactionVC.userId = outMemo[indexPath.row].userId
+                self.present(ReactionVC, animated: true, completion: nil)
+            } else {
+                
+                let storyboard = UIStoryboard.init(name: "ReadLog", bundle: nil)
+                let ReadLogVC = storyboard.instantiateViewController(withIdentifier: "ReadLogVC") as! ReadLogVC
+                
+                ReadLogVC.documentId=outMemo[indexPath.row].documentId
+                
+                self.present(ReadLogVC, animated: true, completion: nil)
+            }
             
         } else {
+            let readLogDic = [
+                "userId":uid,
+                "userName":userName ?? "unKnown",
+                "userImage":userImage ?? "",
+                "userFrontId":userFrontId ?? "unKnown",
+                "createdAt": FieldValue.serverTimestamp(),
+            ] as [String:Any]
             
             outMemo[indexPath.row].readLog = true
             db.collection("users").document(uid).collection("TimeLine").document(outMemo[indexPath.row].documentId).setData(["readLog":true],merge: true)
+            db.collection("users").document(outMemo[indexPath.row].userId).collection("MyPost").document(outMemo[indexPath.row].documentId).collection("Readlog").document(uid).setData(readLogDic)
             cell.coverView.backgroundColor = .clear
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
         }
+        
     }
-
-
+    
+    
     @objc func flagButtonEvemt(_ sender: UIButton){
-           //アラート生成
-           //UIAlertControllerのスタイルがactionSheet
-           let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
-           
-           let uid = Auth.auth().currentUser?.uid
-           let report = [
-               "reporter": uid,
-               "documentId": outMemo[sender.tag].documentId,
-               "問題のコメント": outMemo[sender.tag].message,
-               "問題と思われるユーザー": outMemo[sender.tag].userId,
-               "createdAt": FieldValue.serverTimestamp(),
-           ] as [String: Any]
-
-
-           // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
-           let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
-               (action: UIAlertAction!) in
-               //実際の処理
-               let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
+        //アラート生成
+        //UIAlertControllerのスタイルがactionSheet
+        let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+        
+        let uid = Auth.auth().currentUser?.uid
+        let report = [
+            "reporter": uid,
+            "documentId": outMemo[sender.tag].documentId,
+            "問題のコメント": outMemo[sender.tag].message,
+            "問題と思われるユーザー": outMemo[sender.tag].userId,
+            "createdAt": FieldValue.serverTimestamp(),
+        ] as [String: Any]
+        
+        
+        // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
+        let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
+            (action: UIAlertAction!) in
+            //実際の処理
+            let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
                // 選択肢(ボタン)を2つ(OKとCancel)追加します
                //   titleには、選択肢として表示される文字列を指定します
                //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します

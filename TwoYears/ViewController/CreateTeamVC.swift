@@ -14,8 +14,9 @@ class CreateTeamVC : UIViewController {
         let storyboard = UIStoryboard.init(name: "NewCreateTeam", bundle: nil)
         let CompanyViewController = storyboard.instantiateViewController(withIdentifier: "NewCreateTeamVC") as! NewCreateTeamVC
         navigationController?.pushViewController(CompanyViewController, animated: true)
-        
     }
+    
+    
     @IBOutlet weak var downButton: UIButton!
     @IBAction func downTappedButton(_ sender: Any) {
         

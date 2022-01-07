@@ -55,6 +55,12 @@
 		CF39565625D39A450097DBAA /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF39565525D39A450097DBAA /* Team.swift */; };
 		CF39F27E26567D3F0006716A /* stampCollection.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF39F27D26567D3F0006716A /* stampCollection.storyboard */; };
 		CF39F28526567D960006716A /* stampViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF39F28426567D960006716A /* stampViewController.swift */; };
+		CF3B829E2785181400B4A257 /* ReadLog.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3B829D2785181400B4A257 /* ReadLog.storyboard */; };
+		CF3B82A12785185500B4A257 /* ReadLogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A02785185500B4A257 /* ReadLogVC.swift */; };
+		CF3B82A427868DEF00B4A257 /* ReadLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A327868DEF00B4A257 /* ReadLog.swift */; };
+		CF3B82A72786C90A00B4A257 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A62786C90900B4A257 /* UserInfo.swift */; };
+		CF3B82AA2786F6CD00B4A257 /* Notification.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3B82A92786F6CD00B4A257 /* Notification.storyboard */; };
+		CF3B82B02786F70400B4A257 /* NotificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82AF2786F70400B4A257 /* NotificationVC.swift */; };
 		CF3D0C1A267BD327006021FB /* UserSelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0C19267BD327006021FB /* UserSelf.storyboard */; };
 		CF3D0C1D267BD349006021FB /* UserSelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */; };
 		CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */; };
@@ -133,6 +139,12 @@
 		CF39565525D39A450097DBAA /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		CF39F27D26567D3F0006716A /* stampCollection.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = stampCollection.storyboard; sourceTree = "<group>"; };
 		CF39F28426567D960006716A /* stampViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stampViewController.swift; sourceTree = "<group>"; };
+		CF3B829D2785181400B4A257 /* ReadLog.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReadLog.storyboard; sourceTree = "<group>"; };
+		CF3B82A02785185500B4A257 /* ReadLogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadLogVC.swift; sourceTree = "<group>"; };
+		CF3B82A327868DEF00B4A257 /* ReadLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadLog.swift; sourceTree = "<group>"; };
+		CF3B82A62786C90900B4A257 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		CF3B82A92786F6CD00B4A257 /* Notification.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Notification.storyboard; sourceTree = "<group>"; };
+		CF3B82AF2786F70400B4A257 /* NotificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationVC.swift; sourceTree = "<group>"; };
 		CF3D0C19267BD327006021FB /* UserSelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserSelf.storyboard; sourceTree = "<group>"; };
 		CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelfViewController.swift; sourceTree = "<group>"; };
 		CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = sinkitoukou.storyboard; sourceTree = "<group>"; };
@@ -252,6 +264,8 @@
 				A39C8614276B7C45002078A0 /* ChatsInfo.swift */,
 				CF083C7E276D0184006F6102 /* OutMemo.swift */,
 				A3D13E2B276F3074002599B9 /* Reaction.swift */,
+				CF3B82A327868DEF00B4A257 /* ReadLog.swift */,
+				CF3B82A62786C90900B4A257 /* UserInfo.swift */,
 			);
 			path = inisyaraiz;
 			sourceTree = "<group>";
@@ -280,6 +294,8 @@
 				CF43661326789CB500DABD78 /* NewCreateTeamVC.swift */,
 				A3C0D9E5277397AD00AC64D3 /* EnterTeamVC.swift */,
 				A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */,
+				CF3B82A02785185500B4A257 /* ReadLogVC.swift */,
+				CF3B82AF2786F70400B4A257 /* NotificationVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -319,6 +335,8 @@
 				A3D13E3127737184002599B9 /* CreateTeam.storyboard */,
 				A3C0D9E32773976200AC64D3 /* EnterTeam.storyboard */,
 				A3C0D9EB277488BD00AC64D3 /* Reaction.storyboard */,
+				CF3B829D2785181400B4A257 /* ReadLog.storyboard */,
+				CF3B82A92786F6CD00B4A257 /* Notification.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -409,6 +427,7 @@
 				CF4BF176260FA43800942E6F /* yasasisa.ttf in Resources */,
 				CF2A224025C3FC7200C5BFC1 /* Assets.xcassets in Resources */,
 				CF0C14BF25CA04C5006A7C86 /* ChatInputAccessoryView.xib in Resources */,
+				CF3B82AA2786F6CD00B4A257 /* Notification.storyboard in Resources */,
 				CF0BD9D825D018FF004A1958 /* SignIn.storyboard in Resources */,
 				CF2A223B25C3FC7000C5BFC1 /* Main.storyboard in Resources */,
 				CF7E8E4227788677003E3E84 /* TeamCollectionViewCell.xib in Resources */,
@@ -425,6 +444,7 @@
 				CF15444F26110E2700400D87 /* GoogleService-Info.plist in Resources */,
 				CF4366102678966E00DABD78 /* NewCreateTeam.storyboard in Resources */,
 				CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */,
+				CF3B829E2785181400B4A257 /* ReadLog.storyboard in Resources */,
 				A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,6 +518,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF0C14B225C9F028006A7C86 /* ChatRoomViewController.swift in Sources */,
+				CF3B82A12785185500B4A257 /* ReadLogVC.swift in Sources */,
 				A3C0D9EA2774859C00AC64D3 /* ReactionVC.swift in Sources */,
 				CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */,
 				CF39565625D39A450097DBAA /* Team.swift in Sources */,
@@ -512,8 +533,10 @@
 				CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */,
 				A3D13E2E276FC4B1002599B9 /* Users.swift in Sources */,
 				A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */,
+				CF3B82B02786F70400B4A257 /* NotificationVC.swift in Sources */,
 				CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */,
 				A3EAFB43276059E400942C97 /* InChatVC.swift in Sources */,
+				CF3B82A427868DEF00B4A257 /* ReadLog.swift in Sources */,
 				CF361A01277C829800C08160 /* Date-extension.swift in Sources */,
 				CF2A223425C3FC7000C5BFC1 /* AppDelegate.swift in Sources */,
 				CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */,
@@ -535,6 +558,7 @@
 				A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */,
 				A3D13E34277371EC002599B9 /* CreateTeamVC.swift in Sources */,
 				CF1E420D262AF05C00CEF85A /* CopyUILabel.swift in Sources */,
+				CF3B82A72786C90A00B4A257 /* UserInfo.swift in Sources */,
 				CF449799264424A700A2F873 /* Bridging-Header.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
