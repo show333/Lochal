@@ -188,8 +188,8 @@ class ProfileVC: UIViewController {
         self.chatListTableView.rowHeight = UITableView.automaticDimension
         
         //        navigationbarのやつ
-        let navBar = self.navigationController?.navigationBar
-        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
+//        let navBar = self.navigationController?.navigationBar
+//        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
         
         
         // セルの詳細なレイアウトを設定する

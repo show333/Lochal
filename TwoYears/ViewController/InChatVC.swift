@@ -298,30 +298,6 @@ extension InChat:UITableViewDataSource, UITableViewDelegate{
         }
     }
     
-    func getUserProfile(userId:String,cell:InChatTableViewCell){
-
-        db.collection("users").document(userId).collection("Profile").document("profile")
-            .addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let userImage = document["userImage"] as? String ?? ""
-                                
-                if let url = URL(string:userImage) {
-                    Nuke.loadImage(with: url, into: cell.userImageView)
-                } else {
-                    cell.userImageView?.image = nil
-                }
-                self.reactionTableView.reloadData()
-            }
-    }
-    
 }
 
 class InChatTableViewCell: UITableViewCell {

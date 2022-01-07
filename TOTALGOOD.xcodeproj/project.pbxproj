@@ -59,6 +59,8 @@
 		CF3B82A12785185500B4A257 /* ReadLogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A02785185500B4A257 /* ReadLogVC.swift */; };
 		CF3B82A427868DEF00B4A257 /* ReadLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A327868DEF00B4A257 /* ReadLog.swift */; };
 		CF3B82A72786C90A00B4A257 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A62786C90900B4A257 /* UserInfo.swift */; };
+		CF3B82AA2786F6CD00B4A257 /* Notification.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3B82A92786F6CD00B4A257 /* Notification.storyboard */; };
+		CF3B82B02786F70400B4A257 /* NotificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82AF2786F70400B4A257 /* NotificationVC.swift */; };
 		CF3D0C1A267BD327006021FB /* UserSelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0C19267BD327006021FB /* UserSelf.storyboard */; };
 		CF3D0C1D267BD349006021FB /* UserSelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */; };
 		CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */; };
@@ -141,6 +143,8 @@
 		CF3B82A02785185500B4A257 /* ReadLogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadLogVC.swift; sourceTree = "<group>"; };
 		CF3B82A327868DEF00B4A257 /* ReadLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadLog.swift; sourceTree = "<group>"; };
 		CF3B82A62786C90900B4A257 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		CF3B82A92786F6CD00B4A257 /* Notification.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Notification.storyboard; sourceTree = "<group>"; };
+		CF3B82AF2786F70400B4A257 /* NotificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationVC.swift; sourceTree = "<group>"; };
 		CF3D0C19267BD327006021FB /* UserSelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserSelf.storyboard; sourceTree = "<group>"; };
 		CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelfViewController.swift; sourceTree = "<group>"; };
 		CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = sinkitoukou.storyboard; sourceTree = "<group>"; };
@@ -291,6 +295,7 @@
 				A3C0D9E5277397AD00AC64D3 /* EnterTeamVC.swift */,
 				A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */,
 				CF3B82A02785185500B4A257 /* ReadLogVC.swift */,
+				CF3B82AF2786F70400B4A257 /* NotificationVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -331,6 +336,7 @@
 				A3C0D9E32773976200AC64D3 /* EnterTeam.storyboard */,
 				A3C0D9EB277488BD00AC64D3 /* Reaction.storyboard */,
 				CF3B829D2785181400B4A257 /* ReadLog.storyboard */,
+				CF3B82A92786F6CD00B4A257 /* Notification.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -421,6 +427,7 @@
 				CF4BF176260FA43800942E6F /* yasasisa.ttf in Resources */,
 				CF2A224025C3FC7200C5BFC1 /* Assets.xcassets in Resources */,
 				CF0C14BF25CA04C5006A7C86 /* ChatInputAccessoryView.xib in Resources */,
+				CF3B82AA2786F6CD00B4A257 /* Notification.storyboard in Resources */,
 				CF0BD9D825D018FF004A1958 /* SignIn.storyboard in Resources */,
 				CF2A223B25C3FC7000C5BFC1 /* Main.storyboard in Resources */,
 				CF7E8E4227788677003E3E84 /* TeamCollectionViewCell.xib in Resources */,
@@ -526,6 +533,7 @@
 				CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */,
 				A3D13E2E276FC4B1002599B9 /* Users.swift in Sources */,
 				A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */,
+				CF3B82B02786F70400B4A257 /* NotificationVC.swift in Sources */,
 				CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */,
 				A3EAFB43276059E400942C97 /* InChatVC.swift in Sources */,
 				CF3B82A427868DEF00B4A257 /* ReadLog.swift in Sources */,

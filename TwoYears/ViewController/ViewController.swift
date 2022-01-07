@@ -95,6 +95,24 @@ class ViewController: UIViewController{
             })
         }
     }
+    
+    
+    @IBOutlet weak var notificationNumber: UILabel!
+    
+    
+    @IBOutlet weak var notificationButton: UIButton!
+    
+    @IBAction func TappedNotificationButton(_ sender: Any) {
+        
+        let storyboard: UIStoryboard = UIStoryboard(name: "Notification", bundle: nil)//遷移先のStoryboardを設定
+        let NotificationVC = storyboard.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC//遷移先のViewControllerを設定
+        NotificationVC.notificationTab = true
+        NotificationVC.tabBarController?.tabBar.isHidden = true
+        ViewController().navigationController?.navigationBar.isHidden = false
+        self.navigationController?.pushViewController(NotificationVC, animated: true)//遷移する
+        
+    }
+    
     @IBOutlet weak var bubuButton: UIButton!
     @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet var backView: UIView!
@@ -112,10 +130,14 @@ class ViewController: UIViewController{
         guard let uid = Auth.auth().currentUser?.uid else { return }
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        notificationButton.tintColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        notificationNumber.clipsToBounds = true
+        notificationNumber.layer.cornerRadius = 10
 
         //navigationbarのやつ
-        let navBar = self.navigationController?.navigationBar
-        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
+//        let navBar = self.navigationController?.navigationBar
+//        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
         
         chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
 
