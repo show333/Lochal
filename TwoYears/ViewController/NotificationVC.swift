@@ -46,6 +46,11 @@ class NotificationVC: UIViewController {
             self.navigationController?.navigationBar.isHidden = true
         }
     }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(uid).collection("Reaction").document("reaction").setData(["notificationNum": 0])
+    }
     func fetchReaction(userId:String) {
         db.collection("users").document(userId).collection("Reaction").document("reaction").collection("ReactionId").addSnapshotListener{ [self] ( snapshots, err) in
             if let err = err {
@@ -113,6 +118,8 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
         cell.userImageView.layer.cornerRadius = 25
         cell.userImageView.image = nil
         cell.reactionView.image = nil
+        
+        cell.reactionView.image = nil
         if let url = URL(string:reaction[indexPath.row].reaction) {
             Nuke.loadImage(with: url, into: cell.reactionView!)
         } else {
@@ -121,7 +128,7 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
 //        fetchUserProfile(userId: reaction[indexPath.row].userId, cell: cell)
 //        getUserInfo(userId: reaction[indexPath.row].userId, cell: cell)
         
-        
+        cell.userImageView.image = nil
         if let url = URL(string:reaction[indexPath.row].userImage) {
             Nuke.loadImage(with: url, into: cell.userImageView)
         } else {

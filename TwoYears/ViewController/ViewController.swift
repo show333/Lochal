@@ -33,7 +33,15 @@ class ViewController: UIViewController{
     fileprivate let cellHeight: CGFloat = 210
     fileprivate let cellSpacing: CGFloat = 20
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
-    @IBOutlet weak var sendImageView: UIImageView!
+
+    @IBAction func logout(_ sender: Any) {
+        do {
+            try Auth.auth().signOut()
+        } catch let error {
+//            showErrorIfNeeded(error)
+        }
+        
+    }
     
     @IBAction func tappedBubuButton(_ sender: Any) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -205,7 +213,7 @@ class ViewController: UIViewController{
     
     
     private func fetchFireStore(userId:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")
@@ -222,10 +230,9 @@ class ViewController: UIViewController{
                     
                     if blockList[rarabai.userId] == true {
                     } else {
-//                        if momentType >= moment() - 2.days {
-//                            if rarabai.admin == true {
-//                            }
+                        if momentType >= moment() - 2.days {
                         self.outMemo.append(rarabai)
+                        }
                     }
                     self.outMemo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
@@ -274,7 +281,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 0
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
-
+//
         } else {
             cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             cell.coverViewConstraint.constant = 100
@@ -283,9 +290,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageView.alpha = 0.8
             cell.textMaskLabel.alpha = 1
 
-
         }
-                
+//
         if let url = URL(string:outMemo[indexPath.row].textMask) {
             Nuke.loadImage(with: url, into: cell.coverImageView)
         } else {
@@ -364,6 +370,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverView.backgroundColor = .clear
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
+            cell.messageLabel.numberOfLines = 0
         }
         
     }
@@ -466,13 +473,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 print("Current data: \(data)")
 //                let userId = document["userId"] as? String ?? "unKnown"
 //                userName = document["userName"] as? String ?? "unKnown"
-                userImage = document["userImage"] as? String ?? ""
+                let userImage = document["userImage"] as? String ?? ""
                 
                 
 //                cell.nameLabel.text = userName
 //                getUserTeamInfo(userId: userId, cell: cell)
                 
-                if let url = URL(string:userImage ?? "") {
+                if let url = URL(string:userImage) {
                     Nuke.loadImage(with: url, into: cell.userImageView)
                 } else {
                     cell.userImageView?.image = nil

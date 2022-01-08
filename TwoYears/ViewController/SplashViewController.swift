@@ -66,10 +66,13 @@ class SplashViewController: UIViewController {
             
             print("あああああああ",dic["first"] as Any)
             
+            print(uid)
+            
             Firestore.firestore().collection("users").document(uid!).collection("Profile").document("profile").getDocument {(document, error) in
                 if let document = document, document.exists {
                     let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                     print("Document data: \(dataDescription)")
+                    print("愛恵f助汗jフォイアせjf")
                     
                     let userId = document["userId"] as? String ?? ""
                     let userName = document["userName"] as? String ?? ""

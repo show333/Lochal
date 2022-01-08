@@ -17,9 +17,11 @@ class ProfileVC: UIViewController {
     var outMemo: [OutMemo] = []
     var teamInfo : [Team] = []
     var safeArea : CGFloat = 0
-    var userId: String? = UserDefaults.standard.string(forKey:"userid") ?? "" //あとで調整する
-    var userName: String? = ""
-    var userImage : String = ""
+    var userId: String? = UserDefaults.standard.string(forKey:"userId") ?? "" //あとで調整する
+    var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
+    var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
+    var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
+    
     var cellImageTap : Bool = false
     let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
@@ -224,6 +226,8 @@ class ProfileVC: UIViewController {
         fetchFireStore(userId: userId ?? "")
         fetchUserProfile(userId: userId ?? "")
         fetchUserTeamInfo(userId: userId ?? "")
+        
+        print("青性f助汗jfおいさ教えjfおせいjfおせいf女医さえfj",userId)
     }
     
     
@@ -245,6 +249,7 @@ class ProfileVC: UIViewController {
     //Pull to Refresh
     @objc private func onRefresh(_ sender: AnyObject) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.chatListTableView.reloadData()
             self?.chatListTableView.refreshControl?.endRefreshing()
 
         }
@@ -299,8 +304,8 @@ class ProfileVC: UIViewController {
                     return
                 }
                 print("Current data: \(data)")
-                userName = document["userName"] as? String ?? "unKnown"
-                userImage = document["userImage"] as? String ?? "unKnown"
+                let userName = document["userName"] as? String ?? "unKnown"
+                let userImage = document["userImage"] as? String ?? "unKnown"
                 
                 userNameLabel.text = userName
                 if let url = URL(string:userImage) {
@@ -407,46 +412,123 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
         
         
+        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
+        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
+
         cell.messageLabel.text = outMemo[indexPath.row].message
-        
-        
-        cell.mainBackground.layer.cornerRadius = 8
-        cell.mainBackground.layer.masksToBounds = true
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
         
-            
+//        cell.coverView.backgroundColor = nil
+        
+        cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+
+//        cell.messageBottomConstraint.constant =  105
+        
+        if  outMemo[indexPath.row].readLog == true {
+            cell.coverView.backgroundColor = .clear
+            cell.coverViewConstraint.constant = 0
+            cell.messageBottomConstraint.constant = 30
+            cell.messageLabel.numberOfLines = 0
+            cell.coverImageView.alpha = 0
+            cell.textMaskLabel.alpha = 0
+
+        } else {
+            cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            cell.coverViewConstraint.constant = 100
+            cell.messageBottomConstraint.constant =  105
+            cell.messageLabel.numberOfLines = 1
+            cell.coverImageView.alpha = 0.8
+            cell.textMaskLabel.alpha = 1
+
+
+        }
+                
+        if let url = URL(string:outMemo[indexPath.row].textMask) {
+            Nuke.loadImage(with: url, into: cell.coverImageView)
+        } else {
+            cell.coverImageView?.image = nil
+        }
+        
+        
+//        if outMemo[indexPath.row].readLog == true {
+//            cell.coverView.backgroundColor = .clear
+//        } else {
+//            cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+//
+//        }
+        
+        
+
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(buttonEvemt), for: UIControl.Event.touchUpInside)
-        
+//        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)
+
         cell.userImageView.image = nil
-        
-        cell.userImageView.layer.cornerRadius = 30
+//        cell.IndividualImageView.image = nil
         fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
 
+        print(cell.outMemo?.userId ?? "")
         
         let date: Date = outMemo[indexPath.row].createdAt.dateValue()
+
         cell.dateLabel.text = date.agoText()
 
-        
+        cell.userImageView.layer.cornerRadius = 30
+        cell.mainBackground.layer.cornerRadius = 8
+        cell.mainBackground.layer.masksToBounds = true
         cell.outMemo = outMemo[indexPath.row]
-        cell.messageLabel.numberOfLines = 0
         cell.messageLabel.clipsToBounds = true
-        cell.messageLabel.layer.cornerRadius = 8
+        cell.messageLabel.layer.cornerRadius = 10
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let cell = self.chatListTableView.cellForRow(at:indexPath) as! OutmMemoCellVC
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
-        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
         
-        ReactionVC.message = outMemo[indexPath.row].message
-        ReactionVC.userId = outMemo[indexPath.row].userId
         
-        self.present(ReactionVC, animated: true, completion: nil)
+        if outMemo[indexPath.row].readLog == true{
+            
+            if outMemo[indexPath.row].userId != uid {
+
+                let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
+                let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
+                
+                ReactionVC.message = outMemo[indexPath.row].message
+                ReactionVC.userId = outMemo[indexPath.row].userId
+                self.present(ReactionVC, animated: true, completion: nil)
+            } else {
+                
+                let storyboard = UIStoryboard.init(name: "ReadLog", bundle: nil)
+                let ReadLogVC = storyboard.instantiateViewController(withIdentifier: "ReadLogVC") as! ReadLogVC
+                
+                ReadLogVC.documentId=outMemo[indexPath.row].documentId
+                
+                self.present(ReadLogVC, animated: true, completion: nil)
+            }
+            
+        } else {
+            let readLogDic = [
+                "userId":uid,
+                "userName":userName ?? "unKnown",
+                "userImage":userImage ?? "",
+                "userFrontId":userFrontId ?? "unKnown",
+                "createdAt": FieldValue.serverTimestamp(),
+            ] as [String:Any]
+            
+            outMemo[indexPath.row].readLog = true
+            db.collection("users").document(uid).collection("TimeLine").document(outMemo[indexPath.row].documentId).setData(["readLog":true],merge: true)
+            db.collection("users").document(outMemo[indexPath.row].userId).collection("MyPost").document(outMemo[indexPath.row].documentId).collection("Readlog").document(uid).setData(readLogDic)
+            cell.coverView.backgroundColor = .clear
+            cell.coverImageView.alpha = 0
+            cell.textMaskLabel.alpha = 0
+            cell.messageLabel.numberOfLines = 0
+
+        }
+        
     }
     
     @objc func buttonEvemt(_ sender: UIButton){
@@ -543,13 +625,13 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                 print("Current data: \(data)")
 //                let userId = document["userId"] as? String ?? "unKnown"
 //                userName = document["userName"] as? String ?? "unKnown"
-                userImage = document["userImage"] as? String ?? ""
+                let userImage = document["userImage"] as? String ?? ""
                 
                 
 //                cell.nameLabel.text = userName
 //                getUserTeamInfo(userId: userId, cell: cell)
                 
-                if let url = URL(string:userImage ?? "") {
+                if let url = URL(string:userImage) {
                     Nuke.loadImage(with: url, into: cell.userImageView)
                 } else {
                     cell.userImageView?.image = nil
