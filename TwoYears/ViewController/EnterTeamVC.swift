@@ -15,6 +15,9 @@ class EnterTeamVC: UIViewController {
     
     @IBOutlet weak var teamIdField: UITextField!
     @IBOutlet weak var enterButton: UIButton!
+    
+    @IBOutlet weak var explainLabel: UILabel!
+    
     @IBAction func tappedEnterButton(_ sender: Any) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let teamId = teamIdField.text ?? ""
@@ -30,6 +33,19 @@ class EnterTeamVC: UIViewController {
                     let teamBoolCount : Int = querySnapshot?.documents.count ?? 0
                     if teamBoolCount == 0 {
                         print("nothing")
+                        DispatchQueue.main.async(execute: { () -> Void in
+                                self.explainLabel.text = "このIDは招待されたIDと異なります。"
+                                
+                                UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+                                    self.explainLabel.alpha = 1
+                                    
+                                }) {(completed) in
+                                    
+                                    UIView.animate(withDuration: 0.2, delay: 2.5, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+                                        self.explainLabel.alpha = 0
+                                    })
+                                }
+                            })
                     } else if teamBoolCount == 1{
                         self.checkTeamUser(teamId: teamId,uid: uid)
                         } else {
@@ -49,6 +65,7 @@ class EnterTeamVC: UIViewController {
                 self.enterTeam(teamId: teamId,uid: uid)
                 } else {
                     print("既に入っていますラベル")
+                    
                 }
 
             } else {
@@ -69,6 +86,15 @@ class EnterTeamVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setSwipeBack()
+        explainLabel.alpha = 0
+        enterButton.clipsToBounds = true
+        enterButton.layer.masksToBounds = false
+        enterButton.layer.cornerRadius = 10
+        enterButton.layer.shadowColor = UIColor.black.cgColor
+        enterButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        enterButton.layer.shadowOpacity = 0.7
+        enterButton.layer.shadowRadius = 5
+        
 
     }
 }

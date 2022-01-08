@@ -37,6 +37,8 @@ class ReactionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("ユーザー！イメージ！",userImage)
+        
         
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.8020463346)
         reactiCollectionView.dataSource = self
@@ -87,11 +89,11 @@ class ReactionVC: UIViewController {
                     return
                 }
                 print("Current data: \(data)")
-                userImage = document["userImage"] as? String ?? ""
+                let userImage = document["userImage"] as? String ?? ""
                 
                 //                getUserTeamInfo(userId: userId, cell: cell)
                 
-                if let url = URL(string:userImage ?? "") {
+                if let url = URL(string:userImage) {
                     Nuke.loadImage(with: url, into: userImageView)
                 } else {
                     userImageView?.image = nil
@@ -137,16 +139,17 @@ extension ReactionVC :UICollectionViewDataSource, UICollectionViewDelegate {
         let docData = [
             "createdAt": FieldValue.serverTimestamp(),
             "userId": uid,
-            "userName":userName,
-            "userImage":userImage,
-            "userFtontId":userFrontId,
+            "userName":userName ?? "",
+            "userImage":userImage ?? "",
+            "userFtontId":userFrontId ?? "",
             "documentId" : documentId,
             "reaction": urlString,
             "theMessage":message ?? "",
             "anonymous":false,
             "admin": false,
         ] as [String: Any]
-        db.collection("users").document(userId ?? "").collection("Reaction").document().setData(docData)
+        db.collection("users").document(userId ?? "").collection("Reaction").document("reaction").collection("ReactionId").document(documentId).setData(docData)
+        db.collection("users").document(userId ?? "").collection("Reaction").document("reaction").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
         dismiss(animated: true, completion: nil)
     }
     

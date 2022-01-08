@@ -27,6 +27,22 @@ class CreateTeamVC : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setSwipeBack()
+        
+        upButton.clipsToBounds = true
+        upButton.layer.masksToBounds = false
+        upButton.layer.cornerRadius = 10
+        upButton.layer.shadowColor = UIColor.black.cgColor
+        upButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        upButton.layer.shadowOpacity = 0.7
+        upButton.layer.shadowRadius = 5
+        
+        downButton.clipsToBounds = true
+        downButton.layer.masksToBounds = false
+        downButton.layer.cornerRadius = 10
+        downButton.layer.shadowColor = UIColor.black.cgColor
+        downButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        downButton.layer.shadowOpacity = 0.7
+        downButton.layer.shadowRadius = 5
 
         
     }

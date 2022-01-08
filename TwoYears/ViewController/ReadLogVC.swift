@@ -87,6 +87,7 @@ extension ReadLogVC: UITableViewDelegate, UITableViewDataSource {
         cell.userImageView.clipsToBounds = true
         cell.userImageView.layer.cornerRadius = 20
         
+        cell.userImageView.image = nil
         if let url = URL(string:readLog[indexPath.row].userImage) {
             Nuke.loadImage(with: url, into: cell.userImageView)
         } else {

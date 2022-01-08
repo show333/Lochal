@@ -70,22 +70,35 @@ class sinkitoukou: UIViewController {
             "sendImageURL": "",
             "readLog": false,
             "anonymous":false,
-            "admin": false,
+            "admin": true,
             "delete": false,
         ] as [String: Any]
         
         
         followerId = ["a","aa","aaa","aaaa","aaaaa","aaaaaa",]
-        followerId.forEach{
-            print($0)
-            db.collection("users").document($0).collection("TimeLine").document(memoId).setData(memoInfoDic)
+        
+        db.collection("users").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    let userId =  document.data()["この人のuid"] as? String ?? "unKnown"
+                    db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+//                    print("おおおお",userId)
+                }
+            }
         }
+//
+//        followerId.forEach{
+//            print($0)
+//            db.collection("users").document($0).collection("TimeLine").document(memoId).setData(memoInfoDic)
+//        }
         
         
         db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
-        
-        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
-        
+//
+//        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
+//
         db.collection("users").document(uid).collection("MyPost").document(memoId).setData(memoInfoDic)
         
     }
