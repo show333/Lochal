@@ -103,9 +103,10 @@ class ViewController: UIViewController{
     @IBOutlet weak var notificationButton: UIButton!
     
     @IBAction func TappedNotificationButton(_ sender: Any) {
-        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         let storyboard: UIStoryboard = UIStoryboard(name: "Notification", bundle: nil)//遷移先のStoryboardを設定
         let NotificationVC = storyboard.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC//遷移先のViewControllerを設定
+        db.collection("users").document(uid).collection("Reaction").document("reaction").setData(["notificationNum": 0])
         NotificationVC.notificationTab = true
         NotificationVC.tabBarController?.tabBar.isHidden = true
         ViewController().navigationController?.navigationBar.isHidden = false
@@ -130,6 +131,8 @@ class ViewController: UIViewController{
         guard let uid = Auth.auth().currentUser?.uid else { return }
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        notificationNumber.alpha = 0
         
         notificationButton.tintColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         notificationNumber.clipsToBounds = true
@@ -158,7 +161,7 @@ class ViewController: UIViewController{
         bubuButton.layer.shadowOpacity = 1
         bubuButton.layer.shadowRadius = 5
         fetchFireStore(userId: uid)
-//        getAlloutMemo()
+        fetchReaction(userId: uid)
         chatListTableView.backgroundColor = #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
     }
 
@@ -169,6 +172,37 @@ class ViewController: UIViewController{
             self?.chatListTableView.refreshControl?.endRefreshing()
         }
     }
+    
+    func fetchReaction(userId:String){
+        
+        db.collection("users").document(userId).collection("Reaction").document("reaction")
+            .addSnapshotListener { [self] documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                print("Current data: \(data)")
+                let notificationNum = data["notificationNum"] as? Int ?? 0
+                print("あいあいセフィア性ファ性フィアセフィアセフィせf",notificationNum)
+                print(notificationNum)
+                
+                if notificationNum >= 1 {
+                    notificationNumber.alpha = 1
+                    notificationNumber.text = String(notificationNum)
+                } else {
+                    notificationNumber.alpha = 0
+                }
+//                notificationNumber.text =
+//                self.teamInfo.removeAll()
+//                self.teamCollectionView.reloadData()
+            }
+    }
+    
+    
     
     private func fetchFireStore(userId:String) {
         db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).addSnapshotListener { [self] ( snapshots, err) in

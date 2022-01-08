@@ -146,7 +146,8 @@ extension ReactionVC :UICollectionViewDataSource, UICollectionViewDelegate {
             "anonymous":false,
             "admin": false,
         ] as [String: Any]
-        db.collection("users").document(userId ?? "").collection("Reaction").document().setData(docData)
+        db.collection("users").document(userId ?? "").collection("Reaction").document("reaction").collection("ReactionId").document(documentId).setData(docData)
+        db.collection("users").document(userId ?? "").collection("Reaction").document("reaction").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
         dismiss(animated: true, completion: nil)
     }
     

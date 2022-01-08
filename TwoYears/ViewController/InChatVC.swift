@@ -48,14 +48,12 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         
         
         fetchUserTeamInfo()
-        fetchReaction(userId:uid)
+//        fetchReaction(userId:uid)
         
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
         
-        reactionTableView.dataSource = self
-        reactionTableView.delegate = self
-        
+
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)
         
@@ -63,13 +61,13 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         
         safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight - navigationbarHeight
         
-        collectionViewConstraint.constant = safeArea/4
+        collectionViewConstraint.constant = safeArea/1.5+5
         
        
         // セルの詳細なレイアウトを設定する
         let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         // セルのサイズ
-        flowLayout.itemSize = CGSize(width: safeArea/4, height: safeArea/4)
+        flowLayout.itemSize = CGSize(width: safeArea/3, height: safeArea/3)
         // 縦・横のスペース
         flowLayout.minimumLineSpacing = 5
         flowLayout.minimumInteritemSpacing = 0
@@ -78,7 +76,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         // 上で設定した内容を反映させる
         self.teamCollectionView.collectionViewLayout = flowLayout
         // 背景色を設定
-        self.teamCollectionView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        self.teamCollectionView.backgroundColor = .clear
         
         
 
@@ -185,6 +183,8 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! teamCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
+        
+        cell.teamNameLabel.text = teamInfo[indexPath.row].teamName
 
         var imageString = String()
         imageString = teamInfo[indexPath.row].teamImage
@@ -229,6 +229,7 @@ class teamCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var teamCollectionImage: UIImageView!
     
+    @IBOutlet weak var teamNameLabel: UILabel!
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -243,70 +244,3 @@ class teamCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension InChat:UITableViewDataSource, UITableViewDelegate{
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
-    }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return reaction.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = reactionTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! InChatTableViewCell
-        cell.userImageView.clipsToBounds = true
-        cell.userImageView.layer.cornerRadius = 30
-        cell.userImageView.image = nil
-        cell.reactionView.image = nil
-        cell.messageLabel.text = reaction[indexPath.row].theMessage
-        if let url = URL(string:reaction[indexPath.row].reaction) {
-            Nuke.loadImage(with: url, into: cell.reactionView!)
-        } else {
-            cell.reactionView?.image = nil
-        }
-//        fetchUserProfile(userId: reaction[indexPath.row].userId, cell: cell)
-        getUserInfo(userId: reaction[indexPath.row].userId, cell: cell)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        ProfileVC.userId = reaction[indexPath.row].userId
-        ProfileVC.cellImageTap = true
-        navigationController?.pushViewController(ProfileVC, animated: true)
-
-    }
-    
-    
-    func getUserInfo(userId:String,cell:InChatTableViewCell){
-        db.collection("users").document(userId).collection("Profile").document("profile").getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-                let userImage = document["userImage"] as? String ?? ""
-                if let url = URL(string:userImage) {
-                    Nuke.loadImage(with: url, into: cell.userImageView)
-                } else {
-                    cell.userImageView?.image = nil
-                }
-                self.teamCollectionView.reloadData()
-            } else {
-                print("Document does not exist")
-            }
-        }
-    }
-    
-}
-
-class InChatTableViewCell: UITableViewCell {
-    
-    @IBOutlet weak var userImageView: UIImageView!
-    @IBOutlet weak var reactionView: UIImageView!
-    @IBOutlet weak var messageLabel: UILabel!
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
-}

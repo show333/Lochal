@@ -47,7 +47,7 @@ class NotificationVC: UIViewController {
         }
     }
     func fetchReaction(userId:String) {
-        db.collection("users").document(userId).collection("Reaction").addSnapshotListener{ [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("Reaction").document("reaction").collection("ReactionId").addSnapshotListener{ [self] ( snapshots, err) in
             if let err = err {
                 print("メッセージの取得に失敗、\(err)")
                 return
@@ -99,11 +99,20 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = reactionTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! reactionTableViewCell
+        
+        let safeArea = UIScreen.main.bounds.size.width
+
+        
+        cell.messageWidth.constant = safeArea/2
+        cell.messageLabel.text = reaction[indexPath.row].theMessage
+        cell.messageLabel.clipsToBounds = true
+        cell.messageBackView.layer.cornerRadius = 20
+        cell.messageBackView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        
         cell.userImageView.clipsToBounds = true
-        cell.userImageView.layer.cornerRadius = 30
+        cell.userImageView.layer.cornerRadius = 25
         cell.userImageView.image = nil
         cell.reactionView.image = nil
-        cell.messageLabel.text = reaction[indexPath.row].theMessage
         if let url = URL(string:reaction[indexPath.row].reaction) {
             Nuke.loadImage(with: url, into: cell.reactionView!)
         } else {
@@ -143,7 +152,11 @@ class reactionTableViewCell: UITableViewCell {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var reactionView: UIImageView!
     
+    @IBOutlet weak var messageBackView: UIView!
+    
     @IBOutlet weak var messageLabel: UILabel!
+    
+    @IBOutlet weak var messageWidth: NSLayoutConstraint!
     override func prepareForReuse() {
         super.prepareForReuse()
     }
