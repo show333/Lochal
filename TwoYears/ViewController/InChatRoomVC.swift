@@ -22,13 +22,13 @@ class InChatRoomVC:UIViewController{
     @IBOutlet weak var inChatTableView: UITableView!
     
     private let cellId = "cellId"
-    private let accessoryHeight: CGFloat = 900
+    private let accessoryHeight: CGFloat = 90
     private var safeAreaBottom: CGFloat {
         self.view.safeAreaInsets.bottom
     }
     private lazy var chatInputAccessoryView: ChatInputAccessoryView = {
         let view = ChatInputAccessoryView()
-        view.frame = .init(x: 0, y: 0, width: view.frame.width, height: 1000)
+        view.frame = .init(x: 0, y: 0, width: view.frame.width, height: 70)
         view.delegate = self
         return view
     }()
@@ -54,8 +54,10 @@ class InChatRoomVC:UIViewController{
         
         inChatTableView.keyboardDismissMode = .interactive
         fetchFireStore()
-//        fetchUserInfo()
+        
+        
     }
+    
     
     func fetchUserInfo(){
         guard let teamId = teamRoomDic?.teamId else { return }
@@ -161,7 +163,7 @@ class InChatRoomVC:UIViewController{
         guard let userInfo = notification.userInfo else { return }
         if let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
             if keyboardFrame.height <= accessoryHeight { return }
-            let top = keyboardFrame.height - safeAreaBottom - 48
+            let top = keyboardFrame.height - safeAreaBottom
             let bottom = inChatTableView.contentOffset.y
             let moveY =  inChatTableView.contentOffset.y
             print(bottom)
@@ -171,6 +173,7 @@ class InChatRoomVC:UIViewController{
             inChatTableView.contentOffset = CGPoint(x: 0, y: moveY + top)
         }
     }
+    
     @objc func keyboardWillHide() {
         print("keyboardWillHide")
         inChatTableView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
