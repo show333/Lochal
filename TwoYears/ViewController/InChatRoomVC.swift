@@ -26,6 +26,9 @@ class InChatRoomVC:UIViewController{
     private var safeAreaBottom: CGFloat {
         self.view.safeAreaInsets.bottom
     }
+    private var tableViewContentInset:UIEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+    private var tableViewIndicaterInset:UIEdgeInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+    
     private lazy var chatInputAccessoryView: ChatInputAccessoryView = {
         let view = ChatInputAccessoryView()
         view.frame = .init(x: 0, y: 0, width: view.frame.width, height: 70)
@@ -52,7 +55,11 @@ class InChatRoomVC:UIViewController{
         inChatTableView.dataSource = self
         inChatTableView.register(UINib(nibName: "ChatRoomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)
         
+        inChatTableView.contentInset = tableViewContentInset
+        inChatTableView.scrollIndicatorInsets = tableViewIndicaterInset
         inChatTableView.keyboardDismissMode = .interactive
+        inChatTableView.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
+        
         fetchFireStore()
         
         
@@ -86,18 +93,12 @@ class InChatRoomVC:UIViewController{
             }
     }
     func getUserProfile(userId:String){
-        print("イア言い合いアイア",userId)
         db.collection("users").document(userId).collection("Profile").document("profile").getDocument { (document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
                 let userInfoDic = UserInfo(dic: document.data()!)
                 self.userInfo.append(userInfoDic)
-                print(userInfoDic)
-                print(document.data())
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    print("おあいせjフォア伊勢jフォイアsジェフォイじゃせおfじゃ教えjフォしじぇf",self.userInfo)
-                }
                 
             } else {
                 print("Document does not exist")
@@ -140,9 +141,11 @@ class InChatRoomVC:UIViewController{
                     self.ChatRoomInfo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
                         let m2Date = m2.createdAt.dateValue()
-                        return m1Date < m2Date
+                        return m1Date > m2Date
                     }
                     self.inChatTableView.reloadData()
+//                    self.inChatTableView.scrollToRow(at: IndexPath(row:self.ChatRoomInfo.count - 1,section: 0), at: .bottom, animated: true)
+                    
                 case .modified, .removed:
                     print("noproblem")
                 }
@@ -163,21 +166,27 @@ class InChatRoomVC:UIViewController{
         guard let userInfo = notification.userInfo else { return }
         if let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
             if keyboardFrame.height <= accessoryHeight { return }
+            
+            
             let top = keyboardFrame.height - safeAreaBottom
             let bottom = inChatTableView.contentOffset.y
-            let moveY =  inChatTableView.contentOffset.y
+            var moveY =  -(top - inChatTableView.contentOffset.y)
+            if inChatTableView.contentOffset.y != -60 { moveY += 60}
+            
             print(bottom)
-            let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: top, right: 0)
+            
+            
+            let contentInset = UIEdgeInsets(top: top, left: 0, bottom: 0, right: 0)
             inChatTableView.contentInset = contentInset
             inChatTableView.scrollIndicatorInsets = contentInset
-            inChatTableView.contentOffset = CGPoint(x: 0, y: moveY + top)
+            inChatTableView.contentOffset = CGPoint(x: 0, y: moveY - 60)
         }
     }
     
     @objc func keyboardWillHide() {
         print("keyboardWillHide")
-        inChatTableView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
-        inChatTableView.scrollIndicatorInsets = .init(top: 0, left: 0, bottom: 0, right: 0)
+        inChatTableView.contentInset = tableViewContentInset
+        inChatTableView.scrollIndicatorInsets = tableViewIndicaterInset
     }
     
     override var inputAccessoryView: UIView? {
@@ -201,6 +210,8 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = inChatTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatRoomTableViewCell
         let width = UIScreen.main.bounds.size.width
+        
+        cell.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
         
         cell.messageLabel.text = ChatRoomInfo[indexPath.row].message
         cell.myMessageLabel.text = ChatRoomInfo[indexPath.row].message
