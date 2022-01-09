@@ -47,7 +47,11 @@ class OutmMemoCellVC: UITableViewCell {
         messageLabel.backgroundColor = .clear
 //        coverView.backgroundColor = .clear
 //        coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
+            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "")
+        }
+        
     }
     
     
@@ -86,6 +90,7 @@ class OutmMemoCellVC: UITableViewCell {
         teamCollectionView.register(nib, forCellWithReuseIdentifier: "Cell")
         
         mainBackground.backgroundColor = .tertiarySystemGroupedBackground
+        
 //        coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         //
         //        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
@@ -111,62 +116,42 @@ class OutmMemoCellVC: UITableViewCell {
         // 背景色を設定
         self.teamCollectionView.backgroundColor = .clear
         
+        print("awakenoyatu")
+        
+        
+        self.teamCollectionView.alpha = 1
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
-            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "")
+//             0.1秒後に実行したい処理（あとで変えるこれは良くない)
+            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "unKnwon")
         }
     }
     
-    
-    
-    func fetchUserTeamInfo(userId:String){
-        
-        db.collection("users").document(userId).collection("belong_Team").document("teamId")
-            .addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let teamIdArray = data["teamId"] as! Array<String>
-                print(teamIdArray)
-                print(teamIdArray[0])
-                
-                teamIdArray.forEach{
-                    self.getTeamInfo(teamId: $0)
-                    
-                }
-            }
-        
-    }
     
     func getUserTeamInfo(userId:String){
         db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
-                
+
                 let teamIdArray = document.data()!["teamId"] as! Array<String>
                 print(teamIdArray)
                 print(teamIdArray[0])
-                
+
                 print("カカかっかっっっカカかかかあいあいいあいいえいえいえおをを")
                 
-                teamIdArray.forEach{
-                    self.getTeamInfo(teamId: $0)
-                    
-                }
+                self.teamInfo.removeAll()
                 
+                    teamIdArray.forEach{
+                        self.getTeamInfo(teamId: $0)
+                    }
+                
+
             } else {
                 print("Document does not exist")
             }
         }
     }
-    
+
     func getTeamInfo(teamId:String){
         db.collection("Team").document(teamId).getDocument { (document, error) in
             if let document = document, document.exists {
@@ -177,7 +162,8 @@ class OutmMemoCellVC: UITableViewCell {
                 print("翼をください！",teamId)
                 print("翼をください！",document.data()!)
                 print("asefiosejof",teamDic)
-                
+//                self.teamCollectionView.alpha = 1
+
                 self.teamCollectionView.reloadData()
             } else {
                 print("Document does not exist")
@@ -217,6 +203,10 @@ extension OutmMemoCellVC :UICollectionViewDataSource,UICollectionViewDelegate {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! TeamCollectionViewCellVC
         cell.teamImageView.clipsToBounds = true
         cell.teamImageView.layer.cornerRadius = 10
+        
+        cell.teamImageView.image = nil
+        
+        cell.teamLabel.text = teamInfo[indexPath.row].teamName
         
         if let url = URL(string: teamInfo[indexPath.row].teamImage) {
             Nuke.loadImage(with: url, into: cell.teamImageView)

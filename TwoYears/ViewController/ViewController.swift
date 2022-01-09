@@ -19,7 +19,7 @@ class ViewController: UIViewController{
     private var prevContentOffset: CGPoint = .init(x: 0, y: 0)
     private let headerMoveHeight: CGFloat = 5
     
-    var temes : [Team] = []
+//    var temes : [Team] = []
     var outMemo: [OutMemo] = []
     var teamInfo : [Team] = []
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
@@ -76,9 +76,7 @@ class ViewController: UIViewController{
             headertopConstraint.constant += headerMoveHeight
             headerView.alpha += alphaRatio * headerMoveHeight
         }
-        
-        print(self.prevContentOffset)
-        print("えええ",scrollView.contentOffset)
+
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
@@ -271,8 +269,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //        cell.coverView.backgroundColor = nil
         
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+                
+        
+        
 
-//        cell.messageBottomConstraint.constant =  105
+        cell.messageBottomConstraint.constant =  105
         
         if  outMemo[indexPath.row].readLog == true {
             cell.coverView.backgroundColor = .clear
@@ -299,14 +300,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         
-//        if outMemo[indexPath.row].readLog == true {
-//            cell.coverView.backgroundColor = .clear
-//        } else {
-//            cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-//
-//        }
         
-
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(flagButtonEvemt), for: UIControl.Event.touchUpInside)
 //        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)
@@ -315,7 +309,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //        cell.IndividualImageView.image = nil
         fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
 
-        print(cell.outMemo?.userId ?? "")
+//        print(cell.outMemo?.userId ?? "")
         
         let date: Date = outMemo[indexPath.row].createdAt.dateValue()
 
@@ -373,6 +367,50 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 0
         }
         
+    }
+    
+    func getUserTeamInfo(userId:String,cell:OutmMemoCellVC){
+        db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+
+                let teamIdArray = document.data()!["teamId"] as! Array<String>
+                print(teamIdArray)
+                print(teamIdArray[0])
+
+                
+                    teamIdArray.forEach{
+                        self.getTeamInfo(teamId: $0,cell: cell)
+                    }
+                
+
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+
+    func getTeamInfo(teamId:String,cell:OutmMemoCellVC){
+        db.collection("Team").document(teamId).getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                let teamDic = Team(dic: document.data()!)
+                self.teamInfo.append(teamDic)
+                print("翼をください！",teamId)
+                print("翼をください！",document.data()!)
+                print("asefiosejof",teamDic)
+                
+                cell.teamCollectionView.alpha = 1
+                
+                print("離ローーーーーーーーーーーど！")
+
+                cell.teamCollectionView.reloadData()
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
     
     
@@ -470,7 +508,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     print("Document data was empty.")
                     return
                 }
-                print("Current data: \(data)")
+//                print("Current data: \(data)")
 //                let userId = document["userId"] as? String ?? "unKnown"
 //                userName = document["userName"] as? String ?? "unKnown"
                 let userImage = document["userImage"] as? String ?? ""

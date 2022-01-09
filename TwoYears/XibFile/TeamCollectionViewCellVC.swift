@@ -10,6 +10,7 @@ import UIKit
 class TeamCollectionViewCellVC:UICollectionViewCell {
     @IBOutlet weak var teamImageView: UIImageView!
     
+    @IBOutlet weak var teamLabel: UILabel!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
