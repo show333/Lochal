@@ -13,8 +13,9 @@ import BATabBarController
 import GuillotineMenu
 import SwiftMoment
 import Nuke
+import DZNEmptyDataSet
 
-class ViewController: UIViewController{
+class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource{
     private let cellId = "cellId"
     private var prevContentOffset: CGPoint = .init(x: 0, y: 0)
     private let headerMoveHeight: CGFloat = 5
@@ -28,8 +29,7 @@ class ViewController: UIViewController{
     let db = Firestore.firestore()
 //    let uid = Auth.auth().currentUser?.uid
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
-    let firebaseCompany = Firestore.firestore().collection("Company1").document("Company1_document").collection("Company2").document("Company2_document").collection("Company3")
-    //    navigationvarのやつ
+    
     fileprivate let cellHeight: CGFloat = 210
     fileprivate let cellSpacing: CGFloat = 20
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
@@ -159,6 +159,9 @@ class ViewController: UIViewController{
         chatListTableView.separatorStyle = .none
         chatListTableView.delegate = self
         chatListTableView.dataSource = self
+        chatListTableView.emptyDataSetDelegate = self
+        chatListTableView.emptyDataSetSource = self
+        
         bubuButton.layer.cornerRadius = 30
         bubuButton.clipsToBounds = true
         bubuButton.layer.masksToBounds = false
@@ -177,6 +180,12 @@ class ViewController: UIViewController{
             self?.chatListTableView.reloadData()
             self?.chatListTableView.refreshControl?.endRefreshing()
         }
+    }
+    
+    
+    // blankword for tableview
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: "データがありません")
     }
     
     func fetchReaction(userId:String){
@@ -211,7 +220,7 @@ class ViewController: UIViewController{
     
     
     private func fetchFireStore(userId:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")

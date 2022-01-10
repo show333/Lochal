@@ -23,4 +23,5 @@ target 'TOTALGOOD' do
     pod 'Firebase/Crashlytics'
     pod 'Nuke'
     pod 'TTTAttributedLabel'
+    pod 'DZNEmptyDataSet'
 end

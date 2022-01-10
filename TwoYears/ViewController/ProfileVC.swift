@@ -11,8 +11,9 @@ import GuillotineMenu
 import FirebaseFirestore
 import SwiftMoment
 import Nuke
+import DZNEmptyDataSet
 
-class ProfileVC: UIViewController {
+class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     
     var outMemo: [OutMemo] = []
     var teamInfo : [Team] = []
@@ -124,8 +125,8 @@ class ProfileVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
         chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
 
         
@@ -210,6 +211,7 @@ class ProfileVC: UIViewController {
         
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
+        
         teamCollectionView.reloadData()
         
         
@@ -219,15 +221,16 @@ class ProfileVC: UIViewController {
         
         chatListTableView.delegate = self
         chatListTableView.dataSource = self
+        chatListTableView.emptyDataSetDelegate = self
+        chatListTableView.emptyDataSetSource = self
         chatListTableView.separatorStyle = .none
         chatListTableView.backgroundColor = .clear
         //            #colorLiteral(red: 0.7238116197, green: 0.6172274334, blue: 0.5, alpha: 1)
         
-        fetchFireStore(userId: userId ?? "")
-        fetchUserProfile(userId: userId ?? "")
-        fetchUserTeamInfo(userId: userId ?? "")
+        fetchFireStore(userId: userId ?? "unKnown",uid: uid)
+        fetchUserProfile(userId: userId ?? "unKnown")
+        fetchUserTeamInfo(userId: userId ?? "unKnown")
         
-        print("青性f助汗jfおいさ教えjfおせいjfおせいf女医さえfj",userId)
     }
     
     
@@ -254,7 +257,13 @@ class ProfileVC: UIViewController {
 
         }
     }
-    private func fetchFireStore(userId:String) {
+    
+    
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        return NSAttributedString(string: "データがありません")
+    }
+    
+    private func fetchFireStore(userId:String,uid:String) {
         db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
@@ -271,12 +280,18 @@ class ProfileVC: UIViewController {
                     let date: Date = rarabai.createdAt.dateValue()
                     let momentType = moment(date)
                     
+                    
                     if blockList[rarabai.userId] == true {
                     } else {
-                        //                        if momentType >= moment() - 14.days {
-                        //                            if rarabai.admin == true {
-                        //                            }
-                        self.outMemo.append(rarabai)
+                        
+                        if userId == uid {
+                            self.outMemo.append(rarabai)
+                        } else {
+                            if momentType >= moment() - 2.days {
+                                self.outMemo.append(rarabai)
+                            }
+                        }
+                        
                     }
                     self.outMemo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
