@@ -33,9 +33,6 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
     "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FG2nemasu.png?alt=media&token=a03da529-c8c6-4f8e-94b8-39fefd8de034",
     "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FG8dog.png?alt=media&token=3755a316-e21a-491c-b050-267d5c9a9e8f",]
     
-    
-    let firebaseCompany = Firestore.firestore().collection("Company1").document("Company1_document").collection("Company2").document("Company2_document").collection("Company3")
-    
     let db = Firestore.firestore()
     
 
@@ -54,7 +51,7 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
     
     @IBOutlet weak var kakteiButton: UIButton!
     
-
+    
     @IBAction func bubuButton(_ sender: Any) {
         
         if let teamNameString = nameTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
@@ -71,8 +68,8 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
                 setTeam(teamName: teamNameString)
                 
                 self.navigationController?.popToRootViewController(animated: true)
-//                self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
-//                self.navigationController?.popToViewController(navigationController!.viewControllers[2], animated: true)
+                //                self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
+                //                self.navigationController?.popToViewController(navigationController!.viewControllers[2], animated: true)
             }
         }
     }
@@ -90,7 +87,10 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
             return String((0..<length).map{ _ in characters.randomElement()! })
         }
         let randomId = randomString(length: 16)
-        let chatId = randomString(length: 20)
+        let chatFirstId = randomString(length: 20)
+        let chatSecondId = randomString(length: 20)
+        let chatThirdId = randomString(length: 20)
+        
         
         storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
             if let err = err {
@@ -116,22 +116,91 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
                     "membersCount": FieldValue.increment(1.0)
                 ] as [String: Any]
                 
+                db.collection("Team").document(randomId).setData(teamDic)
+                db.collection("Team").document(randomId).collection("MembersId").document("membersId").setData(["userId": FieldValue.arrayUnion([uid])], merge: true)
+                db.collection("users").document(uid).collection("belong_Team").document("teamId").setData([
+                    "teamId": FieldValue.arrayUnion([randomId]) ], merge: true)
+                //                setChatDic(randomId: randomId, chatId: chatId)
                 let firstChatDic = [
                     "createdAt": FieldValue.serverTimestamp(),
-                    "userId":uid,
-                    "documentId": chatId,
-                    "message":"私は\(randomId)が好きです",
+                    "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",
+                    "documentId": chatFirstId,
+                    "message":randomId,
                     "sendImageURL": "",
                     "teamId":randomId,
                     "admin":false,
                 ] as [String : Any]
-                db.collection("Team").document(randomId).setData(teamDic)
-                db.collection("Team").document(randomId).collection("MembersId").document("membersId").setData(["userId": FieldValue.arrayUnion([uid])], merge: true)
-                db.collection("Team").document(randomId).collection("ChatRoom").document(chatId).setData(firstChatDic)
-                db.collection("users").document(uid).collection("belong_Team").document("teamId").setData([
-                    "teamId": FieldValue.arrayUnion([randomId]) ], merge: true)
+                db.collection("Team").document(randomId).collection("ChatRoom").document(chatFirstId).setData(firstChatDic)
+                
+                print("1番目")
+       
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    let secondChatDic = [
+                        "createdAt": FieldValue.serverTimestamp(),
+                        "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",
+                        "documentId": chatSecondId,
+                        "message":"上記のIDを親しい人に招待IDとして送ってください",
+                        "sendImageURL": "",
+                        "teamId":randomId,
+                        "admin":false,
+                    ] as [String : Any]
+                    db.collection("Team").document(randomId).collection("ChatRoom").document(chatSecondId).setData(secondChatDic)
+                    print("2番目")
+                }
+                
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    let thirdChatDic = [
+                        "createdAt": FieldValue.serverTimestamp(),
+                        "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",
+                        "documentId": chatThirdId,
+                        "message":"このチャット内は招待された方のみ閲覧,投稿が可能です.",
+                        "sendImageURL": "",
+                        "teamId":randomId,
+                        "admin":false,
+                    ] as [String : Any]
+                    db.collection("Team").document(randomId).collection("ChatRoom").document(chatThirdId).setData(thirdChatDic)
+                    print("３番目")
+                }
             }
         }
+    }
+    func setChatDic(randomId:String,chatId:String) {
+        defer {
+            let thirdChatDic = [
+                "createdAt": FieldValue.serverTimestamp(),
+                "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",
+                "documentId": chatId,
+                "message":"このチャット内は招待された方のみ閲覧,投稿が可能です.",
+                "sendImageURL": "",
+                "teamId":randomId,
+                "admin":false,
+            ] as [String : Any]
+            db.collection("Team").document(randomId).collection("ChatRoom").document(chatId).setData(thirdChatDic)
+        }
+        defer {
+            
+            let secondChatDic = [
+                "createdAt": FieldValue.serverTimestamp(),
+                "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",
+                "documentId": chatId,
+                "message":"上記のIDを親しい人に招待IDとして送ってください",
+                "sendImageURL": "",
+                "teamId":randomId,
+                "admin":false,
+            ] as [String : Any]
+            db.collection("Team").document(randomId).collection("ChatRoom").document(chatId).setData(secondChatDic)
+        }
+        let firstChatDic = [
+            "createdAt": FieldValue.serverTimestamp(),
+            "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",
+            "documentId": chatId,
+            "message":randomId,
+            "sendImageURL": "",
+            "teamId":randomId,
+            "admin":false,
+        ] as [String : Any]
+        db.collection("Team").document(randomId).collection("ChatRoom").document(chatId).setData(firstChatDic)
     }
     
     @IBOutlet weak var tyuuiLabel: UILabel!
@@ -153,21 +222,6 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
                 
         tyuuiLabel.text = "チームロゴと名前のの\n両方を入力してください"
         tyuuiLabel.alpha = 0
-        
-
-        
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-
-        
-        Firestore.firestore().collection("users").document(uid).getDocument{ (document, error) in
-          if let document = document {
-//            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-
-            
-          } else {
-            print("Document does not exist in cache")
-          }
-        }
         
         
         let tapGR: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))

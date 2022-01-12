@@ -53,6 +53,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var collectionLeft: NSLayoutConstraint!
     @IBOutlet weak var collectionRight: NSLayoutConstraint!
     
+    @IBOutlet weak var plusImage: UIImageView!
     
 
     
@@ -212,6 +213,11 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
         
+        plusImage.clipsToBounds = true
+        plusImage.layer.cornerRadius = 18
+        
+        
+        
         teamCollectionView.reloadData()
         
         
@@ -241,9 +247,13 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         if cellImageTap == true {
             self.tabBarController?.tabBar.isHidden = true
             self.navigationController?.navigationBar.isHidden = false
+            self.plusImage.alpha = 0
+            self.userImageView.isMultipleTouchEnabled = false
         } else {
             self.tabBarController?.tabBar.isHidden = false
             self.navigationController?.navigationBar.isHidden = true
+            self.plusImage.alpha = 1
+            self.userImageView.isMultipleTouchEnabled = true
         }
     }
     
@@ -264,7 +274,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     private func fetchFireStore(userId:String,uid:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")
@@ -467,6 +477,8 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         
+        
+        
 //        if outMemo[indexPath.row].readLog == true {
 //            cell.coverView.backgroundColor = .clear
 //        } else {
@@ -474,8 +486,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 //
 //        }
         
-        
-
+        if uid == outMemo[indexPath.row].userId {
+        cell.flagButton.isHidden = true
+        }
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(buttonEvemt), for: UIControl.Event.touchUpInside)
 //        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)

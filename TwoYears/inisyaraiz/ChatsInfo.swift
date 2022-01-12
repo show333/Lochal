@@ -13,7 +13,7 @@ import SwiftMoment
 class ChatsInfo {
     
     var message: String
-    var uid: String
+    var userId: String
     var createdAt: Timestamp
     var documentId : String
     var randomUserId : String
@@ -23,7 +23,7 @@ class ChatsInfo {
     
     init(dic: [String: Any]) {
         self.message = dic["message"] as? String ?? "a"
-        self.uid = dic["userId"] as? String ?? ""
+        self.userId = dic["userId"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.documentId = dic["documentId"] as? String ?? ""
         self.randomUserId = dic["randomUserId"] as? String ?? ""

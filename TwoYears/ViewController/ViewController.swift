@@ -29,19 +29,13 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     let db = Firestore.firestore()
 //    let uid = Auth.auth().currentUser?.uid
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
+    let uid = Auth.auth().currentUser?.uid
+
     
     fileprivate let cellHeight: CGFloat = 210
     fileprivate let cellSpacing: CGFloat = 20
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
 
-    @IBAction func logout(_ sender: Any) {
-        do {
-            try Auth.auth().signOut()
-        } catch let error {
-//            showErrorIfNeeded(error)
-        }
-        
-    }
     
     @IBAction func tappedBubuButton(_ sender: Any) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -308,8 +302,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageView?.image = nil
         }
         
-        
-        
+        if uid == outMemo[indexPath.row].userId {
+        cell.flagButton.isHidden = true
+        }
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(flagButtonEvemt), for: UIControl.Event.touchUpInside)
 //        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)

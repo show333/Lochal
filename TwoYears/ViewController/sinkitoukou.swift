@@ -70,7 +70,7 @@ class sinkitoukou: UIViewController {
             "sendImageURL": "",
             "readLog": false,
             "anonymous":false,
-            "admin": true,
+            "admin": false,
             "delete": false,
         ] as [String: Any]
         
