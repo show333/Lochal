@@ -206,7 +206,6 @@ extension OutmMemoCellVC :UICollectionViewDataSource,UICollectionViewDelegate {
         
         cell.teamImageView.image = nil
         
-        cell.teamLabel.text = teamInfo[indexPath.row].teamName
         
         if let url = URL(string: teamInfo[indexPath.row].teamImage) {
             Nuke.loadImage(with: url, into: cell.teamImageView)

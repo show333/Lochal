@@ -255,10 +255,10 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
         
         
         let uid = Auth.auth().currentUser?.uid
-        userGetInfo(userId: uid!,cell: cell)
+        userGetInfo(userId: ChatRoomInfo[indexPath.row].userId,cell: cell)
         
         
-        if ChatRoomInfo[indexPath.row].uid != uid{
+        if ChatRoomInfo[indexPath.row].userId != uid{
             cell.myBackView.alpha = 0
             cell.myMessageLabel.alpha = 0
             cell.myDateLabel.alpha = 0

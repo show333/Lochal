@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,18 +20,10 @@
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XA4-It-0SY">
                         <rect key="frame" x="0.0" y="0.0" width="98" height="130"/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t6o-oG-DAL">
-                        <rect key="frame" x="28" y="54.5" width="42" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <nil key="textColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="t6o-oG-DAL" firstAttribute="centerY" secondItem="yTr-Aj-aFQ" secondAttribute="centerY" id="5KW-6b-Oup"/>
                     <constraint firstAttribute="bottom" secondItem="XA4-It-0SY" secondAttribute="bottom" id="91P-k5-rEe"/>
                     <constraint firstItem="XA4-It-0SY" firstAttribute="top" secondItem="yTr-Aj-aFQ" secondAttribute="top" id="Zrc-Af-OAW"/>
-                    <constraint firstItem="t6o-oG-DAL" firstAttribute="centerX" secondItem="yTr-Aj-aFQ" secondAttribute="centerX" id="hvp-6W-AX8"/>
                     <constraint firstItem="XA4-It-0SY" firstAttribute="leading" secondItem="yTr-Aj-aFQ" secondAttribute="leading" id="ouc-pS-Ff1"/>
                     <constraint firstAttribute="trailing" secondItem="XA4-It-0SY" secondAttribute="trailing" id="ucj-qj-tRP"/>
                 </constraints>
@@ -38,7 +31,6 @@
             <size key="customSize" width="98" height="130"/>
             <connections>
                 <outlet property="teamImageView" destination="XA4-It-0SY" id="BlN-rB-mzf"/>
-                <outlet property="teamLabel" destination="t6o-oG-DAL" id="d02-yJ-Evh"/>
             </connections>
             <point key="canvasLocation" x="218.84057971014494" y="166.74107142857142"/>
         </collectionViewCell>

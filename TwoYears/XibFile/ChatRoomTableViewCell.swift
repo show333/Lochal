@@ -78,12 +78,14 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
 //    コピー機能(位置がおかしいので後で修正)
     @objc func showMenu(sender:AnyObject?) {
         self.becomeFirstResponder()
+        print("あああ")
         let contextMenu = UIMenuController.shared
         if !contextMenu.isMenuVisible {
             contextMenu.setTargetRect(self.bounds, in: self)
             contextMenu.setMenuVisible(true, animated: true)
         }
     }
+    
     override func copy(_ sender: Any?) {
         let pasteBoard = UIPasteboard.general
         //このVC内では同一のためこれで
@@ -118,8 +120,9 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
         
         
         //この機能で一をつける
+        let messageTap: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(ChatRoomTableViewCell.showMenu(sender:)))
         let myTap: UILongPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(ChatRoomTableViewCell.showMenu(sender:)))
-        self.messageLabel.addGestureRecognizer(myTap)
+        self.messageLabel.addGestureRecognizer(messageTap)
         self.myMessageLabel.addGestureRecognizer(myTap)
         backgroundColor = .clear
 //        messageLabel.layer.masksToBounds = true

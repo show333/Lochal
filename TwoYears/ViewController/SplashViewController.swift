@@ -16,13 +16,8 @@ import Lottie
 class SplashViewController: UIViewController {
     
     private var teamId: [String] = []
+    let db = Firestore.firestore()
 
-    
-    var randamUserImageInt: Int?
-
-    
-    let firebaseCompany = Firestore.firestore().collection("Company1").document("Company1_document").collection("Company2").document("Company2_document").collection("Company3")
-    
     let userImage : Array = ["https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FA11gusya.png?alt=media&token=fc744cee-7365-441c-81d4-8f877076ec13",
                              "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FB2hyokkori.png?alt=media&token=13eb5fa7-d790-451b-a7a2-43c1b1b532f8",
                              "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Stamp_Image%2FB3korede.png?alt=media&token=70a31f21-728b-4339-93f1-7984ac7f635a",
@@ -40,103 +35,164 @@ class SplashViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        func randomString(length: Int) -> String {
-            let characters = "0123456789"
-            return String((0..<length).map{ _ in characters.randomElement()! })
-        }
-        randamUserImageInt = Int(randomString(length: 1))
     }
     
     
     override func viewDidAppear(_ animated: Bool) {
         let uid = Auth.auth().currentUser?.uid
-        
+        let belongTeam = UserDefaults.standard.bool(forKey: "belongTeam")
         if uid != nil {
-            func randomString(length: Int) -> String {
-                let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-                return String((0..<length).map{ _ in characters.randomElement()! })
-            }
-            
-            let dic = [
-                "first":[1,2,3],
-                "seconds":[4,6,7],
-                "third":[8,7,4],
-                "fourth":[5,5,3]
-            ]
-            
-            print("あああああああ",dic["first"] as Any)
-            
-            print(uid)
-            
-            Firestore.firestore().collection("users").document(uid!).collection("Profile").document("profile").getDocument {(document, error) in
-                if let document = document, document.exists {
-                    let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                    print("Document data: \(dataDescription)")
-                    print("愛恵f助汗jフォイアせjf")
-                    
-                    let userId = document["userId"] as? String ?? ""
-                    let userName = document["userName"] as? String ?? ""
-                    let userImage = document["userImage"] as? String ?? ""
-                    let userFrontId = document["userFrontId"] as? String ?? ""
-                    
-//                    let dicArray : Array = document["eieie"] as! Array<String>
-                    
-                    
-                    UserDefaults.standard.set(userId, forKey: "userId")
-                    UserDefaults.standard.set(userName, forKey: "userName")
-                    UserDefaults.standard.set(userImage, forKey: "userImage")
-                    UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
+            if belongTeam == true{
+                profileGet(userId:uid ?? "unKnown")
+                presentTabbar(userId:uid ?? "unKnown")
+            } else {
+                db.collection("users").document(uid!).getDocument { (document, error) in
+                    if let document = document, document.exists {
+                        let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                        print("Document data: \(dataDescription)")
+                        self.profileSet(userId: uid ?? "unKnown")
+                        self.presentTabbar(userId:uid ?? "unKnown")
 
-                }
-            }
-            
-            Firestore.firestore().collection("users").document(uid!).setData(["eieie":["かっっけk","アイウエオ","oooooo"]],merge: true)
-            
-            let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
-            let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
-            TabbarController.modalPresentationStyle = .fullScreen
-            
-            Firestore.firestore().collection("users").document(uid!).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
-            
-            UIView.animate(withDuration: 0.4, delay: 0, animations: {
-                self.titleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-                self.subTitleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+                    } else {
+                        print("Document does not exist")
+                        self.presentSignIn(userId:uid ?? "unKnown")
 
-            }) { bool in
-                // ②アイコンを大きくする
-                UIView.animate(withDuration: 0.15, delay: 0, animations: {
-                    self.titleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
-                    self.titleLabel.alpha = 0
-                    self.subTitleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
-                    self.subTitleLabel.alpha = 0
-                }) { bool in
-                    self.present(TabbarController, animated: true, completion: nil)
+                    }
                 }
             }
             
         } else {
-            
-            let storyboard: UIStoryboard = UIStoryboard(name: "SignIn", bundle: nil)//遷移先のStoryboardを設定
-            let SignInViewController = storyboard.instantiateViewController(withIdentifier: "SignInViewController") //遷移先のTabbarController指定とIDをここに入力
-            SignInViewController.modalPresentationStyle = .fullScreen
-            
-            UIView.animate(withDuration: 0.4, delay: 0, animations: {
-                self.titleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-                self.subTitleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            presentSignIn(userId:uid ?? "unKnown")
+        }
+    }
+    
+    func randomString(length: Int) -> String {
+        let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<length).map{ _ in characters.randomElement()! })
+    }
+    
+    func profileGet(userId:String) {
                 
-            }) { bool in
-                // ②アイコンを大きくする
-                UIView.animate(withDuration: 0.15, delay: 0, animations: {
-                    self.titleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
-                    self.titleLabel.alpha = 0
-                    self.subTitleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
-                    self.subTitleLabel.alpha = 0
-                }) { bool in
-                    self.present(SignInViewController, animated: true, completion: nil)
-                    
-                }
+        
+        db.collection("users").document(userId).collection("Profile").document("profile").getDocument {(document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let userId = document["userId"] as? String ?? ""
+                let userName = document["userName"] as? String ?? ""
+                let userImage = document["userImage"] as? String ?? ""
+//                let userFrontId = document["userFrontId"] as? String ?? ""
+                
+                UserDefaults.standard.set(userId, forKey: "userId")
+                UserDefaults.standard.set(userName, forKey: "userName")
+                UserDefaults.standard.set(userImage, forKey: "userImage")
+//                UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
+            } else {
+                print("Document does not exist")
+                let userImage = self.userImage.randomElement()
+                let userName = self.randomString(length: 6)
+                
+                
+                UserDefaults.standard.set(userId, forKey: "userId")
+                UserDefaults.standard.set(userName, forKey: "userName")
+                UserDefaults.standard.set(userImage, forKey: "userImage")
+//                UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
+                
+                let profile = [
+                    "admin":false,
+                    "userId":userId,
+                    "userImage":userImage ?? "",
+                    "userName":userName
+                ] as [String: Any]
+                
+                self.db.collection("users").document(userId).collection("Profile").document("profile").setData(profile,merge: true)
+                print("ここにセットする")
             }
-            
+        }
+    }
+    
+    func profileSet(userId:String) {
+        
+//        zry0f5L5XFLwNVZP
+        
+        UserDefaults.standard.set(true, forKey: "belongTeam")
+
+        let userImage = self.userImage.randomElement()
+        let userName = self.randomString(length: 6)
+        
+        UserDefaults.standard.set(userId, forKey: "userId")
+        UserDefaults.standard.set(userName, forKey: "userName")
+        UserDefaults.standard.set(userImage, forKey: "userImage")
+        let profile: [String: Any] = [
+            "admin":false,
+            "userId":userId,
+            "userImage":userImage ?? "",
+            "userName":userName
+        ]
+        db.collection("users").document(userId).collection("Profile").document("profile").setData(profile) { err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+            }
+        }
+        
+        db.collection("users").document(userId).collection("belong_Team").document("teamId").setData(["teamId":FieldValue.arrayUnion(["zry0f5L5XFLwNVZP"]) ], merge: true)
+        db.collection("Team").document("zry0f5L5XFLwNVZP").setData(["membersCount": FieldValue.increment(1.0)], merge: true)
+
+        db.collection("Team").document("zry0f5L5XFLwNVZP").collection("MembersId").document("membersId").setData(["userId": FieldValue.arrayUnion([userId])], merge: true)
+        
+        
+        let Account: [String: Any] = [
+            "Entered":true,
+            "friends":true,
+            "adminaccount":false,
+            "この人のuid":userId,
+        ]
+        
+        db.collection("users").document(userId).setData(Account,merge: true)
+    }
+    
+    func presentTabbar(userId:String){
+        db.collection("users").document(userId).setData(["nowjikan":FieldValue.serverTimestamp()]as[String:Any], merge:true)
+        UIView.animate(withDuration: 0.4, delay: 0, animations: {
+            self.titleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            self.subTitleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        }) { bool in
+            // ②アイコンを大きくする
+            UIView.animate(withDuration: 0.15, delay: 0, animations: {
+                self.titleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
+                self.titleLabel.alpha = 0
+                self.subTitleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
+                self.subTitleLabel.alpha = 0
+            }) { bool in
+                let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
+                let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
+                TabbarController.modalPresentationStyle = .fullScreen
+                self.present(TabbarController, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func presentSignIn(userId:String){
+        db.collection("users").document(userId).setData(["nowjikan":FieldValue.serverTimestamp()]as[String:Any], merge:true)
+        UIView.animate(withDuration: 0.4, delay: 0, animations: {
+            self.titleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            self.subTitleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        }) { bool in
+            // ②アイコンを大きくする
+            UIView.animate(withDuration: 0.15, delay: 0, animations: {
+                self.titleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
+                self.titleLabel.alpha = 0
+                self.subTitleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
+                self.subTitleLabel.alpha = 0
+            }) { bool in
+                let storyboard: UIStoryboard = UIStoryboard(name: "SignIn", bundle: nil)//遷移先のStoryboardを設定
+                let SignInViewController = storyboard.instantiateViewController(withIdentifier: "SignInViewController") //遷移先のTabbarController指定とIDをここに入力
+                SignInViewController.modalPresentationStyle = .fullScreen
+                self.present(SignInViewController, animated: true, completion: nil)
+            }
         }
     }
     

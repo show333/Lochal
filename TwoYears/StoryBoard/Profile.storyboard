@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjv-Wl-Sr5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjv-Wl-Sr5">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -115,6 +116,15 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="plus" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Oyd-7F-4lZ">
+                                        <rect key="frame" x="90" y="87" width="36" height="32"/>
+                                        <color key="backgroundColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="36" id="uuc-Ou-YtN"/>
+                                            <constraint firstAttribute="width" secondItem="Oyd-7F-4lZ" secondAttribute="height" multiplier="1:1" id="vVI-pv-Vkd"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -126,7 +136,9 @@
                                     <constraint firstAttribute="trailing" secondItem="h92-iJ-PQW" secondAttribute="trailing" constant="5" id="bcn-Dw-JHm"/>
                                     <constraint firstItem="ZnQ-it-RPj" firstAttribute="top" secondItem="L0G-gd-PAF" secondAttribute="top" constant="5" id="h9I-dy-eg0"/>
                                     <constraint firstItem="hXn-vX-bmC" firstAttribute="centerY" secondItem="L0G-gd-PAF" secondAttribute="centerY" constant="-10" id="iIs-Nu-sMH"/>
+                                    <constraint firstItem="Oyd-7F-4lZ" firstAttribute="top" secondItem="ydp-h6-IHV" secondAttribute="bottom" constant="-30" id="kO2-4G-Ba2"/>
                                     <constraint firstAttribute="height" constant="200" id="khG-Gl-FjE"/>
+                                    <constraint firstItem="Oyd-7F-4lZ" firstAttribute="leading" secondItem="L0G-gd-PAF" secondAttribute="leading" constant="90" id="ueo-sa-cLC"/>
                                     <constraint firstItem="ydp-h6-IHV" firstAttribute="top" secondItem="L0G-gd-PAF" secondAttribute="top" constant="15" id="umf-5S-gHX"/>
                                 </constraints>
                             </view>
@@ -156,6 +168,7 @@
                         <outlet property="headerView" destination="L0G-gd-PAF" id="6fa-qx-WxX"/>
                         <outlet property="headerhightConstraint" destination="khG-Gl-FjE" id="x6u-Wl-QOC"/>
                         <outlet property="headertopConstraint" destination="iKB-pN-XFu" id="PM6-NX-PsK"/>
+                        <outlet property="plusImage" destination="Oyd-7F-4lZ" id="BiG-7e-vST"/>
                         <outlet property="tapImage" destination="oCs-r7-SgQ" id="pOZ-bj-5ag"/>
                         <outlet property="teamCollectionView" destination="h92-iJ-PQW" id="Jet-EB-Lmk"/>
                         <outlet property="userImageLeftConstraint" destination="JDB-1f-qOH" id="q9U-Ba-J7p"/>
@@ -177,6 +190,7 @@
     </scenes>
     <resources>
         <image name="person" catalog="system" width="128" height="117"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
