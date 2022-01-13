@@ -87,8 +87,9 @@ class UserSelfViewController : UIViewController {
                             "admin": false,
                             
                         ] as [String: Any]
+                        UserDefaults.standard.set(userNameString, forKey: "userName")
+                        UserDefaults.standard.set(urlString, forKey: "userImage")
                         Firestore.firestore().collection("users").document(uid!).collection("Profile").document("profile").setData(userDate,merge: true)
-                        
                     }
                 }
                 

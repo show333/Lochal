@@ -165,7 +165,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         bubuButton.layer.shadowRadius = 5
         fetchFireStore(userId: uid)
         fetchReaction(userId: uid)
-        chatListTableView.backgroundColor = #colorLiteral(red: 0.03042059075, green: 0.01680222603, blue: 0, alpha: 1)
     }
 
     //Pull to Refresh
@@ -196,7 +195,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                 }
                 print("Current data: \(data)")
                 let notificationNum = data["notificationNum"] as? Int ?? 0
-                print("あいあいセフィア性ファ性フィアセフィアセフィせf",notificationNum)
                 print(notificationNum)
                 
                 if notificationNum >= 1 {
@@ -369,8 +367,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
             cell.messageLabel.numberOfLines = 0
+            
+            let indexPath = IndexPath(row: indexPath.row, section: 0)
+            tableView.reloadRows(at: [indexPath], with: .fade)
         }
-        
     }
     
     func getUserTeamInfo(userId:String,cell:OutmMemoCellVC){

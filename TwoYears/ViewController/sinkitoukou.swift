@@ -125,7 +125,7 @@ class sinkitoukou: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        ongakuLabel.text = "投稿は2週間で消えます"
+        ongakuLabel.text = "投稿は2日間で消えます"
         self.textView.delegate = self
         sinkiButton.isEnabled = false
         sinkiButton.backgroundColor = .gray

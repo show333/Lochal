@@ -554,6 +554,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
             cell.messageLabel.numberOfLines = 0
+            
+            let indexPath = IndexPath(row: indexPath.row, section: 0)
+            tableView.reloadRows(at: [indexPath], with: .fade)
 
         }
         
