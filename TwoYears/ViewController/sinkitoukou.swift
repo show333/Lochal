@@ -18,6 +18,10 @@ class sinkitoukou: UIViewController {
     var company1Id : String?
     var followerId : [String] = []
     
+    var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
+    var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
+    var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
+    
     let textMask : Array = [
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth1.001.png?alt=media&token=bae3c928-485e-464f-ac00-35a97e03d681",//1
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth2.001.png?alt=media&token=8dab1e72-f1d7-4636-b203-37085b6a1a02",//2
@@ -62,15 +66,26 @@ class sinkitoukou: UIViewController {
         let thisisMessage = self.textView.text.trimmingCharacters(in: .newlines)
         
         let memoInfoDic = [
-            "message" : thisisMessage as Any,
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "userId":uid,
-            "textMask":textMask.randomElement() ?? "",
-            "sendImageURL": "",
             "readLog": false,
             "anonymous":false,
-            "admin": false,
+            "admin": true,
+        ] as [String: Any]
+        
+        let myPost = [
+            "message" : thisisMessage as Any,
+            "documentId": memoId,
+            "createdAt": FieldValue.serverTimestamp(),
+            "userName":userName ?? "",
+            "userImage":userImage ?? "",
+            "userFrontId":userFrontId ?? "",
+            "userId":uid,
+            "textMask":textMask.randomElement() ?? "",
+            "sendImageURL": "",
+            "anonymous":false,
+            "admin": true,
             "delete": false,
         ] as [String: Any]
         
@@ -99,7 +114,7 @@ class sinkitoukou: UIViewController {
 //
 //        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
 //
-        db.collection("users").document(uid).collection("MyPost").document(memoId).setData(memoInfoDic)
+        db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
         
     }
     

@@ -274,7 +274,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     private func fetchFireStore(userId:String,uid:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).whereField("admin", isEqualTo: true).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")
@@ -315,6 +315,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             })
         }
     }
+    
     
     func fetchUserProfile(userId:String){
         
@@ -495,7 +496,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 
         cell.userImageView.image = nil
 //        cell.IndividualImageView.image = nil
-        fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
+        fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
 
         print(cell.outMemo?.userId ?? "")
         
@@ -641,9 +642,11 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
            //実際にAlertを表示する
            self.present(actionSheet, animated: true, completion: nil)
     }
-    func fetchUserProfile(userId:String,cell:OutmMemoCellVC){
+    
+    
+    func fetchDocContents(userId:String,cell:OutmMemoCellVC,documentId:String){
 
-        db.collection("users").document(userId).collection("Profile").document("profile")
+        db.collection("users").document(userId).collection("MyPost").document(documentId)
             .addSnapshotListener { [self] documentSnapshot, error in
                 guard let document = documentSnapshot else {
                     print("Error fetching document: \(error!)")
@@ -653,7 +656,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     print("Document data was empty.")
                     return
                 }
-                print("Current data: \(data)")
+//                print("Current data: \(data)")
 //                let userId = document["userId"] as? String ?? "unKnown"
 //                userName = document["userName"] as? String ?? "unKnown"
                 let userImage = document["userImage"] as? String ?? ""

@@ -13,6 +13,9 @@ import SwiftMoment
 class OutMemo {
     
     var userId: String
+    var userImage : String
+    var userName : String
+    var userFrontId :String
     var message: String
     var sendImageURL: String
     var createdAt: Timestamp
@@ -25,6 +28,9 @@ class OutMemo {
     
     init(dic: [String: Any]) {
         self.userId = dic["userId"] as? String ?? ""
+        self.userImage = dic["userImage"] as? String ?? ""
+        self.userName = dic["userImage"] as? String ?? ""
+        self.userFrontId = dic["userFrontId"] as? String ?? ""
         self.message = dic["message"] as? String ?? "unKnown"
         self.sendImageURL = dic["sendImageURL"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()

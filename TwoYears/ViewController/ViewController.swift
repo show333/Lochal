@@ -212,7 +212,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     
     
     private func fetchFireStore(userId:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")
@@ -283,7 +283,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 0
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
-//
         } else {
             cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             cell.coverViewConstraint.constant = 100
@@ -291,7 +290,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 1
             cell.coverImageView.alpha = 0.8
             cell.textMaskLabel.alpha = 1
-
         }
 //
         if let url = URL(string:outMemo[indexPath.row].textMask) {
@@ -309,7 +307,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
         cell.userImageView.image = nil
 //        cell.IndividualImageView.image = nil
-        fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
+        fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
 
 //        print(cell.outMemo?.userId ?? "")
         
@@ -500,9 +498,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
 
     
-    func fetchUserProfile(userId:String,cell:OutmMemoCellVC){
+    func fetchDocContents(userId:String,cell:OutmMemoCellVC,documentId:String){
 
-        db.collection("users").document(userId).collection("Profile").document("profile")
+        db.collection("users").document(userId).collection("MyPost").document(documentId)
             .addSnapshotListener { [self] documentSnapshot, error in
                 guard let document = documentSnapshot else {
                     print("Error fetching document: \(error!)")
