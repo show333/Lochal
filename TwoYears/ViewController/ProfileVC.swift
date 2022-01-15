@@ -274,7 +274,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     private func fetchFireStore(userId:String,uid:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).whereField("admin", isEqualTo: true).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")
@@ -291,12 +291,11 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     let momentType = moment(date)
                     
                     
+                    
                     if blockList[rarabai.userId] == true {
                     } else {
-                        
-                        if userId == uid {
-                            self.outMemo.append(rarabai)
-                        } else {
+                        if rarabai.delete == true {
+                        } else{
                             if momentType >= moment() - 2.days {
                                 self.outMemo.append(rarabai)
                             }
@@ -315,6 +314,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             })
         }
     }
+    
     
     func fetchUserProfile(userId:String){
         
@@ -436,9 +436,6 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
         
-        
-        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
-        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
 
         cell.messageLabel.text = outMemo[indexPath.row].message
         cell.backBack.backgroundColor = .clear
@@ -495,7 +492,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 
         cell.userImageView.image = nil
 //        cell.IndividualImageView.image = nil
-        fetchUserProfile(userId: outMemo[indexPath.row].userId, cell: cell)
+        fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
 
         print(cell.outMemo?.userId ?? "")
         
@@ -554,6 +551,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
             cell.messageLabel.numberOfLines = 0
+            
+            let indexPath = IndexPath(row: indexPath.row, section: 0)
+            tableView.reloadRows(at: [indexPath], with: .fade)
 
         }
         
@@ -638,9 +638,11 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
            //実際にAlertを表示する
            self.present(actionSheet, animated: true, completion: nil)
     }
-    func fetchUserProfile(userId:String,cell:OutmMemoCellVC){
+    
+    
+    func fetchDocContents(userId:String,cell:OutmMemoCellVC,documentId:String){
 
-        db.collection("users").document(userId).collection("Profile").document("profile")
+        db.collection("users").document(userId).collection("MyPost").document(documentId)
             .addSnapshotListener { [self] documentSnapshot, error in
                 guard let document = documentSnapshot else {
                     print("Error fetching document: \(error!)")
@@ -650,10 +652,22 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     print("Document data was empty.")
                     return
                 }
-                print("Current data: \(data)")
+//                print("Current data: \(data)")
 //                let userId = document["userId"] as? String ?? "unKnown"
 //                userName = document["userName"] as? String ?? "unKnown"
                 let userImage = document["userImage"] as? String ?? ""
+//                let message = document["message"] as? String ?? ""
+                let delete = document["delete"] as! Bool
+                
+                print("デリート！！！",delete)
+                
+                if delete == true {
+                    cell.messageLabel.text = "この投稿は削除されました"
+                    db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
+                } else {
+//                    cell.messageLabel.text = message
+                }
+                
                 
                 
 //                cell.nameLabel.text = userName

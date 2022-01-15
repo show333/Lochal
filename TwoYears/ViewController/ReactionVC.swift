@@ -37,9 +37,6 @@ class ReactionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("ユーザー！イメージ！",userImage)
-        
-        
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.8020463346)
         reactiCollectionView.dataSource = self
         reactiCollectionView.delegate = self
