@@ -436,9 +436,6 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
         
-        
-        let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
-        let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
 
         cell.messageLabel.text = outMemo[indexPath.row].message
         cell.backBack.backgroundColor = .clear
@@ -659,7 +656,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 //                let userId = document["userId"] as? String ?? "unKnown"
 //                userName = document["userName"] as? String ?? "unKnown"
                 let userImage = document["userImage"] as? String ?? ""
-                let message = document["message"] as? String ?? ""
+//                let message = document["message"] as? String ?? ""
                 let delete = document["delete"] as! Bool
                 
                 print("デリート！！！",delete)
@@ -668,7 +665,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     cell.messageLabel.text = "この投稿は削除されました"
                     db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
                 } else {
-                    cell.messageLabel.text = message
+//                    cell.messageLabel.text = message
                 }
                 
                 

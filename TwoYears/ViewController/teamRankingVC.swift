@@ -107,8 +107,8 @@ class teamRankingVC:UIViewController, UICollectionViewDataSource, UICollectionVi
                     
                     teamInfo.append(teamsDic)
                     self.teamInfo.sort { (m1, m2) -> Bool in
-                        let m1Date = m1.CreatedAt.dateValue()
-                        let m2Date = m2.CreatedAt.dateValue()
+                        let m1Date = m1.createdAt.dateValue()
+                        let m2Date = m2.createdAt.dateValue()
                         return m1Date > m2Date
                     }
                     

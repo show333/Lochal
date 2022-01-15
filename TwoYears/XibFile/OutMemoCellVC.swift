@@ -141,6 +141,12 @@ class OutmMemoCellVC: UITableViewCell {
                 
                 self.teamInfo.removeAll()
                 
+                self.teamInfo.sort { (m1, m2) -> Bool in
+                    let m1Date = m1.createdAt.dateValue()
+                    let m2Date = m2.createdAt.dateValue()
+                    return m1Date > m2Date
+                }
+                
                     teamIdArray.forEach{
                         self.getTeamInfo(teamId: $0)
                     }
@@ -162,8 +168,14 @@ class OutmMemoCellVC: UITableViewCell {
                 print("翼をください！",teamId)
                 print("翼をください！",document.data()!)
                 print("asefiosejof",teamDic)
-//                self.teamCollectionView.alpha = 1
-
+                
+                
+                self.teamInfo.sort { (m1, m2) -> Bool in
+                    let m1Date = m1.createdAt.dateValue()
+                    let m2Date = m2.createdAt.dateValue()
+                    return m1Date > m2Date
+                }
+                
                 self.teamCollectionView.reloadData()
             } else {
                 print("Document does not exist")
