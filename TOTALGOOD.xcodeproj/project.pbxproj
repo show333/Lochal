@@ -723,7 +723,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = zebra.TOTALGOOD;
 				PRODUCT_NAME = TOTALGOOD;
 				SWIFT_OBJC_BRIDGING_HEADER = "TwoYears/TOTALGOOD-Bridging-Header.h";
@@ -750,7 +750,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.1;
+				MARKETING_VERSION = 4.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = zebra.TOTALGOOD;
 				PRODUCT_NAME = TOTALGOOD;
 				SWIFT_OBJC_BRIDGING_HEADER = "TwoYears/TOTALGOOD-Bridging-Header.h";
