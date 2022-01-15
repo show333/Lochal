@@ -52,15 +52,12 @@ class SplashViewController: UIViewController {
                         print("Document data: \(dataDescription)")
                         self.profileSet(userId: uid ?? "unKnown")
                         self.presentTabbar(userId:uid ?? "unKnown")
-
                     } else {
                         print("Document does not exist")
                         self.presentSignIn(userId:uid ?? "unKnown")
-
                     }
                 }
             }
-            
         } else {
             presentSignIn(userId:uid ?? "unKnown")
         }

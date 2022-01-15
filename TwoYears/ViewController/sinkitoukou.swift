@@ -66,16 +66,21 @@ class sinkitoukou: UIViewController {
         let thisisMessage = self.textView.text.trimmingCharacters(in: .newlines)
         
         let memoInfoDic = [
+            "message" : thisisMessage as Any,
+            "sendImageURL": "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
+            "textMask":textMask.randomElement() ?? "",
             "userId":uid,
             "readLog": false,
             "anonymous":false,
             "admin": true,
+            "delete": false,
         ] as [String: Any]
         
         let myPost = [
             "message" : thisisMessage as Any,
+            "sendImageURL": "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "userName":userName ?? "",
@@ -83,7 +88,6 @@ class sinkitoukou: UIViewController {
             "userFrontId":userFrontId ?? "",
             "userId":uid,
             "textMask":textMask.randomElement() ?? "",
-            "sendImageURL": "",
             "anonymous":false,
             "admin": true,
             "delete": false,

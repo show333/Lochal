@@ -24,6 +24,7 @@ class OutMemo {
     var readLog: Bool
     var admin: Bool
     var anonymous: Bool
+    var delete : Bool
     
     
     init(dic: [String: Any]) {
@@ -39,7 +40,7 @@ class OutMemo {
         self.readLog = dic["readLog"] as? Bool ?? false
         self.admin = dic["admin"] as? Bool ?? false
         self.anonymous = dic["admin"] as? Bool ?? false
-
+        self.delete = dic["delete"] as? Bool ?? false
         
     }
     

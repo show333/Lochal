@@ -291,12 +291,11 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     let momentType = moment(date)
                     
                     
+                    
                     if blockList[rarabai.userId] == true {
                     } else {
-                        
-                        if userId == uid {
-                            self.outMemo.append(rarabai)
-                        } else {
+                        if rarabai.delete == true {
+                        } else{
                             if momentType >= moment() - 2.days {
                                 self.outMemo.append(rarabai)
                             }
@@ -660,6 +659,18 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 //                let userId = document["userId"] as? String ?? "unKnown"
 //                userName = document["userName"] as? String ?? "unKnown"
                 let userImage = document["userImage"] as? String ?? ""
+                let message = document["message"] as? String ?? ""
+                let delete = document["delete"] as! Bool
+                
+                print("デリート！！！",delete)
+                
+                if delete == true {
+                    cell.messageLabel.text = "この投稿は削除されました"
+                    db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
+                } else {
+                    cell.messageLabel.text = message
+                }
+                
                 
                 
 //                cell.nameLabel.text = userName

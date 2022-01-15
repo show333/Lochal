@@ -258,8 +258,6 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
         nameTextField.layer.shadowRadius = 5
         
         kakteiButton.clipsToBounds = true
-//        kakteiButton.layer.cornerRadius = 10
-                
         kakteiButton.layer.masksToBounds = false
         kakteiButton.layer.cornerRadius = 10
         kakteiButton.layer.shadowColor = UIColor.black.cgColor

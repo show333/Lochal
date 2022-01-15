@@ -173,7 +173,6 @@ class SignInViewController: UIViewController {
                     
                     let Account: [String: Any] = [
                         "Entered":true,
-                        "friends":true,
                         "adminaccount":false,
                         "この人のuid":uid ?? "",
                         "この人のアドレス":randomId,

@@ -111,7 +111,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         NotificationVC.tabBarController?.tabBar.isHidden = true
         ViewController().navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(NotificationVC, animated: true)//遷移する
-        
     }
     
     @IBOutlet weak var bubuButton: UIButton!
@@ -133,7 +132,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         notificationNumber.alpha = 0
-        
         notificationButton.tintColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         notificationNumber.clipsToBounds = true
         notificationNumber.layer.cornerRadius = 10
@@ -229,9 +227,13 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                     
                     if blockList[rarabai.userId] == true {
                     } else {
-                        if momentType >= moment() - 2.days {
-                        self.outMemo.append(rarabai)
+                        if rarabai.delete == true {
+                        } else{
+                            if momentType >= moment() - 2.days {
+                                self.outMemo.append(rarabai)
+                            }
                         }
+                        
                     }
                     self.outMemo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
@@ -261,19 +263,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
         let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
-
-        cell.messageLabel.text = outMemo[indexPath.row].message
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
         
 //        cell.coverView.backgroundColor = nil
         
+        cell.messageLabel.text = outMemo[indexPath.row].message
+        
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
                 
-        
-        
-
         cell.messageBottomConstraint.constant =  105
         
         if  outMemo[indexPath.row].readLog == true {
@@ -385,8 +384,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     teamIdArray.forEach{
                         self.getTeamInfo(teamId: $0,cell: cell)
                     }
-                
-
             } else {
                 print("Document does not exist")
             }
@@ -406,7 +403,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 cell.teamCollectionView.alpha = 1
                 
-                print("離ローーーーーーーーーーーど！")
 
                 cell.teamCollectionView.reloadData()
             } else {
@@ -514,8 +510,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //                let userId = document["userId"] as? String ?? "unKnown"
 //                userName = document["userName"] as? String ?? "unKnown"
                 let userImage = document["userImage"] as? String ?? ""
+//                let message = document["message"] as? String ?? ""
+                let delete = document["delete"] as! Bool
                 
                 
+                if delete == true {
+                    cell.messageLabel.text = "この投稿は削除されました"
+                    db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
+                } else {
+//                    cell.messageLabel.text = message
+                }
+                
+
 //                cell.nameLabel.text = userName
 //                getUserTeamInfo(userId: userId, cell: cell)
                 
