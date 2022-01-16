@@ -9,7 +9,7 @@ import UIKit
 import CoreData
 import FirebaseMessaging
 import Firebase
-//import GoogleMobileAds
+import GoogleMobileAds
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -22,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
 //        GADMobileAds.sharedInstance().start(completionHandler: nil)
         
         if #available(iOS 10.0, *) {

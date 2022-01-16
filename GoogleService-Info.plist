@@ -10,6 +10,8 @@
 	<string>AIzaSyAt7kOgNXNky1pdS6r8cg-QS4HNCVoEiiA</string>
 	<key>GCM_SENDER_ID</key>
 	<string>69399146052</string>
+	<key>CFBundleIdentifier</key>
+	<string></string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
@@ -19,15 +21,15 @@
 	<key>STORAGE_BUCKET</key>
 	<string>totalgood-7b3a3.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:69399146052:ios:dfb83157911d5e2dd0d611</string>
 </dict>

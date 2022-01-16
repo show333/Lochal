@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="d2x-2u-QhB">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="d2x-2u-QhB">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -96,12 +96,22 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mdD-is-MA6" customClass="GADBannerView">
+                                <rect key="frame" x="47" y="763" width="320" height="50"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Mnb-qn-0C3"/>
+                                    <constraint firstAttribute="width" constant="320" id="u6c-sm-UDd"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="mdD-is-MA6" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="2h8-CJ-blr"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="gaF-r6-SGU" secondAttribute="trailing" id="QMc-S4-eNz"/>
                             <constraint firstItem="gaF-r6-SGU" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="bG2-il-X2o"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="mdD-is-MA6" secondAttribute="bottom" id="bLl-tq-QVX"/>
                             <constraint firstItem="gaF-r6-SGU" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="fxh-Up-z3W"/>
                         </constraints>
                     </view>
@@ -109,7 +119,7 @@
                     <navigationItem key="navigationItem" title="InChat" id="Aab-cv-lU2">
                         <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="D2P-si-sUb">
                             <button key="customView" opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uOk-D9-gDL">
-                                <rect key="frame" x="332.5" y="10" width="61.5" height="24"/>
+                                <rect key="frame" x="332" y="9" width="62" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="tintColor" red="0.051396618149999997" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -127,6 +137,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="CreateButton" destination="uOk-D9-gDL" id="XDJ-Ub-oTC"/>
+                        <outlet property="bannerView" destination="mdD-is-MA6" id="EgH-VM-Y28"/>
                         <outlet property="collectionViewConstraint" destination="2oe-zm-Tqp" id="fDo-Bt-wD0"/>
                         <outlet property="teamCollectionView" destination="gaF-r6-SGU" id="FdR-BG-8lP"/>
                     </connections>
