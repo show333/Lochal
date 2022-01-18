@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
-    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <device id="retina3_5" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
@@ -14,28 +14,28 @@
             <objects>
                 <viewController storyboardIdentifier="ReserchVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="ReserchVC" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="w8y-ow-RRY">
-                                <rect key="frame" x="0.0" y="124" width="414" height="689"/>
+                                <rect key="frame" x="0.0" y="80" width="320" height="351"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cellId" id="fnt-Ir-GI6" customClass="ReserhTableViewCell" customModule="TOTALGOOD" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="320" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fnt-Ir-GI6" id="t5Q-59-kUt">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="shi-qI-DuU">
-                                <rect key="frame" x="0.0" y="44" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XDe-pv-lMu">
-                                        <rect key="frame" x="101" y="28" width="255" height="34"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="アカウント情報を入力" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XDe-pv-lMu">
+                                        <rect key="frame" x="101" y="28" width="161" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -49,18 +49,24 @@
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="Name"/>
+                                        <connections>
+                                            <action selector="selectTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="3n5-5K-sSN"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="znb-9A-zhw">
-                                        <rect key="frame" x="358" y="15" width="50" height="50"/>
+                                        <rect key="frame" x="264" y="15" width="50" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="znb-9A-zhw" secondAttribute="height" multiplier="1:1" id="JMy-q2-c9e"/>
                                         </constraints>
                                         <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="magnifyingglass" catalog="system"/>
+                                        <connections>
+                                            <action selector="reserchTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="fAu-19-wEH"/>
+                                        </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ユーザーネームで検索" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igt-oE-IQl">
-                                        <rect key="frame" x="105" y="7" width="123" height="14.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="←タップで条件変更" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="igt-oE-IQl">
+                                        <rect key="frame" x="91" y="8" width="109" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                         <nil key="highlightedColor"/>
@@ -71,8 +77,8 @@
                                     <constraint firstItem="D9x-ii-E6f" firstAttribute="top" secondItem="shi-qI-DuU" secondAttribute="top" constant="15" id="55S-Yf-7ZD"/>
                                     <constraint firstItem="D9x-ii-E6f" firstAttribute="leading" secondItem="shi-qI-DuU" secondAttribute="leading" constant="15" id="6Dy-7V-cnV"/>
                                     <constraint firstItem="znb-9A-zhw" firstAttribute="leading" secondItem="XDe-pv-lMu" secondAttribute="trailing" constant="2" id="Jjl-mg-AHZ"/>
-                                    <constraint firstItem="igt-oE-IQl" firstAttribute="leading" secondItem="D9x-ii-E6f" secondAttribute="trailing" constant="20" id="N7t-ih-aDI"/>
-                                    <constraint firstItem="igt-oE-IQl" firstAttribute="top" secondItem="shi-qI-DuU" secondAttribute="top" constant="7" id="WPt-Jn-nol"/>
+                                    <constraint firstItem="igt-oE-IQl" firstAttribute="leading" secondItem="D9x-ii-E6f" secondAttribute="trailing" constant="6" id="N7t-ih-aDI"/>
+                                    <constraint firstItem="igt-oE-IQl" firstAttribute="top" secondItem="shi-qI-DuU" secondAttribute="top" constant="8" id="WPt-Jn-nol"/>
                                     <constraint firstAttribute="trailing" secondItem="znb-9A-zhw" secondAttribute="trailing" constant="6" id="aQB-rD-vC7"/>
                                     <constraint firstAttribute="height" constant="80" id="bi4-r9-qpV"/>
                                     <constraint firstAttribute="bottom" secondItem="D9x-ii-E6f" secondAttribute="bottom" constant="15" id="dPe-rd-CUA"/>
@@ -98,7 +104,11 @@
                     <tabBarItem key="tabBarItem" title="Reserch" image="magnifyingglass.circle.fill" catalog="system" id="HMt-SN-0ib"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="explainLabel" destination="igt-oE-IQl" id="XbT-CY-PUQ"/>
+                        <outlet property="inputTextField" destination="XDe-pv-lMu" id="0Jj-1T-b1J"/>
+                        <outlet property="reserchButton" destination="znb-9A-zhw" id="cCV-xw-axr"/>
                         <outlet property="reserchTableView" destination="w8y-ow-RRY" id="JDr-Zb-pyU"/>
+                        <outlet property="selectButton" destination="D9x-ii-E6f" id="Deb-lR-C5u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

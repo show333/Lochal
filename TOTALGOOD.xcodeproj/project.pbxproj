@@ -83,6 +83,9 @@
 		CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */; };
 		CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC12794454000D4C472 /* Reserch.storyboard */; };
 		CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC32794456000D4C472 /* ReserchVC.swift */; };
+		CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC5279453CD00D4C472 /* ad.storyboard */; };
+		CFA19DC8279453DB00D4C472 /* adVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC7279453DB00D4C472 /* adVC.swift */; };
+		CFA19DCA2794544700D4C472 /* ad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC92794544700D4C472 /* ad.xib */; };
 		CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */; };
 		CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFE909142618F0AE001AFCFB /* EULA.storyboard */; };
 		CFE909182618F23E001AFCFB /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE909172618F23E001AFCFB /* EULAViewController.swift */; };
@@ -173,6 +176,9 @@
 		CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imagetoukouViewController.swift; sourceTree = "<group>"; };
 		CFA19DC12794454000D4C472 /* Reserch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reserch.storyboard; sourceTree = "<group>"; };
 		CFA19DC32794456000D4C472 /* ReserchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserchVC.swift; sourceTree = "<group>"; };
+		CFA19DC5279453CD00D4C472 /* ad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ad.storyboard; sourceTree = "<group>"; };
+		CFA19DC7279453DB00D4C472 /* adVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = adVC.swift; sourceTree = "<group>"; };
+		CFA19DC92794544700D4C472 /* ad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ad.xib; sourceTree = "<group>"; };
 		CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		CFE909142618F0AE001AFCFB /* EULA.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EULA.storyboard; sourceTree = "<group>"; };
 		CFE909172618F23E001AFCFB /* EULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
@@ -301,6 +307,7 @@
 				CF3B82A02785185500B4A257 /* ReadLogVC.swift */,
 				CF3B82AF2786F70400B4A257 /* NotificationVC.swift */,
 				CFA19DC32794456000D4C472 /* ReserchVC.swift */,
+				CFA19DC7279453DB00D4C472 /* adVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -315,6 +322,7 @@
 				A3C0D9F12778609F00AC64D3 /* OutMemoCellVC.swift */,
 				CF7E8E4127788677003E3E84 /* TeamCollectionViewCell.xib */,
 				CF7E8E44277886B2003E3E84 /* TeamCollectionViewCellVC.swift */,
+				CFA19DC92794544700D4C472 /* ad.xib */,
 			);
 			path = XibFile;
 			sourceTree = "<group>";
@@ -343,6 +351,7 @@
 				CF3B829D2785181400B4A257 /* ReadLog.storyboard */,
 				CF3B82A92786F6CD00B4A257 /* Notification.storyboard */,
 				CFA19DC12794454000D4C472 /* Reserch.storyboard */,
+				CFA19DC5279453CD00D4C472 /* ad.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -429,6 +438,7 @@
 				CF2A224325C3FC7200C5BFC1 /* LaunchScreen.storyboard in Resources */,
 				CF39F27E26567D3F0006716A /* stampCollection.storyboard in Resources */,
 				CF4BF17B260FA5CA00942E6F /* 07にくまるフォント.otf in Resources */,
+				CFA19DCA2794544700D4C472 /* ad.xib in Resources */,
 				CF40D36D26296C6E00F62858 /* goodloadingcolor.json in Resources */,
 				CF4BF176260FA43800942E6F /* yasasisa.ttf in Resources */,
 				CF2A224025C3FC7200C5BFC1 /* Assets.xcassets in Resources */,
@@ -447,6 +457,7 @@
 				CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */,
 				CF0C14AF25C9F003006A7C86 /* ChatRoom.storyboard in Resources */,
 				CF39377C260492BA0020BE97 /* Profile.storyboard in Resources */,
+				CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */,
 				CF4C5A44261FA3F300342675 /* packmanload.json in Resources */,
 				CF15444F26110E2700400D87 /* GoogleService-Info.plist in Resources */,
 				CF4366102678966E00DABD78 /* NewCreateTeam.storyboard in Resources */,
@@ -550,6 +561,7 @@
 				CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */,
 				CF2A223625C3FC7000C5BFC1 /* SceneDelegate.swift in Sources */,
 				A3C0D9F22778609F00AC64D3 /* OutMemoCellVC.swift in Sources */,
+				CFA19DC8279453DB00D4C472 /* adVC.swift in Sources */,
 				A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */,
 				CF083C7F276D0184006F6102 /* OutMemo.swift in Sources */,
 				A3C0D9E6277397AD00AC64D3 /* EnterTeamVC.swift in Sources */,
