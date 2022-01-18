@@ -46,9 +46,9 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        self.bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+//        テスト ca-app-pub-3940256099942544/2934735716
+//        本番 ca-app-pub-9686355783426956/8797317880
+        self.bannerView.adUnitID = "ca-app-pub-9686355783426956/8797317880"
         self.bannerView.rootViewController = self
         self.bannerView.load(GADRequest())
                 

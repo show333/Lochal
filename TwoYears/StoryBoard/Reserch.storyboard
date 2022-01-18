@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
     <device id="retina3_5" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="w8y-ow-RRY">
-                                <rect key="frame" x="0.0" y="80" width="320" height="351"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="w8y-ow-RRY">
+                                <rect key="frame" x="1" y="80" width="320" height="301"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cellId" id="fnt-Ir-GI6" customClass="ReserhTableViewCell" customModule="TOTALGOOD" customModuleProvider="target">
@@ -88,14 +88,24 @@
                                     <constraint firstAttribute="bottom" secondItem="znb-9A-zhw" secondAttribute="bottom" constant="15" id="z5n-EI-gjg"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hqi-3b-rro" customClass="GADBannerView">
+                                <rect key="frame" x="0.0" y="381" width="320" height="50"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="320" id="NCl-0F-Rfj"/>
+                                    <constraint firstAttribute="height" constant="50" id="jqt-Wi-OXK"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="w8y-ow-RRY" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="3O7-fn-YB3"/>
                             <constraint firstItem="shi-qI-DuU" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="C6E-yG-fGT"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="w8y-ow-RRY" secondAttribute="bottom" id="KtL-jM-3mu"/>
+                            <constraint firstItem="Hqi-3b-rro" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="CCV-gh-EP9"/>
+                            <constraint firstItem="Hqi-3b-rro" firstAttribute="top" secondItem="w8y-ow-RRY" secondAttribute="bottom" id="L6T-jO-BBX"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="shi-qI-DuU" secondAttribute="trailing" id="Uc8-ud-8DU"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Hqi-3b-rro" secondAttribute="bottom" id="Zt9-X7-GNx"/>
                             <constraint firstItem="w8y-ow-RRY" firstAttribute="top" secondItem="shi-qI-DuU" secondAttribute="bottom" id="cwS-WT-QEZ"/>
                             <constraint firstItem="shi-qI-DuU" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="eet-cs-wJ4"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="w8y-ow-RRY" secondAttribute="trailing" id="ilg-HW-rjo"/>
@@ -104,6 +114,7 @@
                     <tabBarItem key="tabBarItem" title="Reserch" image="magnifyingglass.circle.fill" catalog="system" id="HMt-SN-0ib"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="bannerView" destination="Hqi-3b-rro" id="I2Y-R5-bMQ"/>
                         <outlet property="explainLabel" destination="igt-oE-IQl" id="XbT-CY-PUQ"/>
                         <outlet property="inputTextField" destination="XDe-pv-lMu" id="0Jj-1T-b1J"/>
                         <outlet property="reserchButton" destination="znb-9A-zhw" id="cCV-xw-axr"/>

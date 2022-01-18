@@ -8,6 +8,8 @@
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
+import GoogleMobileAds
+
 
 class ReserchVC:UIViewController{
     private let cellId = "cellId"
@@ -38,6 +40,7 @@ class ReserchVC:UIViewController{
         print(inputTextField.text)
         getAccount()
     }
+    @IBOutlet weak var bannerView: GADBannerView!
     
     func getAccount(){
         db.collection("users").whereField("この人のアドレス", isEqualTo: inputTextField.text ?? "")
@@ -74,6 +77,13 @@ class ReserchVC:UIViewController{
             inputTextField.attributedPlaceholder = NSAttributedString(string: "ユーザーIDで検索", attributes: nil)
 
         }
+        
+        //        テスト ca-app-pub-3940256099942544/2934735716
+        //        本番 ca-app-pub-9686355783426956/8797317880
+        self.bannerView.adUnitID = "ca-app-pub-9686355783426956/8797317880"
+        self.bannerView.rootViewController = self
+        self.bannerView.load(GADRequest())
+        
         reserchTableView.dataSource = self
         reserchTableView.delegate = self
     }

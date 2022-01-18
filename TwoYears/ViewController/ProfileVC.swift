@@ -294,12 +294,24 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     
                     if blockList[rarabai.userId] == true {
                     } else {
-                        if rarabai.delete == true {
-                        } else{
-                            if momentType >= moment() - 2.days {
+                        
+                        if uid == userId {
+                            
+                            if rarabai.delete == true {
+                            } else{
                                 self.outMemo.append(rarabai)
                             }
+                            
+                            
+                        } else {
+                            if rarabai.delete == true {
+                            } else{
+                                if momentType >= moment() - 2.days {
+                                    self.outMemo.append(rarabai)
+                                }
+                            }
                         }
+          
                         
                     }
                     self.outMemo.sort { (m1, m2) -> Bool in
