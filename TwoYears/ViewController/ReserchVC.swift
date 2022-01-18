@@ -9,14 +9,18 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import GoogleMobileAds
+import Nuke
 
 
 class ReserchVC:UIViewController{
     private let cellId = "cellId"
     let db = Firestore.firestore()
     var selectBool:Bool = false
+    var users: [Users] = []
+
     
     @IBOutlet weak var explainLabel: UILabel!
+    @IBOutlet weak var noExistLabel: UILabel!
     @IBOutlet weak var selectButton: UIButton!
     
     @IBAction func selectTappedButton(_ sender: Any) {
@@ -37,22 +41,54 @@ class ReserchVC:UIViewController{
     @IBOutlet weak var reserchTableView: UITableView!
     @IBOutlet weak var reserchButton: UIButton!
     @IBAction func reserchTappedButton(_ sender: Any) {
-        print(inputTextField.text)
-        getAccount()
+        if selectBool == false {
+            getAccount(keyString:"userName")
+        } else {
+            getAccount(keyString:"userFrontId")
+        }
     }
     @IBOutlet weak var bannerView: GADBannerView!
     
-    func getAccount(){
-        db.collection("users").whereField("この人のアドレス", isEqualTo: inputTextField.text ?? "")
-            .getDocuments() { (querySnapshot, err) in
+    func getAccount(keyString:String){
+        
+        db.collection("users").whereField(keyString, isEqualTo: inputTextField.text ?? "")
+            .getDocuments() { [self] (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
+                    print(querySnapshot!.documents.count)
+                    let userCount:Int = querySnapshot!.documents.count
+                    if userCount == 0 {
+                        noExsitAnimation()
+                    } else {
+                        noExistLabel.alpha = 0
+                        users.removeAll()
+                        for document in querySnapshot!.documents {
+                            print("\(document.documentID) => \(document.data())")
+                            let usersDic = Users(dic: document.data())
+                            self.users.append(usersDic)
+                        }
+                        reserchTableView.reloadData()
                     }
                 }
             }
+    }
+    
+    func noExsitAnimation(){
+        UIView.animate(withDuration: 0.1, delay: 0, animations: {
+            self.noExistLabel.alpha = 0
+        }) { bool in
+            // ②アイコンを大きくする
+            UIView.animate(withDuration: 0.5, delay: 0, animations: {
+                self.noExistLabel.alpha = 1
+            }) { bool in
+                // ②アイコンを大きくする
+                UIView.animate(withDuration: 0.5, delay: 2, animations: {
+                    self.noExistLabel.alpha = 0
+                })
+            }
+            
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -60,13 +96,32 @@ class ReserchVC:UIViewController{
         inputTextField.resignFirstResponder()
         return true
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = true
+
+    }
+    // キーボードと閉じる際の処理
+    @objc public func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+            let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+        
+        tapGesture.cancelsTouchesInView = false
+        
         
         explainLabel.text = "←タップで条件変更"
+        noExistLabel.alpha = 0
+        noExistLabel.text = "該当するユーザーが\nいませんでした"
 
-        
-        print("aaaaaaa",selectBool)
         if selectBool == false {
             selectButton.setTitle("Name", for: .normal)
             inputTextField.attributedPlaceholder = NSAttributedString(string: "ユーザーネームで検索", attributes: nil)
@@ -80,9 +135,17 @@ class ReserchVC:UIViewController{
         
         //        テスト ca-app-pub-3940256099942544/2934735716
         //        本番 ca-app-pub-9686355783426956/8797317880
-        self.bannerView.adUnitID = "ca-app-pub-9686355783426956/8797317880"
+        self.bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
         self.bannerView.rootViewController = self
         self.bannerView.load(GADRequest())
+        
+        selectButton.clipsToBounds = true
+        selectButton.layer.masksToBounds = false
+        selectButton.layer.cornerRadius = 6
+        selectButton.layer.shadowColor = UIColor.black.cgColor
+        selectButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        selectButton.layer.shadowOpacity = 0.3
+        selectButton.layer.shadowRadius = 5
         
         reserchTableView.dataSource = self
         reserchTableView.delegate = self
@@ -90,17 +153,49 @@ class ReserchVC:UIViewController{
 }
 
 extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        return users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = reserchTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ReserhTableViewCell
+        cell.userImageView.image = nil
+        cell.userNameLabel.text = users[indexPath.row].userName
+        cell.userFrontIdLabel.text = users[indexPath.row].userFrontId
+        
+        cell.userImageView.clipsToBounds = true
+        cell.userImageView.layer.cornerRadius = 30
+        
+        if let url = URL(string:users[indexPath.row].userImage) {
+            Nuke.loadImage(with: url, into: cell.userImageView)
+        } else {
+            cell.userImageView?.image = nil
+        }
+        
         return cell
+
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        ProfileVC.userId = users[indexPath.row].userId
+        ProfileVC.cellImageTap = true
+        navigationController?.pushViewController(ProfileVC, animated: true)
 
     }
 }
 
 class ReserhTableViewCell:UITableViewCell{
     
+    @IBOutlet weak var userImageView: UIImageView!
+    
+    @IBOutlet weak var userFrontIdLabel: UILabel!
+    @IBOutlet weak var userNameLabel: UILabel!
+    override func awakeFromNib() {
+        super.awakeFromNib()
+    }
 }

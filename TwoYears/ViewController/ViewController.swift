@@ -98,8 +98,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     
     
     @IBOutlet weak var notificationNumber: UILabel!
-    
-    
     @IBOutlet weak var notificationButton: UIButton!
     
     @IBAction func TappedNotificationButton(_ sender: Any) {
