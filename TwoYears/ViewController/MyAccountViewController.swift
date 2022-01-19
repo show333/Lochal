@@ -45,10 +45,10 @@ class MyAccountViewController: UIViewController {
     
     //UserSelf画面遷移
     @IBAction func UserSelfTapp(_ sender: Any) {
-        let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
-        let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
-//        UserSelfViewController.companyId = companyId
-        navigationController?.pushViewController(UserSelfViewController, animated: true)
+//        let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
+//        let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
+////        UserSelfViewController.companyId = companyId
+//        navigationController?.pushViewController(UserSelfViewController, animated: true)
     }
     
     

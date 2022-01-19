@@ -1,5 +1,5 @@
 //
-//  UserSelfViewController.swift
+//  UserImageSet.swift
 //  TOTALGOOD
 //
 //  Created by 平田翔大 on 2021/06/18.
@@ -12,7 +12,7 @@ import FirebaseAuth
 import Firebase
 import Nuke
 
-class UserSelfViewController : UIViewController {
+class UserImageSetVC : UIViewController {
     
     let uid = Auth.auth().currentUser?.uid
     let db = Firestore.firestore()
@@ -22,7 +22,6 @@ class UserSelfViewController : UIViewController {
     
     
     @IBOutlet weak var imageButton: UIButton!
-    
     @IBAction func imageTappedButton(_ sender: Any) {
         
         let imagePickerController = UIImagePickerController()
@@ -32,15 +31,6 @@ class UserSelfViewController : UIViewController {
         
         self.present(imagePickerController, animated: true, completion: nil)
     }
-    
-    
-    
-    
-    @IBOutlet weak var BackButton: UIButton!
-    @IBAction func BackTappedButton(_ sender: Any) {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
     @IBOutlet weak var nameField: UITextField!
     
     @IBAction func nameTextField(_ sender: Any) {
@@ -93,7 +83,6 @@ class UserSelfViewController : UIViewController {
                     }
                 }
                 
-                
                 self.navigationController?.popViewController(animated: true)
                 
             }
@@ -101,11 +90,6 @@ class UserSelfViewController : UIViewController {
     }
     
     @IBOutlet weak var tyuuiLabel: UILabel!
-    
-    
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,7 +104,6 @@ class UserSelfViewController : UIViewController {
         let tapGR: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGR.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGR)
-        
         
         imageButton.clipsToBounds = true
         imageButton.layer.cornerRadius = 100
@@ -156,7 +139,7 @@ class UserSelfViewController : UIViewController {
         self.view.endEditing(true)
     }
 }
-extension UserSelfViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension UserImageSetVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let editImage = info[.editedImage] as? UIImage {

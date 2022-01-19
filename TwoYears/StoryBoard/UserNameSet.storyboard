@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="1SH-Jd-wJ2">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="w1j-57-dnA">
+            <objects>
+                <navigationController id="1SH-Jd-wJ2" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lF6-Gd-FzW">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="nq1-O5-oFL"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QAK-6f-WL8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-604" y="98"/>
+        </scene>
+        <!--Name変更-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="UserNameSetVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="UserNameSetVC" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0JJ-lX-kH2">
+                                <rect key="frame" x="173.5" y="432.5" width="67" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="sendTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="qlj-Bi-cS8"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TX4-rF-rSV">
+                                <rect key="frame" x="30" y="368.5" width="354" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="0JJ-lX-kH2" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="7nY-lu-j1f"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="TX4-rF-rSV" secondAttribute="trailing" constant="30" id="GgF-ih-C1b"/>
+                            <constraint firstItem="TX4-rF-rSV" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="Hjr-5Y-i7f"/>
+                            <constraint firstItem="0JJ-lX-kH2" firstAttribute="top" secondItem="TX4-rF-rSV" secondAttribute="bottom" constant="30" id="bf3-oy-oyh"/>
+                            <constraint firstItem="0JJ-lX-kH2" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="k0b-5H-hG1"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Name変更" id="wBd-6o-O7C"/>
+                    <connections>
+                        <outlet property="nameTextField" destination="TX4-rF-rSV" id="Wbg-ij-svx"/>
+                        <outlet property="nameTextFieldConstraint" destination="GgF-ih-C1b" id="cUj-41-BWQ"/>
+                        <outlet property="sendButton" destination="0JJ-lX-kH2" id="shV-Zn-qMu"/>
+                        <outlet property="textFieldDistance" destination="5EZ-qb-Rvc" id="Vc9-cq-vfL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="129" y="98"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

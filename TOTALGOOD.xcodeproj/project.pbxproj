@@ -63,8 +63,8 @@
 		CF3B82A72786C90A00B4A257 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82A62786C90900B4A257 /* UserInfo.swift */; };
 		CF3B82AA2786F6CD00B4A257 /* Notification.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3B82A92786F6CD00B4A257 /* Notification.storyboard */; };
 		CF3B82B02786F70400B4A257 /* NotificationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3B82AF2786F70400B4A257 /* NotificationVC.swift */; };
-		CF3D0C1A267BD327006021FB /* UserSelf.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0C19267BD327006021FB /* UserSelf.storyboard */; };
-		CF3D0C1D267BD349006021FB /* UserSelfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */; };
+		CF3D0C1A267BD327006021FB /* UserImageSet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3D0C19267BD327006021FB /* UserImageSet.storyboard */; };
+		CF3D0C1D267BD349006021FB /* UserImageSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3D0C1C267BD349006021FB /* UserImageSetVC.swift */; };
 		CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */; };
 		CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3DDC0425C4597E0016AB0F /* sinkitoukou.swift */; };
 		CF3DDC1B25C73C580016AB0F /* Animal.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF3DDC1A25C73C580016AB0F /* Animal.swift */; };
@@ -78,6 +78,11 @@
 		CF4BF17F260FAB4D00942E6F /* YasashisaGothic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF4BF17E260FAB4C00942E6F /* YasashisaGothic.otf */; };
 		CF4C5A31261E3A4900342675 /* quiz.csv in Resources */ = {isa = PBXBuildFile; fileRef = CF4C5A30261E3A4900342675 /* quiz.csv */; };
 		CF4C5A44261FA3F300342675 /* packmanload.json in Resources */ = {isa = PBXBuildFile; fileRef = CF4C5A43261FA3F300342675 /* packmanload.json */; };
+		CF6846CD2797C0BA004B80C5 /* UserIdSet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF6846CC2797C0BA004B80C5 /* UserIdSet.storyboard */; };
+		CF6846CF2797C0C4004B80C5 /* UserNameSet.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF6846CE2797C0C4004B80C5 /* UserNameSet.storyboard */; };
+		CF6846D32797C0E9004B80C5 /* UserIdSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6846D22797C0E9004B80C5 /* UserIdSetVC.swift */; };
+		CF6846D52797C0FB004B80C5 /* UserNameSetVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6846D42797C0FB004B80C5 /* UserNameSetVC.swift */; };
+		CF6846D727981E7A004B80C5 /* removeString-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6846D627981E7A004B80C5 /* removeString-extension.swift */; };
 		CF7E8E4227788677003E3E84 /* TeamCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF7E8E4127788677003E3E84 /* TeamCollectionViewCell.xib */; };
 		CF7E8E45277886B2003E3E84 /* TeamCollectionViewCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8E44277886B2003E3E84 /* TeamCollectionViewCellVC.swift */; };
 		CF8B45062665698500CA6DE1 /* red_yellow.json in Resources */ = {isa = PBXBuildFile; fileRef = CF8B45052665698500CA6DE1 /* red_yellow.json */; };
@@ -86,8 +91,6 @@
 		CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC12794454000D4C472 /* Reserch.storyboard */; };
 		CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC32794456000D4C472 /* ReserchVC.swift */; };
 		CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC5279453CD00D4C472 /* ad.storyboard */; };
-		CFA19DC8279453DB00D4C472 /* adVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC7279453DB00D4C472 /* adVC.swift */; };
-		CFA19DCA2794544700D4C472 /* ad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC92794544700D4C472 /* ad.xib */; };
 		CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */; };
 		CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFE909142618F0AE001AFCFB /* EULA.storyboard */; };
 		CFE909182618F23E001AFCFB /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE909172618F23E001AFCFB /* EULAViewController.swift */; };
@@ -154,8 +157,8 @@
 		CF3B82A62786C90900B4A257 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		CF3B82A92786F6CD00B4A257 /* Notification.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Notification.storyboard; sourceTree = "<group>"; };
 		CF3B82AF2786F70400B4A257 /* NotificationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationVC.swift; sourceTree = "<group>"; };
-		CF3D0C19267BD327006021FB /* UserSelf.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserSelf.storyboard; sourceTree = "<group>"; };
-		CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSelfViewController.swift; sourceTree = "<group>"; };
+		CF3D0C19267BD327006021FB /* UserImageSet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserImageSet.storyboard; sourceTree = "<group>"; };
+		CF3D0C1C267BD349006021FB /* UserImageSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImageSetVC.swift; sourceTree = "<group>"; };
 		CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = sinkitoukou.storyboard; sourceTree = "<group>"; };
 		CF3DDC0425C4597E0016AB0F /* sinkitoukou.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sinkitoukou.swift; sourceTree = "<group>"; };
 		CF3DDC1A25C73C580016AB0F /* Animal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animal.swift; sourceTree = "<group>"; };
@@ -173,6 +176,11 @@
 		CF4C5A01261D185400342675 /* TOTALGOOD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TOTALGOOD.entitlements; sourceTree = "<group>"; };
 		CF4C5A30261E3A4900342675 /* quiz.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = quiz.csv; sourceTree = "<group>"; };
 		CF4C5A43261FA3F300342675 /* packmanload.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = packmanload.json; sourceTree = "<group>"; };
+		CF6846CC2797C0BA004B80C5 /* UserIdSet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserIdSet.storyboard; sourceTree = "<group>"; };
+		CF6846CE2797C0C4004B80C5 /* UserNameSet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserNameSet.storyboard; sourceTree = "<group>"; };
+		CF6846D22797C0E9004B80C5 /* UserIdSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIdSetVC.swift; sourceTree = "<group>"; };
+		CF6846D42797C0FB004B80C5 /* UserNameSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNameSetVC.swift; sourceTree = "<group>"; };
+		CF6846D627981E7A004B80C5 /* removeString-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "removeString-extension.swift"; sourceTree = "<group>"; };
 		CF7E8E4127788677003E3E84 /* TeamCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TeamCollectionViewCell.xib; sourceTree = "<group>"; };
 		CF7E8E44277886B2003E3E84 /* TeamCollectionViewCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamCollectionViewCellVC.swift; sourceTree = "<group>"; };
 		CF8B45052665698500CA6DE1 /* red_yellow.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = red_yellow.json; sourceTree = "<group>"; };
@@ -181,8 +189,6 @@
 		CFA19DC12794454000D4C472 /* Reserch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reserch.storyboard; sourceTree = "<group>"; };
 		CFA19DC32794456000D4C472 /* ReserchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserchVC.swift; sourceTree = "<group>"; };
 		CFA19DC5279453CD00D4C472 /* ad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ad.storyboard; sourceTree = "<group>"; };
-		CFA19DC7279453DB00D4C472 /* adVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = adVC.swift; sourceTree = "<group>"; };
-		CFA19DC92794544700D4C472 /* ad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ad.xib; sourceTree = "<group>"; };
 		CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		CFE909142618F0AE001AFCFB /* EULA.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EULA.storyboard; sourceTree = "<group>"; };
 		CFE909172618F23E001AFCFB /* EULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
@@ -260,6 +266,7 @@
 				CF38CAD126655E6400615D23 /* CountAnimationLabel.swift */,
 				CF361A00277C829700C08160 /* Date-extension.swift */,
 				CF1E420C262AF05700CEF85A /* CopyUILabel.swift */,
+				CF6846D627981E7A004B80C5 /* removeString-extension.swift */,
 				CF4C5A30261E3A4900342675 /* quiz.csv */,
 				CF3E437D264333EC00CB0DA7 /* TOTALGOOD-Bridging-Header.h */,
 				CF449797264424A700A2F873 /* Bridging-Header.h */,
@@ -299,7 +306,6 @@
 				CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */,
 				CF39F28426567D960006716A /* stampViewController.swift */,
 				CF1BAC36266FB2380025A660 /* MyAccountViewController.swift */,
-				CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */,
 				CFA19DC32794456000D4C472 /* ReserchVC.swift */,
 				A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */,
 				A3EAFB42276059E400942C97 /* InChatVC.swift */,
@@ -312,7 +318,9 @@
 				CF3B82AF2786F70400B4A257 /* NotificationVC.swift */,
 				CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */,
 				A3B115D027971B48001820EC /* SettingsVC.swift */,
-				CFA19DC7279453DB00D4C472 /* adVC.swift */,
+				CF3D0C1C267BD349006021FB /* UserImageSetVC.swift */,
+				CF6846D22797C0E9004B80C5 /* UserIdSetVC.swift */,
+				CF6846D42797C0FB004B80C5 /* UserNameSetVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -327,7 +335,6 @@
 				A3C0D9F12778609F00AC64D3 /* OutMemoCellVC.swift */,
 				CF7E8E4127788677003E3E84 /* TeamCollectionViewCell.xib */,
 				CF7E8E44277886B2003E3E84 /* TeamCollectionViewCellVC.swift */,
-				CFA19DC92794544700D4C472 /* ad.xib */,
 			);
 			path = XibFile;
 			sourceTree = "<group>";
@@ -346,7 +353,6 @@
 				CF8F13A9263FD9D2007A0677 /* imagetoukou.storyboard */,
 				CF39F27D26567D3F0006716A /* stampCollection.storyboard */,
 				CF43660F2678966E00DABD78 /* NewCreateTeam.storyboard */,
-				CF3D0C19267BD327006021FB /* UserSelf.storyboard */,
 				CFA19DC12794454000D4C472 /* Reserch.storyboard */,
 				A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */,
 				A3EAFB40276059BE00942C97 /* InChat.storyboard */,
@@ -358,6 +364,9 @@
 				CF39377B260492BA0020BE97 /* Profile.storyboard */,
 				A3B115CE27971B1F001820EC /* Settings.storyboard */,
 				CFA19DC5279453CD00D4C472 /* ad.storyboard */,
+				CF3D0C19267BD327006021FB /* UserImageSet.storyboard */,
+				CF6846CC2797C0BA004B80C5 /* UserIdSet.storyboard */,
+				CF6846CE2797C0C4004B80C5 /* UserNameSet.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -443,9 +452,9 @@
 				CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */,
 				A3C0D9F02778603400AC64D3 /* OutMemoCell.xib in Resources */,
 				CF2A224325C3FC7200C5BFC1 /* LaunchScreen.storyboard in Resources */,
+				CF6846CD2797C0BA004B80C5 /* UserIdSet.storyboard in Resources */,
 				CF39F27E26567D3F0006716A /* stampCollection.storyboard in Resources */,
 				CF4BF17B260FA5CA00942E6F /* 07にくまるフォント.otf in Resources */,
-				CFA19DCA2794544700D4C472 /* ad.xib in Resources */,
 				CF40D36D26296C6E00F62858 /* goodloadingcolor.json in Resources */,
 				CF4BF176260FA43800942E6F /* yasasisa.ttf in Resources */,
 				CF2A224025C3FC7200C5BFC1 /* Assets.xcassets in Resources */,
@@ -456,7 +465,8 @@
 				CF7E8E4227788677003E3E84 /* TeamCollectionViewCell.xib in Resources */,
 				A3D13E3227737184002599B9 /* CreateTeam.storyboard in Resources */,
 				CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */,
-				CF3D0C1A267BD327006021FB /* UserSelf.storyboard in Resources */,
+				CF3D0C1A267BD327006021FB /* UserImageSet.storyboard in Resources */,
+				CF6846CF2797C0C4004B80C5 /* UserNameSet.storyboard in Resources */,
 				A3C0D9EC277488BD00AC64D3 /* Reaction.storyboard in Resources */,
 				A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */,
 				CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */,
@@ -545,8 +555,10 @@
 				CF0C14B225C9F028006A7C86 /* ChatRoomViewController.swift in Sources */,
 				CF3B82A12785185500B4A257 /* ReadLogVC.swift in Sources */,
 				A3C0D9EA2774859C00AC64D3 /* ReactionVC.swift in Sources */,
+				CF6846D52797C0FB004B80C5 /* UserNameSetVC.swift in Sources */,
 				CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */,
 				CF39565625D39A450097DBAA /* Team.swift in Sources */,
+				CF6846D727981E7A004B80C5 /* removeString-extension.swift in Sources */,
 				CF2A223825C3FC7000C5BFC1 /* ViewController.swift in Sources */,
 				CF7E8E45277886B2003E3E84 /* TeamCollectionViewCellVC.swift in Sources */,
 				CFE909182618F23E001AFCFB /* EULAViewController.swift in Sources */,
@@ -555,6 +567,7 @@
 				CF24EF7925D7AAD6009FE517 /* SplashViewController.swift in Sources */,
 				CF39F28526567D960006716A /* stampViewController.swift in Sources */,
 				CF1BAC37266FB2380025A660 /* MyAccountViewController.swift in Sources */,
+				CF6846D32797C0E9004B80C5 /* UserIdSetVC.swift in Sources */,
 				CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */,
 				A3D13E2E276FC4B1002599B9 /* Users.swift in Sources */,
 				A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */,
@@ -568,7 +581,6 @@
 				CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */,
 				CF2A223625C3FC7000C5BFC1 /* SceneDelegate.swift in Sources */,
 				A3C0D9F22778609F00AC64D3 /* OutMemoCellVC.swift in Sources */,
-				CFA19DC8279453DB00D4C472 /* adVC.swift in Sources */,
 				A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */,
 				CF083C7F276D0184006F6102 /* OutMemo.swift in Sources */,
 				A3C0D9E6277397AD00AC64D3 /* EnterTeamVC.swift in Sources */,
@@ -580,7 +592,7 @@
 				CF3DDC1B25C73C580016AB0F /* Animal.swift in Sources */,
 				CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */,
 				CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */,
-				CF3D0C1D267BD349006021FB /* UserSelfViewController.swift in Sources */,
+				CF3D0C1D267BD349006021FB /* UserImageSetVC.swift in Sources */,
 				CF31079D2600AA1A00746480 /* TabbarController.swift in Sources */,
 				A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */,
 				A3D13E34277371EC002599B9 /* CreateTeamVC.swift in Sources */,

@@ -75,22 +75,22 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var settingsButton: UIButton!
     
     @IBAction func settingsTappedButton(_ sender: Any) {
-        let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
-        let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
-        navigationController?.pushViewController(UserSelfViewController, animated: true)
+        let storyboard = UIStoryboard.init(name: "Settings", bundle: nil)
+        let SettingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
+        navigationController?.pushViewController(SettingsVC, animated: true)
     }
     
     
     @IBOutlet var tapImage: UITapGestureRecognizer!
     @IBAction func tapImageView(_ sender: Any) {
         
-        if userId == uid {
-        let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
-        let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
-        navigationController?.pushViewController(UserSelfViewController, animated: true)
-        } else {
-            return
-        }
+//        if userId == uid {
+//        let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
+//        let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
+//        navigationController?.pushViewController(UserSelfViewController, animated: true)
+//        } else {
+//            return
+//        }
         
     }
     
