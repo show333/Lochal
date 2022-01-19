@@ -41,17 +41,24 @@ class ReserchVC:UIViewController{
     @IBOutlet weak var reserchTableView: UITableView!
     @IBOutlet weak var reserchButton: UIButton!
     @IBAction func reserchTappedButton(_ sender: Any) {
+        
+//        let smallStr = inputText.lowercased()// "abcdefg"
+//        print(smallStr)
+        let inputText = inputTextField.text ?? ""
+        let removeWhitesSpacesString = inputText.removeWhitespacesAndNewlines
+
         if selectBool == false {
-            getAccount(keyString:"userName")
+            getAccount(keyString:"userName",reserchString: removeWhitesSpacesString)
         } else {
-            getAccount(keyString:"userFrontId")
+            getAccount(keyString:"userFrontId",reserchString: removeWhitesSpacesString)
         }
     }
     @IBOutlet weak var bannerView: GADBannerView!
     
-    func getAccount(keyString:String){
+    
+    func getAccount(keyString:String,reserchString: String){
         
-        db.collection("users").whereField(keyString, isEqualTo: inputTextField.text ?? "")
+        db.collection("users").whereField(keyString, isEqualTo: reserchString)
             .getDocuments() { [self] (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
@@ -144,13 +151,19 @@ class ReserchVC:UIViewController{
         selectButton.layer.cornerRadius = 6
         selectButton.layer.shadowColor = UIColor.black.cgColor
         selectButton.layer.shadowOffset = CGSize(width: 0, height: 3)
-        selectButton.layer.shadowOpacity = 0.3
+        selectButton.layer.shadowOpacity = 0.2
         selectButton.layer.shadowRadius = 5
         
         reserchTableView.dataSource = self
         reserchTableView.delegate = self
     }
 }
+extension StringProtocol where Self: RangeReplaceableCollection {
+  var removeWhitespacesAndNewlines: Self {
+    filter { !$0.isNewline && !$0.isWhitespace }
+  }
+}
+
 
 extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

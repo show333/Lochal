@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C8614276B7C45002078A0 /* ChatsInfo.swift */; };
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
+		A3B115CF27971B1F001820EC /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3B115CE27971B1F001820EC /* Settings.storyboard */; };
+		A3B115D127971B48001820EC /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B115D027971B48001820EC /* SettingsVC.swift */; };
 		A3C0D9E42773976200AC64D3 /* EnterTeam.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3C0D9E32773976200AC64D3 /* EnterTeam.storyboard */; };
 		A3C0D9E6277397AD00AC64D3 /* EnterTeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C0D9E5277397AD00AC64D3 /* EnterTeamVC.swift */; };
 		A3C0D9EA2774859C00AC64D3 /* ReactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */; };
@@ -98,6 +100,8 @@
 		8F568B91F637BC6D82FF9569 /* Pods-TOTALGOOD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TOTALGOOD.release.xcconfig"; path = "Target Support Files/Pods-TOTALGOOD/Pods-TOTALGOOD.release.xcconfig"; sourceTree = "<group>"; };
 		A39C8614276B7C45002078A0 /* ChatsInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsInfo.swift; sourceTree = "<group>"; };
 		A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teamRankingVC.swift; sourceTree = "<group>"; };
+		A3B115CE27971B1F001820EC /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
+		A3B115D027971B48001820EC /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		A3C0D9E32773976200AC64D3 /* EnterTeam.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EnterTeam.storyboard; sourceTree = "<group>"; };
 		A3C0D9E5277397AD00AC64D3 /* EnterTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterTeamVC.swift; sourceTree = "<group>"; };
 		A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionVC.swift; sourceTree = "<group>"; };
@@ -296,7 +300,7 @@
 				CF39F28426567D960006716A /* stampViewController.swift */,
 				CF1BAC36266FB2380025A660 /* MyAccountViewController.swift */,
 				CF3D0C1C267BD349006021FB /* UserSelfViewController.swift */,
-				CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */,
+				CFA19DC32794456000D4C472 /* ReserchVC.swift */,
 				A3EAFB3E27604D0900942C97 /* InChatRoomVC.swift */,
 				A3EAFB42276059E400942C97 /* InChatVC.swift */,
 				A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */,
@@ -306,7 +310,8 @@
 				A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */,
 				CF3B82A02785185500B4A257 /* ReadLogVC.swift */,
 				CF3B82AF2786F70400B4A257 /* NotificationVC.swift */,
-				CFA19DC32794456000D4C472 /* ReserchVC.swift */,
+				CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */,
+				A3B115D027971B48001820EC /* SettingsVC.swift */,
 				CFA19DC7279453DB00D4C472 /* adVC.swift */,
 			);
 			path = ViewController;
@@ -342,15 +347,16 @@
 				CF39F27D26567D3F0006716A /* stampCollection.storyboard */,
 				CF43660F2678966E00DABD78 /* NewCreateTeam.storyboard */,
 				CF3D0C19267BD327006021FB /* UserSelf.storyboard */,
+				CFA19DC12794454000D4C472 /* Reserch.storyboard */,
 				A3EAFB3C27604C6F00942C97 /* InChatRoom.storyboard */,
-				CF39377B260492BA0020BE97 /* Profile.storyboard */,
 				A3EAFB40276059BE00942C97 /* InChat.storyboard */,
 				A3D13E3127737184002599B9 /* CreateTeam.storyboard */,
 				A3C0D9E32773976200AC64D3 /* EnterTeam.storyboard */,
 				A3C0D9EB277488BD00AC64D3 /* Reaction.storyboard */,
 				CF3B829D2785181400B4A257 /* ReadLog.storyboard */,
 				CF3B82A92786F6CD00B4A257 /* Notification.storyboard */,
-				CFA19DC12794454000D4C472 /* Reserch.storyboard */,
+				CF39377B260492BA0020BE97 /* Profile.storyboard */,
+				A3B115CE27971B1F001820EC /* Settings.storyboard */,
 				CFA19DC5279453CD00D4C472 /* ad.storyboard */,
 			);
 			path = StoryBoard;
@@ -428,6 +434,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF3107A12600AA6700746480 /* Tabbar.storyboard in Resources */,
+				A3B115CF27971B1F001820EC /* Settings.storyboard in Resources */,
 				CF8B45062665698500CA6DE1 /* red_yellow.json in Resources */,
 				A3C0D9E42773976200AC64D3 /* EnterTeam.storyboard in Resources */,
 				CF4C5A31261E3A4900342675 /* quiz.csv in Resources */,
@@ -578,6 +585,7 @@
 				A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */,
 				A3D13E34277371EC002599B9 /* CreateTeamVC.swift in Sources */,
 				CF1E420D262AF05C00CEF85A /* CopyUILabel.swift in Sources */,
+				A3B115D127971B48001820EC /* SettingsVC.swift in Sources */,
 				CF3B82A72786C90A00B4A257 /* UserInfo.swift in Sources */,
 				CF449799264424A700A2F873 /* Bridging-Header.m in Sources */,
 			);

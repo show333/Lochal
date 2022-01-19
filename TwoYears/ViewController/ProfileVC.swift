@@ -23,6 +23,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
     var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     
+    var followBool : Bool = false
     var cellImageTap : Bool = false
     let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
@@ -42,7 +43,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var userImageTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var userImageLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet weak var followLabel: UILabel!
     @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet weak var headerhightConstraint: NSLayoutConstraint!
     @IBOutlet weak var headertopConstraint: NSLayoutConstraint!
@@ -55,7 +55,31 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     @IBOutlet weak var plusImage: UIImageView!
     
-
+    @IBOutlet weak var followButton: UIButton!
+    
+    @IBAction func followTappedButton(_ sender: Any) {
+        if followBool == false {
+        followButton.backgroundColor = .yellow
+        followButton.setTitle("フォロー中", for: .normal)
+            followBool = true
+        } else {
+            followButton.backgroundColor = .gray
+            followButton.setTitle("フォローする", for: .normal)
+            followBool = false
+        }
+    }
+    
+    @IBOutlet weak var fButtonHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var fButtonWidthConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var settingsButton: UIButton!
+    
+    @IBAction func settingsTappedButton(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
+        let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
+        navigationController?.pushViewController(UserSelfViewController, animated: true)
+    }
+    
     
     @IBOutlet var tapImage: UITapGestureRecognizer!
     @IBAction func tapImageView(_ sender: Any) {
@@ -130,37 +154,30 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 
         chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
 
-        
-        //        self.navigationController?.navigationBar.isHidden = true
-        
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         
-        //        guard let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height))  // then節の中ではaは非オプショナル定数として扱われる
-        //        else {
-        //            let tabbarHeight = 0// aがnilの場合の処理
-        //        }
+    
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+        let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
         
-        //        if tabbarHeight != nil {
-        //            tabbarHeight = CGFloat(((tabBarController?.tabBar.frame.size.height)!))
-        //        } else {
-        //            tabbarHeight = 0
-        //        }
+        fButtonWidthConstraint.constant = safeAreaWidth/3
+        fButtonHeightConstraint.constant = safeAreaWidth/12
+        followButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        followButton.clipsToBounds = true
+        followButton.layer.cornerRadius = safeAreaWidth/24
+        if followBool == false {
+            followButton.backgroundColor = .gray
+            followButton.setTitle("フォローする", for: .normal)
+
+        } else {
+            followButton.backgroundColor = .yellow
+            followButton.setTitle("フォロー中", for: .normal)
+
+        }
         
-        //        let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
-        
-        //        let safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight
-        
-        safeArea = UIScreen.main.bounds.size.height - 0 - statusbarHeight
-        
-        let headerHigh = safeArea/3.5
+        let headerHigh = safeAreaHeight/3.5
         
         headerhightConstraint.constant = headerHigh
-        
-        
-        
-        //        topViewConstraint.constant = safeArea/7*3
-        //        collectionViewConstraint.constant = safeArea/7*3
-        //        centerConstraint.constant = widthImage
         
         userImageView.isUserInteractionEnabled = true
         
@@ -169,10 +186,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         userImageLeftConstraint.constant = headerHigh/20
         
         
-        
-        followLabel.clipsToBounds = true
-        followLabel.layer.cornerRadius = 5
-        followLabel.backgroundColor = .darkGray
         
 //        userImageView.image = UIImage(named:"TG1")!
         userImageView.clipsToBounds = true
