@@ -55,7 +55,7 @@ class SettingsVC : UIViewController{
         imageButton.clipsToBounds = true
         imageButton.layer.masksToBounds = false
         imageButton.layer.cornerRadius = 10
-        imageButton.layer.shadowColor = UIColor.black.cgColor
+        imageButton.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         imageButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         imageButton.layer.shadowOpacity = 0.7
         imageButton.layer.shadowRadius = 5
@@ -63,7 +63,7 @@ class SettingsVC : UIViewController{
         idButton.clipsToBounds = true
         idButton.layer.masksToBounds = false
         idButton.layer.cornerRadius = 10
-        idButton.layer.shadowColor = UIColor.black.cgColor
+        idButton.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         idButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         idButton.layer.shadowOpacity = 0.7
         idButton.layer.shadowRadius = 5
@@ -71,7 +71,7 @@ class SettingsVC : UIViewController{
         nameButton.clipsToBounds = true
         nameButton.layer.masksToBounds = false
         nameButton.layer.cornerRadius = 10
-        nameButton.layer.shadowColor = UIColor.black.cgColor
+        nameButton.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         nameButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         nameButton.layer.shadowOpacity = 0.7
         nameButton.layer.shadowRadius = 5

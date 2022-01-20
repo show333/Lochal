@@ -27,78 +27,70 @@ class UserImageSetVC : UIViewController {
         let imagePickerController = UIImagePickerController()
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
-        print("bbbbb")
         
         self.present(imagePickerController, animated: true, completion: nil)
     }
-    @IBOutlet weak var nameField: UITextField!
-    
-    @IBAction func nameTextField(_ sender: Any) {
-    }
-    
+
     @IBOutlet weak var kakuteiButton: UIButton!
     
     @IBAction func kakuteiTappedButton(_ sender: Any) {
         
-        if let userNameString = nameField.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
-            if imageString == nil || userNameString == "" {
-                UIView.animate(withDuration: 0.5, delay: 0, animations: {
-                    self.tyuuiLabel.alpha = 1
-                    
-                }) { bool in
-                    UIView.animate(withDuration: 0.5, delay: 3, animations: {
-                        self.tyuuiLabel.alpha = 0
-                    })}
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let storageRef = Storage.storage().reference().child("User_Image").child(imageString!)
+        guard let image = imageButton.imageView?.image  else { return }
+        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
+        
+        storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
+            if let err = err {
+                print("firestrageへの情報の保存に失敗、、\(err)")
+                return
+            }
+            print("storageへの保存に成功!!")
+            storageRef.downloadURL { [self](url, err) in
+                if let err = err {
+                    print("firestorageからのダウンロードに失敗\(err)")
+                    return
+                }
+                guard let urlString = url?.absoluteString else { return }
+                print("urlString:", urlString)
+                
+                UserDefaults.standard.set(urlString, forKey: "userImage")
+                setImage(userId: uid, userImage: urlString)
+                fetchMyPost(userId: uid, userImage: urlString)
+            }
+        }
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func setImage(userId:String,userImage:String){
+        db.collection("users").document(userId).collection("Profile").document("profile").setData(["userImage":userImage]as[String : Any],merge: true)
+        db.collection("users").document(userId).setData(["userImage":userImage] as [String : Any],merge: true)
+    }
+    
+    func fetchMyPost(userId:String,userImage:String){
+        db.collection("users").document(userId).collection("MyPost").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
             } else {
                 
-                let storageRef = Storage.storage().reference().child("User_Image").child(imageString!)
-                guard let image = imageButton.imageView?.image  else { return }
-                guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
-                
-                storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
-                    if let err = err {
-                        print("firestrageへの情報の保存に失敗、、\(err)")
-                        return
-                    }
-                    print("storageへの保存に成功!!")
-                    storageRef.downloadURL { [self](url, err) in
-                        if let err = err {
-                            print("firestorageからのダウンロードに失敗\(err)")
-                            return
-                        }
-                        
-                        guard let urlString = url?.absoluteString else { return }
-                        print("urlString:", urlString)
-                        
-                        let userDate = [
-                            "userId":uid!,
-                            "userName": userNameString,
-                            "userImage": urlString,
-                            "admin": false,
-                            
-                        ] as [String: Any]
-                        UserDefaults.standard.set(userNameString, forKey: "userName")
-                        UserDefaults.standard.set(urlString, forKey: "userImage")
-                        Firestore.firestore().collection("users").document(uid!).collection("Profile").document("profile").setData(userDate,merge: true)
+                if querySnapshot!.documents.count == 0 {
+                } else {
+                    for document in querySnapshot!.documents {
+//                        print("\(document.documentID) => \(document.data())")
+                        let myPostDocId =  document.data()["documentId"] as? String ?? "unKnown"
+                        self.db.collection("users").document(userId).collection("MyPost").document(myPostDocId).setData(["userImage":userImage] as [String : Any],merge: true)
                     }
                 }
-                
-                self.navigationController?.popViewController(animated: true)
-                
             }
         }
     }
     
-    @IBOutlet weak var tyuuiLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setSwipeBack()
 
-        
-        tyuuiLabel.text = "画像と名前の両方を入力してください"
-        tyuuiLabel.alpha = 0
         
         
         let tapGR: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -115,15 +107,7 @@ class UserImageSetVC : UIViewController {
         imageBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
         imageBackView.layer.shadowOpacity = 0.7
         imageBackView.layer.shadowRadius = 5
-        
-        nameField.clipsToBounds = true
-        nameField.layer.masksToBounds = false
-        nameField.layer.cornerRadius = 30
-        nameField.layer.shadowColor = UIColor.black.cgColor
-        nameField.layer.shadowOffset = CGSize(width: 0, height: 3)
-        nameField.layer.shadowOpacity = 0.7
-        nameField.layer.shadowRadius = 5
-        
+
         kakuteiButton.clipsToBounds = true
         kakuteiButton.layer.masksToBounds = false
         kakuteiButton.layer.cornerRadius = 10

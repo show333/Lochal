@@ -56,6 +56,7 @@ class OutmMemoCellVC: UITableViewCell {
     
     
     
+    @IBOutlet weak var userFrontIdLabel: UILabel!
     @IBOutlet weak var backBack: UIView!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var mainBackground: UIView!

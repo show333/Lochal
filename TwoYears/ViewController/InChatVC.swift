@@ -53,8 +53,6 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         self.bannerView.load(GADRequest())
                 
         
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-
         
         
         fetchUserTeamInfo()

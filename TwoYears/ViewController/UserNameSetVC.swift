@@ -13,6 +13,9 @@ class UserNameSetVC:UIViewController{
     
     let db = Firestore.firestore()
     
+    @IBOutlet weak var explainLabel: UILabel!
+    
+    @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
     
     @IBOutlet weak var nameTextFieldConstraint: NSLayoutConstraint!
@@ -25,16 +28,35 @@ class UserNameSetVC:UIViewController{
         let sendNameBool = sendName.count
         
         if sendNameBool<2 || sendNameBool>30 {
-            print("以外")
+            warningLabel.text = "2~30文字で入力してください"
+            labelAnimation()
         } else {
-            print("inai")
             guard let uid = Auth.auth().currentUser?.uid else {return}
+            UserDefaults.standard.set(sendName, forKey: "userName")
             setFirestore(userId: uid, userName: sendName)
+            self.navigationController?.popViewController(animated: true)
+
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        warningLabel.alpha = 0
+        
+        explainLabel.text = "2~30以内の文字数が可能です.\n空白は使用する事ができません."
+        
+        sendButton.clipsToBounds = true
+        sendButton.layer.masksToBounds = false
+        sendButton.layer.cornerRadius = 10
+        sendButton.layer.shadowColor = UIColor.black.cgColor
+        sendButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        sendButton.layer.shadowOpacity = 0.7
+        sendButton.layer.shadowRadius = 5
+        
+        let safeArea = UIScreen.main.bounds.size.width
+        
+        nameTextFieldConstraint.constant = safeArea/6
         
         setSwipeBack()
 
@@ -68,6 +90,26 @@ class UserNameSetVC:UIViewController{
                         self.db.collection("users").document(userId).collection("MyPost").document(myPostDocId).setData(["userName":userName] as [String : Any],merge: true)
                     }
                 }
+            }
+        }
+    }
+    
+    func labelAnimation(){
+        UIView.animate(withDuration: 0.2, delay: 0.1, animations: {
+            self.warningLabel.alpha = 1
+//
+//
+        }) { bool in
+        // ②アイコンを大きくする
+            UIView.animate(withDuration: 0.5, delay: 0, animations: {
+                self.warningLabel.alpha = 1
+
+        }) { bool in
+            // ②アイコンを大きくする
+            UIView.animate(withDuration: 0.2, delay: 2, animations: {
+                self.warningLabel.alpha = 0
+
+            })
             }
         }
     }

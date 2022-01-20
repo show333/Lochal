@@ -258,7 +258,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
         
-        
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
@@ -506,7 +505,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //                let userId = document["userId"] as? String ?? "unKnown"
 //                userName = document["userName"] as? String ?? "unKnown"
                 let userImage = document["userImage"] as? String ?? ""
-//                let message = document["message"] as? String ?? ""
+                let userFrontId = document["userFrontId"] as? String ?? ""
                 let delete = document["delete"] as! Bool
                 
                 
@@ -516,7 +515,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 } else {
 //                    cell.messageLabel.text = message
                 }
-                
+                cell.userFrontIdLabel.text = userFrontId
+
 
 //                cell.nameLabel.text = userName
 //                getUserTeamInfo(userId: userId, cell: cell)

@@ -18,6 +18,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var outMemo: [OutMemo] = []
     var teamInfo : [Team] = []
     var safeArea : CGFloat = 0
+    var headerHigh : CGFloat = 0
     var userId: String? = UserDefaults.standard.string(forKey:"userId") ?? "" //あとで調整する
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
@@ -38,6 +39,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     private let headerMoveHeight: CGFloat = 7
     
     
+    @IBOutlet weak var userFrontIdLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userImagehighConstraint: NSLayoutConstraint!
     @IBOutlet weak var userImageTopConstraint: NSLayoutConstraint!
@@ -53,7 +55,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var collectionLeft: NSLayoutConstraint!
     @IBOutlet weak var collectionRight: NSLayoutConstraint!
     
-    @IBOutlet weak var plusImage: UIImageView!
     
     @IBOutlet weak var followButton: UIButton!
     
@@ -69,6 +70,14 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
     }
     
+    @IBOutlet weak var followerButton: UIButton!
+    @IBAction func followerTappedButton(_ sender: Any) {
+    }
+    
+    @IBOutlet weak var followingButton: UIButton!
+    
+    @IBAction func followingTappedButton(_ sender: Any) {
+    }
     @IBOutlet weak var fButtonHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var fButtonWidthConstraint: NSLayoutConstraint!
     
@@ -175,7 +184,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 
         }
         
-        let headerHigh = safeAreaHeight/3.5
+        headerHigh = safeAreaHeight/3.5
         
         headerhightConstraint.constant = headerHigh
         
@@ -225,10 +234,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
-        
-        plusImage.clipsToBounds = true
-        plusImage.layer.cornerRadius = 18
-        
+                
         
         
         teamCollectionView.reloadData()
@@ -260,12 +266,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         if cellImageTap == true {
             self.tabBarController?.tabBar.isHidden = true
             self.navigationController?.navigationBar.isHidden = false
-            self.plusImage.alpha = 0
             self.userImageView.isMultipleTouchEnabled = false
         } else {
             self.tabBarController?.tabBar.isHidden = false
             self.navigationController?.navigationBar.isHidden = true
-            self.plusImage.alpha = 1
             self.userImageView.isMultipleTouchEnabled = true
         }
     }
@@ -356,7 +360,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 print("Current data: \(data)")
                 let userName = document["userName"] as? String ?? "unKnown"
                 let userImage = document["userImage"] as? String ?? "unKnown"
+                let userFrontId = document["userFrontId"] as? String ?? "unKnown"
                 
+                userFrontIdLabel.text = "ID: "+userFrontId
                 userNameLabel.text = userName
                 if let url = URL(string:userImage) {
                     Nuke.loadImage(with: url, into: userImageView)
@@ -429,7 +435,7 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath) as!  profileCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
         cell.backView.clipsToBounds = true
-        cell.backView.layer.cornerRadius = safeArea/3.5/4/4
+        cell.backView.layer.cornerRadius = headerHigh/16
         if let url = URL(string:teamInfo[indexPath.row].teamImage) {
             Nuke.loadImage(with: url, into: cell.teamImageView!)
         } else {
@@ -461,7 +467,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
         
-
+        cell.userFrontIdLabel.text = outMemo[indexPath.row].userFrontId
         cell.messageLabel.text = outMemo[indexPath.row].message
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
@@ -681,6 +687,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 //                let userId = document["userId"] as? String ?? "unKnown"
 //                userName = document["userName"] as? String ?? "unKnown"
                 let userImage = document["userImage"] as? String ?? ""
+                let userFrontId = document["userFrontId"] as? String ?? ""
 //                let message = document["message"] as? String ?? ""
                 let delete = document["delete"] as! Bool
                 
@@ -693,7 +700,8 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 //                    cell.messageLabel.text = message
                 }
                 
-                
+                cell.userFrontIdLabel.text = userFrontId
+
                 
 //                cell.nameLabel.text = userName
 //                getUserTeamInfo(userId: userId, cell: cell)
