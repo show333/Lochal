@@ -20,9 +20,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var safeArea : CGFloat = 0
     var headerHigh : CGFloat = 0
     var userId: String? = UserDefaults.standard.string(forKey:"userId") ?? "" //あとで調整する
-    var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
-    var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
-    var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
+    var userName: String? =  UserDefaults.standard.string(forKey: "userName")
+    var userImage: String? = UserDefaults.standard.string(forKey: "userImage")
+    var userFrontId: String? = UserDefaults.standard.string(forKey: "userFrontId")
     
     var followBool : Bool = false
     var cellImageTap : Bool = false
@@ -39,6 +39,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     private let headerMoveHeight: CGFloat = 7
     
     
+    @IBOutlet weak var followerLabel: UILabel!
+    @IBOutlet weak var followLabel: UILabel!
+    @IBOutlet weak var settingsLabel: UILabel!
     @IBOutlet weak var userFrontIdLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userImagehighConstraint: NSLayoutConstraint!
@@ -60,23 +63,33 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     @IBAction func followTappedButton(_ sender: Any) {
         if followBool == false {
-        followButton.backgroundColor = .yellow
-        followButton.setTitle("フォロー中", for: .normal)
+            followButton.backgroundColor = .yellow
+            followButton.setTitle("フォロー中", for: .normal)
+            follow()
             followBool = true
         } else {
             followButton.backgroundColor = .gray
             followButton.setTitle("フォローする", for: .normal)
+            unFollow()
             followBool = false
         }
     }
     
+    
+    
     @IBOutlet weak var followerButton: UIButton!
     @IBAction func followerTappedButton(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "Followers", bundle: nil)
+        let FollowersVC = storyboard.instantiateViewController(withIdentifier: "FollowersVC") as! FollowersVC
+        navigationController?.pushViewController(FollowersVC, animated: true)
     }
     
     @IBOutlet weak var followingButton: UIButton!
     
     @IBAction func followingTappedButton(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "Followings", bundle: nil)
+        let FollowingsVC = storyboard.instantiateViewController(withIdentifier: "FollowingsVC") as! FollowingsVC
+        navigationController?.pushViewController(FollowingsVC, animated: true)
     }
     @IBOutlet weak var fButtonHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var fButtonWidthConstraint: NSLayoutConstraint!
@@ -89,19 +102,41 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         navigationController?.pushViewController(SettingsVC, animated: true)
     }
     
-    
-    @IBOutlet var tapImage: UITapGestureRecognizer!
-    @IBAction func tapImageView(_ sender: Any) {
+    func follow(){
+        db.collection("users").document(uid ?? "").collection("Following").document("following_Id").setData([
+            "userId": FieldValue.arrayUnion([userId ?? ""]) ], merge: true)
+        db.collection("users").document(userId ?? "").collection("Follower").document("follower_Id").setData([
+            "userId": FieldValue.arrayUnion([uid ?? ""]) ], merge: true)
         
-//        if userId == uid {
-//        let storyboard = UIStoryboard.init(name: "UserSelf", bundle: nil)
-//        let UserSelfViewController = storyboard.instantiateViewController(withIdentifier: "UserSelfViewController") as! UserSelfViewController
-//        navigationController?.pushViewController(UserSelfViewController, animated: true)
-//        } else {
-//            return
-//        }
+        let docData = [
+            "createdAt": FieldValue.serverTimestamp(),
+            "userId": uid ?? "",
+            "userName":userName ?? "",
+            "userImage":userImage ?? "",
+            "userFtontId":userFrontId ?? "",
+            "documentId" : uid ?? "",
+            "reactionImage": "",
+            "reactionMessage":"さんがフォローしました",
+            "theMessage":"",
+            "anonymous":false,
+            "admin": false,
+        ] as [String: Any]
+        
+        db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").setData(docData)
         
     }
+    
+    func unFollow(){
+        db.collection("users").document(uid ?? "").collection("Following").document("following_Id").setData([
+            "userId": FieldValue.arrayRemove([userId ?? ""]) ], merge: true)
+        db.collection("users").document(userId ?? "").collection("Follower").document("follower_Id").setData([
+            "userId": FieldValue.arrayRemove([uid ?? ""]) ], merge: true)
+        
+        db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").delete()
+        
+    }
+    
+    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
@@ -159,13 +194,15 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         guard let uid = Auth.auth().currentUser?.uid else { return }
-
+        
+        
         chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
-
+        
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         
-    
+        
         let safeAreaWidth = UIScreen.main.bounds.size.width
         let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
         
@@ -174,20 +211,26 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         followButton.titleLabel?.adjustsFontSizeToFitWidth = true
         followButton.clipsToBounds = true
         followButton.layer.cornerRadius = safeAreaWidth/24
-        if followBool == false {
-            followButton.backgroundColor = .gray
-            followButton.setTitle("フォローする", for: .normal)
+        
+        followingButton.titleLabel?.numberOfLines = 2
+        followingButton.titleLabel?.textAlignment = NSTextAlignment.center
+        followingButton.titleLabel?.baselineAdjustment = .alignCenters
+        followingButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        followingButton.setTitle("1111", for: .normal)
+        
+        followerButton.titleLabel?.numberOfLines = 2
+        followerButton.titleLabel?.textAlignment = NSTextAlignment.center
+        followerButton.titleLabel?.baselineAdjustment = .alignCenters
+        followerButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        followerButton.setTitle("1111", for: .normal)
 
-        } else {
-            followButton.backgroundColor = .yellow
-            followButton.setTitle("フォロー中", for: .normal)
+        
 
-        }
+    
+        getFollowId(userId:userId ?? "",uid:uid)
         
         headerHigh = safeAreaHeight/3.5
-        
         headerhightConstraint.constant = headerHigh
-        
         userImageView.isUserInteractionEnabled = true
         
         userImagehighConstraint.constant = headerHigh/2
@@ -196,7 +239,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         
         
-//        userImageView.image = UIImage(named:"TG1")!
+        //        userImageView.image = UIImage(named:"TG1")!
         userImageView.clipsToBounds = true
         userImageView.layer.cornerRadius = headerHigh/4
         
@@ -214,8 +257,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         self.chatListTableView.rowHeight = UITableView.automaticDimension
         
         //        navigationbarのやつ
-//        let navBar = self.navigationController?.navigationBar
-//        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
+        //        let navBar = self.navigationController?.navigationBar
+        //        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
         
         
         // セルの詳細なレイアウトを設定する
@@ -234,7 +277,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
-                
+        
         
         
         teamCollectionView.reloadData()
@@ -261,16 +304,56 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-
-        if cellImageTap == true {
+        
+        if userId == uid {
+            self.tabBarController?.tabBar.isHidden = false
+            self.navigationController?.navigationBar.isHidden = false
+            followButton.alpha = 0
+            settingsButton.alpha = 1
+            followingButton.alpha = 1
+            followerButton.alpha = 1
+            followLabel.alpha = 1
+            followerLabel.alpha = 1
+            settingsLabel.alpha = 1
+        } else {
             self.tabBarController?.tabBar.isHidden = true
             self.navigationController?.navigationBar.isHidden = false
-            self.userImageView.isMultipleTouchEnabled = false
-        } else {
-            self.tabBarController?.tabBar.isHidden = false
-            self.navigationController?.navigationBar.isHidden = true
-            self.userImageView.isMultipleTouchEnabled = true
+            followButton.alpha = 1
+            settingsButton.alpha = 0
+            followingButton.alpha = 0
+            followerButton.alpha = 0
+            followLabel.alpha = 0
+            followerLabel.alpha = 0
+            settingsLabel.alpha = 0
+        }
+    }
+    
+    func getFollowId(userId:String,uid:String){
+        db.collection("users").document(uid).collection("Following").document("following_Id").getDocument { [self](document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let userIdArray = document["userId"] as? Array<String>
+//                let userFrontId = document["userFrontId"] as? String ?? ""
+                
+                let userIdBool = userIdArray?.contains(userId)
+                
+                if userIdBool == false {
+                    followBool = false
+                    followButton.backgroundColor = .gray
+                    followButton.setTitle("フォローする", for: .normal)
+                    
+                } else {
+                    followBool = true
+                    followButton.backgroundColor = .yellow
+                    followButton.setTitle("フォロー中", for: .normal)
+                    
+                }
+                
+            } else {
+                print("Document does not exist")
+            }
         }
     }
     
@@ -281,10 +364,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             self?.chatListTableView.reloadData()
             self?.chatListTableView.refreshControl?.endRefreshing()
-
+            
         }
     }
-    
     
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         return NSAttributedString(string: "データがありません")
@@ -306,9 +388,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     
                     let date: Date = rarabai.createdAt.dateValue()
                     let momentType = moment(date)
-                    
-                    
-                    
+                                        
                     if blockList[rarabai.userId] == true {
                     } else {
                         
@@ -319,7 +399,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                                 self.outMemo.append(rarabai)
                             }
                             
-                            
                         } else {
                             if rarabai.delete == true {
                             } else{
@@ -328,8 +407,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                                 }
                             }
                         }
-          
-                        
+                                
                     }
                     self.outMemo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
@@ -347,7 +425,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     func fetchUserProfile(userId:String){
         
-            self.db.collection("users").document(userId).collection("Profile").document("profile")
+        self.db.collection("users").document(userId).collection("Profile").document("profile")
             .addSnapshotListener { [self] documentSnapshot, error in
                 guard let document = documentSnapshot else {
                     print("Error fetching document: \(error!)")
@@ -373,7 +451,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     func fetchUserTeamInfo(userId:String){
-
+        
         
         self.db.collection("users").document(userId).collection("belong_Team").document("teamId")
             .addSnapshotListener { documentSnapshot, error in
@@ -410,9 +488,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 print("Document data: \(dataDescription)")
                 let teamDic = Team(dic: document.data()!)
                 self.teamInfo.append(teamDic)
-                print("翼をください！",teamId)
-                print("翼をください！",document.data()!)
-                print("asefiosejof",teamDic)
+  
                 self.teamCollectionView.reloadData()
             } else {
                 print("Document does not exist")
@@ -452,15 +528,9 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         chatListTableView.estimatedRowHeight = 20
         return UITableView.automaticDimension
-        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        if animals.count < 100 {
-        //            return animals.count
-        //        } else {
-        //            return 100
-        //        }
         return outMemo.count
     }
     
@@ -473,12 +543,8 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
         
-//        cell.coverView.backgroundColor = nil
-        
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
 
-//        cell.messageBottomConstraint.constant =  105
-        
         if  outMemo[indexPath.row].readLog == true {
             cell.coverView.backgroundColor = .clear
             cell.coverViewConstraint.constant = 0
@@ -486,7 +552,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 0
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
-
+            
         } else {
             cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             cell.coverViewConstraint.constant = 100
@@ -494,43 +560,33 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 1
             cell.coverImageView.alpha = 0.8
             cell.textMaskLabel.alpha = 1
-
-
+            
+            
         }
-                
+        
         if let url = URL(string:outMemo[indexPath.row].textMask) {
             Nuke.loadImage(with: url, into: cell.coverImageView)
         } else {
             cell.coverImageView?.image = nil
         }
         
-        
-        
-        
-//        if outMemo[indexPath.row].readLog == true {
-//            cell.coverView.backgroundColor = .clear
-//        } else {
-//            cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-//
-//        }
-        
         if uid == outMemo[indexPath.row].userId {
-        cell.flagButton.isHidden = true
+            cell.flagButton.isHidden = true
         }
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(buttonEvemt), for: UIControl.Event.touchUpInside)
-//        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)
-
+        //        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)
+        
         cell.userImageView.image = nil
-//        cell.IndividualImageView.image = nil
+        //        cell.IndividualImageView.image = nil
         fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
-
+        
         print(cell.outMemo?.userId ?? "")
         
         let date: Date = outMemo[indexPath.row].createdAt.dateValue()
-
+        
         cell.dateLabel.text = date.agoText()
-
+        
         cell.userImageView.layer.cornerRadius = 30
         cell.mainBackground.layer.cornerRadius = 8
         cell.mainBackground.layer.masksToBounds = true
@@ -549,7 +605,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         if outMemo[indexPath.row].readLog == true{
             
             if outMemo[indexPath.row].userId != uid {
-
+                
                 let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
                 let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
                 
@@ -585,94 +641,94 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             
             let indexPath = IndexPath(row: indexPath.row, section: 0)
             tableView.reloadRows(at: [indexPath], with: .fade)
-
+            
         }
         
     }
     
     @objc func buttonEvemt(_ sender: UIButton){
-           //アラート生成
-           //UIAlertControllerのスタイルがactionSheet
-           let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
-           
-           let uid = Auth.auth().currentUser?.uid
-           let report = [
-               "reporter": uid,
-               "documentId": outMemo[sender.tag].documentId,
-               "問題のコメント": outMemo[sender.tag].message,
-               "問題と思われるユーザー": outMemo[sender.tag].userId,
-               "createdAt": FieldValue.serverTimestamp(),
-           ] as [String: Any]
-
-
-           // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
-           let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
-               (action: UIAlertAction!) in
-               //実際の処理
-               let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
-               // 選択肢(ボタン)を2つ(OKとCancel)追加します
-               //   titleには、選択肢として表示される文字列を指定します
-               //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
-               dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
-                   
-                   if UserDefaults.standard.object(forKey: "blocked") == nil{
-                       let XXX = ["XX" : true]
-                       UserDefaults.standard.set(XXX, forKey: "blocked")
-                   }
-                   var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
-                   
-                   print("あいえいえいいえいえ",outMemo[sender.tag].userId)
-                   blockDic[outMemo[sender.tag].userId] = true
-                   UserDefaults.standard.set(blockDic, forKey: "blocked")
-   //                let uid = Auth.auth().currentUser?.uid
-                   
-                   print("tapped: \([sender.tag])番目のcell")
-                   
-                   
-
-                   self.outMemo.remove(at: sender.tag)
-                   self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
-                   self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
-                   self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
-               }))
-               dialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-               // 生成したダイアログを実際に表示します
-               self.present(dialog, animated: true, completion: nil)
-               print("このユーザーを非表示にする")
-           })
-           // 表示させたいタイトル2ボタンが押された時の処理をクロージャ実装する
-           let action2 = UIAlertAction(title: "このユーザーを報告する", style: UIAlertAction.Style.default, handler: {
-               (action: UIAlertAction!) in
-               //実際の処理
-               
-               self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
-               self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
-               print("このユーザーを報告する")
-
-           })
-           // 閉じるボタンが押された時の処理をクロージャ実装する
-           //UIAlertActionのスタイルがCancelなので赤く表示される
-           let close = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.destructive, handler: {
-               (action: UIAlertAction!) in
-               //実際の処理
-               print("キャンセル")
-           })
-           //UIAlertControllerにタイトル1ボタンとタイトル2ボタンと閉じるボタンをActionを追加
-           actionSheet.addAction(action1)
-           actionSheet.addAction(action2)
-           actionSheet.addAction(close)
-
-           actionSheet.popoverPresentationController?.sourceView = self.view
-
-           let screenSize = UIScreen.main.bounds
-           actionSheet.popoverPresentationController?.sourceRect=CGRect(x:screenSize.size.width/2,y:screenSize.size.height,width:0,height:0)
-           //実際にAlertを表示する
-           self.present(actionSheet, animated: true, completion: nil)
+        //アラート生成
+        //UIAlertControllerのスタイルがactionSheet
+        let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+        
+        let uid = Auth.auth().currentUser?.uid
+        let report = [
+            "reporter": uid,
+            "documentId": outMemo[sender.tag].documentId,
+            "問題のコメント": outMemo[sender.tag].message,
+            "問題と思われるユーザー": outMemo[sender.tag].userId,
+            "createdAt": FieldValue.serverTimestamp(),
+        ] as [String: Any]
+        
+        
+        // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
+        let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
+            (action: UIAlertAction!) in
+            //実際の処理
+            let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
+            // 選択肢(ボタン)を2つ(OKとCancel)追加します
+            //   titleには、選択肢として表示される文字列を指定します
+            //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
+            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
+                
+                if UserDefaults.standard.object(forKey: "blocked") == nil{
+                    let XXX = ["XX" : true]
+                    UserDefaults.standard.set(XXX, forKey: "blocked")
+                }
+                var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
+                
+                print("あいえいえいいえいえ",outMemo[sender.tag].userId)
+                blockDic[outMemo[sender.tag].userId] = true
+                UserDefaults.standard.set(blockDic, forKey: "blocked")
+                //                let uid = Auth.auth().currentUser?.uid
+                
+                print("tapped: \([sender.tag])番目のcell")
+                
+                
+                
+                self.outMemo.remove(at: sender.tag)
+                self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
+                self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
+                self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
+            }))
+            dialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            // 生成したダイアログを実際に表示します
+            self.present(dialog, animated: true, completion: nil)
+            print("このユーザーを非表示にする")
+        })
+        // 表示させたいタイトル2ボタンが押された時の処理をクロージャ実装する
+        let action2 = UIAlertAction(title: "このユーザーを報告する", style: UIAlertAction.Style.default, handler: {
+            (action: UIAlertAction!) in
+            //実際の処理
+            
+            self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
+            self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
+            print("このユーザーを報告する")
+            
+        })
+        // 閉じるボタンが押された時の処理をクロージャ実装する
+        //UIAlertActionのスタイルがCancelなので赤く表示される
+        let close = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.destructive, handler: {
+            (action: UIAlertAction!) in
+            //実際の処理
+            print("キャンセル")
+        })
+        //UIAlertControllerにタイトル1ボタンとタイトル2ボタンと閉じるボタンをActionを追加
+        actionSheet.addAction(action1)
+        actionSheet.addAction(action2)
+        actionSheet.addAction(close)
+        
+        actionSheet.popoverPresentationController?.sourceView = self.view
+        
+        let screenSize = UIScreen.main.bounds
+        actionSheet.popoverPresentationController?.sourceRect=CGRect(x:screenSize.size.width/2,y:screenSize.size.height,width:0,height:0)
+        //実際にAlertを表示する
+        self.present(actionSheet, animated: true, completion: nil)
     }
     
     
     func fetchDocContents(userId:String,cell:OutmMemoCellVC,documentId:String){
-
+        
         db.collection("users").document(userId).collection("MyPost").document(documentId)
             .addSnapshotListener { [self] documentSnapshot, error in
                 guard let document = documentSnapshot else {
@@ -683,12 +739,12 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     print("Document data was empty.")
                     return
                 }
-//                print("Current data: \(data)")
-//                let userId = document["userId"] as? String ?? "unKnown"
-//                userName = document["userName"] as? String ?? "unKnown"
+                //                print("Current data: \(data)")
+                //                let userId = document["userId"] as? String ?? "unKnown"
+                //                userName = document["userName"] as? String ?? "unKnown"
                 let userImage = document["userImage"] as? String ?? ""
                 let userFrontId = document["userFrontId"] as? String ?? ""
-//                let message = document["message"] as? String ?? ""
+                //                let message = document["message"] as? String ?? ""
                 let delete = document["delete"] as! Bool
                 
                 print("デリート！！！",delete)
@@ -697,14 +753,14 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
                     cell.messageLabel.text = "この投稿は削除されました"
                     db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
                 } else {
-//                    cell.messageLabel.text = message
+                    //                    cell.messageLabel.text = message
                 }
                 
                 cell.userFrontIdLabel.text = userFrontId
-
                 
-//                cell.nameLabel.text = userName
-//                getUserTeamInfo(userId: userId, cell: cell)
+                
+                //                cell.nameLabel.text = userName
+                //                getUserTeamInfo(userId: userId, cell: cell)
                 
                 if let url = URL(string:userImage) {
                     Nuke.loadImage(with: url, into: cell.userImageView)
@@ -717,7 +773,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 
 
 class profileCollectionViewCell: UICollectionViewCell {
-
+    
     @IBOutlet weak var backView: UIView!
     
     @IBOutlet weak var teamImageView: UIImageView!

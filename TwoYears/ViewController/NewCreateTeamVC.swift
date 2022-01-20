@@ -165,43 +165,6 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
             }
         }
     }
-    func setChatDic(randomId:String,chatId:String) {
-        defer {
-            let thirdChatDic = [
-                "createdAt": FieldValue.serverTimestamp(),
-                "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",
-                "documentId": chatId,
-                "message":"このチャット内は招待された方のみ閲覧,投稿が可能です.",
-                "sendImageURL": "",
-                "teamId":randomId,
-                "admin":false,
-            ] as [String : Any]
-            db.collection("Team").document(randomId).collection("ChatRoom").document(chatId).setData(thirdChatDic)
-        }
-        defer {
-            
-            let secondChatDic = [
-                "createdAt": FieldValue.serverTimestamp(),
-                "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",
-                "documentId": chatId,
-                "message":"上記のIDを親しい人に招待IDとして送ってください",
-                "sendImageURL": "",
-                "teamId":randomId,
-                "admin":false,
-            ] as [String : Any]
-            db.collection("Team").document(randomId).collection("ChatRoom").document(chatId).setData(secondChatDic)
-        }
-        let firstChatDic = [
-            "createdAt": FieldValue.serverTimestamp(),
-            "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",
-            "documentId": chatId,
-            "message":randomId,
-            "sendImageURL": "",
-            "teamId":randomId,
-            "admin":false,
-        ] as [String : Any]
-        db.collection("Team").document(randomId).collection("ChatRoom").document(chatId).setData(firstChatDic)
-    }
     
     @IBOutlet weak var tyuuiLabel: UILabel!
     

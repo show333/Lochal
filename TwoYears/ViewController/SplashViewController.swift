@@ -43,8 +43,8 @@ class SplashViewController: UIViewController {
         let belongTeam = UserDefaults.standard.bool(forKey: "belongTeam")
         if uid != nil {
             if belongTeam == true{
-                profileGet(userId:uid ?? "unKnown")
-                presentTabbar(userId:uid ?? "unKnown")
+                profileGet(userId:uid ?? "")
+                presentTabbar(userId:uid ?? "")
             } else {
                 db.collection("users").document(uid!).getDocument { (document, error) in
                     if let document = document, document.exists {
@@ -59,7 +59,7 @@ class SplashViewController: UIViewController {
                 }
             }
         } else {
-            presentSignIn(userId:uid ?? "unKnown")
+            presentSignIn(userId:uid ?? "")
         }
     }
     
@@ -69,7 +69,6 @@ class SplashViewController: UIViewController {
     }
     
     func profileGet(userId:String) {
-                
         
         db.collection("users").document(userId).collection("Profile").document("profile").getDocument {(document, error) in
             if let document = document, document.exists {
@@ -108,6 +107,8 @@ class SplashViewController: UIViewController {
             }
         }
     }
+    
+
     
     func profileSet(userId:String) {
         

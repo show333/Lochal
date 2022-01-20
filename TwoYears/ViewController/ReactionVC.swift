@@ -140,13 +140,14 @@ extension ReactionVC :UICollectionViewDataSource, UICollectionViewDelegate {
             "userImage":userImage ?? "",
             "userFtontId":userFrontId ?? "",
             "documentId" : documentId,
-            "reaction": urlString,
+            "reactionImage": urlString,
+            "reactionMessage":"さんがリアクションをしました",
             "theMessage":message ?? "",
             "anonymous":false,
             "admin": false,
         ] as [String: Any]
-        db.collection("users").document(userId ?? "").collection("Reaction").document("reaction").collection("ReactionId").document(documentId).setData(docData)
-        db.collection("users").document(userId ?? "").collection("Reaction").document("reaction").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(userId ?? "").collection("Notification").document(documentId).setData(docData)
+        db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
         dismiss(animated: true, completion: nil)
     }
     

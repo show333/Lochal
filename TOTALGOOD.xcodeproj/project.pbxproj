@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A35984012798ED39003CB00B /* Followers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A35984002798ED39003CB00B /* Followers.storyboard */; };
+		A35984032798ED58003CB00B /* FollowersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35984022798ED58003CB00B /* FollowersVC.swift */; };
+		A35984052798ED78003CB00B /* Followings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A35984042798ED78003CB00B /* Followings.storyboard */; };
+		A35984072798EDA5003CB00B /* FollowingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35984062798EDA5003CB00B /* FollowingsVC.swift */; };
 		A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C8614276B7C45002078A0 /* ChatsInfo.swift */; };
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
 		A3B115CF27971B1F001820EC /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3B115CE27971B1F001820EC /* Settings.storyboard */; };
@@ -101,6 +105,10 @@
 		113A41803FF344D0EDE5D28D /* Pods_TOTALGOOD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TOTALGOOD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81BB0B529C4EF808153685BF /* Pods-TOTALGOOD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TOTALGOOD.debug.xcconfig"; path = "Target Support Files/Pods-TOTALGOOD/Pods-TOTALGOOD.debug.xcconfig"; sourceTree = "<group>"; };
 		8F568B91F637BC6D82FF9569 /* Pods-TOTALGOOD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TOTALGOOD.release.xcconfig"; path = "Target Support Files/Pods-TOTALGOOD/Pods-TOTALGOOD.release.xcconfig"; sourceTree = "<group>"; };
+		A35984002798ED39003CB00B /* Followers.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Followers.storyboard; sourceTree = "<group>"; };
+		A35984022798ED58003CB00B /* FollowersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersVC.swift; sourceTree = "<group>"; };
+		A35984042798ED78003CB00B /* Followings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Followings.storyboard; sourceTree = "<group>"; };
+		A35984062798EDA5003CB00B /* FollowingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsVC.swift; sourceTree = "<group>"; };
 		A39C8614276B7C45002078A0 /* ChatsInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsInfo.swift; sourceTree = "<group>"; };
 		A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teamRankingVC.swift; sourceTree = "<group>"; };
 		A3B115CE27971B1F001820EC /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
@@ -321,6 +329,8 @@
 				CF3D0C1C267BD349006021FB /* UserImageSetVC.swift */,
 				CF6846D22797C0E9004B80C5 /* UserIdSetVC.swift */,
 				CF6846D42797C0FB004B80C5 /* UserNameSetVC.swift */,
+				A35984022798ED58003CB00B /* FollowersVC.swift */,
+				A35984062798EDA5003CB00B /* FollowingsVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -367,6 +377,8 @@
 				CF3D0C19267BD327006021FB /* UserImageSet.storyboard */,
 				CF6846CC2797C0BA004B80C5 /* UserIdSet.storyboard */,
 				CF6846CE2797C0C4004B80C5 /* UserNameSet.storyboard */,
+				A35984002798ED39003CB00B /* Followers.storyboard */,
+				A35984042798ED78003CB00B /* Followings.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -442,6 +454,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A35984012798ED39003CB00B /* Followers.storyboard in Resources */,
 				CF3107A12600AA6700746480 /* Tabbar.storyboard in Resources */,
 				A3B115CF27971B1F001820EC /* Settings.storyboard in Resources */,
 				CF8B45062665698500CA6DE1 /* red_yellow.json in Resources */,
@@ -475,6 +488,7 @@
 				CF0C14AF25C9F003006A7C86 /* ChatRoom.storyboard in Resources */,
 				CF39377C260492BA0020BE97 /* Profile.storyboard in Resources */,
 				CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */,
+				A35984052798ED78003CB00B /* Followings.storyboard in Resources */,
 				CF4C5A44261FA3F300342675 /* packmanload.json in Resources */,
 				CF15444F26110E2700400D87 /* GoogleService-Info.plist in Resources */,
 				CF4366102678966E00DABD78 /* NewCreateTeam.storyboard in Resources */,
@@ -554,6 +568,7 @@
 			files = (
 				CF0C14B225C9F028006A7C86 /* ChatRoomViewController.swift in Sources */,
 				CF3B82A12785185500B4A257 /* ReadLogVC.swift in Sources */,
+				A35984072798EDA5003CB00B /* FollowingsVC.swift in Sources */,
 				A3C0D9EA2774859C00AC64D3 /* ReactionVC.swift in Sources */,
 				CF6846D52797C0FB004B80C5 /* UserNameSetVC.swift in Sources */,
 				CF0BD9D425CF1C74004A1958 /* ShoutaiHakkou.swift in Sources */,
@@ -575,6 +590,7 @@
 				CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */,
 				A3EAFB43276059E400942C97 /* InChatVC.swift in Sources */,
 				CF3B82A427868DEF00B4A257 /* ReadLog.swift in Sources */,
+				A35984032798ED58003CB00B /* FollowersVC.swift in Sources */,
 				CF361A01277C829800C08160 /* Date-extension.swift in Sources */,
 				CF2A223425C3FC7000C5BFC1 /* AppDelegate.swift in Sources */,
 				CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */,
