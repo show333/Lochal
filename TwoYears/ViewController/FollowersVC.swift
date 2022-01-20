@@ -11,10 +11,10 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 import Nuke
-import DZNEmptyDataSet
+//import DZNEmptyDataSet
 
 
-class FollowersVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
+class FollowersVC:UIViewController {
     private let cellId = "cellId"
 
     let db = Firestore.firestore()
@@ -36,18 +36,18 @@ class FollowersVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSour
         guard let uid = Auth.auth().currentUser?.uid else { return }
         userListTableView.dataSource = self
         userListTableView.delegate = self
-        userListTableView.emptyDataSetDelegate = self
-        userListTableView.emptyDataSetSource = self
+//        userListTableView.emptyDataSetDelegate = self
+//        userListTableView.emptyDataSetSource = self
         fetchUserInfo(uid: uid)
     }
     
     // blankword for tableview
-    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-        return NSAttributedString(string: "データがありません")
-//        }
-    }
-    
+//    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+////        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+//        return NSAttributedString(string: "データがありません")
+////        }
+//    }
+//
     func fetchUserInfo(uid:String){
         
         
@@ -66,13 +66,13 @@ class FollowersVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSour
                 print(userIdArray)
                 print(userIdArray[0])
                 
-//                self.userInfo.removeAll()
-//                self.userListTableView.reloadData()
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.userInfo.removeAll()
+                self.userListTableView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     userIdArray.forEach{
                         self.getUserInfo(userId: $0)
                     }
-//                }
+                }
             }
     }
     

@@ -104,7 +104,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let storyboard: UIStoryboard = UIStoryboard(name: "Notification", bundle: nil)//遷移先のStoryboardを設定
         let NotificationVC = storyboard.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC//遷移先のViewControllerを設定
-        db.collection("users").document(uid).setData(["notificationNum": 0])
+        db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
         NotificationVC.notificationTab = true
         NotificationVC.tabBarController?.tabBar.isHidden = true
         ViewController().navigationController?.navigationBar.isHidden = false
@@ -207,7 +207,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     
     
     private func fetchFireStore(userId:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")

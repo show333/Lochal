@@ -60,13 +60,13 @@ class FollowingsVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
                 print("Current data: \(data)")
                 let userIdArray = data["userId"] as! Array<String>
                 
-//                self.userInfo.removeAll()
-//                self.userListTableView.reloadData()
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.userInfo.removeAll()
+                self.userListTableView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     userIdArray.forEach{
                         self.getUserInfo(userId: $0)
                     }
-//                }
+                }
             }
     }
     

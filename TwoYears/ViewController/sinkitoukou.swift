@@ -74,7 +74,7 @@ class sinkitoukou: UIViewController {
             "userId":uid,
             "readLog": false,
             "anonymous":false,
-            "admin": false,
+            "admin": true,
             "delete": false,
         ] as [String: Any]
         
@@ -89,7 +89,7 @@ class sinkitoukou: UIViewController {
             "userId":uid,
             "textMask":textMask.randomElement() ?? "",
             "anonymous":false,
-            "admin": false,
+            "admin": true,
             "delete": false,
         ] as [String: Any]
         
