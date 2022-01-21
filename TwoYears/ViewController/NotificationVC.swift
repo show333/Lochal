@@ -90,7 +90,7 @@ class NotificationVC: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        db.collection("users").document(uid).setData(["notificationNum": 0])
+        db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
     }
     func fetchReaction(userId:String) {
         db.collection("users").document(userId).collection("Notification").addSnapshotListener{ [self] ( snapshots, err) in

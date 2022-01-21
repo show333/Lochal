@@ -63,13 +63,16 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     @IBAction func followTappedButton(_ sender: Any) {
         if followBool == false {
-            followButton.backgroundColor = .yellow
             followButton.setTitle("フォロー中", for: .normal)
+            followButton.backgroundColor = .darkGray
+            followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
+            
             follow()
             followBool = true
         } else {
-            followButton.backgroundColor = .gray
             followButton.setTitle("フォローする", for: .normal)
+            followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            followButton.setTitleColor(UIColor.darkGray, for: .normal)
             unFollow()
             followBool = false
         }
@@ -108,6 +111,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         db.collection("users").document(userId ?? "").collection("Follower").document("follower_Id").setData([
             "userId": FieldValue.arrayUnion([uid ?? ""]) ], merge: true)
         
+        db.collection("users").document(uid ?? "").setData(["followingCount": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(userId ?? "").setData(["followerCount": FieldValue.increment(1.0)], merge: true)
+        
+        
         let docData = [
             "createdAt": FieldValue.serverTimestamp(),
             "userId": uid ?? "",
@@ -122,6 +129,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             "admin": false,
         ] as [String: Any]
         
+        
+        
         db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").setData(docData)
         
         db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
@@ -133,6 +142,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             "userId": FieldValue.arrayRemove([userId ?? ""]) ], merge: true)
         db.collection("users").document(userId ?? "").collection("Follower").document("follower_Id").setData([
             "userId": FieldValue.arrayRemove([uid ?? ""]) ], merge: true)
+        
+        db.collection("users").document(uid ?? "").setData(["followingCount": FieldValue.increment(-1.0)], merge: true)
+        db.collection("users").document(userId ?? "").setData(["followerCount": FieldValue.increment(-1.0)], merge: true)
         
         db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").delete()
         
@@ -310,7 +322,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         if userId == uid {
             self.tabBarController?.tabBar.isHidden = false
-            self.navigationController?.navigationBar.isHidden = false
+            self.navigationController?.navigationBar.isHidden = true
             followButton.alpha = 0
             settingsButton.alpha = 1
             followingButton.alpha = 1
@@ -344,13 +356,16 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 
                 if userIdBool == false {
                     followBool = false
-                    followButton.backgroundColor = .gray
+                    followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
                     followButton.setTitle("フォローする", for: .normal)
+                    followButton.setTitleColor(UIColor.darkGray, for: .normal)
                     
+//                    #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
                 } else {
                     followBool = true
-                    followButton.backgroundColor = .yellow
+                    followButton.backgroundColor = .darkGray
                     followButton.setTitle("フォロー中", for: .normal)
+                    followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
                     
                 }
                 
@@ -427,29 +442,36 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     func fetchUserProfile(userId:String){
         
-        self.db.collection("users").document(userId).collection("Profile").document("profile")
-            .addSnapshotListener { [self] documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let userName = document["userName"] as? String ?? "unKnown"
-                let userImage = document["userImage"] as? String ?? "unKnown"
-                let userFrontId = document["userFrontId"] as? String ?? "unKnown"
-                
-                userFrontIdLabel.text = "ID: "+userFrontId
-                userNameLabel.text = userName
-                if let url = URL(string:userImage) {
-                    Nuke.loadImage(with: url, into: userImageView)
-                } else {
-                    userImageView?.image = nil
-                }
+        self.db.collection("users").document(userId).addSnapshotListener { [self] documentSnapshot, error in
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
             }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            print("Current data: \(data)")
+            
+            
+            let userName = document["userName"] as? String ?? "unKnown"
+            let userImage = document["userImage"] as? String ?? "unKnown"
+            let userFrontId = document["userFrontId"] as? String ?? "unKnown"
+            
+            let followingCount = document["followingCount"] as? Int ?? 0
+            let followerCount = document["followerCount"] as? Int ?? 0
+
+            followingButton.setTitle(String(followingCount), for: .normal)
+            followerButton.setTitle(String(followerCount), for: .normal)
+            
+            userFrontIdLabel.text = "ID: "+userFrontId
+            userNameLabel.text = userName
+            if let url = URL(string:userImage) {
+                Nuke.loadImage(with: url, into: userImageView)
+            } else {
+                userImageView?.image = nil
+            }
+        }
     }
     
     func fetchUserTeamInfo(userId:String){

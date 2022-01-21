@@ -13,6 +13,7 @@
 		A35984072798EDA5003CB00B /* FollowingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35984062798EDA5003CB00B /* FollowingsVC.swift */; };
 		A35984092799A88C003CB00B /* UnitHome.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A35984082799A88B003CB00B /* UnitHome.storyboard */; };
 		A359840B2799AA56003CB00B /* UnitHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A359840A2799AA56003CB00B /* UnitHomeVC.swift */; };
+		A359840D279A9A87003CB00B /* forexample.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A359840C279A9A87003CB00B /* forexample.storyboard */; };
 		A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C8614276B7C45002078A0 /* ChatsInfo.swift */; };
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
 		A3B115CF27971B1F001820EC /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3B115CE27971B1F001820EC /* Settings.storyboard */; };
@@ -113,6 +114,7 @@
 		A35984062798EDA5003CB00B /* FollowingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsVC.swift; sourceTree = "<group>"; };
 		A35984082799A88B003CB00B /* UnitHome.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UnitHome.storyboard; sourceTree = "<group>"; };
 		A359840A2799AA56003CB00B /* UnitHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitHomeVC.swift; sourceTree = "<group>"; };
+		A359840C279A9A87003CB00B /* forexample.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = forexample.storyboard; sourceTree = "<group>"; };
 		A39C8614276B7C45002078A0 /* ChatsInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsInfo.swift; sourceTree = "<group>"; };
 		A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teamRankingVC.swift; sourceTree = "<group>"; };
 		A3B115CE27971B1F001820EC /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				A35984002798ED39003CB00B /* Followers.storyboard */,
 				A35984042798ED78003CB00B /* Followings.storyboard */,
 				A35984082799A88B003CB00B /* UnitHome.storyboard */,
+				A359840C279A9A87003CB00B /* forexample.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				CF7E8E4227788677003E3E84 /* TeamCollectionViewCell.xib in Resources */,
 				A3D13E3227737184002599B9 /* CreateTeam.storyboard in Resources */,
 				CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */,
+				A359840D279A9A87003CB00B /* forexample.storyboard in Resources */,
 				CF3D0C1A267BD327006021FB /* UserImageSet.storyboard in Resources */,
 				CF6846CF2797C0C4004B80C5 /* UserNameSet.storyboard in Resources */,
 				A3C0D9EC277488BD00AC64D3 /* Reaction.storyboard in Resources */,

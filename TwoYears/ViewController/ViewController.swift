@@ -116,6 +116,8 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     @IBOutlet var backView: UIView!
     
     
+    
+    @IBOutlet weak var backGroundImageView: UIImageView!
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.tabBarController?.tabBar.isHidden = false
@@ -134,6 +136,12 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         notificationNumber.clipsToBounds = true
         notificationNumber.layer.cornerRadius = 10
 
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2Fsplashbackground.jpeg?alt=media&token=4c2fd869-a146-4182-83aa-47dd396f1ad6") {
+            Nuke.loadImage(with: url, into: backGroundImageView)
+        } else {
+            backGroundImageView.image = nil
+        }
+        
         //navigationbarのやつ
 //        let navBar = self.navigationController?.navigationBar
 //        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
