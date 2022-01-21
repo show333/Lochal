@@ -11,6 +11,8 @@
 		A35984032798ED58003CB00B /* FollowersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35984022798ED58003CB00B /* FollowersVC.swift */; };
 		A35984052798ED78003CB00B /* Followings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A35984042798ED78003CB00B /* Followings.storyboard */; };
 		A35984072798EDA5003CB00B /* FollowingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A35984062798EDA5003CB00B /* FollowingsVC.swift */; };
+		A35984092799A88C003CB00B /* UnitHome.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A35984082799A88B003CB00B /* UnitHome.storyboard */; };
+		A359840B2799AA56003CB00B /* UnitHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A359840A2799AA56003CB00B /* UnitHomeVC.swift */; };
 		A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C8614276B7C45002078A0 /* ChatsInfo.swift */; };
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
 		A3B115CF27971B1F001820EC /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3B115CE27971B1F001820EC /* Settings.storyboard */; };
@@ -109,6 +111,8 @@
 		A35984022798ED58003CB00B /* FollowersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersVC.swift; sourceTree = "<group>"; };
 		A35984042798ED78003CB00B /* Followings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Followings.storyboard; sourceTree = "<group>"; };
 		A35984062798EDA5003CB00B /* FollowingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingsVC.swift; sourceTree = "<group>"; };
+		A35984082799A88B003CB00B /* UnitHome.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UnitHome.storyboard; sourceTree = "<group>"; };
+		A359840A2799AA56003CB00B /* UnitHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitHomeVC.swift; sourceTree = "<group>"; };
 		A39C8614276B7C45002078A0 /* ChatsInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsInfo.swift; sourceTree = "<group>"; };
 		A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teamRankingVC.swift; sourceTree = "<group>"; };
 		A3B115CE27971B1F001820EC /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
@@ -331,6 +335,7 @@
 				CF6846D42797C0FB004B80C5 /* UserNameSetVC.swift */,
 				A35984022798ED58003CB00B /* FollowersVC.swift */,
 				A35984062798EDA5003CB00B /* FollowingsVC.swift */,
+				A359840A2799AA56003CB00B /* UnitHomeVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -379,6 +384,7 @@
 				CF6846CE2797C0C4004B80C5 /* UserNameSet.storyboard */,
 				A35984002798ED39003CB00B /* Followers.storyboard */,
 				A35984042798ED78003CB00B /* Followings.storyboard */,
+				A35984082799A88B003CB00B /* UnitHome.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -489,6 +495,7 @@
 				CF39377C260492BA0020BE97 /* Profile.storyboard in Resources */,
 				CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */,
 				A35984052798ED78003CB00B /* Followings.storyboard in Resources */,
+				A35984092799A88C003CB00B /* UnitHome.storyboard in Resources */,
 				CF4C5A44261FA3F300342675 /* packmanload.json in Resources */,
 				CF15444F26110E2700400D87 /* GoogleService-Info.plist in Resources */,
 				CF4366102678966E00DABD78 /* NewCreateTeam.storyboard in Resources */,
@@ -602,6 +609,7 @@
 				A3C0D9E6277397AD00AC64D3 /* EnterTeamVC.swift in Sources */,
 				CF0C14CA25CC26C6006A7C86 /* Message.swift in Sources */,
 				CF43661426789CB500DABD78 /* NewCreateTeamVC.swift in Sources */,
+				A359840B2799AA56003CB00B /* UnitHomeVC.swift in Sources */,
 				CF4BF170260E0FF200942E6F /* UIImage-extension.swift in Sources */,
 				CF38CAD326655F2D00615D23 /* CountAnimationLabel.swift in Sources */,
 				CF0C14BC25C9F494006A7C86 /* ChatRoomTableViewCell.swift in Sources */,

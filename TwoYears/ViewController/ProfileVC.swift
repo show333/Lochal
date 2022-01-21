@@ -251,9 +251,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         collectionRight.constant = headerHigh/20
         
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        
-        setSwipeBack()
-        
+                
         
         self.chatListTableView.estimatedRowHeight = 40
         self.chatListTableView.rowHeight = UITableView.automaticDimension
@@ -284,7 +282,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         teamCollectionView.reloadData()
         
-        
         //Pull To Refresh
         chatListTableView.refreshControl = UIRefreshControl()
         chatListTableView.refreshControl?.addTarget(self, action: #selector(onRefresh(_:)), for: .valueChanged)
@@ -306,6 +303,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if cellImageTap == true {
+            setSwipeBack()
+        }
         
         if userId == uid {
             self.tabBarController?.tabBar.isHidden = false
@@ -409,7 +410,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                                 }
                             }
                         }
-                                
                     }
                     self.outMemo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
@@ -473,10 +473,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 self.teamInfo.removeAll()
                 self.teamCollectionView.reloadData()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    
                     teamIdArray.forEach{
                         self.getTeamInfo(teamId: $0)
-                        
                     }
                 }
             }
@@ -520,6 +518,15 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
             cell.teamImageView?.image = nil
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        
+        let storyboard = UIStoryboard.init(name: "UnitHome", bundle: nil)
+        let UnitHomeVC = storyboard.instantiateViewController(withIdentifier: "UnitHomeVC") as! UnitHomeVC
+        UnitHomeVC.teamInfo = teamInfo[indexPath.row]
+        navigationController?.pushViewController(UnitHomeVC, animated: true)
     }
     
     
@@ -602,7 +609,6 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = self.chatListTableView.cellForRow(at:indexPath) as! OutmMemoCellVC
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        
         
         if outMemo[indexPath.row].readLog == true{
             

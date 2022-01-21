@@ -230,6 +230,17 @@ extension OutmMemoCellVC :UICollectionViewDataSource,UICollectionViewDelegate {
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        
+        let storyboard = UIStoryboard.init(name: "UnitHome", bundle: nil)
+        let UnitHomeVC = storyboard.instantiateViewController(withIdentifier: "UnitHomeVC") as! UnitHomeVC
+        UnitHomeVC.teamInfo = teamInfo[indexPath.row]
+        
+        
+        ViewController()?.navigationController?.pushViewController(UnitHomeVC, animated: true)
+    }
+    
 }
 
 
