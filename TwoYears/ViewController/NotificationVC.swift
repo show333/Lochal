@@ -19,13 +19,54 @@ class NotificationVC: UIViewController {
     let db = Firestore.firestore()
 
     
+    @IBOutlet weak var reactionBackButton: UIButton!
+    
+    @IBAction func reactionTappedButton(_ sender: Any) {
+        
+        onUserImageView.alpha = 0
+        onUserNameLabel.alpha = 0
+        onReactionView.alpha = 0
+        onMessageBackView.alpha = 0
+        onMessageLabel.alpha = 0
+        reactionBackButton.alpha = 0
+        onCloseLabel.alpha = 0
+
+        
+    }
+    
+    @IBOutlet weak var onUserImageView: UIImageView!
+    @IBOutlet weak var onUserNameLabel: UILabel!
+    @IBOutlet weak var onReactionView: UIImageView!
+    @IBOutlet weak var onReactionViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var onMessageBackView: UIView!
+    @IBOutlet weak var onBackViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var onMessageLabel: UILabel!
+    @IBOutlet weak var onCloseLabel: UILabel!
     @IBOutlet weak var reactionTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        
         setSwipeBack()
 
+        let width = UIScreen.main.bounds.size.width
+        onReactionViewConstraint.constant = width*0.55
+        onBackViewConstraint.constant = width*0.3
+        
+        onUserImageView.alpha = 0
+        onUserNameLabel.alpha = 0
+        onReactionView.alpha = 0
+        onMessageBackView.alpha = 0
+        onMessageLabel.alpha = 0
+        onCloseLabel.alpha = 0
+        reactionBackButton.alpha = 0
+        
+        onMessageBackView.clipsToBounds = true
+        onMessageBackView.layer.cornerRadius = 18
+        
+        onUserImageView.clipsToBounds = true
+        onUserImageView.layer.cornerRadius = 30
+        
+        onMessageBackView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
 
         reactionTableView.delegate = self
         reactionTableView.dataSource = self
@@ -49,10 +90,10 @@ class NotificationVC: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        db.collection("users").document(uid).collection("Reaction").document("reaction").setData(["notificationNum": 0])
+        db.collection("users").document(uid).setData(["notificationNum": 0])
     }
     func fetchReaction(userId:String) {
-        db.collection("users").document(userId).collection("Reaction").document("reaction").collection("ReactionId").addSnapshotListener{ [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("Notification").addSnapshotListener{ [self] ( snapshots, err) in
             if let err = err {
                 print("メッセージの取得に失敗、\(err)")
                 return
@@ -63,23 +104,8 @@ class NotificationVC: UIViewController {
                     let dic = Naruto.document.data()
                     let reactionDic = Reaction(dic: dic)
                     
-//                    let date: Date = rarabai.zikokudosei.dateValue()
-//                    let momentType = moment(date)
-                    
-//                    if blockList[rarabai.userId] == true {
-//
-//                    } else {
-//                        if momentType >= moment() - 14.days {
-//                            if rarabai.admin == true {
-//                            }
-//                            self.animals.append(rarabai)
-//                        }
-//                    }
-                    
                     self.reaction.append(reactionDic)
-                    
-//                    print("でぃく",dic)
-//                    print("ららばい",rarabai)
+
                     self.reaction.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
                         let m2Date = m2.createdAt.dateValue()
@@ -105,29 +131,15 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = reactionTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! reactionTableViewCell
         
-        let safeArea = UIScreen.main.bounds.size.width
-
+        cell.reaction = reaction[indexPath.row]
         
-        cell.messageWidth.constant = safeArea/2
-        cell.messageLabel.text = reaction[indexPath.row].theMessage
-        cell.messageLabel.clipsToBounds = true
-        cell.messageBackView.layer.cornerRadius = 20
-        cell.messageBackView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        cell.messageLabel.text = reaction[indexPath.row].reactionMessage
+        
+        let date: Date = reaction[indexPath.row].createdAt.dateValue()
+        cell.dateLabel.text = date.agoText()
         
         cell.userImageView.clipsToBounds = true
         cell.userImageView.layer.cornerRadius = 25
-        cell.userImageView.image = nil
-        cell.reactionView.image = nil
-        
-        cell.reactionView.image = nil
-        if let url = URL(string:reaction[indexPath.row].reaction) {
-            Nuke.loadImage(with: url, into: cell.reactionView!)
-        } else {
-            cell.reactionView?.image = nil
-        }
-//        fetchUserProfile(userId: reaction[indexPath.row].userId, cell: cell)
-//        getUserInfo(userId: reaction[indexPath.row].userId, cell: cell)
-        
         cell.userImageView.image = nil
         if let url = URL(string:reaction[indexPath.row].userImage) {
             Nuke.loadImage(with: url, into: cell.userImageView)
@@ -140,31 +152,132 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        ProfileVC.userId = reaction[indexPath.row].userId
-        ProfileVC.cellImageTap = true
-        navigationController?.pushViewController(ProfileVC, animated: true)
-
+        if reaction[indexPath.row].theMessage != "" {
+            onMessageLabel.text = reaction[indexPath.row].theMessage
+            onUserNameLabel.text = reaction[indexPath.row].userName
+            
+            if let url = URL(string:reaction[indexPath.row].userImage) {
+                Nuke.loadImage(with: url, into: onUserImageView)
+            } else {
+                onUserImageView.image = nil
+            }
+            
+            
+            if let url = URL(string:reaction[indexPath.row].reactionImage) {
+                Nuke.loadImage(with: url, into: onReactionView)
+            } else {
+                onReactionView.image = nil
+            }
+            
+            
+            
+     
+            reactionBackButton.alpha = 0.8
+            onAnimation()
+            
+        } else {
+            let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+            let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+            ProfileVC.userId = reaction[indexPath.row].userId
+            ProfileVC.cellImageTap = true
+            navigationController?.pushViewController(ProfileVC, animated: true)
+        }
     }
     
+    func onAnimation(){
+        onMessageAnimation()
+        onUserImageAnimation()
+        onCloseLabelAnimation()
+    }
+    
+    func onMessageAnimation() {
 
+            // ②アイコンを大きくする
+        UIView.animate(withDuration: 0.1, delay: 0, animations: { [self] in
+            self.onMessageBackView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+                self.onMessageLabel.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+                onMessageBackView.alpha = 1
+                onMessageLabel.alpha = 1
+                
+            }) { bool in
+                // ②アイコンを大きくする
+                UIView.animate(withDuration: 0.05, delay: 0, animations: {
+                    self.onMessageBackView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    self.onMessageLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+
+                    
+                })
+//            }
+        }
+    }
+    func onUserImageAnimation() {
+
+        // ②アイコンを大きくする
+        UIView.animate(withDuration: 0.1, delay: 0.1, animations: { [self] in
+            self.onUserImageView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            self.onReactionView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            self.onUserNameLabel.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            onUserImageView.alpha = 1
+            onReactionView.alpha = 1
+            onUserNameLabel.alpha = 1
+
+            }) { bool in
+                // ②アイコンを大きくする
+                UIView.animate(withDuration: 0.1, delay: 0, animations: {
+                    self.onUserImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    self.onReactionView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                    self.onUserNameLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+                })
+        }
+    }
+    
+    
+    func onCloseLabelAnimation() {
+        UIView.animate(withDuration: 0.05, delay: 0.1, animations: { [self] in
+            self.onCloseLabel.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            onCloseLabel.alpha = 1
+
+            //
+        }) { bool in
+            // ②アイコンを大きくする
+            UIView.animate(withDuration: 0.05, delay: 0, animations: {
+                self.onCloseLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
+                
+            })
+            
+        }
+        
+    }
+    
     
 }
 
 class reactionTableViewCell: UITableViewCell {
     
+    var reaction : Reaction?
+
+    
     @IBOutlet weak var userImageView: UIImageView!
-    
     @IBOutlet weak var userNameLabel: UILabel!
-    @IBOutlet weak var reactionView: UIImageView!
-    
-    @IBOutlet weak var messageBackView: UIView!
-    
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
     
-    @IBOutlet weak var messageWidth: NSLayoutConstraint!
     override func prepareForReuse() {
         super.prepareForReuse()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        userImageView.isUserInteractionEnabled = true
+        userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
+    }
+    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
+        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        ProfileVC.userId = reaction?.userId
+        ProfileVC.cellImageTap = true
+        ProfileVC.tabBarController?.tabBar.isHidden = true
+        ViewController()?.navigationController?.navigationBar.isHidden = false
+        ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
     }
 }

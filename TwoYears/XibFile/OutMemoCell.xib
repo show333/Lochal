@@ -89,6 +89,12 @@
                                     <constraint firstAttribute="trailing" secondItem="qAr-S7-vn1" secondAttribute="trailing" id="sQJ-0C-8WA"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fwo-6A-PV4">
+                                <rect key="frame" x="75" y="7" width="41" height="21"/>
+                                <fontDescription key="fontDescription" type="italicSystem" pointSize="17"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -96,12 +102,15 @@
                             <constraint firstItem="h4u-0T-e8x" firstAttribute="top" secondItem="Mlo-xR-Nve" secondAttribute="top" id="9yY-b7-iHb"/>
                             <constraint firstItem="sWo-uG-4Zf" firstAttribute="leading" secondItem="Mlo-xR-Nve" secondAttribute="leading" constant="20" id="F2t-41-Luj"/>
                             <constraint firstItem="gon-bN-2gl" firstAttribute="leading" secondItem="d5v-Ae-2Gy" secondAttribute="trailing" constant="10" id="FHq-UU-fO5"/>
+                            <constraint firstItem="wjY-NW-an1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fwo-6A-PV4" secondAttribute="trailing" constant="10" id="KLo-Hf-Tdh"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sWo-uG-4Zf" secondAttribute="trailing" constant="25" id="LUs-td-JWF"/>
+                            <constraint firstItem="fwo-6A-PV4" firstAttribute="leading" secondItem="d5v-Ae-2Gy" secondAttribute="trailing" constant="5" id="TOz-pc-i6I"/>
                             <constraint firstItem="d5v-Ae-2Gy" firstAttribute="top" secondItem="Mlo-xR-Nve" secondAttribute="top" constant="15" id="Thh-MK-jy0"/>
                             <constraint firstAttribute="bottom" secondItem="sWo-uG-4Zf" secondAttribute="bottom" constant="30" id="Tny-m8-PNV"/>
                             <constraint firstItem="h4u-0T-e8x" firstAttribute="leading" secondItem="wjY-NW-an1" secondAttribute="trailing" constant="5" id="iLO-s1-0tb"/>
                             <constraint firstItem="lBn-7A-AmF" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Mlo-xR-Nve" secondAttribute="top" constant="120" id="lBF-rW-cVo"/>
                             <constraint firstItem="sWo-uG-4Zf" firstAttribute="top" secondItem="d5v-Ae-2Gy" secondAttribute="bottom" constant="20" id="m71-Y8-Naw"/>
+                            <constraint firstItem="gon-bN-2gl" firstAttribute="top" secondItem="fwo-6A-PV4" secondAttribute="bottom" constant="5" id="mM0-Ho-y7L"/>
                             <constraint firstAttribute="bottom" secondItem="lBn-7A-AmF" secondAttribute="bottom" id="nWP-oz-OSN"/>
                             <constraint firstAttribute="trailing" secondItem="lBn-7A-AmF" secondAttribute="trailing" id="oRq-wm-jWn"/>
                             <constraint firstItem="h4u-0T-e8x" firstAttribute="leading" secondItem="gon-bN-2gl" secondAttribute="trailing" constant="5" id="qUQ-mO-TJc"/>
@@ -141,6 +150,7 @@
                 <outlet property="shadowLayer" destination="wzH-sz-3v6" id="zr0-Gb-xBh"/>
                 <outlet property="teamCollectionView" destination="gon-bN-2gl" id="hoR-sT-v3d"/>
                 <outlet property="textMaskLabel" destination="5c3-B3-LvT" id="VHs-p8-gqe"/>
+                <outlet property="userFrontIdLabel" destination="fwo-6A-PV4" id="cTO-c5-9b7"/>
                 <outlet property="userImageView" destination="d5v-Ae-2Gy" id="Xv5-ch-BBm"/>
             </connections>
             <point key="canvasLocation" x="138.40579710144928" y="-56.919642857142854"/>

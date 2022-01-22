@@ -98,15 +98,13 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     
     
     @IBOutlet weak var notificationNumber: UILabel!
-    
-    
     @IBOutlet weak var notificationButton: UIButton!
     
     @IBAction func TappedNotificationButton(_ sender: Any) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let storyboard: UIStoryboard = UIStoryboard(name: "Notification", bundle: nil)//遷移先のStoryboardを設定
         let NotificationVC = storyboard.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC//遷移先のViewControllerを設定
-        db.collection("users").document(uid).collection("Reaction").document("reaction").setData(["notificationNum": 0])
+        db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
         NotificationVC.notificationTab = true
         NotificationVC.tabBarController?.tabBar.isHidden = true
         ViewController().navigationController?.navigationBar.isHidden = false
@@ -162,7 +160,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         bubuButton.layer.shadowOpacity = 1
         bubuButton.layer.shadowRadius = 5
         fetchFireStore(userId: uid)
-        fetchReaction(userId: uid)
+        fetchNotification(userId: uid)
     }
 
     //Pull to Refresh
@@ -179,10 +177,9 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         return NSAttributedString(string: "データがありません")
     }
     
-    func fetchReaction(userId:String){
+    func fetchNotification(userId:String){
         
-        db.collection("users").document(userId).collection("Reaction").document("reaction")
-            .addSnapshotListener { [self] documentSnapshot, error in
+        db.collection("users").document(userId).addSnapshotListener { [self] documentSnapshot, error in
                 guard let document = documentSnapshot else {
                     print("Error fetching document: \(error!)")
                     return
@@ -259,7 +256,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
-        
         
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
@@ -508,7 +504,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //                let userId = document["userId"] as? String ?? "unKnown"
 //                userName = document["userName"] as? String ?? "unKnown"
                 let userImage = document["userImage"] as? String ?? ""
-//                let message = document["message"] as? String ?? ""
+                let userFrontId = document["userFrontId"] as? String ?? ""
                 let delete = document["delete"] as! Bool
                 
                 
@@ -518,7 +514,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 } else {
 //                    cell.messageLabel.text = message
                 }
-                
+                cell.userFrontIdLabel.text = userFrontId
+
 
 //                cell.nameLabel.text = userName
 //                getUserTeamInfo(userId: userId, cell: cell)

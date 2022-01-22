@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Dh6-VF-1SE">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="q4y-9i-1uJ">
+            <objects>
+                <navigationController id="Dh6-VF-1SE" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="j6N-Ao-ngJ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="GAe-H3-mbz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tVD-7G-zkC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-749" y="116"/>
+        </scene>
+        <!--編集-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="SettingsVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="SettingsVC" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8aG-no-cz2">
+                                <rect key="frame" x="30" y="273" width="354" height="50"/>
+                                <color key="backgroundColor" red="0.44016734533703206" green="0.44016734533703206" blue="0.44016734533703206" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="hL5-xa-HsN"/>
+                                </constraints>
+                                <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Image変更"/>
+                                <connections>
+                                    <action selector="imageTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="tie-om-gbo"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NPq-4L-WhJ">
+                                <rect key="frame" x="30" y="573" width="354" height="50"/>
+                                <color key="backgroundColor" red="0.44016734530000001" green="0.44016734530000001" blue="0.44016734530000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="KHY-ao-ZA6"/>
+                                </constraints>
+                                <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Name変更"/>
+                                <connections>
+                                    <action selector="nameTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="VoX-m8-jEt"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tK9-jO-h94">
+                                <rect key="frame" x="30" y="423" width="354" height="50"/>
+                                <color key="backgroundColor" red="0.44016734530000001" green="0.44016734530000001" blue="0.44016734530000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="IkC-nf-P7D"/>
+                                </constraints>
+                                <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="ID変更"/>
+                                <connections>
+                                    <action selector="idTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="jGj-XN-bW3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="tK9-jO-h94" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="6jq-nc-uNp"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="NPq-4L-WhJ" secondAttribute="trailing" constant="30" id="HOn-5Y-sMn"/>
+                            <constraint firstItem="NPq-4L-WhJ" firstAttribute="top" secondItem="tK9-jO-h94" secondAttribute="bottom" constant="100" id="QtX-vW-baM"/>
+                            <constraint firstItem="8aG-no-cz2" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="YPv-Xm-wwi"/>
+                            <constraint firstItem="NPq-4L-WhJ" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="l39-Qk-kuR"/>
+                            <constraint firstItem="tK9-jO-h94" firstAttribute="top" secondItem="8aG-no-cz2" secondAttribute="bottom" constant="100" id="rTZ-Se-B9w"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="8aG-no-cz2" secondAttribute="trailing" constant="30" id="uGc-ge-aZi"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="tK9-jO-h94" secondAttribute="trailing" constant="30" id="uSB-PG-ijF"/>
+                            <constraint firstItem="tK9-jO-h94" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="zAl-O8-PCG"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="編集" id="WVk-bc-98F"/>
+                    <connections>
+                        <outlet property="downDistance" destination="QtX-vW-baM" id="TPz-ef-tPV"/>
+                        <outlet property="idButton" destination="tK9-jO-h94" id="doL-6g-bO2"/>
+                        <outlet property="idButtonHeight" destination="IkC-nf-P7D" id="ERv-72-ago"/>
+                        <outlet property="imageButton" destination="8aG-no-cz2" id="c9P-fY-TxL"/>
+                        <outlet property="imageButtonHeight" destination="hL5-xa-HsN" id="WIp-KO-ewH"/>
+                        <outlet property="nameButton" destination="NPq-4L-WhJ" id="ncR-UT-Iqz"/>
+                        <outlet property="nameButtonHeight" destination="KHY-ao-ZA6" id="3Ox-fx-TCu"/>
+                        <outlet property="upDistance" destination="rTZ-Se-B9w" id="65K-2A-VQw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-16" y="116"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="tertiarySystemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

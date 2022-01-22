@@ -18,7 +18,8 @@ class Reaction {
     var userImage: String
     var userFrontId: String
     var theMessage: String
-    var reaction: String
+    var reactionImage: String
+    var reactionMessage: String
     var createdAt: Timestamp
     var documentId : String
     var admin: Bool
@@ -31,7 +32,8 @@ class Reaction {
         self.userImage = dic["userImage"] as? String ?? ""
         self.userFrontId = dic["userFrontId"] as? String ?? ""
         self.theMessage = dic["theMessage"] as? String ?? ""
-        self.reaction = dic["reaction"] as? String ?? ""
+        self.reactionImage = dic["reactionImage"] as? String ?? ""
+        self.reactionMessage = dic["reactionMessage"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.documentId = dic["documentId"] as? String ?? ""
         self.admin = dic["admin"] as? Bool ?? false
