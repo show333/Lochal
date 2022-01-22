@@ -544,7 +544,8 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = false
         let storyboard = UIStoryboard.init(name: "UnitHome", bundle: nil)
         let UnitHomeVC = storyboard.instantiateViewController(withIdentifier: "UnitHomeVC") as! UnitHomeVC
         UnitHomeVC.teamInfo = teamInfo[indexPath.row]

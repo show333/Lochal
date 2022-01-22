@@ -25,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="-530" y="97"/>
         </scene>
-        <!--Reserch-->
+        <!--Serch-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController id="Y6W-OH-hqX" customClass="ReserchVC" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
@@ -181,10 +181,14 @@
                                     <constraint firstAttribute="height" constant="40" id="ywm-LP-qYB"/>
                                 </constraints>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.75" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G82-9c-2XV">
+                                <rect key="frame" x="0.0" y="208" width="414" height="555"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="G82-9c-2XV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="2ED-nb-rPz"/>
                             <constraint firstItem="k7G-Nw-sc1" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="A0c-lb-XgO"/>
                             <constraint firstItem="Hqi-3b-rro" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="CCV-gh-EP9"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="6yB-Zu-JnI" secondAttribute="trailing" id="DEm-DS-i3x"/>
@@ -192,19 +196,23 @@
                             <constraint firstItem="w8y-ow-RRY" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Muk-qz-las"/>
                             <constraint firstItem="w8y-ow-RRY" firstAttribute="top" secondItem="shi-qI-DuU" secondAttribute="bottom" id="N5B-9S-wNQ"/>
                             <constraint firstItem="6yB-Zu-JnI" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="NhJ-Lm-pYS"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="G82-9c-2XV" secondAttribute="trailing" id="Se0-Zc-eyD"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="shi-qI-DuU" secondAttribute="trailing" id="Uc8-ud-8DU"/>
                             <constraint firstItem="6yB-Zu-JnI" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="Vtd-fG-CZD"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Hqi-3b-rro" secondAttribute="bottom" id="Zt9-X7-GNx"/>
+                            <constraint firstItem="Hqi-3b-rro" firstAttribute="top" secondItem="G82-9c-2XV" secondAttribute="bottom" id="a8V-HD-Kd8"/>
                             <constraint firstItem="k7G-Nw-sc1" firstAttribute="top" secondItem="shi-qI-DuU" secondAttribute="bottom" constant="100" id="ce7-Ej-pS5"/>
+                            <constraint firstItem="G82-9c-2XV" firstAttribute="top" secondItem="shi-qI-DuU" secondAttribute="bottom" id="d63-Fe-suh"/>
                             <constraint firstItem="shi-qI-DuU" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="eet-cs-wJ4"/>
                             <constraint firstItem="Hqi-3b-rro" firstAttribute="top" secondItem="w8y-ow-RRY" secondAttribute="bottom" id="u2x-t2-c4c"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="w8y-ow-RRY" secondAttribute="trailing" id="xrh-lF-Daf"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Reserch" image="magnifyingglass.circle.fill" catalog="system" id="HMt-SN-0ib"/>
+                    <tabBarItem key="tabBarItem" title="Serch" image="magnifyingglass.circle.fill" catalog="system" id="HMt-SN-0ib"/>
                     <navigationItem key="navigationItem" id="cQa-us-lx8"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="backImageView" destination="G82-9c-2XV" id="nlo-YC-jkN"/>
                         <outlet property="bannerView" destination="Hqi-3b-rro" id="I2Y-R5-bMQ"/>
                         <outlet property="explainLabel" destination="igt-oE-IQl" id="XbT-CY-PUQ"/>
                         <outlet property="inputTextField" destination="XDe-pv-lMu" id="0Jj-1T-b1J"/>
@@ -216,7 +224,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="127.5" y="97.5"/>
+            <point key="canvasLocation" x="126.08695652173914" y="97.098214285714278"/>
         </scene>
     </scenes>
     <resources>

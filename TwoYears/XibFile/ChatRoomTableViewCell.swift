@@ -16,14 +16,7 @@ import TTTAttributedLabel
 class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
     
     
-    // 後で修正
-    var message: Message? {
-        didSet {
-            if let message = message {
-                messageLabel.text = message.message
-            }
-        }
-    }
+    var chatRoomInfo : ChatsInfo?
     
     @IBDesignable
     final class ImageButton: UIButton {
@@ -102,6 +95,10 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        userImage.isUserInteractionEnabled = true
+        userImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
+        
         messageLabel.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue
         messageLabel.delegate = self
         
@@ -132,7 +129,6 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
         messageLabel.backgroundColor = .clear
         
         messageLabel.numberOfLines = 0
-        userIdHakkou()
         
         userImage.clipsToBounds = true
         userImage.layer.cornerRadius = 17.5
@@ -143,6 +139,18 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
         
         
     }
+    
+    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
+        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        ProfileVC.userId = chatRoomInfo?.userId
+        ProfileVC.cellImageTap = true
+        ProfileVC.tabBarController?.tabBar.isHidden = true
+        ViewController()?.navigationController?.navigationBar.isHidden = false
+        ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
+        
+    }
+    
     //urlリンク飛ぶ
     func attributedLabel(_ label: TTTAttributedLabel!, didSelectLinkWith url: URL!) {
                if UIApplication.shared.canOpenURL(url) {
@@ -153,12 +161,6 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
         super.setSelected(selected, animated: animated)
     }
     
-    func userIdHakkou()  {
-        func randomString(length: Int) -> String {
-            let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-            return String((0..<length).map{ _ in characters.randomElement()! })
-        }
-    }
     private func estimateFrameForTextView(text: String) -> CGRect {
         let size = CGSize(width: 200, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)

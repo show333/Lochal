@@ -511,6 +511,7 @@ PODS:
   - gRPC-Core/Interface (1.28.2)
   - GTMSessionFetcher/Core (1.7.0)
   - GuillotineMenu (4.1)
+  - Instructions (2.0.1)
   - leveldb-library (1.22.1)
   - lottie-ios (3.3.0)
   - nanopb (2.30908.0):
@@ -537,6 +538,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - Google-Mobile-Ads-SDK
   - GuillotineMenu
+  - Instructions (~> 2.0.1)
   - lottie-ios
   - Nuke
   - SOTabBar
@@ -569,6 +571,7 @@ SPEC REPOS:
     - gRPC-Core
     - GTMSessionFetcher
     - GuillotineMenu
+    - Instructions
     - leveldb-library
     - lottie-ios
     - nanopb
@@ -604,6 +607,7 @@ SPEC CHECKSUMS:
   gRPC-Core: 4afa11bfbedf7cdecd04de535a9e046893404ed5
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   GuillotineMenu: 1e898eeed335fcc3113b16f22277046fe56c7c94
+  Instructions: dd428e3776fcdcec18bf4242b9d3fb2d1cbd6cc9
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   lottie-ios: 6ac74dcc09904798f59b18cb3075c089d76be9ae
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
@@ -615,6 +619,6 @@ SPEC CHECKSUMS:
   TransitionButton: 36283346e17c64775a1b3bc3a7a72940a367de1f
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: b27354c6aa7a6a30a311b4a94d9bda2e6b749957
+PODFILE CHECKSUM: d7aa1b064f200b2c39c5378cd4cd2c584b67bb3a
 
 COCOAPODS: 1.11.2

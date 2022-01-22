@@ -211,6 +211,9 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
         let cell = inChatTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatRoomTableViewCell
         let width = UIScreen.main.bounds.size.width
         
+        
+        cell.chatRoomInfo = ChatRoomInfo[indexPath.row]
+        
         cell.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
         
         cell.messageLabel.text = ChatRoomInfo[indexPath.row].message

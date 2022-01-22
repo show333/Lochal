@@ -25,6 +25,12 @@ class UnitHomeVC:UIViewController {
     @IBOutlet weak var teamNameLabel: UILabel!
     @IBOutlet weak var userCollectionView: UICollectionView!
     @IBOutlet weak var userCollectionViewConstraint: NSLayoutConstraint!
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = false
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         

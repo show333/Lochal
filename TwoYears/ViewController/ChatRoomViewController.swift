@@ -322,7 +322,7 @@ extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backgroundColor = .clear
 
 //        cell.userrandomId.text = rurubus[indexPath.row].randomUserId
-        cell.message = rurubus[indexPath.row]
+//        cell.message = rurubus[indexPath.row]
         cell.userImage.image = nil
         if rurubus[indexPath.row].userBrands == "TG1" {
             cell.userImage.image = UIImage(named:"TG1")!

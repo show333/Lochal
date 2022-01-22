@@ -10,19 +10,23 @@ import FirebaseAuth
 import FirebaseFirestore
 import GoogleMobileAds
 import Nuke
+import Instructions
 
 
 class ReserchVC:UIViewController{
-    private let cellId = "cellId"
-    let db = Firestore.firestore()
+    
     var selectBool:Bool = false
     var users: [Users] = []
+    private let cellId = "cellId"
+    let db = Firestore.firestore()
+    let coachMarksController = CoachMarksController()
 
     
     @IBOutlet weak var explainLabel: UILabel!
     @IBOutlet weak var noExistLabel: UILabel!
     @IBOutlet weak var selectButton: UIButton!
     
+    @IBOutlet weak var backImageView: UIImageView!
     @IBAction func selectTappedButton(_ sender: Any) {
         if selectBool == false {
             selectBool = true
@@ -108,11 +112,17 @@ class ReserchVC:UIViewController{
         super.viewWillAppear(true)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
-
     }
     // キーボードと閉じる際の処理
     @objc public func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.coachMarksController.start(in: .currentWindow(of: self))
+        
     }
     
     override func viewDidLoad() {
@@ -121,6 +131,15 @@ class ReserchVC:UIViewController{
             target: self,
             action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages2.012.png?alt=media&token=526af1d4-3a14-4227-914c-65685ac70fe4") {
+            Nuke.loadImage(with: url, into: backImageView)
+        } else {
+            backImageView.image = nil
+        }
+        
+        self.coachMarksController.dataSource = self
+
         
         tapGesture.cancelsTouchesInView = false
         
@@ -210,5 +229,48 @@ class ReserhTableViewCell:UITableViewCell{
     @IBOutlet weak var userNameLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+}
+
+extension ReserchVC: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
+    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+        return 1
+    }
+    func coachMarksController(_ coachMarksController: CoachMarksController,
+                              coachMarkAt index: Int) -> CoachMark {
+        
+        let highlightViews: Array<UIView> = [reserchButton]
+        //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
+        
+        //チュートリアルで使うビューの中からindexで何ステップ目かを指定
+        return coachMarksController.helper.makeCoachMark(for: highlightViews[index])
+    }
+    func coachMarksController(
+        _ coachMarksController: CoachMarksController,
+        coachMarkViewsAt index: Int,
+        madeFrom coachMark: CoachMark
+    ) -> (bodyView: UIView & CoachMarkBodyView, arrowView: (UIView & CoachMarkArrowView)?) {
+
+        //吹き出しのビューを作成します
+        let coachViews = coachMarksController.helper.makeDefaultCoachViews(
+            withArrow: true,    //三角の矢印をつけるか
+            arrowOrientation: coachMark.arrowOrientation    //矢印の向き(吹き出しの位置)
+        )
+
+        //index(ステップ)によって表示内容を分岐させます
+        switch index {
+        case 0:    //hogeLabel
+            coachViews.bodyView.hintLabel.text = "ここから新しいユーザーを\n探します"
+            coachViews.bodyView.nextLabel.text = "OK"
+        
+        
+        
+        default:
+            break
+        
+        }
+        
+        //その他の設定が終わったら吹き出しを返します
+        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
 }

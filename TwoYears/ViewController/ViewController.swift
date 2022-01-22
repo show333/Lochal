@@ -14,6 +14,7 @@ import GuillotineMenu
 import SwiftMoment
 import Nuke
 import DZNEmptyDataSet
+import Instructions
 
 class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource{
     private let cellId = "cellId"
@@ -30,6 +31,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
 //    let uid = Auth.auth().currentUser?.uid
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
     let uid = Auth.auth().currentUser?.uid
+    let coachMarksController = CoachMarksController()
 
     
     fileprivate let cellHeight: CGFloat = 210
@@ -125,11 +127,20 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.coachMarksController.start(in: .currentWindow(of: self))
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        self.coachMarksController.dataSource = self
         
         notificationNumber.alpha = 0
         notificationButton.tintColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
@@ -548,6 +559,52 @@ extension ViewController: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         presentationAnimator.mode = .dismissal
         return presentationAnimator
+    }
+}
+
+extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
+    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+        return 2
+    }
+    func coachMarksController(_ coachMarksController: CoachMarksController,
+                              coachMarkAt index: Int) -> CoachMark {
+        
+        let highlightViews: Array<UIView> = [notificationButton, bubuButton]
+        //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
+        
+        //チュートリアルで使うビューの中からindexで何ステップ目かを指定
+        return coachMarksController.helper.makeCoachMark(for: highlightViews[index])
+    }
+    func coachMarksController(
+        _ coachMarksController: CoachMarksController,
+        coachMarkViewsAt index: Int,
+        madeFrom coachMark: CoachMark
+    ) -> (bodyView: UIView & CoachMarkBodyView, arrowView: (UIView & CoachMarkArrowView)?) {
+
+        //吹き出しのビューを作成します
+        let coachViews = coachMarksController.helper.makeDefaultCoachViews(
+            withArrow: true,    //三角の矢印をつけるか
+            arrowOrientation: coachMark.arrowOrientation    //矢印の向き(吹き出しの位置)
+        )
+
+        //index(ステップ)によって表示内容を分岐させます
+        switch index {
+        case 0:    //hogeLabel
+            coachViews.bodyView.hintLabel.text = "ここにリアクションやフォローの\n通知が届きます"
+            coachViews.bodyView.nextLabel.text = "タップ"
+        
+        case 1:    //fugaButton
+        coachViews.bodyView.hintLabel.text = "ここから新しい投稿を行います!"
+            coachViews.bodyView.nextLabel.text = "OK"
+        
+        
+        default:
+            break
+        
+        }
+        
+        //その他の設定が終わったら吹き出しを返します
+        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
 }
 

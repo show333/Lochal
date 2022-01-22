@@ -11,8 +11,9 @@ import FirebaseFirestore
 import FirebaseStorage
 import Nuke
 import GoogleMobileAds
+import Instructions
 
-class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDelegate{
+class InChatVC:  UIViewController, UICollectionViewDataSource,UICollectionViewDelegate{
     
     
     var imageUrls = [String]()
@@ -20,6 +21,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
     var reaction : [Reaction] = []
     var safeArea : CGFloat = 0
     let db = Firestore.firestore()
+    let coachMarksController = CoachMarksController()
     private let cellId = "cellId"
     
     
@@ -44,6 +46,13 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.coachMarksController.start(in: .currentWindow(of: self))
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 //        テスト ca-app-pub-3940256099942544/2934735716
@@ -52,8 +61,7 @@ class InChat:  UIViewController, UICollectionViewDataSource,UICollectionViewDele
         self.bannerView.rootViewController = self
         self.bannerView.load(GADRequest())
                 
-        
-        
+        self.coachMarksController.dataSource = self
         
         fetchUserTeamInfo()
 //        fetchReaction(userId:uid)
@@ -252,3 +260,49 @@ class teamCollectionViewCell: UICollectionViewCell {
     }
 }
 
+
+extension InChatVC: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
+    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+        return 2
+    }
+    func coachMarksController(_ coachMarksController: CoachMarksController,
+                              coachMarkAt index: Int) -> CoachMark {
+        
+        let highlightViews: Array<UIView> = [teamCollectionView, CreateButton,CreateButton]
+        //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
+        
+        //チュートリアルで使うビューの中からindexで何ステップ目かを指定
+        return coachMarksController.helper.makeCoachMark(for: highlightViews[index])
+    }
+    func coachMarksController(
+        _ coachMarksController: CoachMarksController,
+        coachMarkViewsAt index: Int,
+        madeFrom coachMark: CoachMark
+    ) -> (bodyView: UIView & CoachMarkBodyView, arrowView: (UIView & CoachMarkArrowView)?) {
+
+        //吹き出しのビューを作成します
+        let coachViews = coachMarksController.helper.makeDefaultCoachViews(
+            withArrow: true,    //三角の矢印をつけるか
+            arrowOrientation: coachMark.arrowOrientation    //矢印の向き(吹き出しの位置)
+        )
+
+        //index(ステップ)によって表示内容を分岐させます
+        switch index {
+        case 0:    //hogeLabel
+            coachViews.bodyView.hintLabel.text = "あなたが所属している\nチームがここに表示されます"
+            coachViews.bodyView.nextLabel.text = "タップ"
+        
+        case 1:    //fugaButton
+        coachViews.bodyView.hintLabel.text = "友達と一緒に\nチームを作成しましょう!"
+            coachViews.bodyView.nextLabel.text = "OK"
+            
+        
+        default:
+            break
+        
+        }
+        
+        //その他の設定が終わったら吹き出しを返します
+        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
+    }
+}
