@@ -165,10 +165,14 @@ class SplashViewController: UIViewController {
                 self.subTitleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
                 self.subTitleLabel.alpha = 0
             }) { bool in
-                let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
-                let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
-                TabbarController.modalPresentationStyle = .fullScreen
-                self.present(TabbarController, animated: true, completion: nil)
+//                let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
+//                let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
+//                TabbarController.modalPresentationStyle = .fullScreen
+//                self.present(TabbarController, animated: true, completion: nil)
+                let storyboard = UIStoryboard(name: "Explain", bundle: nil)
+                let ExplainVC = storyboard.instantiateViewController(withIdentifier: "ExplainVC") as! ExplainVC
+                ExplainVC.modalPresentationStyle = .fullScreen
+                self.present(ExplainVC, animated: true, completion: nil)
             }
         }
     }

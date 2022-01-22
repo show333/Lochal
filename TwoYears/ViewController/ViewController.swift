@@ -234,7 +234,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                     } else {
                         if rarabai.delete == true {
                         } else{
-                            if momentType >= moment() - 2.days {
+                            if momentType >= moment() - 7.days {
                                 self.outMemo.append(rarabai)
                             }
                         }
