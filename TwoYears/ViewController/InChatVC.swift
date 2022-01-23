@@ -48,9 +48,10 @@ class InChatVC:  UIViewController, UICollectionViewDataSource,UICollectionViewDe
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        self.coachMarksController.start(in: .currentWindow(of: self))
-        
+        if UserDefaults.standard.bool(forKey: "InChatInstruct") != true{
+            UserDefaults.standard.set(true, forKey: "InChatInstruct")
+            self.coachMarksController.start(in: .currentWindow(of: self))
+        }
     }
     
     override func viewDidLoad() {

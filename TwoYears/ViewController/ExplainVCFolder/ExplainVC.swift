@@ -39,7 +39,6 @@ class ExplainVC:UIViewController{
     ]
     
     @IBOutlet weak var explainImageView: UIImageView!
-    
     @IBOutlet weak var explainSecondView: UIImageView!
     @IBOutlet weak var nextLabel: UILabel!
     @IBOutlet weak var backLabel: UILabel!
@@ -48,13 +47,17 @@ class ExplainVC:UIViewController{
     @IBAction func rightTappedButton(_ sender: Any) {
         if pageCount < 10 {
             pageCount += 1
-        } else if pageCount == 10 {
-            print("s")
+        } else {
+            print("a")
+            let storyboard = UIStoryboard.init(name: "FirstSetName", bundle: nil)
+            let FirstSetNameVC = storyboard.instantiateViewController(withIdentifier: "FirstSetNameVC") as! FirstSetNameVC
+            navigationController?.pushViewController(FirstSetNameVC, animated: true)
         }
+        
         
         backLabel.alpha = 1
         print(pageCount)
-        
+
         if pageCount % 2 == 1 {
             explainImageView.alpha = 1
             explainSecondView.alpha = 0
@@ -62,13 +65,13 @@ class ExplainVC:UIViewController{
             explainImageView.alpha = 1
             explainSecondView.alpha = 0
         }
-        
+
         if let url = URL(string:imageArray[pageCount]) {
             Nuke.loadImage(with: url, into: explainImageView)
         } else {
             explainImageView?.image = nil
         }
-        
+
         if pageCount == 10 {
             if let url = URL(string:imageArray[pageCount-1]) {
                 Nuke.loadImage(with: url, into: explainSecondView)
@@ -119,8 +122,11 @@ class ExplainVC:UIViewController{
                 explainSecondView?.image = nil
             }
         }
-        
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
     }
     override func viewDidLoad(){
         super.viewDidLoad()
@@ -139,7 +145,18 @@ class ExplainVC:UIViewController{
         } else {
             explainSecondView?.image = nil
         }
-        
-        
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        let iconchoose = UserDefaults.standard.integer(forKey: "EULA")
+        if iconchoose == 1 {
+        } else {
+            let storyboard = UIStoryboard.init(name: "EULA", bundle: nil)
+            let brands = storyboard.instantiateViewController(withIdentifier: "EULAViewController")
+            brands.modalPresentationStyle = .fullScreen
+            self.present(brands, animated: true, completion: nil)
+        }
+    }
+    
 }

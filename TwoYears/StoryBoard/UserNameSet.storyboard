@@ -90,7 +90,6 @@
                         <outlet property="nameTextField" destination="TX4-rF-rSV" id="Wbg-ij-svx"/>
                         <outlet property="nameTextFieldConstraint" destination="GgF-ih-C1b" id="cUj-41-BWQ"/>
                         <outlet property="sendButton" destination="0JJ-lX-kH2" id="shV-Zn-qMu"/>
-                        <outlet property="textFieldDistance" destination="5EZ-qb-Rvc" id="Vc9-cq-vfL"/>
                         <outlet property="warningLabel" destination="Mvg-0x-FJn" id="Gns-gS-jml"/>
                     </connections>
                 </viewController>

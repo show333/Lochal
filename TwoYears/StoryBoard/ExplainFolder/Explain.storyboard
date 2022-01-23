@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="eGP-G5-GI5">
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -9,6 +9,21 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="qeX-PP-l9K">
+            <objects>
+                <navigationController navigationBarHidden="YES" id="eGP-G5-GI5" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PjX-cS-t83">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="2aP-e3-2qu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YM7-Ug-piG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-621" y="88"/>
+        </scene>
         <!--ExplainVC-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
@@ -49,14 +64,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NEXT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SPc-2F-o7q">
-                                <rect key="frame" x="241.5" y="427.5" width="53.5" height="27.5"/>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="25"/>
+                                <rect key="frame" x="246" y="435" width="49" height="25"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="23"/>
                                 <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BACK" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jeM-xh-kvK">
-                                <rect key="frame" x="25" y="427.5" width="53" height="27.5"/>
-                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="25"/>
+                                <rect key="frame" x="25" y="435" width="48.5" height="25"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="23"/>
                                 <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -64,7 +79,7 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="jeM-xh-kvK" secondAttribute="bottom" constant="25" id="12H-Aw-HXz"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="jeM-xh-kvK" secondAttribute="bottom" constant="20" id="12H-Aw-HXz"/>
                             <constraint firstItem="PPI-aX-4jR" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="484-EE-toi"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="1RI-qy-QgP" secondAttribute="bottom" id="5kw-28-oHx"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="SPc-2F-o7q" secondAttribute="trailing" constant="25" id="BcZ-MF-K5H"/>
@@ -82,7 +97,7 @@
                             <constraint firstItem="GIL-Fr-3Kx" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="cHv-kw-53C"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="GIL-Fr-3Kx" secondAttribute="bottom" id="fEt-Lt-5c3"/>
                             <constraint firstItem="GIL-Fr-3Kx" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="iEQ-yC-XK8"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="SPc-2F-o7q" secondAttribute="bottom" constant="25" id="jnO-sY-zSW"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="SPc-2F-o7q" secondAttribute="bottom" constant="20" id="jnO-sY-zSW"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="PPI-aX-4jR" secondAttribute="trailing" id="m1B-AA-1Ul"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="AiJ-U0-3gc" secondAttribute="bottom" id="mpZ-R0-39w"/>
                             <constraint firstItem="jeM-xh-kvK" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="25" id="oRf-Lz-wMc"/>
@@ -91,6 +106,7 @@
                             <constraint firstItem="1RI-qy-QgP" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="tKj-4m-oHN"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="b1X-aU-Ok6"/>
                     <connections>
                         <outlet property="backLabel" destination="jeM-xh-kvK" id="ZBe-SG-0rY"/>
                         <outlet property="explainImageView" destination="AiJ-U0-3gc" id="HK7-0g-l8D"/>

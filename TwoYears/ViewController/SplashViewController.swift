@@ -39,28 +39,38 @@ class SplashViewController: UIViewController {
     
     
     override func viewDidAppear(_ animated: Bool) {
-        let uid = Auth.auth().currentUser?.uid
-        let belongTeam = UserDefaults.standard.bool(forKey: "belongTeam")
-        if uid != nil {
-            if belongTeam == true{
-                profileGet(userId:uid ?? "")
-                presentTabbar(userId:uid ?? "")
-            } else {
-                db.collection("users").document(uid!).getDocument { (document, error) in
-                    if let document = document, document.exists {
-                        let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                        print("Document data: \(dataDescription)")
-                        self.profileSet(userId: uid ?? "unKnown")
-                        self.presentTabbar(userId:uid ?? "unKnown")
-                    } else {
-                        print("Document does not exist")
-                        self.presentSignIn(userId:uid ?? "unKnown")
-                    }
-                }
-            }
-        } else {
-            presentSignIn(userId:uid ?? "")
-        }
+//        let storyboard = UIStoryboard.init(name: "TeamExplain", bundle: nil)
+//        let vc = storyboard.instantiateViewController(identifier: "TeamExplainVC") as! TeamExplainVC
+//        let nav = UINavigationController(rootViewController: vc)
+//        nav.modalPresentationStyle = .fullScreen
+//        self.present(nav, animated: true, completion: nil)
+        
+        let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
+                   let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
+                   TabbarController.modalPresentationStyle = .fullScreen
+                   self.present(TabbarController, animated: true, completion: nil)
+//        let uid = Auth.auth().currentUser?.uid
+//        let belongTeam = UserDefaults.standard.bool(forKey: "belongTeam")
+//        if uid != nil {
+//            if belongTeam == true{
+//                profileGet(userId:uid ?? "")
+//                presentTabbar(userId:uid ?? "")
+//            } else {
+//                db.collection("users").document(uid!).getDocument { (document, error) in
+//                    if let document = document, document.exists {
+//                        let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+//                        print("Document data: \(dataDescription)")
+//                        self.profileSet(userId: uid ?? "unKnown")
+//                        self.presentTabbar(userId:uid ?? "unKnown")
+//                    } else {
+//                        print("Document does not exist")
+//                        self.presentSignIn(userId:uid ?? "unKnown")
+//                    }
+//                }
+//            }
+//        } else {
+//            presentSignIn(userId:uid ?? "")
+//        }
     }
     
     func randomString(length: Int) -> String {
@@ -165,14 +175,25 @@ class SplashViewController: UIViewController {
                 self.subTitleLabel.transform = CGAffineTransform(scaleX: 3, y: 3)
                 self.subTitleLabel.alpha = 0
             }) { bool in
-                let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
-                let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
-                TabbarController.modalPresentationStyle = .fullScreen
-                self.present(TabbarController, animated: true, completion: nil)
-//                let storyboard = UIStoryboard(name: "Explain", bundle: nil)
-//                let ExplainVC = storyboard.instantiateViewController(withIdentifier: "ExplainVC") as! ExplainVC
-//                ExplainVC.modalPresentationStyle = .fullScreen
-//                self.present(ExplainVC, animated: true, completion: nil)
+//                let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
+//                let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
+//                TabbarController.modalPresentationStyle = .fullScreen
+//                self.present(TabbarController, animated: true, completion: nil)
+                
+                
+//                let storyboard = UIStoryboard.init(name: "Explain", bundle: nil)
+//                let vc = storyboard.instantiateViewController(identifier: "ExplainVC") as! ExplainVC
+//                let nav = UINavigationController(rootViewController: vc)
+//                nav.modalPresentationStyle = .fullScreen
+//                self.present(nav, animated: true, completion: nil)
+                
+                let storyboard = UIStoryboard.init(name: "TeamExplain", bundle: nil)
+                let vc = storyboard.instantiateViewController(identifier: "TeamExplainVC") as! TeamExplainVC
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
+//
+                
             }
         }
     }

@@ -1,8 +1,8 @@
 //
-//  NewCreateTeamVC.swift
+//  FirstMakeTeamVC.swift
 //  TOTALGOOD
 //
-//  Created by 平田翔大 on 2021/06/15.
+//  Created by 平田翔大 on 2022/01/23.
 //
 
 import UIKit
@@ -12,9 +12,7 @@ import FirebaseFirestore
 import FirebaseStorage
 import Firebase
 
-class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
-    
-    var skipBool = false
+class FirstMakeTeamVC: UIViewController, UIGestureRecognizerDelegate {
     
     var imageString : String?
     var companynameString : String?
@@ -55,13 +53,8 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
             } else {
                 
                 setTeam(teamName: teamNameString)
-                if skipBool == false {
-                    let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
-                    let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
-                    navigationController?.pushViewController(ThankyouVC, animated: true)
-                } else {
-                    self.navigationController?.popToRootViewController(animated: true)
-                }
+                
+                self.navigationController?.popToRootViewController(animated: true)
             }
         }
     }
@@ -168,7 +161,7 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         
                 
-        tyuuiLabel.text = "チームロゴと名前の\n両方を入力してください"
+        tyuuiLabel.text = "チームロゴと名前のの\n両方を入力してください"
         tyuuiLabel.alpha = 0
         
         
@@ -222,7 +215,7 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
     }
 }
 //
-extension NewCreateTeamVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension FirstMakeTeamVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let editImage = info[.editedImage] as? UIImage {
@@ -251,3 +244,4 @@ extension NewCreateTeamVC: UIImagePickerControllerDelegate, UINavigationControll
         self.dismiss(animated: true, completion: nil)
     }
 }
+

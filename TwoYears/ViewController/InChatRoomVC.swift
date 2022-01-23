@@ -19,6 +19,7 @@ class InChatRoomVC:UIViewController{
     var ChatRoomInfo = [ChatsInfo]()
     var userInfo : [UserInfo] = []
 
+    @IBOutlet weak var backGroundImageView: UIImageView!
     @IBOutlet weak var inChatTableView: UITableView!
     
     private let cellId = "cellId"
@@ -47,10 +48,17 @@ class InChatRoomVC:UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        #colorLiteral(red: 0.9387103873, green: 0.8334191148, blue: 0.6862602769, alpha: 1)
-        inChatTableView.backgroundColor = .systemBackground
+        
+//        inChatTableView.alpha = 0.9
+        inChatTableView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 0.9)
         setSwipeBack()
         setupNotification()
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2Fsplashbackground.jpeg?alt=media&token=4c2fd869-a146-4182-83aa-47dd396f1ad6") {
+            Nuke.loadImage(with: url, into: backGroundImageView)
+        } else {
+            backGroundImageView.image = nil
+        }
         inChatTableView.delegate = self
         inChatTableView.dataSource = self
         inChatTableView.register(UINib(nibName: "ChatRoomTableViewCell", bundle: nil), forCellReuseIdentifier: cellId)

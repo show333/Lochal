@@ -1,18 +1,15 @@
 //
-//  EnterTeamVC.swift
+//  FirstJoinTeamVC.swift
 //  TOTALGOOD
 //
-//  Created by 平田翔大 on 2021/12/23.
+//  Created by 平田翔大 on 2022/01/23.
 //
-
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
-class EnterTeamVC: UIViewController {
-    
-    var skipBool = false
+class FirstJoinTeamVC: UIViewController {
     let db = Firestore.firestore()
     
     @IBOutlet weak var teamIdField: UITextField!
@@ -69,7 +66,7 @@ class EnterTeamVC: UIViewController {
                     print("既に入っていますラベル")
                     
                 }
-                
+
             } else {
                 print("Document does not exist")
             }
@@ -82,13 +79,8 @@ class EnterTeamVC: UIViewController {
         db.collection("users").document(uid).collection("belong_Team").document("teamId").setData(["teamId":FieldValue.arrayUnion([teamId]) ], merge: true)
         db.collection("Team").document(teamId).setData(["membersCount": FieldValue.increment(1.0)], merge: true)
         db.collection("Team").document(teamId).collection("MembersId").document("membersId").setData(["userId": FieldValue.arrayUnion([uid])], merge: true)
-        if skipBool == true {
-            let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
-            let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
-            navigationController?.pushViewController(ThankyouVC, animated: true)
-        } else {
-            self.navigationController?.popToRootViewController(animated: true)
-        }
+        
+        self.navigationController?.popToRootViewController(animated: true)
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,6 +94,6 @@ class EnterTeamVC: UIViewController {
         enterButton.layer.shadowOpacity = 0.7
         enterButton.layer.shadowRadius = 5
         
-        
+
     }
 }

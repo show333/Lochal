@@ -124,13 +124,26 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         super.viewWillAppear(true)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
-
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        if UserDefaults.standard.bool(forKey: "firstPost") != true{
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            UserDefaults.standard.set(true, forKey: "firstPost")
+            let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
+            let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou") as! sinkitoukou
+            sinkitoukou.modalPresentationStyle = .fullScreen
+            self.present(sinkitoukou, animated: true, completion: nil)
+            Firestore.firestore().collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
+        } else {
+            if UserDefaults.standard.bool(forKey: "outMemoInstract") != true{
+                UserDefaults.standard.set(true, forKey: "outMemoInstract")
+                self.coachMarksController.start(in: .currentWindow(of: self))
+            }
+        }
         
-        self.coachMarksController.start(in: .currentWindow(of: self))
         
     }
     

@@ -9,11 +9,17 @@ import UIKit
 
 class CreateTeamVC : UIViewController {
     
+    var skipBool = false
+    
+    @IBOutlet weak var upButtonConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonDistance: NSLayoutConstraint!
+    @IBOutlet weak var downConstraint: NSLayoutConstraint!
     @IBOutlet weak var upButton: UIButton!
     @IBAction func upTappedButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "NewCreateTeam", bundle: nil)
-        let CompanyViewController = storyboard.instantiateViewController(withIdentifier: "NewCreateTeamVC") as! NewCreateTeamVC
-        navigationController?.pushViewController(CompanyViewController, animated: true)
+        let NewCreateTeamVC = storyboard.instantiateViewController(withIdentifier: "NewCreateTeamVC") as! NewCreateTeamVC
+        NewCreateTeamVC.skipBool = self.skipBool
+        navigationController?.pushViewController(NewCreateTeamVC, animated: true)
     }
     
     
@@ -22,10 +28,40 @@ class CreateTeamVC : UIViewController {
         
         let storyboard = UIStoryboard.init(name: "EnterTeam", bundle: nil)
         let EnterTeamVC = storyboard.instantiateViewController(withIdentifier: "EnterTeamVC") as! EnterTeamVC
+        EnterTeamVC.skipBool = self.skipBool
         navigationController?.pushViewController(EnterTeamVC, animated: true)
+    }
+    
+    @IBOutlet weak var skipButton: UIButton!
+    @IBAction func skipTappedButton(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
+        let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
+        navigationController?.pushViewController(ThankyouVC, animated: true)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = false
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if skipBool == true {
+            skipButton.alpha = 1
+        } else {
+            skipButton.alpha = 0
+        }
+        
+        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
+        let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)
+        
+        let safeArea = UIScreen.main.bounds.size.height - statusbarHeight - navigationbarHeight
+        
+        upButtonConstraint.constant = safeArea/4
+        buttonDistance.constant = safeArea/8
+        downConstraint.constant = safeArea/4
+        
+        
+        
         setSwipeBack()
         
         upButton.clipsToBounds = true

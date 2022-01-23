@@ -1,17 +1,15 @@
 //
-//  UserIdSetVC.swift
+//  FirstSetIdVC.swift
 //  TOTALGOOD
 //
-//  Created by 平田翔大 on 2022/01/19.
+//  Created by 平田翔大 on 2022/01/22.
 //
 
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-
-
-class UserIdSetVC:UIViewController,UITextFieldDelegate{
+class FirstSetIdVC:UIViewController,UITextFieldDelegate{
     
     
     let db = Firestore.firestore()
@@ -21,7 +19,6 @@ class UserIdSetVC:UIViewController,UITextFieldDelegate{
     @IBOutlet weak var idTextField: UITextField!
     
     @IBOutlet weak var idTextFieldConstraint: NSLayoutConstraint!
-//    @IBOutlet var textFieldDistance: UIView!
     @IBOutlet weak var sendButton: UIButton!
     
     @IBAction func sendTappedButton(_ sender: Any) {
@@ -53,7 +50,7 @@ class UserIdSetVC:UIViewController,UITextFieldDelegate{
         
         warningLabel.alpha = 0
         
-        explainLabel.text = "半角英数字で入力してください.\n2~30以内の文字数が可能です.\n空白は使用する事ができません."
+        explainLabel.text = "IDを半角英数字で\n入力してください"
         sendButton.clipsToBounds = true
         sendButton.layer.masksToBounds = false
         sendButton.layer.cornerRadius = 10
@@ -68,7 +65,9 @@ class UserIdSetVC:UIViewController,UITextFieldDelegate{
         
   
         
-        setSwipeBack()
+        
+        self.navigationItem.hidesBackButton = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         idTextField.delegate = self
 
         
@@ -86,7 +85,11 @@ class UserIdSetVC:UIViewController,UITextFieldDelegate{
                     if querySnapshot!.documents.count == 0{
                         setIdAccount(userId: userId, userFrontId: userFrontId)
                         fetchMyPost(userId: userId, userFrontId: userFrontId)
-                        self.navigationController?.popViewController(animated: true)
+                        
+                        let storyboard = UIStoryboard.init(name: "TeamExplain", bundle: nil)
+                        let TeamExplainVC = storyboard.instantiateViewController(withIdentifier: "TeamExplainVC") as! TeamExplainVC
+                        navigationController?.pushViewController(TeamExplainVC, animated: true)
+                        
                     } else {
                         warningLabel.text = "このアカウントはすでに使用されています"
                         labelAnimation()
@@ -143,13 +146,5 @@ class UserIdSetVC:UIViewController,UITextFieldDelegate{
     
     @objc func dismissKeyboard() {
         self.view.endEditing(true)
-    }
-}
-
-
-extension String {
-    // 半角数字の判定
-    func isAlphanumeric() -> Bool {
-        return !isEmpty && range(of: "[^a-z0-9_]", options: .regularExpression) == nil
     }
 }

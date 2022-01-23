@@ -14,7 +14,7 @@
             <objects>
                 <navigationController id="OpP-cv-5hV" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="srb-mi-aq2">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -90,7 +90,6 @@
                         <outlet property="idTextField" destination="CxT-GO-V2Y" id="i52-E3-bMZ"/>
                         <outlet property="idTextFieldConstraint" destination="mZ5-ww-AUu" id="WJl-0X-eNh"/>
                         <outlet property="sendButton" destination="F2q-fc-9Ku" id="biq-YF-xq8"/>
-                        <outlet property="textFieldDistance" destination="5EZ-qb-Rvc" id="v01-XM-NoT"/>
                         <outlet property="warningLabel" destination="tK2-Jc-tBN" id="zrf-yg-Z3t"/>
                     </connections>
                 </viewController>

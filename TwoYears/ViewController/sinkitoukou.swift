@@ -48,7 +48,7 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var companyView: UIImageView!
     @IBAction func tappedSinkiButton(_ sender: Any) {
-        sendMemoFireStore()
+//        sendMemoFireStore()
         dismiss(animated: true, completion: nil)
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -96,17 +96,17 @@ class sinkitoukou: UIViewController {
         
         followerId = ["a","aa","aaa","aaaa","aaaaa","aaaaaa",]
         
-        db.collection("users").getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                for document in querySnapshot!.documents {
-                    let userId =  document.data()["この人のuid"] as? String ?? "unKnown"
-                    db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+//        db.collection("users").document("#").collection("").getDocuments() { (querySnapshot, err) in
+//            if let err = err {
+//                print("Error getting documents: \(err)")
+//            } else {
+//                for document in querySnapshot!.documents {
+//                    let userId =  document.data()["この人のuid"] as? String ?? "unKnown"
+//                    db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
 //                    print("おおおお",userId)
-                }
-            }
-        }
+//                }
+//            }
+//        }
 //
 //        followerId.forEach{
 //            print($0)
@@ -116,7 +116,7 @@ class sinkitoukou: UIViewController {
         
         db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
 //
-//        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
+        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
 //
         db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
         
@@ -126,37 +126,36 @@ class sinkitoukou: UIViewController {
     
     
     fileprivate let placeholder: String = "今、何を聴いてる?\nこういう人、どう思う？\netc." //プレイスホルダー
-    fileprivate var maxWordCount: Int = 200 //最大文字数
+    fileprivate var maxWordCount: Int = 300 //最大文字数
+    
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        Firestore.firestore().collection("users").document(uid!).getDocument{ (document, error) in
-          if let document = document {
-//            let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-           let company1Idget = document.data()?["company1"]as? String
-            
-            if let company1Idget = company1Idget {
-                self.company1Id = company1Idget
-            }
-          } else {
-            print("Document does not exist in cache")
-          }
-        }
+        super.viewWillAppear(true)
+        self.navigationController?.navigationBar.isHidden = true
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        ongakuLabel.text = "投稿は一週間で消えます"
+        
+        if UserDefaults.standard.bool(forKey: "outMemoInstract") != true{
+            view.alpha = 1
+            ongakuLabel.text = "どうぞよろしく"
+
+        } else {
+            view.alpha = 0.9
+            ongakuLabel.text = "投稿は一週間で消えます"
+
+        }
+        
         self.textView.delegate = self
         sinkiButton.isEnabled = false
         sinkiButton.backgroundColor = .gray
         textView.text = placeholder
         textView.textColor = .gray
-        view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.9829034675)
         textView.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.862745098, alpha: 1)
         textView.clipsToBounds = true
         textView.layer.cornerRadius = 8
         sinkiButton.clipsToBounds = true
         sinkiButton.layer.cornerRadius = 5
-        wordCountLabel.text = "200文字まで"
+        wordCountLabel.text = "300文字まで"
     }
 }
 extension sinkitoukou: UITextViewDelegate {
@@ -164,7 +163,7 @@ extension sinkitoukou: UITextViewDelegate {
         let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
         let newLines = text.components(separatedBy: .newlines)//新規改行数
         let linesAfterChange = existingLines.count + newLines.count - 1 //最終改行数。-1は編集したら必ず1改行としてカウントされるから。
-        return linesAfterChange <= 20 && textView.text.count + (text.count - range.length) <= maxWordCount
+        return linesAfterChange <= 30 && textView.text.count + (text.count - range.length) <= maxWordCount
     }
     func textViewDidChange(_ textView: UITextView) {
         let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
@@ -176,7 +175,7 @@ extension sinkitoukou: UITextViewDelegate {
             sinkiButton.isEnabled = true
             sinkiButton.backgroundColor = #colorLiteral(red: 0, green: 0.9052245021, blue: 0.6851730943, alpha: 1)
         }
-        if existingLines.count <= 20 {
+        if existingLines.count <= 30 {
             self.wordCountLabel.text = "残り\(maxWordCount - textView.text.count)文字"
         }
     }

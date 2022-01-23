@@ -1,15 +1,16 @@
 //
-//  UserNameSetVC.swift
+//  FirstSetNameVC.swift
 //  TOTALGOOD
 //
-//  Created by 平田翔大 on 2022/01/19.
+//  Created by 平田翔大 on 2022/01/22.
 //
 
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 
-class UserNameSetVC:UIViewController{
+class FirstSetNameVC:UIViewController{
+    
     
     let db = Firestore.firestore()
     
@@ -33,17 +34,21 @@ class UserNameSetVC:UIViewController{
             guard let uid = Auth.auth().currentUser?.uid else {return}
             UserDefaults.standard.set(sendName, forKey: "userName")
             setFirestore(userId: uid, userName: sendName)
-            self.navigationController?.popViewController(animated: true)
-
+            let storyboard = UIStoryboard.init(name: "FirstSetImage", bundle: nil)
+            let FirstSetImageVC = storyboard.instantiateViewController(withIdentifier: "FirstSetImageVC") as! FirstSetImageVC
+            navigationController?.pushViewController(FirstSetImageVC, animated: true)
         }
     }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.hidesBackButton = true
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         warningLabel.alpha = 0
         
-        explainLabel.text = "2~30以内の文字数が可能です.\n空白は使用する事ができません."
+        explainLabel.text = "友達にわかりやすい名前を\n入力してください！"
         
         sendButton.clipsToBounds = true
         sendButton.layer.masksToBounds = false
@@ -57,8 +62,6 @@ class UserNameSetVC:UIViewController{
         
         nameTextFieldConstraint.constant = safeArea/6
         
-        setSwipeBack()
-
         let tapGR: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGR.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tapGR)
@@ -117,5 +120,3 @@ class UserNameSetVC:UIViewController{
         self.view.endEditing(true)
     }
 }
-
-

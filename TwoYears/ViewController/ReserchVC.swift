@@ -16,7 +16,7 @@ import Instructions
 class ReserchVC:UIViewController{
     
     var selectBool:Bool = false
-    var users: [Users] = []
+    var userInfo: [UserInfo] = []
     private let cellId = "cellId"
     let db = Firestore.firestore()
     let coachMarksController = CoachMarksController()
@@ -73,11 +73,11 @@ class ReserchVC:UIViewController{
                         noExsitAnimation()
                     } else {
                         noExistLabel.alpha = 0
-                        users.removeAll()
+                        userInfo.removeAll()
                         for document in querySnapshot!.documents {
                             print("\(document.documentID) => \(document.data())")
-                            let usersDic = Users(dic: document.data())
-                            self.users.append(usersDic)
+                            let userInfoDic = UserInfo(dic: document.data())
+                            self.userInfo.append(userInfoDic)
                         }
                         reserchTableView.reloadData()
                     }
@@ -120,8 +120,10 @@ class ReserchVC:UIViewController{
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        self.coachMarksController.start(in: .currentWindow(of: self))
+        if UserDefaults.standard.bool(forKey: "serchInstruct") != true{
+            UserDefaults.standard.set(true, forKey: "serchInstruct")
+            self.coachMarksController.start(in: .currentWindow(of: self))
+        }
         
     }
     
@@ -189,19 +191,19 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         return 70
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        return userInfo.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = reserchTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ReserhTableViewCell
         cell.userImageView.image = nil
-        cell.userNameLabel.text = users[indexPath.row].userName
-        cell.userFrontIdLabel.text = users[indexPath.row].userFrontId
+        cell.userNameLabel.text = userInfo[indexPath.row].userName
+        cell.userFrontIdLabel.text = userInfo[indexPath.row].userFrontId
         
         cell.userImageView.clipsToBounds = true
         cell.userImageView.layer.cornerRadius = 30
         
-        if let url = URL(string:users[indexPath.row].userImage) {
+        if let url = URL(string:userInfo[indexPath.row].userImage) {
             Nuke.loadImage(with: url, into: cell.userImageView)
         } else {
             cell.userImageView?.image = nil
@@ -214,7 +216,7 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         
         let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
         let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        ProfileVC.userId = users[indexPath.row].userId
+        ProfileVC.userId = userInfo[indexPath.row].userId
         ProfileVC.cellImageTap = true
         navigationController?.pushViewController(ProfileVC, animated: true)
 
