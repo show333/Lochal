@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mLY-fw-Xwa">
-    <device id="retina6_0" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="mLY-fw-Xwa">
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -14,7 +14,7 @@
             <objects>
                 <navigationController id="mLY-fw-Xwa" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="544-5l-8Tp">
-                        <rect key="frame" x="0.0" y="44" width="390" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -30,14 +30,14 @@
             <objects>
                 <viewController storyboardIdentifier="UserImageSetVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="pxT-vl-RiM" customClass="UserImageSetVC" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Uss-1a-dME">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1y-5R-vSC">
-                                <rect key="frame" x="87.000000000000014" y="160.66666666666663" width="216.33333333333337" height="216.33333333333337"/>
+                                <rect key="frame" x="85" y="45" width="150" height="150"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="86R-Hz-Lsa">
-                                        <rect key="frame" x="0.0" y="0.0" width="216.33333333333334" height="216.33333333333334"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                         <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" image="person" catalog="system"/>
                                         <connections>
@@ -52,11 +52,11 @@
                                     <constraint firstAttribute="trailing" secondItem="86R-Hz-Lsa" secondAttribute="trailing" id="FVo-cP-HGf"/>
                                     <constraint firstItem="86R-Hz-Lsa" firstAttribute="leading" secondItem="m1y-5R-vSC" secondAttribute="leading" id="G2a-uY-jwq"/>
                                     <constraint firstAttribute="bottom" secondItem="86R-Hz-Lsa" secondAttribute="bottom" id="M6I-0c-cS2"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="hOW-09-hYB"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="hOW-09-hYB"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZJ-kl-Kto">
-                                <rect key="frame" x="145" y="422" width="100" height="60"/>
+                                <rect key="frame" x="110" y="240" width="100" height="60"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="Ew4-kZ-stI"/>
@@ -68,15 +68,15 @@
                                     <action selector="kakuteiTappedButton:" destination="pxT-vl-RiM" eventType="touchUpInside" id="DjO-2m-GaH"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タップで変更" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rQz-zR-6Di">
-                                <rect key="frame" x="144" y="108" width="102" height="22.666666666666657"/>
-                                <fontDescription key="fontDescription" name="LaoSangamMN" family="Lao Sangam MN" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TmZ-vA-i84">
+                                <rect key="frame" x="139" y="320" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TmZ-vA-i84">
-                                <rect key="frame" x="174" y="502" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タップで変更" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rQz-zR-6Di">
+                                <rect key="frame" x="109" y="205" width="102" height="22.5"/>
+                                <fontDescription key="fontDescription" name="LaoSangamMN" family="Lao Sangam MN" pointSize="17"/>
                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -84,16 +84,15 @@
                         <viewLayoutGuide key="safeArea" id="92O-SD-Fhw"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="rQz-zR-6Di" firstAttribute="top" secondItem="92O-SD-Fhw" secondAttribute="top" constant="20" id="7Gv-hF-gnW"/>
                             <constraint firstItem="aZJ-kl-Kto" firstAttribute="centerX" secondItem="Uss-1a-dME" secondAttribute="centerX" id="CuK-I9-UFu"/>
                             <constraint firstItem="m1y-5R-vSC" firstAttribute="centerX" secondItem="Uss-1a-dME" secondAttribute="centerX" id="IVG-Tt-yAW"/>
                             <constraint firstItem="TmZ-vA-i84" firstAttribute="centerX" secondItem="Uss-1a-dME" secondAttribute="centerX" id="N3v-5Q-gkK"/>
                             <constraint firstItem="aZJ-kl-Kto" firstAttribute="centerX" secondItem="Uss-1a-dME" secondAttribute="centerX" id="Rq6-tb-XrU"/>
                             <constraint firstItem="TmZ-vA-i84" firstAttribute="top" secondItem="aZJ-kl-Kto" secondAttribute="bottom" constant="20" id="UTg-KQ-uJl"/>
                             <constraint firstItem="aZJ-kl-Kto" firstAttribute="centerY" secondItem="Uss-1a-dME" secondAttribute="centerY" constant="30" id="UTm-wQ-9FR"/>
+                            <constraint firstItem="rQz-zR-6Di" firstAttribute="top" secondItem="m1y-5R-vSC" secondAttribute="bottom" constant="10" id="gBh-EN-joD"/>
                             <constraint firstItem="rQz-zR-6Di" firstAttribute="centerX" secondItem="Uss-1a-dME" secondAttribute="centerX" id="nfB-8L-Gax"/>
                             <constraint firstItem="aZJ-kl-Kto" firstAttribute="top" secondItem="m1y-5R-vSC" secondAttribute="bottom" constant="45" id="xSL-sJ-12C"/>
-                            <constraint firstItem="m1y-5R-vSC" firstAttribute="top" secondItem="rQz-zR-6Di" secondAttribute="bottom" constant="30" id="yqI-hR-Xnm"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Image変更" id="wMw-ca-3TB"/>

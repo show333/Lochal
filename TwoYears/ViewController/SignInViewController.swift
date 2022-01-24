@@ -60,9 +60,8 @@ class SignInViewController: UIViewController {
         guard let teamId = idTextField.text else { return }
         let randomId = randomString(length: 8)
         Auth.auth().createUser(withEmail: randomId + "@2.years", password: "ONELIFE") { authResult, error in
-            print("トントン")
+//            let uid = Auth.auth().currentUser?.uid else { return }/
         }
-        print("あいあいあいあ")
         
         button.startAnimation() // 2: Then start the animation when the user tap the button
         let qualityOfServiceClass = DispatchQoS.QoSClass.background
@@ -84,7 +83,6 @@ class SignInViewController: UIViewController {
                     }
                 }
         })
-        
     }
     
     func randomString(length: Int) -> String {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RhG-83-zlG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="RhG-83-zlG">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -140,6 +140,18 @@
                                 <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4/4" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLV-dy-bnt">
+                                <rect key="frame" x="182.33333333333334" y="759" width="25.666666666666657" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="チームは後から変更可能です" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pzO-JV-gID">
+                                <rect key="frame" x="128.66666666666666" y="737" width="132.99999999999997" height="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
@@ -152,9 +164,13 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="1af-uw-vpW" secondAttribute="trailing" constant="50" id="GHM-W2-1Yc"/>
                             <constraint firstItem="S0g-JY-RG3" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="Ng8-HG-NaK"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="u1M-yK-q7B" secondAttribute="trailing" constant="30" id="OW8-ve-uia"/>
+                            <constraint firstItem="pzO-JV-gID" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="TCf-aZ-55k"/>
+                            <constraint firstItem="fLV-dy-bnt" firstAttribute="top" secondItem="pzO-JV-gID" secondAttribute="bottom" constant="10" id="VqY-aV-hXK"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="u1M-yK-q7B" secondAttribute="bottom" constant="30" id="e0b-p8-hcF"/>
                             <constraint firstItem="1af-uw-vpW" firstAttribute="top" secondItem="Jz1-Mf-gzR" secondAttribute="bottom" constant="5" id="eQo-rb-HDr"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="fLV-dy-bnt" secondAttribute="bottom" constant="30" id="ft3-j3-yX3"/>
                             <constraint firstItem="S0g-JY-RG3" firstAttribute="top" secondItem="1af-uw-vpW" secondAttribute="bottom" constant="100" id="kpW-OS-Gx5"/>
+                            <constraint firstItem="fLV-dy-bnt" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="m5S-OF-FnA"/>
                             <constraint firstItem="1af-uw-vpW" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="50" id="wne-7k-AIz"/>
                             <constraint firstItem="S0g-JY-RG3" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="50" id="wrm-YU-RrU"/>
                         </constraints>
@@ -162,6 +178,8 @@
                     <navigationItem key="navigationItem" title="Team" id="lAX-Gz-5Vp"/>
                     <connections>
                         <outlet property="buttonDistance" destination="kpW-OS-Gx5" id="r2B-mh-jar"/>
+                        <outlet property="canChangeLabel" destination="pzO-JV-gID" id="BaL-bN-ugO"/>
+                        <outlet property="countLabel" destination="fLV-dy-bnt" id="tIN-KP-gC5"/>
                         <outlet property="downButton" destination="may-Bh-fvp" id="kHR-SI-LRY"/>
                         <outlet property="downConstraint" destination="1T0-ak-tVX" id="rqE-Cu-ZWb"/>
                         <outlet property="downImageView" destination="YCM-JH-K8x" id="51O-2w-DR6"/>
@@ -179,6 +197,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

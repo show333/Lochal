@@ -239,7 +239,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     
     
     private func fetchFireStore(userId:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")

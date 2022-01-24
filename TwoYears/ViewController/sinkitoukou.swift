@@ -75,7 +75,7 @@ class sinkitoukou: UIViewController {
             "userId":uid,
             "readLog": false,
             "anonymous":false,
-            "admin": true,
+            "admin": false,
             "delete": false,
         ] as [String: Any]
         
@@ -90,7 +90,7 @@ class sinkitoukou: UIViewController {
             "userId":uid,
             "textMask":textMask.randomElement() ?? "",
             "anonymous":false,
-            "admin": true,
+            "admin": false,
             "delete": false,
         ] as [String: Any]
         
@@ -127,7 +127,7 @@ class sinkitoukou: UIViewController {
     
     
     
-    fileprivate let placeholder: String = "今、何を聴いてる?\nこういう人、どう思う？\netc." //プレイスホルダー
+    fileprivate let placeholder: String = "ポテチ食べたい\nコンビニの新作アイスめっちゃ美味い\nうちの猫めっちゃ可愛い\n授業,会社だるい\n布団から出られない\nなど" //プレイスホルダー
     fileprivate var maxWordCount: Int = 300 //最大文字数
     
     override func viewWillAppear(_ animated: Bool) {
@@ -139,19 +139,19 @@ class sinkitoukou: UIViewController {
         
         if UserDefaults.standard.bool(forKey: "outMemoInstract") != true{
             view.alpha = 1
-            ongakuLabel.text = "どうぞよろしく"
+            ongakuLabel.text = "初めての投稿をしてみましょう！\n投稿はフォロワーに公開されます"
+
 
         } else {
             view.alpha = 0.9
             ongakuLabel.text = "投稿は一週間で消えます"
-
         }
         
         self.textView.delegate = self
         sinkiButton.isEnabled = false
         sinkiButton.backgroundColor = .gray
-        textView.text = placeholder
         textView.textColor = .gray
+        textView.text = placeholder
         textView.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.862745098, alpha: 1)
         textView.clipsToBounds = true
         textView.layer.cornerRadius = 8

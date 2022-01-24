@@ -13,6 +13,7 @@ class CreateTeamVC : UIViewController {
     
     var skipBool = false
     
+    @IBOutlet var canChangeLabel: UIView!
     @IBOutlet weak var upConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var buttonDistance: NSLayoutConstraint!
@@ -41,6 +42,7 @@ class CreateTeamVC : UIViewController {
         navigationController?.pushViewController(EnterTeamVC, animated: true)
     }
     
+    @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var skipButton: UIButton!
     @IBAction func skipTappedButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
@@ -56,8 +58,12 @@ class CreateTeamVC : UIViewController {
         
         if skipBool == true {
             skipButton.alpha = 1
+            countLabel.alpha = 1
+            canChangeLabel.alpha = 1
         } else {
             skipButton.alpha = 0
+            countLabel.alpha = 0
+            canChangeLabel.alpha = 0
         }
         
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2Fundraw_circles_y7s2.png?alt=media&token=f2f89b22-99a8-4d33-a127-86290cf4b53a") {

@@ -8,11 +8,15 @@
 
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 import Nuke
 
 class ExplainVC:UIViewController{
     
     var pageCount: Int = 0
+    
+    let db = Firestore.firestore()
     
     let imageArray = [
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.001.png?alt=media&token=623efe75-23b4-489e-862b-6f3c43838f0c",//0
@@ -48,10 +52,16 @@ class ExplainVC:UIViewController{
         if pageCount < 10 {
             pageCount += 1
         } else {
-            print("a")
+            
+            let uid = Auth.auth().currentUser?.uid
+            
+            if uid == nil {
+                createAuth()
+            }
             let storyboard = UIStoryboard.init(name: "FirstSetName", bundle: nil)
             let FirstSetNameVC = storyboard.instantiateViewController(withIdentifier: "FirstSetNameVC") as! FirstSetNameVC
             navigationController?.pushViewController(FirstSetNameVC, animated: true)
+            
         }
         
         
@@ -124,12 +134,44 @@ class ExplainVC:UIViewController{
         }
     }
     
+    func createAuth(){
+        let randomId = randomString(length: 8)
+        Auth.auth().createUser(withEmail: randomId + "@2.years", password: "ONELIFE") { authResult, error in
+            let uid = Auth.auth().currentUser?.uid
+            self.profileSet(userId:uid ?? "")
+        }
+    }
+    
+    func profileSet(userId:String){
+        
+//        let firstSetup = [
+//            "admin":false,
+//            "userId":userId,
+//            "nowjikan": FieldValue.serverTimestamp(),
+//            "createdAt": FieldValue.serverTimestamp(),
+//        ] as [String: Any]
+//        
+        let profile = [
+            "admin":false,
+            "userId":userId,
+        ] as [String: Any]
+//        
+//        db.collection("users").document(userId).setData(firstSetup,merge: true)
+        db.collection("users").document(userId).collection("Profile").document("profile").setData(profile,merge: true)
+    }
+    
+    func randomString(length: Int) -> String {
+        let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<length).map{ _ in characters.randomElement()! })
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
     }
     override func viewDidLoad(){
         super.viewDidLoad()
+        
         
         explainSecondView.alpha = 0
         

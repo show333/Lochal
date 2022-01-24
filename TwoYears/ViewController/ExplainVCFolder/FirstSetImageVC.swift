@@ -31,10 +31,21 @@ class FirstSetImageVC : UIViewController {
         self.present(imagePickerController, animated: true, completion: nil)
     }
 
+    @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var kakuteiButton: UIButton!
     
     @IBAction func kakuteiTappedButton(_ sender: Any) {
         
+        if imageString != nil {
+            sendImage()
+        } else {
+            labelAnimation()
+        }
+    
+        
+    }
+    
+    func sendImage() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let storageRef = Storage.storage().reference().child("User_Image").child(imageString!)
         guard let image = imageButton.imageView?.image  else { return }
@@ -62,7 +73,26 @@ class FirstSetImageVC : UIViewController {
         let storyboard = UIStoryboard.init(name: "FirstSetId", bundle: nil)
         let FirstSetIdVC = storyboard.instantiateViewController(withIdentifier: "FirstSetIdVC") as! FirstSetIdVC
         navigationController?.pushViewController(FirstSetIdVC, animated: true)
-        
+    }
+    
+    func labelAnimation(){
+        UIView.animate(withDuration: 0.2, delay: 0.1, animations: {
+            self.warningLabel.alpha = 1
+//
+//
+        }) { bool in
+        // ②アイコンを大きくする
+            UIView.animate(withDuration: 0.5, delay: 0, animations: {
+                self.warningLabel.alpha = 1
+
+        }) { bool in
+            // ②アイコンを大きくする
+            UIView.animate(withDuration: 0.2, delay: 2, animations: {
+                self.warningLabel.alpha = 0
+
+            })
+            }
+        }
     }
     
     func setImage(userId:String,userImage:String){
@@ -92,6 +122,7 @@ class FirstSetImageVC : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        warningLabel.alpha = 0
         
         self.navigationItem.hidesBackButton = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
@@ -107,7 +138,7 @@ class FirstSetImageVC : UIViewController {
         
         imageBackView.clipsToBounds = true
         imageBackView.layer.masksToBounds = false
-        imageBackView.layer.cornerRadius = imageConstraint.constant/2
+        imageBackView.layer.cornerRadius = 75
         imageBackView.layer.shadowColor = UIColor.black.cgColor
         imageBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
         imageBackView.layer.shadowOpacity = 0.7

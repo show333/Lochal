@@ -123,11 +123,11 @@ class UserImageSetVC : UIViewController {
         self.view.addGestureRecognizer(tapGR)
         
         imageButton.clipsToBounds = true
-        imageButton.layer.cornerRadius = 100
+        imageButton.layer.cornerRadius = 75
         
         imageBackView.clipsToBounds = true
         imageBackView.layer.masksToBounds = false
-//        imageBackView.layer.cornerRadius =  imageBackViewConstraint.constant/2
+        imageBackView.layer.cornerRadius =  75
         imageBackView.layer.shadowColor = UIColor.black.cgColor
         imageBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
         imageBackView.layer.shadowOpacity = 0.7
