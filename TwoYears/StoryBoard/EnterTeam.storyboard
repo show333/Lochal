@@ -25,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="-754" y="110"/>
         </scene>
-        <!--Enter TeamVC-->
+        <!--Join Team-->
         <scene sceneID="s0d-6b-0kx">
             <objects>
                 <viewController storyboardIdentifier="EnterTeamVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="EnterTeamVC" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
@@ -75,7 +75,7 @@
                             <constraint firstItem="dFl-sz-21z" firstAttribute="top" secondItem="dY0-dy-F7M" secondAttribute="bottom" constant="50" id="x5W-2j-gPd"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="rtY-rY-FkV"/>
+                    <navigationItem key="navigationItem" title="Join Team" id="rtY-rY-FkV"/>
                     <connections>
                         <outlet property="enterButton" destination="JPn-g8-R12" id="glB-3z-30e"/>
                         <outlet property="explainLabel" destination="dY0-dy-F7M" id="DRs-0X-Wdt"/>

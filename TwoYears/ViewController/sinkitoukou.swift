@@ -15,6 +15,7 @@ import Nuke
 
 class sinkitoukou: UIViewController {
     let uid = UserDefaults.standard.string(forKey: "userId")
+    let db = Firestore.firestore()
     var company1Id : String?
     var followerId : [String] = []
     
@@ -93,26 +94,27 @@ class sinkitoukou: UIViewController {
             "delete": false,
         ] as [String: Any]
         
+            
+            
+            db.collection("users").document(uid).collection("Follower").document("follower_Id")
+                .addSnapshotListener { documentSnapshot, error in
+                    guard let document = documentSnapshot else {
+                        print("Error fetching document: \(error!)")
+                        return
+                    }
+                    guard let data = document.data() else {
+                        print("Document data was empty.")
+                        return
+                    }
+                    print("Current data: \(data)")
+                    let userIdArray = data["userId"] as! Array<String>
+    
+                    userIdArray.forEach{
+                        db.collection("users").document($0).collection("TimeLine").document(memoId).setData(memoInfoDic)
+                        
+                    }
         
-        followerId = ["a","aa","aaa","aaaa","aaaaa","aaaaaa",]
-        
-//        db.collection("users").document("#").collection("").getDocuments() { (querySnapshot, err) in
-//            if let err = err {
-//                print("Error getting documents: \(err)")
-//            } else {
-//                for document in querySnapshot!.documents {
-//                    let userId =  document.data()["この人のuid"] as? String ?? "unKnown"
-//                    db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
-//                    print("おおおお",userId)
-//                }
-//            }
-//        }
-//
-//        followerId.forEach{
-//            print($0)
-//            db.collection("users").document($0).collection("TimeLine").document(memoId).setData(memoInfoDic)
-//        }
-        
+                }
         
         db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
 //

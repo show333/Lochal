@@ -36,7 +36,7 @@ class TeamExplainVC:UIViewController {
         
         
         
-        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FmakeAUnitTeam.001.png?alt=media&token=3195f984-ccb6-4993-8f1b-220a96c988dc") {
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FMakeAUnitTeamImage.001.png?alt=media&token=bfd386c6-ed4b-4e34-9f14-4ead1110e04d") {
             Nuke.loadImage(with: url, into: backImageView)
         } else {
             backImageView.image = nil

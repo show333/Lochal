@@ -19,8 +19,7 @@ class FirstSetImageVC : UIViewController {
     var imageString : String?
     
     @IBOutlet weak var imageBackView: UIView!
-    
-    
+        
     @IBOutlet weak var imageConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageButton: UIButton!
     @IBAction func imageTappedButton(_ sender: Any) {
@@ -106,10 +105,9 @@ class FirstSetImageVC : UIViewController {
         imageButton.clipsToBounds = true
         imageButton.layer.cornerRadius = safeAreaWidth/4
         
-        imageConstraint.constant = safeAreaWidth/2
         imageBackView.clipsToBounds = true
         imageBackView.layer.masksToBounds = false
-        imageBackView.layer.cornerRadius = safeAreaWidth/4
+        imageBackView.layer.cornerRadius = imageConstraint.constant/2
         imageBackView.layer.shadowColor = UIColor.black.cgColor
         imageBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
         imageBackView.layer.shadowOpacity = 0.7

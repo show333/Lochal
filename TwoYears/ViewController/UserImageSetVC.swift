@@ -20,6 +20,7 @@ class UserImageSetVC : UIViewController {
     
     @IBOutlet weak var imageBackView: UIView!
     
+    @IBOutlet weak var explainLabel: UILabel!
     
     @IBOutlet weak var imageButton: UIButton!
     @IBAction func imageTappedButton(_ sender: Any) {
@@ -34,7 +35,27 @@ class UserImageSetVC : UIViewController {
     @IBOutlet weak var kakuteiButton: UIButton!
     
     @IBAction func kakuteiTappedButton(_ sender: Any) {
-        
+        if imageString != nil {
+            sendImage()
+        } else {
+            DispatchQueue.main.async(execute: { () -> Void in
+                    self.explainLabel.text = "画像が選択されていません"
+                    
+                    UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+                        self.explainLabel.alpha = 1
+                        
+                    }) {(completed) in
+                        
+                        UIView.animate(withDuration: 0.2, delay: 2.5, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+                            self.explainLabel.alpha = 0
+                        })
+                    }
+                })
+            
+        }
+    }
+    
+    func sendImage(){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let storageRef = Storage.storage().reference().child("User_Image").child(imageString!)
         guard let image = imageButton.imageView?.image  else { return }
@@ -89,9 +110,13 @@ class UserImageSetVC : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+//        let safeArea = UIScreen.main.bounds.size.width
+        
+        
         setSwipeBack()
 
-        
+        explainLabel.alpha = 0
         
         let tapGR: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tapGR.cancelsTouchesInView = false
@@ -102,7 +127,7 @@ class UserImageSetVC : UIViewController {
         
         imageBackView.clipsToBounds = true
         imageBackView.layer.masksToBounds = false
-        imageBackView.layer.cornerRadius = 100
+//        imageBackView.layer.cornerRadius =  imageBackViewConstraint.constant/2
         imageBackView.layer.shadowColor = UIColor.black.cgColor
         imageBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
         imageBackView.layer.shadowOpacity = 0.7

@@ -6,14 +6,23 @@
 //
 
 import UIKit
+import Nuke
+
 
 class CreateTeamVC : UIViewController {
     
     var skipBool = false
     
-    @IBOutlet weak var upButtonConstraint: NSLayoutConstraint!
+    @IBOutlet weak var upConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var buttonDistance: NSLayoutConstraint!
     @IBOutlet weak var downConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var upView: UIView!
+    @IBOutlet weak var downView: UIView!
+    @IBOutlet weak var upImageView: UIImageView!
+    
+    @IBOutlet weak var downImageView: UIImageView!
     @IBOutlet weak var upButton: UIButton!
     @IBAction func upTappedButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "NewCreateTeam", bundle: nil)
@@ -51,34 +60,47 @@ class CreateTeamVC : UIViewController {
             skipButton.alpha = 0
         }
         
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2Fundraw_circles_y7s2.png?alt=media&token=f2f89b22-99a8-4d33-a127-86290cf4b53a") {
+            Nuke.loadImage(with: url, into: upImageView)
+        } else {
+            upImageView?.image = nil
+        }
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2Fundraw_join_of2w.png?alt=media&token=90126689-76f6-4177-b67a-743fed12917f") {
+            Nuke.loadImage(with: url, into: downImageView)
+        } else {
+            downImageView?.image = nil
+        }
+        
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)
         
         let safeArea = UIScreen.main.bounds.size.height - statusbarHeight - navigationbarHeight
         
-        upButtonConstraint.constant = safeArea/4
+        upConstraint.constant = safeArea/4
         buttonDistance.constant = safeArea/8
         downConstraint.constant = safeArea/4
         
-        
-        
+        upView.backgroundColor = .white
+        downView.backgroundColor = .white
         setSwipeBack()
         
-        upButton.clipsToBounds = true
-        upButton.layer.masksToBounds = false
-        upButton.layer.cornerRadius = 10
-        upButton.layer.shadowColor = UIColor.black.cgColor
-        upButton.layer.shadowOffset = CGSize(width: 0, height: 3)
-        upButton.layer.shadowOpacity = 0.7
-        upButton.layer.shadowRadius = 5
         
-        downButton.clipsToBounds = true
-        downButton.layer.masksToBounds = false
-        downButton.layer.cornerRadius = 10
-        downButton.layer.shadowColor = UIColor.black.cgColor
-        downButton.layer.shadowOffset = CGSize(width: 0, height: 3)
-        downButton.layer.shadowOpacity = 0.7
-        downButton.layer.shadowRadius = 5
+        upView.clipsToBounds = true
+        upView.layer.masksToBounds = false
+        upView.layer.cornerRadius = 10
+        upView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        upView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        upView.layer.shadowOpacity = 0.7
+        upView.layer.shadowRadius = 5
+        
+        downView.clipsToBounds = true
+        downView.layer.masksToBounds = false
+        downView.layer.cornerRadius = 10
+        downView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        downView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        downView.layer.shadowOpacity = 0.7
+        downView.layer.shadowRadius = 5
 
         
     }

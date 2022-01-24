@@ -26,6 +26,10 @@ class EnterTeamVC: UIViewController {
         getsTeamInfo(teamId:teamId,uid:uid)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
     func getsTeamInfo(teamId:String,uid:String){
         db.collection("Team").whereField("teamId", isEqualTo: teamId)
             .getDocuments() { (querySnapshot, err) in

@@ -32,15 +32,17 @@ class SplashViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subTitleLabel: UILabel!
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
     
     override func viewDidAppear(_ animated: Bool) {
 //        let storyboard = UIStoryboard.init(name: "TeamExplain", bundle: nil)
 //        let vc = storyboard.instantiateViewController(identifier: "TeamExplainVC") as! TeamExplainVC
+//        let nav = UINavigationController(rootViewController: vc)
+//        nav.modalPresentationStyle = .fullScreen
+//        self.present(nav, animated: true, completion: nil)
+        
+        
+//        let storyboard = UIStoryboard.init(name: "Explain", bundle: nil)
+//        let vc = storyboard.instantiateViewController(identifier: "ExplainVC") as! ExplainVC
 //        let nav = UINavigationController(rootViewController: vc)
 //        nav.modalPresentationStyle = .fullScreen
 //        self.present(nav, animated: true, completion: nil)
@@ -232,17 +234,11 @@ class SplashViewController: UIViewController {
             let XXX = ["XX" : true]
             UserDefaults.standard.set(XXX, forKey: "blocked")
         }
-        
         if  UserDefaults.standard.string(forKey: "invited") == nil{
             UserDefaults.standard.set("", forKey: "invited")
         }
-        
-        
     }
-    
-    
 }
-
 
 extension SplashViewController: BATabBarControllerDelegate {
     func tabBarController(_ tabBarController: BATabBarController, didSelect: UIViewController) {

@@ -48,6 +48,8 @@ class FirstSetIdVC:UIViewController,UITextFieldDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
+        
         warningLabel.alpha = 0
         
         explainLabel.text = "IDを半角英数字で\n入力してください"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ikn-03-FZ5">
-    <device id="ipad12_9rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
@@ -29,25 +29,45 @@
             <objects>
                 <viewController storyboardIdentifier="TeamExplainVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="TeamExplainVC" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gwP-fE-Hkt">
-                                <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                                <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fxy-Vu-4A8">
+                                <rect key="frame" x="0.0" y="44" width="428" height="848"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <connections>
+                                    <action selector="nextTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="RbY-W2-MbA"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NEXT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1az-7S-uV1">
+                                <rect key="frame" x="349" y="837" width="49" height="25"/>
+                                <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="23"/>
+                                <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="Fxy-Vu-4A8" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="Clq-sp-sHd"/>
                             <constraint firstItem="gwP-fE-Hkt" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="Icv-X8-46e"/>
+                            <constraint firstItem="Fxy-Vu-4A8" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="RDc-qU-qCH"/>
                             <constraint firstItem="gwP-fE-Hkt" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="U17-tv-933"/>
                             <constraint firstItem="gwP-fE-Hkt" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="UlQ-wC-Bq7"/>
                             <constraint firstAttribute="bottom" secondItem="gwP-fE-Hkt" secondAttribute="bottom" id="Unx-xO-EDh"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="1az-7S-uV1" secondAttribute="bottom" constant="30" id="e6N-6c-sYm"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Fxy-Vu-4A8" secondAttribute="trailing" id="ipG-Yr-P1t"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="1az-7S-uV1" secondAttribute="trailing" constant="30" id="qgq-xW-dRf"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Fxy-Vu-4A8" secondAttribute="bottom" id="vaf-5G-3Jz"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qXP-4h-lrh"/>
                     <connections>
                         <outlet property="backImageView" destination="gwP-fE-Hkt" id="xm6-GT-fYR"/>
+                        <outlet property="nextButton" destination="Fxy-Vu-4A8" id="isE-Ek-zVe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
