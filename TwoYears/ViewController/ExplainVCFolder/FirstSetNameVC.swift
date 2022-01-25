@@ -44,6 +44,8 @@ class FirstSetNameVC:UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        firstSetup()
+        
         self.navigationItem.hidesBackButton = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         warningLabel.alpha = 0

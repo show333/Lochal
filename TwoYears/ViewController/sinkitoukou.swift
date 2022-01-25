@@ -49,7 +49,7 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var companyView: UIImageView!
     @IBAction func tappedSinkiButton(_ sender: Any) {
-//        sendMemoFireStore()
+        sendMemoFireStore()
         dismiss(animated: true, completion: nil)
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
