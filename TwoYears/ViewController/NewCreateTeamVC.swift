@@ -56,11 +56,11 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
                 
                 setTeam(teamName: teamNameString)
                 if skipBool == false {
+                    self.navigationController?.popToRootViewController(animated: true)
+                } else {
                     let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
                     let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
                     navigationController?.pushViewController(ThankyouVC, animated: true)
-                } else {
-                    self.navigationController?.popToRootViewController(animated: true)
                 }
             }
         }
@@ -117,6 +117,7 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
                     "userFrontId":userFrontId ?? "",
                     "userName": userName ?? "",
                     "userImage": userImage ?? "",
+                    "createdAt": FieldValue.serverTimestamp(),
                     "admin": false
                 ] as [String:Any]
                 
@@ -152,8 +153,6 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
                     db.collection("Team").document(randomId).collection("ChatRoom").document(chatSecondId).setData(secondChatDic)
                     print("2番目")
                 }
-                
-
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     let thirdChatDic = [
                         "createdAt": FieldValue.serverTimestamp(),

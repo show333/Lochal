@@ -99,6 +99,7 @@ class EnterTeamVC: UIViewController {
         let userFrontId: String? = UserDefaults.standard.string(forKey: "userFrontId")
         
         let userInfo = [
+            "createdAt": FieldValue.serverTimestamp(),
             "userId":uid,
             "userFrontId":userFrontId ?? "",
             "userName": userName ?? "",
@@ -107,23 +108,23 @@ class EnterTeamVC: UIViewController {
         ] as [String:Any]
         
         let teamDic = [
-            "createdAt": FieldValue.serverTimestamp(),
             "teamId":teamId,
             "teamName": teamName ?? "",
             "teamImage": teamImage ?? "",
             "teamFrontId":teamFrontId ?? "",
+            "createdAt": FieldValue.serverTimestamp(),
             "Founder": Founder ?? "",
         ] as [String: Any]
                 
         db.collection("users").document(uid).collection("belong_Team").document(teamId).setData(teamDic, merge: true)
         db.collection("Team").document(teamId).setData(["membersCount": FieldValue.increment(1.0)], merge: true)
         db.collection("Team").document(teamId).collection("MembersId").document(uid).setData(userInfo, merge: true)
-        if skipBool == true {
+        if skipBool == false {
+            self.navigationController?.popToRootViewController(animated: true)
+        } else {
             let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
             let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
             navigationController?.pushViewController(ThankyouVC, animated: true)
-        } else {
-            self.navigationController?.popToRootViewController(animated: true)
         }
     }
     

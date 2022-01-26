@@ -72,49 +72,31 @@ class UnitHomeVC:UIViewController {
         
         teamImageView.backgroundColor = .yellow
         
-        fetchTeamInfo(teamId: teamInfo?.teamId ?? "")
-    }
-    func fetchTeamInfo(teamId:String){
+        fetchUserTeamInfo(teamId: teamInfo?.teamId ?? "")
         
-        
-        self.db.collection("Team").document(teamId).collection("MembersId").document("membersId")
-            .addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let userIdArray = data["userId"] as! Array<String>
-
-                
-                self.userInfo.removeAll()
-                self.userCollectionView.reloadData()
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    userIdArray.forEach{
-                        self.getUserInfo(userId: $0)
-                    }
-                }
-            }
-        
+        print("あああいあいあ")
     }
     
-    func getUserInfo(userId:String){
-        db.collection("users").document(userId).collection("Profile").document("profile").getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-                let userInfoDic = UserInfo(dic: document.data()!)
-                self.userInfo.append(userInfoDic)
-  
-                self.userCollectionView.reloadData()
-            } else {
-                print("Document does not exist")
+    
+    func fetchUserTeamInfo(teamId:String){
+        
+        db.collection("Team").document(teamId).collection("MembersId").addSnapshotListener { [self] ( snapshots, err) in
+            if let err = err {
+                
+                print("メッセージの取得に失敗、\(err)")
+                return
             }
+            snapshots?.documentChanges.forEach({ (Naruto) in
+                switch Naruto.type {
+                case .added:
+                    let dic = Naruto.document.data()
+                    let userInfoDic = UserInfo(dic: dic)
+                    self.userInfo.append(userInfoDic)
+
+                case .modified, .removed:
+                    print("noproblem")
+                }
+            })
         }
     }
 }
@@ -139,6 +121,8 @@ extension UnitHomeVC:UICollectionViewDataSource,UICollectionViewDelegate {
         cell.clipsToBounds = true
         cell.layer.cornerRadius = headerHeight/8
         cell.userImageView.image = nil
+        
+        print("usera",userInfo)
         if let url = URL(string:userInfo[indexPath.row].userImage) {
             Nuke.loadImage(with: url, into: cell.userImageView)
         } else {
