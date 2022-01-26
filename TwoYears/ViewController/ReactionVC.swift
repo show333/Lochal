@@ -143,6 +143,7 @@ extension ReactionVC :UICollectionViewDataSource, UICollectionViewDelegate {
             "reactionImage": urlString,
             "reactionMessage":"さんがリアクションをしました",
             "theMessage":message ?? "",
+            "dataType": "reaction",
             "anonymous":false,
             "admin": false,
         ] as [String: Any]

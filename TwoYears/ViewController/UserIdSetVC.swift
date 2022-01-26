@@ -86,6 +86,8 @@ class UserIdSetVC:UIViewController,UITextFieldDelegate{
                     if querySnapshot!.documents.count == 0{
                         setIdAccount(userId: userId, userFrontId: userFrontId)
                         fetchMyPost(userId: userId, userFrontId: userFrontId)
+                        UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
+                        
                         self.navigationController?.popViewController(animated: true)
                     } else {
                         warningLabel.text = "このアカウントはすでに使用されています"

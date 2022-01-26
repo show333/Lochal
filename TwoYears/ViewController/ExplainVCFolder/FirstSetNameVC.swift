@@ -77,9 +77,10 @@ class FirstSetNameVC:UIViewController{
             "nowjikan": FieldValue.serverTimestamp(),
             "createdAt": FieldValue.serverTimestamp(),
         ] as [String: Any]
-        
+        UserDefaults.standard.set(uid, forKey: "userId")
         
         db.collection("users").document(uid ?? "").setData(firstSetup,merge: true)
+        
     }
     
     func setFirestore(userId:String,userName:String){

@@ -26,7 +26,7 @@ class ShadowView: UIView {
         self.layer.shouldRasterize = true
         self.layer.rasterizationScale = UIScreen.main.scale
         self.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-//        self.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        self.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         
     }
 }
@@ -47,9 +47,11 @@ class OutmMemoCellVC: UITableViewCell {
         messageLabel.backgroundColor = .clear
 //        coverView.backgroundColor = .clear
 //        coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        teamInfo.removeAll()
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
-            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "")
+            self.fetchUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
+
         }
         
     }
@@ -117,45 +119,63 @@ class OutmMemoCellVC: UITableViewCell {
         // 背景色を設定
         self.teamCollectionView.backgroundColor = .clear
         
-        print("awakenoyatu")
         
         
         self.teamCollectionView.alpha = 1
+        
+        teamInfo.removeAll()
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
 //             0.1秒後に実行したい処理（あとで変えるこれは良くない)
-            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "unKnwon")
+//            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
+            self.fetchUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
         }
     }
     
     
     func getUserTeamInfo(userId:String){
-        db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-
-                let teamIdArray = document.data()!["teamId"] as! Array<String>
-                print(teamIdArray)
-                print(teamIdArray[0])
-
-                print("カカかっかっっっカカかかかあいあいいあいいえいえいえおをを")
-                
-                self.teamInfo.removeAll()
-                
-                self.teamInfo.sort { (m1, m2) -> Bool in
-                    let m1Date = m1.createdAt.dateValue()
-                    let m2Date = m2.createdAt.dateValue()
-                    return m1Date > m2Date
-                }
-                
-                    teamIdArray.forEach{
-                        self.getTeamInfo(teamId: $0)
-                    }
-                
-
+        
+        db.collection("users").document(userId).collection("belong_Team").getDocuments() { [self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
             } else {
-                print("Document does not exist")
+
+                if querySnapshot?.documents.count ?? 0 >= 1{
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let teamId = document.data()["teamId"] as? String ?? ""
+                        getTeamInfo(teamId: teamId)
+                    }
+                }
             }
+        }
+    }
+    
+    func fetchUserTeamInfo(userId:String){
+        
+        db.collection("users").document(userId).collection("belong_Team").addSnapshotListener { [self] ( snapshots, err) in
+            if let err = err {
+                
+                print("メッセージの取得に失敗、\(err)")
+                return
+            }
+            snapshots?.documentChanges.forEach({ (Naruto) in
+                switch Naruto.type {
+                case .added:
+                    let dic = Naruto.document.data()
+                    let teamInfoDic = Team(dic: dic)
+                    
+                    let teamId = Naruto.document.data()["teamId"] as? String ?? ""
+                    getTeamInfo(teamId: teamId)
+                    self.teamInfo.sort { (m1, m2) -> Bool in
+                        let m1Date = m1.createdAt.dateValue()
+                        let m2Date = m2.createdAt.dateValue()
+                        return m1Date > m2Date
+                    }
+                case .modified, .removed:
+                    print("noproblem")
+                }
+            })
         }
     }
 

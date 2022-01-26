@@ -65,7 +65,8 @@ class InChatVC:  UIViewController, UICollectionViewDataSource,UICollectionViewDe
                 
         self.coachMarksController.dataSource = self
         
-        fetchUserTeamInfo()
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        fetchUserTeamInfo(userId:uid)
 //        fetchReaction(userId:uid)
         
         teamCollectionView.dataSource = self
@@ -101,9 +102,12 @@ class InChatVC:  UIViewController, UICollectionViewDataSource,UICollectionViewDe
 //        layout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
 //        teamCollectionView.collectionViewLayout = layout
     }
-    func fetchReaction(userId:String) {
-        db.collection("users").document(userId).collection("Reaction").addSnapshotListener{ [self] ( snapshots, err) in
+    
+    func fetchUserTeamInfo(userId:String){
+        
+        db.collection("users").document(userId).collection("belong_Team").addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
+                
                 print("メッセージの取得に失敗、\(err)")
                 return
             }
@@ -111,82 +115,19 @@ class InChatVC:  UIViewController, UICollectionViewDataSource,UICollectionViewDe
                 switch Naruto.type {
                 case .added:
                     let dic = Naruto.document.data()
-                    let reactionDic = Reaction(dic: dic)
+                    let teamInfoDic = Team(dic: dic)
                     
-//                    let date: Date = rarabai.zikokudosei.dateValue()
-//                    let momentType = moment(date)
-                    
-//                    if blockList[rarabai.userId] == true {
-//
-//                    } else {
-//                        if momentType >= moment() - 14.days {
-//                            if rarabai.admin == true {
-//                            }
-//                            self.animals.append(rarabai)
-//                        }
-//                    }
-                    
-                    self.reaction.append(reactionDic)
-                    
-//                    print("でぃく",dic)
-//                    print("ららばい",rarabai)
-                    self.reaction.sort { (m1, m2) -> Bool in
+                    self.teamInfo.append(teamInfoDic)
+                    self.teamInfo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
                         let m2Date = m2.createdAt.dateValue()
                         return m1Date > m2Date
                     }
-                    self.reactionTableView.reloadData()
                 case .modified, .removed:
                     print("noproblem")
                 }
             })
-        }
-    }
-    
-    func fetchUserTeamInfo(){
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        db.collection("users").document(uid).collection("belong_Team").document("teamId")
-            .addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let teamIdArray = data["teamId"] as! Array<String>
-                print(teamIdArray)
-                print(teamIdArray[0])
-                print("ドドド",self.teamInfo)
-                
-                self.teamInfo.removeAll()
-                self.teamCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    
-                    teamIdArray.forEach{
-                        self.getTeamInfo(teamId: $0)
-                    }
-                }
-            }
-    }
-    
-    func getTeamInfo(teamId:String){
-        db.collection("Team").document(teamId).getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-                let teamDic = Team(dic: document.data()!)
-                self.teamInfo.append(teamDic)
-                print("翼をください！",teamId)
-                print("翼をください！",document.data()!)
-                print("asefiosejof",teamDic)
-                self.teamCollectionView.reloadData()
-            } else {
-                print("Document does not exist")
-            }
+            self.teamCollectionView.reloadData()
         }
     }
     

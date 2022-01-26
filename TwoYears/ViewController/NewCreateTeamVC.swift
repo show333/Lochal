@@ -100,19 +100,32 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
                 
                 let teamDic = [
                     "createdAt": FieldValue.serverTimestamp(),
-                    "documentId": randomId,
                     "teamId":randomId,
+                    "teamFrontId":randomId,
                     "teamName": teamName,
                     "teamImage": urlString,
                     "Founder": uid,
                     "membersCount": FieldValue.increment(1.0)
                 ] as [String: Any]
                 
-                db.collection("Team").document(randomId).setData(teamDic)
-                db.collection("Team").document(randomId).collection("MembersId").document("membersId").setData(["userId": FieldValue.arrayUnion([uid])], merge: true)
-                db.collection("users").document(uid).collection("belong_Team").document("teamId").setData([
-                    "teamId": FieldValue.arrayUnion([randomId]) ], merge: true)
-                //                setChatDic(randomId: randomId, chatId: chatId)
+                let userName: String? =  UserDefaults.standard.string(forKey: "userName")
+                let userImage: String? = UserDefaults.standard.string(forKey: "userImage")
+                let userFrontId: String? = UserDefaults.standard.string(forKey: "userFrontId")
+                
+                let userInfo = [
+                    "userId":uid,
+                    "userFrontId":userFrontId ?? "",
+                    "userName": userName ?? "",
+                    "userImage": userImage ?? "",
+                    "admin": false
+                ] as [String:Any]
+                
+                db.collection("Team").document(randomId).setData(teamDic, merge: true)
+                
+                db.collection("Team").document(randomId).collection("MembersId").document(uid).setData(userInfo, merge: true)
+                
+                db.collection("users").document(uid).collection("belong_Team").document(randomId).setData(teamDic, merge: true)
+                
                 let firstChatDic = [
                     "createdAt": FieldValue.serverTimestamp(),
                     "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",

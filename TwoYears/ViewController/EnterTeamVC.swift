@@ -13,6 +13,11 @@ import FirebaseStorage
 class EnterTeamVC: UIViewController {
     
     var skipBool = false
+    var teamName:String?
+    var teamFrontId:String?
+    var teamImage:String?
+    var Founder:String?
+    
     let db = Firestore.firestore()
     
     @IBOutlet weak var teamIdField: UITextField!
@@ -32,7 +37,7 @@ class EnterTeamVC: UIViewController {
     
     func getsTeamInfo(teamId:String,uid:String){
         db.collection("Team").whereField("teamId", isEqualTo: teamId)
-            .getDocuments() { (querySnapshot, err) in
+            .getDocuments() { [self] (querySnapshot, err) in
                 if let err = err {
                     print("Error getting documents: \(err)")
                 } else {
@@ -53,8 +58,16 @@ class EnterTeamVC: UIViewController {
                                 }
                             })
                     } else if teamBoolCount == 1{
-                        self.checkTeamUser(teamId: teamId,uid: uid)
-                        } else {
+                        
+                            for document in querySnapshot!.documents {
+                                teamName = document.data()["teamName"] as? String
+                                teamFrontId = document.data()["teamFrontId"] as? String
+                                teamImage = document.data()["teamImage"] as? String
+                                Founder = document.data()["Founder"] as? String
+                                self.checkTeamUser(teamId: teamId,uid: uid)
+
+                            }
+                    } else {
                         print("IDが重複している可能性がありますラベルで")
                     }
                 }
@@ -62,30 +75,49 @@ class EnterTeamVC: UIViewController {
     }
     
     func checkTeamUser(teamId:String,uid:String) {
-        db.collection("Team").document(teamId).collection("MembersId").document("membersId").getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-                let userIdArray : Array = document["userId"] as! Array<String>
-                if userIdArray.contains(uid) != true {
-                self.enterTeam(teamId: teamId,uid: uid)
-                } else {
-                    print("既に入っていますラベル")
-                    
-                }
-                
+        
+        db.collection("Team").document(teamId).collection("MembersId").whereField("userId", isEqualTo: uid).getDocuments() { [self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
             } else {
-                print("Document does not exist")
+                
+                if querySnapshot?.documents.count ?? 0 == 0{
+                    enterTeam(teamId: teamId, uid: uid)
+                } else {
+                    print("入ってます")
+                }
             }
         }
     }
     
     
+    
     func enterTeam(teamId:String,uid:String) {
         
-        db.collection("users").document(uid).collection("belong_Team").document("teamId").setData(["teamId":FieldValue.arrayUnion([teamId]) ], merge: true)
+        let userName: String? =  UserDefaults.standard.string(forKey: "userName")
+        let userImage: String? = UserDefaults.standard.string(forKey: "userImage")
+        let userFrontId: String? = UserDefaults.standard.string(forKey: "userFrontId")
+        
+        let userInfo = [
+            "userId":uid,
+            "userFrontId":userFrontId ?? "",
+            "userName": userName ?? "",
+            "userImage": userImage ?? "",
+            "admin": false
+        ] as [String:Any]
+        
+        let teamDic = [
+            "createdAt": FieldValue.serverTimestamp(),
+            "teamId":teamId,
+            "teamName": teamName ?? "",
+            "teamImage": teamImage ?? "",
+            "teamFrontId":teamFrontId ?? "",
+            "Founder": Founder ?? "",
+        ] as [String: Any]
+                
+        db.collection("users").document(uid).collection("belong_Team").document(teamId).setData(teamDic, merge: true)
         db.collection("Team").document(teamId).setData(["membersCount": FieldValue.increment(1.0)], merge: true)
-        db.collection("Team").document(teamId).collection("MembersId").document("membersId").setData(["userId": FieldValue.arrayUnion([uid])], merge: true)
+        db.collection("Team").document(teamId).collection("MembersId").document(uid).setData(userInfo, merge: true)
         if skipBool == true {
             let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
             let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
@@ -94,6 +126,8 @@ class EnterTeamVC: UIViewController {
             self.navigationController?.popToRootViewController(animated: true)
         }
     }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setSwipeBack()

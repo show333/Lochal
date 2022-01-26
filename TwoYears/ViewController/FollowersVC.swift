@@ -46,34 +46,24 @@ class FollowersVC:UIViewController {
 ////        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
 //        return NSAttributedString(string: "データがありません")
 ////        }
-//    }
-//
+    //    }
+    //
     func fetchUserInfo(uid:String){
         
-        
-        self.db.collection("users").document(uid).collection("Follower").document("follower_Id")
-            .addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let userIdArray = data["userId"] as! Array<String>
-                print(userIdArray)
-                print(userIdArray[0])
+        self.db.collection("users").document(uid).collection("Follower").getDocuments() { [self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
                 
-                self.userInfo.removeAll()
-                self.userListTableView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    userIdArray.forEach{
-                        self.getUserInfo(userId: $0)
+                if querySnapshot?.documents.count ?? 0 >= 1{
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let userId = document.data()["userId"] as? String ?? ""
+                        getUserInfo(userId: userId)
                     }
                 }
             }
+        }
     }
     
     func getUserInfo(userId:String){
@@ -141,3 +131,28 @@ class followersTableViewCell: UITableViewCell {
         super.prepareForReuse()
     }
 }
+
+
+//        self.db.collection("users").document(uid).collection("Follower").document("follower_Id")
+//            .addSnapshotListener { documentSnapshot, error in
+//                guard let document = documentSnapshot else {
+//                    print("Error fetching document: \(error!)")
+//                    return
+//                }
+//                guard let data = document.data() else {
+//                    print("Document data was empty.")
+//                    return
+//                }
+//                print("Current data: \(data)")
+//                let userIdArray = data["userId"] as! Array<String>
+//                print(userIdArray)
+//                print(userIdArray[0])
+//
+//                self.userInfo.removeAll()
+//                self.userListTableView.reloadData()
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                    userIdArray.forEach{
+//                        self.getUserInfo(userId: $0)
+//                    }
+//                }
+//            }

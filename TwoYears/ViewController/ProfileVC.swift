@@ -17,6 +17,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     var outMemo: [OutMemo] = []
     var teamInfo : [Team] = []
+    var statusFollow : String?
+    
     var safeArea : CGFloat = 0
     var headerHigh : CGFloat = 0
     var userId: String? = UserDefaults.standard.string(forKey:"userId") ?? "" //あとで調整する
@@ -24,7 +26,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var userImage: String? = UserDefaults.standard.string(forKey: "userImage")
     var userFrontId: String? = UserDefaults.standard.string(forKey: "userFrontId")
     
-    var followBool : Bool = false
     var cellImageTap : Bool = false
     let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
@@ -62,19 +63,28 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var followButton: UIButton!
     
     @IBAction func followTappedButton(_ sender: Any) {
-        if followBool == false {
-            followButton.setTitle("フォロー中", for: .normal)
-            followButton.backgroundColor = .darkGray
-            followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
-            
-            follow()
-            followBool = true
-        } else {
+        if statusFollow == "request" {
             followButton.setTitle("フォローする", for: .normal)
             followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             followButton.setTitleColor(UIColor.darkGray, for: .normal)
             unFollow()
-            followBool = false
+            statusFollow = ""
+            
+        } else if statusFollow == "accept" {
+            followButton.setTitle("フォローする", for: .normal)
+            followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            followButton.setTitleColor(UIColor.darkGray, for: .normal)
+            unFollow()
+            db.collection("users").document(uid ?? "").setData(["followingCount": FieldValue.increment(-1.0)], merge: true)
+            db.collection("users").document(userId ?? "").setData(["followerCount": FieldValue.increment(-1.0)], merge: true)
+            statusFollow = ""
+        } else {
+            
+            followButton.backgroundColor = .darkGray
+            followButton.setTitle("リクエスト済み", for: .normal)
+            followButton.setTitleColor(UIColor.white, for: .normal)
+            follow()
+            statusFollow = "request"
         }
     }
     
@@ -106,14 +116,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     func follow(){
-        db.collection("users").document(uid ?? "").collection("Following").document("following_Id").setData([
-            "userId": FieldValue.arrayUnion([userId ?? ""]) ], merge: true)
-        db.collection("users").document(userId ?? "").collection("Follower").document("follower_Id").setData([
-            "userId": FieldValue.arrayUnion([uid ?? ""]) ], merge: true)
         
-        db.collection("users").document(uid ?? "").setData(["followingCount": FieldValue.increment(1.0)], merge: true)
-        db.collection("users").document(userId ?? "").setData(["followerCount": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(uid ?? "").collection("Following").document(userId ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId ?? "","status":"request"], merge: true)
         
+        db.collection("users").document(userId ?? "").collection("Follower").document(uid ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid ?? "","status":"request"], merge: true)
         
         let docData = [
             "createdAt": FieldValue.serverTimestamp(),
@@ -123,31 +129,24 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             "userFtontId":userFrontId ?? "",
             "documentId" : uid ?? "",
             "reactionImage": "",
-            "reactionMessage":"さんがフォローしました",
+            "reactionMessage":"さんからフォロー申請です",
             "theMessage":"",
+            "dataType": "acceptingFollow",
+            "acceptBool":false,
             "anonymous":false,
             "admin": false,
         ] as [String: Any]
-        
-        
-        
+                
         db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").setData(docData)
         
         db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
-        
     }
     
     func unFollow(){
-        db.collection("users").document(uid ?? "").collection("Following").document("following_Id").setData([
-            "userId": FieldValue.arrayRemove([userId ?? ""]) ], merge: true)
-        db.collection("users").document(userId ?? "").collection("Follower").document("follower_Id").setData([
-            "userId": FieldValue.arrayRemove([uid ?? ""]) ], merge: true)
-        
-        db.collection("users").document(uid ?? "").setData(["followingCount": FieldValue.increment(-1.0)], merge: true)
-        db.collection("users").document(userId ?? "").setData(["followerCount": FieldValue.increment(-1.0)], merge: true)
+        db.collection("users").document(uid ?? "").collection("Following").document(userId ?? "").delete()
+        db.collection("users").document(userId ?? "").collection("Follower").document(uid ?? "").delete()
         
         db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").delete()
-        
     }
     
     
@@ -241,7 +240,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
 
     
-        getFollowId(userId:userId ?? "",uid:uid)
+//        getFollowId(userId:userId ?? "",uid:uid)
         
         headerHigh = safeAreaHeight/3.5
         headerhightConstraint.constant = headerHigh
@@ -308,13 +307,18 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         fetchFireStore(userId: userId ?? "unKnown",uid: uid)
         fetchUserProfile(userId: userId ?? "unKnown")
-        fetchUserTeamInfo(userId: userId ?? "unKnown")
+//        fetchUserTeamInfo(userId: userId ?? "unKnown")
+        fetchUserTeamInfo(userId:userId ?? "unKnown")
         
     }
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        getFollowId(userId:userId ?? "",uid:uid)
+
         
         if cellImageTap == true {
             setSwipeBack()
@@ -344,35 +348,51 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     func getFollowId(userId:String,uid:String){
-        db.collection("users").document(uid).collection("Following").document("following_Id").getDocument { [self](document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
+        var requestFollow : Array<String>? = []
+        var acceptFollow : Array<String>? = []
+        db.collection("users").document(uid).collection("Following").getDocuments() { [self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
                 
-                let userIdArray = document["userId"] as? Array<String>
-//                let userFrontId = document["userFrontId"] as? String ?? ""
-                
-                let userIdBool = userIdArray?.contains(userId)
-                
-                if userIdBool == false {
-                    followBool = false
-                    followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-                    followButton.setTitle("フォローする", for: .normal)
-                    followButton.setTitleColor(UIColor.darkGray, for: .normal)
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
                     
-//                    #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-                } else {
-                    followBool = true
+                    let status = document.data()["status"] as? String ?? ""
+                    let getUserId = document.data()["userId"] as? String ?? ""
+
+                    requestFollow?.append(getUserId)
+                    
+                    if status == "request"{
+                        requestFollow?.append(getUserId)
+                    } else if status == "accept"{
+                        acceptFollow?.append(getUserId)
+                    }
+
+                }
+                let requestBool = requestFollow?.contains(userId)
+                let acceptBool = acceptFollow?.contains(userId)
+                if requestBool == true && acceptBool == false {
+                    statusFollow = "request"
+                    followButton.backgroundColor = .darkGray
+                    followButton.setTitle("リクエスト済み", for: .normal)
+                    followButton.setTitleColor(UIColor.white, for: .normal)
+                    
+                } else if requestBool == false && acceptBool == true {
+                    statusFollow = "accept"
                     followButton.backgroundColor = .darkGray
                     followButton.setTitle("フォロー中", for: .normal)
                     followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
                     
+                } else {
+                    followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+                    followButton.setTitle("フォローする", for: .normal)
+                    followButton.setTitleColor(UIColor.darkGray, for: .normal)
                 }
-                
-            } else {
-                print("Document does not exist")
+
             }
         }
+        
     }
     
     
@@ -391,7 +411,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     private func fetchFireStore(userId:String,uid:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(uid).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).whereField("admin", isEqualTo: true).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")
@@ -439,6 +459,35 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
     }
     
+    func fetchUserTeamInfo(userId:String){
+        
+        db.collection("users").document(userId).collection("belong_Team").addSnapshotListener { [self] ( snapshots, err) in
+            if let err = err {
+                
+                print("メッセージの取得に失敗、\(err)")
+                return
+            }
+            snapshots?.documentChanges.forEach({ (Naruto) in
+                switch Naruto.type {
+                case .added:
+                    let dic = Naruto.document.data()
+                    let teamInfoDic = Team(dic: dic)
+                    
+                    self.teamInfo.append(teamInfoDic)
+                    self.teamInfo.sort { (m1, m2) -> Bool in
+                        let m1Date = m1.createdAt.dateValue()
+                        let m2Date = m2.createdAt.dateValue()
+                        return m1Date > m2Date
+                    }
+                case .modified, .removed:
+                    print("noproblem")
+                }
+            })
+            self.teamCollectionView.reloadData()
+        }
+    }
+    
+    
     
     func fetchUserProfile(userId:String){
         
@@ -474,49 +523,49 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
     }
     
-    func fetchUserTeamInfo(userId:String){
-        
-        
-        self.db.collection("users").document(userId).collection("belong_Team").document("teamId")
-            .addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let teamIdArray = data["teamId"] as! Array<String>
-                print(teamIdArray)
-                print(teamIdArray[0])
-                
-                self.teamInfo.removeAll()
-                self.teamCollectionView.reloadData()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    teamIdArray.forEach{
-                        self.getTeamInfo(teamId: $0)
-                    }
-                }
-            }
-        
-    }
-    
-    func getTeamInfo(teamId:String){
-        db.collection("Team").document(teamId).getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-                let teamDic = Team(dic: document.data()!)
-                self.teamInfo.append(teamDic)
-  
-                self.teamCollectionView.reloadData()
-            } else {
-                print("Document does not exist")
-            }
-        }
-    }
+//    func fetchUserTeamInfo(userId:String){
+//
+//
+//        self.db.collection("users").document(userId).collection("belong_Team").document("teamId")
+//            .addSnapshotListener { documentSnapshot, error in
+//                guard let document = documentSnapshot else {
+//                    print("Error fetching document: \(error!)")
+//                    return
+//                }
+//                guard let data = document.data() else {
+//                    print("Document data was empty.")
+//                    return
+//                }
+//                print("Current data: \(data)")
+//                let teamIdArray = data["teamId"] as! Array<String>
+//                print(teamIdArray)
+//                print(teamIdArray[0])
+//
+//                self.teamInfo.removeAll()
+//                self.teamCollectionView.reloadData()
+//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//                    teamIdArray.forEach{
+//                        self.getTeamInfo(teamId: $0)
+//                    }
+//                }
+//            }
+//
+//    }
+//
+//    func getTeamInfo(teamId:String){
+//        db.collection("Team").document(teamId).getDocument { (document, error) in
+//            if let document = document, document.exists {
+//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+//                print("Document data: \(dataDescription)")
+//                let teamDic = Team(dic: document.data()!)
+//                self.teamInfo.append(teamDic)
+//
+//                self.teamCollectionView.reloadData()
+//            } else {
+//                print("Document does not exist")
+//            }
+//        }
+//    }
 }
 
 extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
