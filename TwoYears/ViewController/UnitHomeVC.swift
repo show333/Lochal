@@ -18,6 +18,7 @@ class UnitHomeVC:UIViewController {
 
     let db = Firestore.firestore()
     
+    @IBOutlet weak var buildingImageView: UIImageView!
     @IBOutlet weak var headerBackView: UIView!
     @IBOutlet weak var headerBackViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var teamImageView: UIImageView!
@@ -53,6 +54,8 @@ class UnitHomeVC:UIViewController {
         teamImageView.layer.cornerRadius = headerHeight/8
         
         setSwipeBack()
+        
+   
 
 
         userCollectionView.dataSource = self
@@ -70,15 +73,23 @@ class UnitHomeVC:UIViewController {
         // 背景色を設定
         self.userCollectionView.backgroundColor = .clear
         
-        teamImageView.backgroundColor = .yellow
         
         fetchUserTeamInfo(teamId: teamInfo?.teamId ?? "")
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2F%20building.001.png?alt=media&token=fc8ff7f1-e980-4d30-b3f0-494970e76882") {
+            Nuke.loadImage(with: url, into: buildingImageView)
+        } else {
+            buildingImageView.image = nil
+        }
+ 
         
         print("あああいあいあ")
     }
     
     
     func fetchUserTeamInfo(teamId:String){
+        
+        print("トレジャー")
         
         db.collection("Team").document(teamId).collection("MembersId").addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
@@ -92,11 +103,18 @@ class UnitHomeVC:UIViewController {
                     let dic = Naruto.document.data()
                     let userInfoDic = UserInfo(dic: dic)
                     self.userInfo.append(userInfoDic)
+                    
+                    self.userInfo.sort { (m1, m2) -> Bool in
+                        let m1Date = m1.createdAt.dateValue()
+                        let m2Date = m2.createdAt.dateValue()
+                        return m1Date > m2Date
+                    }
 
                 case .modified, .removed:
                     print("noproblem")
                 }
             })
+            userCollectionView.reloadData()
         }
     }
 }

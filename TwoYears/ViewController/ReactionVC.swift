@@ -138,7 +138,7 @@ extension ReactionVC :UICollectionViewDataSource, UICollectionViewDelegate {
             "userId": uid,
             "userName":userName ?? "",
             "userImage":userImage ?? "",
-            "userFtontId":userFrontId ?? "",
+            "userFrontId":userFrontId ?? "",
             "documentId" : documentId,
             "reactionImage": urlString,
             "reactionMessage":"さんがリアクションをしました",

@@ -67,6 +67,7 @@ class UserNameSetVC:UIViewController{
     func setFirestore(userId:String,userName:String){
         setNameAccount(userId: userId, userName: userName)
         fetchMyPost(userId: userId, userName: userName)
+        fetchMyTeam(userId:userId,userName:userName)
     }
     
     func setNameAccount(userId:String,userName:String){
@@ -87,6 +88,24 @@ class UserNameSetVC:UIViewController{
                         let myPostDocId =  document.data()["documentId"] as? String ?? "unKnown"
                         print("ハングリー",myPostDocId)
                         self.db.collection("users").document(userId).collection("MyPost").document(myPostDocId).setData(["userName":userName] as [String : Any],merge: true)
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchMyTeam(userId:String,userName:String){
+        db.collection("users").document(userId).collection("belong_Team").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                
+                if querySnapshot!.documents.count == 0 {
+                } else {
+                    for document in querySnapshot!.documents {
+//                        print("\(document.documentID) => \(document.data())")
+                        let myTeamId =  document.data()["teamId"] as? String ?? "unKnown"
+                        self.db.collection("Team").document(myTeamId).collection("MembersId").document(userId).setData(["userName":userName] as [String : Any],merge: true)
                     }
                 }
             }

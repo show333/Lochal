@@ -126,7 +126,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             "userId": uid ?? "",
             "userName":userName ?? "",
             "userImage":userImage ?? "",
-            "userFtontId":userFrontId ?? "",
+            "userFrontId":userFrontId ?? "",
             "documentId" : uid ?? "",
             "reactionImage": "",
             "reactionMessage":"さんからフォロー申請です",
@@ -360,18 +360,16 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     
                     let status = document.data()["status"] as? String ?? ""
                     let getUserId = document.data()["userId"] as? String ?? ""
-
-                    requestFollow?.append(getUserId)
                     
                     if status == "request"{
                         requestFollow?.append(getUserId)
                     } else if status == "accept"{
                         acceptFollow?.append(getUserId)
                     }
-
                 }
                 let requestBool = requestFollow?.contains(userId)
                 let acceptBool = acceptFollow?.contains(userId)
+                
                 if requestBool == true && acceptBool == false {
                     statusFollow = "request"
                     followButton.backgroundColor = .darkGray
@@ -411,7 +409,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     private func fetchFireStore(userId:String,uid:String) {
-        db.collection("users").document(uid).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).whereField("admin", isEqualTo: true).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(uid).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("userId", isEqualTo: userId).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")
@@ -703,6 +701,8 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             }
             
         } else {
+            
+            print("outmemoa",outMemo[indexPath.row].readLog)
             let readLogDic = [
                 "userId":uid,
                 "userName":userName ?? "unKnown",

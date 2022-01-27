@@ -47,12 +47,23 @@ class OutmMemoCellVC: UITableViewCell {
         messageLabel.backgroundColor = .clear
 //        coverView.backgroundColor = .clear
 //        coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-        teamInfo.removeAll()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
-            self.fetchUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
-
-        }
+//        print("I'mファイン",self.teamInfo)
+//
+//        teamInfo.removeAll()
+//        teamCollectionView.reloadData()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+//            // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
+////            self.fetchUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
+//            self.teamInfo.removeAll()
+//            self.teamCollectionView.reloadData()
+//
+//
+//        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//            // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
+////            self.fetchUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
+//            print("I'mファイン",self.teamInfo)
+//        }
         
     }
     
@@ -128,7 +139,7 @@ class OutmMemoCellVC: UITableViewCell {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
 //             0.1秒後に実行したい処理（あとで変えるこれは良くない)
 //            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
-            self.fetchUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
+//            self.fetchUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
         }
     }
     
@@ -239,6 +250,13 @@ extension OutmMemoCellVC :UICollectionViewDataSource,UICollectionViewDelegate {
         
         cell.teamImageView.image = nil
         
+        print("ここに受けてたつ")
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//            // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
+////            self.fetchUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
+//            print("こここここ",self.teamInfo[indexPath.row].teamImage)
+
+//        }
         
         if let url = URL(string: teamInfo[indexPath.row].teamImage) {
             Nuke.loadImage(with: url, into: cell.teamImageView)

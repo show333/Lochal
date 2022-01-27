@@ -18,10 +18,15 @@ class NotificationVC: UIViewController {
     var notificationTab : Bool = false
     var userId : String?
     var cellDocumentId : String?
+    var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
+    var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
+    var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     private let cellId = "cellId"
     let db = Firestore.firestore()
+    
 
     
+    @IBOutlet weak var requestLabel: UILabel!
     @IBOutlet weak var reactionBackButton: UIButton!
     
     @IBAction func reactionTappedButton(_ sender: Any) {
@@ -36,12 +41,19 @@ class NotificationVC: UIViewController {
     
     @IBOutlet weak var acceptImageView: UIImageView!
     
-    
+    @IBOutlet weak var acceptImageConstraint: NSLayoutConstraint!
+    @IBOutlet weak var acceptedImageView: UIImageView!
+
+    @IBOutlet weak var acceptedImageConstraint: NSLayoutConstraint!
+    @IBOutlet weak var acceptButtonConstraint: NSLayoutConstraint!
     @IBOutlet weak var acceptingBackButton: UIButton!
     @IBAction func acceptingBackTappedButton(_ sender: Any) {
         acceptingButton.alpha = 0
         acceptImageView.alpha = 0
+        acceptedImageView.alpha = 0
         acceptingBackButton.alpha = 0
+        requestLabel.alpha = 0
+
     }
     @IBOutlet weak var acceptingButton: UIButton!
     
@@ -50,13 +62,49 @@ class NotificationVC: UIViewController {
         
 //        reaction[indexPathRow ?? 0].reactionMessage = "さんがフォローをしました"
         
-        print("ああああ")
-        db.collection("users").document(uid).collection("Notification").document(cellDocumentId ?? "").setData(["acceptBool":true], merge: true)
+   
         followSet(uid: uid)
         MyPostGet(uid: uid)
+        
+        
+        reaction.removeAll()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.fetchReaction(userId:uid)
+
+        }
+        
+        acceptingButton.alpha = 0
+        acceptImageView.alpha = 0
+        acceptedImageView.alpha = 0
+        acceptingBackButton.alpha = 0
+        requestLabel.alpha = 0
+        
+        
     }
     
     func followSet(uid:String){
+        
+        let acceptNotification = [
+            "createdAt": FieldValue.serverTimestamp(),
+            "userId": uid,
+            "userName":userName ?? "",
+            "userImage":userImage ?? "",
+            "userFrontId":userFrontId ?? "",
+            "documentId" : "accept"+uid,
+            "reactionImage": "",
+            "reactionMessage":"さんがフォローを許可しました",
+            "theMessage": "",
+            "dataType": "accepted",
+            "anonymous":false,
+            "admin": false,
+        ] as [String: Any]
+        
+        db.collection("users").document(userId ?? "").collection("Notification").document("accept"+uid).setData(acceptNotification, merge: true)
+        db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+
+        db.collection("users").document(uid).collection("Notification").document(cellDocumentId ?? "").setData(["reactionMessage":"さんがフォローをしました"], merge: true)
+        db.collection("users").document(uid).collection("Notification").document(cellDocumentId ?? "").setData(["acceptBool":true], merge: true)
         
         db.collection("users").document(userId ?? "").collection("Following").document(uid).setData(["status":"accept"], merge: true)
         
@@ -75,6 +123,7 @@ class NotificationVC: UIViewController {
                 
                 if querySnapshot?.documents.count ?? 0 >= 1{
                     for document in querySnapshot!.documents {
+                    
                         print("\(document.documentID) => \(document.data())")
                         let dic = document.data()
                         let outMemoDic = OutMemo(dic: dic)
@@ -96,7 +145,8 @@ class NotificationVC: UIViewController {
             "createdAt": outMemo.createdAt,
             "textMask":outMemo.textMask,
             "userId":outMemo.userId,
-            
+            "userName":outMemo.userName,
+            "userFrontId":outMemo.userFrontId,
             "readLog": false,
             "anonymous":outMemo.anonymous,
             "admin": outMemo.admin,
@@ -135,8 +185,22 @@ class NotificationVC: UIViewController {
         onCloseLabel.alpha = 0
         reactionBackButton.alpha = 0
         
+        
+        requestLabel.alpha = 0
+        
+        
+        acceptImageConstraint.constant = width/2
+        acceptedImageConstraint.constant = width/2
+        acceptButtonConstraint.constant = width/2
+        
+        acceptImageView.clipsToBounds = true
+        acceptedImageView.clipsToBounds = true
+        acceptImageView.layer.cornerRadius = width/8
+        acceptedImageView.layer.cornerRadius = width/8
+
         acceptingButton.alpha = 0
         acceptImageView.alpha = 0
+        acceptedImageView.alpha = 0
         acceptingBackButton.alpha = 0
         
         onMessageBackView.clipsToBounds = true
@@ -151,6 +215,19 @@ class NotificationVC: UIViewController {
         reactionTableView.dataSource = self
         
         fetchReaction(userId:uid)
+        
+
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FunLock.001.png?alt=media&token=dbbffbb2-26c1-4623-ac12-ca1185b2b424") {
+            Nuke.loadImage(with: url, into: acceptImageView)
+        } else {
+            acceptImageView?.image = nil
+        }
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2Faccept.001.png?alt=media&token=67e1a7eb-1e84-4b5b-93f2-a49d9987ddfa") {
+            Nuke.loadImage(with: url, into: acceptedImageView)
+        } else {
+            acceptedImageView?.image = nil
+        }
 
     }
     
@@ -253,12 +330,17 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
         } else if reaction[indexPath.row].dataType == "acceptingFollow"{
             cellDocumentId = reaction[indexPath.row].documentId
             userId = reaction[indexPath.row].userId
-            if reaction[indexPath.row].acceptBool == true {
-                print("承認済み")
-                acceptImageAnimation(acceptImageString: "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2Fundraw_Secure_server_re_8wsq.png?alt=media&token=5f0746ee-1d60-46d8-b4e0-d137f586071f")
-                
+            if reaction[indexPath.row].acceptBool == false {
+                acceptImageAnimation(imageView: acceptImageView)
+                acceptingBackButton.alpha = 0.8
+                acceptingButton.alpha = 1
+                requestLabel.text = "↓タップでフォローを許可"
+
             } else {
-                acceptImageAnimation(acceptImageString: "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2Fundraw_unlock_24mb.png?alt=media&token=4ae04315-8b28-4f4c-80d9-0956330e807a")
+                acceptImageAnimation(imageView: acceptedImageView)
+                acceptingBackButton.alpha = 0.8
+                requestLabel.text = "フォロー認証済み"
+
             }
             
         } else {
@@ -270,24 +352,18 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
         }
     }
     
-    func acceptImageAnimation(acceptImageString: String){
-        acceptingBackButton.alpha = 0.8
-        acceptingButton.alpha = 1
+    func acceptImageAnimation(imageView: UIImageView){
         
-        if let url = URL(string:acceptImageString) {
-            Nuke.loadImage(with: url, into: acceptImageView)
-        } else {
-            acceptImageView?.image = nil
-        }
         
-        UIView.animate(withDuration: 0.1, delay: 0, animations: { [self] in
-            acceptImageView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-            acceptImageView.alpha = 1
+        UIView.animate(withDuration: 0.1, delay: 0, animations: {
+            imageView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            imageView.alpha = 1
+            self.requestLabel.alpha = 1
             
         }) { bool in
             // ②アイコンを大きくする
             UIView.animate(withDuration: 0.05, delay: 0, animations: {
-                self.acceptImageView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                imageView.transform = CGAffineTransform(scaleX: 1, y: 1)
                 
                 
             })

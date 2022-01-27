@@ -102,17 +102,25 @@
                                     <constraint firstAttribute="trailing" secondItem="Sui-EJ-o2B" secondAttribute="trailing" constant="10" id="uy9-U0-tmi"/>
                                 </constraints>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1lk-5M-KE4">
+                                <rect key="frame" x="50" y="438" width="314" height="374"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="1lk-5M-KE4" secondAttribute="bottom" constant="50" id="B94-vj-FHN"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="1lk-5M-KE4" secondAttribute="trailing" constant="50" id="MZg-uX-sWI"/>
+                            <constraint firstItem="1lk-5M-KE4" firstAttribute="top" secondItem="CIR-r9-hrY" secondAttribute="bottom" constant="50" id="PfL-8g-TlC"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="CIR-r9-hrY" secondAttribute="trailing" id="RwO-L1-7Lw"/>
+                            <constraint firstItem="1lk-5M-KE4" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="50" id="fIM-0h-s4l"/>
                             <constraint firstItem="CIR-r9-hrY" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="jaS-WF-iQC"/>
                             <constraint firstItem="CIR-r9-hrY" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="nNH-ty-BQw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="UnitHome" id="znn-AI-dd6"/>
                     <connections>
+                        <outlet property="buildingImageView" destination="1lk-5M-KE4" id="E8U-yx-EWf"/>
                         <outlet property="headerBackView" destination="CIR-r9-hrY" id="5BQ-db-WMl"/>
                         <outlet property="headerBackViewConstraint" destination="Osx-AF-wIA" id="vT9-ZD-xbi"/>
                         <outlet property="teamImageView" destination="gw3-Ek-0BI" id="zvx-vM-Geb"/>

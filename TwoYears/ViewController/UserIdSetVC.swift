@@ -86,6 +86,7 @@ class UserIdSetVC:UIViewController,UITextFieldDelegate{
                     if querySnapshot!.documents.count == 0{
                         setIdAccount(userId: userId, userFrontId: userFrontId)
                         fetchMyPost(userId: userId, userFrontId: userFrontId)
+                        fetchMyTeam(userId:userId,userFrontId:userFrontId)
                         UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
                         
                         self.navigationController?.popViewController(animated: true)
@@ -116,6 +117,24 @@ class UserIdSetVC:UIViewController,UITextFieldDelegate{
                         let myPostDocId =  document.data()["documentId"] as? String ?? "unKnown"
                         print("ハングリー",myPostDocId)
                         self.db.collection("users").document(userId).collection("MyPost").document(myPostDocId).setData(["userFrontId":userFrontId] as [String : Any],merge: true)
+                    }
+                }
+            }
+        }
+    }
+    
+    func fetchMyTeam(userId:String,userFrontId:String){
+        db.collection("users").document(userId).collection("belong_Team").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                
+                if querySnapshot!.documents.count == 0 {
+                } else {
+                    for document in querySnapshot!.documents {
+//                        print("\(document.documentID) => \(document.data())")
+                        let myTeamId =  document.data()["teamId"] as? String ?? "unKnown"
+                        self.db.collection("Team").document(myTeamId).collection("MembersId").document(userId).setData(["userFrontId":userFrontId] as [String : Any],merge: true)
                     }
                 }
             }

@@ -232,10 +232,11 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             }
     }
     
-    
+    //        whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).
+
     
     private func fetchFireStore(userId:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")
@@ -367,6 +368,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
         } else {
+            
+            print("outmemoa",outMemo[indexPath.row].readLog)
+
             let readLogDic = [
                 "userId":uid,
                 "userName":userName ?? "unKnown",
@@ -515,12 +519,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func fetchDocContents(userId:String,cell:OutmMemoCellVC,documentId:String){
         fetchMypostData(userId: userId, cell: cell, documentId: documentId)
         
-//        cell.teamInfo.removeAll()
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//            // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
-////            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
-//            self.getUserTeamInfo(userId: userId, cell: cell)
-//
+//        if cell.teamInfo.count == 0 {
+            cell.teamInfo.removeAll()
+//            cell.teamCollectionView.reloadData()
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
+                //            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
+                self.getUserTeamInfo(userId: userId, cell: cell)
+//            }
 //        }
     }
     
@@ -551,8 +557,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 cell.userFrontIdLabel.text = userFrontId
                 
-
-
 //                cell.nameLabel.text = userName
 //                getUserTeamInfo(userId: userId, cell: cell)
                 
@@ -566,7 +570,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func getUserTeamInfo(userId:String,cell:OutmMemoCellVC){
         
-        db.collection("users").document(userId).collection("belong_Team").addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("belong_Team").addSnapshotListener {( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")
@@ -577,45 +581,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 case .added:
                     let dic = Naruto.document.data()
                     let teamInfoDic = Team(dic: dic)
-                    
-                    let teamId = Naruto.document.data()["teamId"] as? String ?? ""
-                    getTeamInfo(teamId: teamId, cell: cell)
-                    self.teamInfo.sort { (m1, m2) -> Bool in
-                        let m1Date = m1.createdAt.dateValue()
-                        let m2Date = m2.createdAt.dateValue()
-                        return m1Date > m2Date
-                    }
+//                    let teamId = Naruto.document.data()["teamId"] as? String ?? ""
+                    cell.teamInfo.append(teamInfoDic)
+
+
                 case .modified, .removed:
                     print("noproblem")
                 }
             })
+            cell.teamCollectionView.reloadData()
+            
         }
-    }
-
-    func getTeamInfo(teamId:String,cell:OutmMemoCellVC){
-        db.collection("Team").document(teamId).getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-                let teamDic = Team(dic: document.data()!)
-                self.teamInfo.append(teamDic)
-                print("翼をください！",teamId)
-                print("翼をください！",document.data()!)
-                print("asefiosejof",teamDic)
-                
-                
-                self.teamInfo.sort { (m1, m2) -> Bool in
-                    let m1Date = m1.createdAt.dateValue()
-                    let m2Date = m2.createdAt.dateValue()
-                    return m1Date > m2Date
-                }
-                cell.teamCollectionView.reloadData()
-            } else {
-                print("Document does not exist")
-            }
-        }
-        cell.teamCollectionView.reloadData()
-
     }
 
 }

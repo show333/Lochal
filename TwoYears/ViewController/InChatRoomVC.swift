@@ -50,7 +50,7 @@ class InChatRoomVC:UIViewController{
         super.viewDidLoad()
         
 //        inChatTableView.alpha = 0.9
-        inChatTableView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 0.9)
+        inChatTableView.backgroundColor = #colorLiteral(red: 0.4401212037, green: 0.4401994944, blue: 0.4401108921, alpha: 0.8979675916)
         setSwipeBack()
         setupNotification()
         
@@ -70,7 +70,7 @@ class InChatRoomVC:UIViewController{
         
         fetchFireStore()
         
-        
+        self.navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.4401212037, green: 0.4401994944, blue: 0.4401108921, alpha: 0.8979675916)
     }
     
     

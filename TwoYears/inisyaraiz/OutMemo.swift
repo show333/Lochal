@@ -30,7 +30,7 @@ class OutMemo {
     init(dic: [String: Any]) {
         self.userId = dic["userId"] as? String ?? ""
         self.userImage = dic["userImage"] as? String ?? ""
-        self.userName = dic["userImage"] as? String ?? ""
+        self.userName = dic["userName"] as? String ?? ""
         self.userFrontId = dic["userFrontId"] as? String ?? ""
         self.message = dic["message"] as? String ?? "unKnown"
         self.sendImageURL = dic["sendImageURL"] as? String ?? ""
@@ -39,7 +39,7 @@ class OutMemo {
         self.documentId = dic["documentId"] as? String ?? ""
         self.readLog = dic["readLog"] as? Bool ?? false
         self.admin = dic["admin"] as? Bool ?? false
-        self.anonymous = dic["admin"] as? Bool ?? false
+        self.anonymous = dic["anonymous"] as? Bool ?? false
         self.delete = dic["delete"] as? Bool ?? false
         
     }
