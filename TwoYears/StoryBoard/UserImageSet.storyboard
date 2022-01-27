@@ -52,7 +52,7 @@
                                     <constraint firstAttribute="trailing" secondItem="86R-Hz-Lsa" secondAttribute="trailing" id="FVo-cP-HGf"/>
                                     <constraint firstItem="86R-Hz-Lsa" firstAttribute="leading" secondItem="m1y-5R-vSC" secondAttribute="leading" id="G2a-uY-jwq"/>
                                     <constraint firstAttribute="bottom" secondItem="86R-Hz-Lsa" secondAttribute="bottom" id="M6I-0c-cS2"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="hOW-09-hYB"/>
+                                    <constraint firstAttribute="height" constant="150" id="hOW-09-hYB"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aZJ-kl-Kto">

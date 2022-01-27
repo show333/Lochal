@@ -110,6 +110,7 @@ class ExplainVC:UIViewController{
             explainImageView.alpha = 1
             explainSecondView.alpha = 0
         }
+        
         if let url = URL(string:imageArray[pageCount]) {
             Nuke.loadImage(with: url, into: explainImageView)
         } else {
@@ -172,6 +173,9 @@ class ExplainVC:UIViewController{
     override func viewDidLoad(){
         super.viewDidLoad()
         
+        
+//                try? Auth.auth().signOut()
+
         
         explainSecondView.alpha = 0
         

@@ -34,6 +34,8 @@ class FirstSetNameVC:UIViewController{
             guard let uid = Auth.auth().currentUser?.uid else {return}
             UserDefaults.standard.set(sendName, forKey: "userName")
             setFirestore(userId: uid, userName: sendName)
+            firstSetup()
+            
             let storyboard = UIStoryboard.init(name: "FirstSetImage", bundle: nil)
             let FirstSetImageVC = storyboard.instantiateViewController(withIdentifier: "FirstSetImageVC") as! FirstSetImageVC
             navigationController?.pushViewController(FirstSetImageVC, animated: true)
@@ -44,7 +46,7 @@ class FirstSetNameVC:UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        firstSetup()
+        
         
         self.navigationItem.hidesBackButton = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
