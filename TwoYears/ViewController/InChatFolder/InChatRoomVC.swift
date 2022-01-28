@@ -42,7 +42,12 @@ class InChatRoomVC:UIViewController{
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        self.tabBarController?.tabBar.isHidden = true
+//        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     
@@ -50,7 +55,8 @@ class InChatRoomVC:UIViewController{
         super.viewDidLoad()
         
 //        inChatTableView.alpha = 0.9
-        inChatTableView.backgroundColor = #colorLiteral(red: 0.4401212037, green: 0.4401994944, blue: 0.4401108921, alpha: 0.8979675916)
+//        inChatTableView.backgroundView?.alpha = 0
+//        inChatTableView.backgroundColor = .white
         setSwipeBack()
         setupNotification()
         
@@ -70,7 +76,6 @@ class InChatRoomVC:UIViewController{
         
         fetchFireStore()
         
-        self.navigationController?.navigationBar.backgroundColor = #colorLiteral(red: 0.4401212037, green: 0.4401994944, blue: 0.4401108921, alpha: 0.8979675916)
     }
     
     
@@ -219,6 +224,17 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
         let cell = inChatTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatRoomTableViewCell
         let width = UIScreen.main.bounds.size.width
         
+        cell.sendImageView.image = nil
+        cell.userImage.image = nil
+        cell.myBackView.backgroundColor = nil
+        cell.backView.backgroundColor = nil
+        
+        cell.myDateLabel.text = ""
+        cell.dateLabel.text = ""
+        cell.imageDateLabel.text = ""
+        cell.myImageDateLabel.text = ""
+        
+        cell.myBackView.backgroundColor = nil
         
         cell.chatRoomInfo = ChatRoomInfo[indexPath.row]
         
@@ -227,31 +243,12 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
         cell.messageLabel.text = ChatRoomInfo[indexPath.row].message
         cell.myMessageLabel.text = ChatRoomInfo[indexPath.row].message
         
-        cell.sendImageView.image = nil
-        cell.userImage.image = nil
-        cell.myBackView.backgroundColor = nil
-        cell.backView.backgroundColor = nil
-        
         cell.backView.backgroundColor = .tertiarySystemGroupedBackground
         cell.myBackView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         
         cell.Imageheight.constant = 0
         
-        if ChatRoomInfo[indexPath.row].sendImageURL != "" {
-            if let url = URL(string: ChatRoomInfo[indexPath.row].sendImageURL) {
-                Nuke.loadImage(with: url, into: cell.sendImageView!)
-                cell.Imageheight.constant = width*0.55
-                cell.backView.backgroundColor = .clear
-                cell.myBackView.backgroundColor = .clear
-                cell.myImageDateLabel.alpha = 1
-                cell.imageDateLabel.alpha = 1
-                cell.dateLabel.alpha = 0
-                cell.myDateLabel.alpha = 0
-            }
-        } else {
-            cell.myImageDateLabel.alpha = 0
-            cell.imageDateLabel.alpha = 0
-        }
+  
 
         
         let messageDate = ChatRoomInfo[indexPath.row].createdAt.dateValue()
@@ -266,6 +263,7 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
         
         
         let uid = Auth.auth().currentUser?.uid
+        
         userGetInfo(userId: ChatRoomInfo[indexPath.row].userId,cell: cell)
         
         
@@ -274,9 +272,32 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
             cell.myMessageLabel.alpha = 0
             cell.myDateLabel.alpha = 0
             cell.myImageDateLabel.alpha = 0
+            
+            cell.backView.alpha = 1
+            cell.messageLabel.alpha = 1
+            cell.userImage.alpha = 1
+            cell.userNameLabel.alpha = 1
+            
             cell.imageRightConstraint.constant = width/4
             cell.imageLeftConstraint.constant = 50
-
+            
+            if ChatRoomInfo[indexPath.row].sendImageURL != "" {
+                if let url = URL(string: ChatRoomInfo[indexPath.row].sendImageURL) {
+                    Nuke.loadImage(with: url, into: cell.sendImageView!)
+                    cell.Imageheight.constant = width*0.55
+                    cell.backView.backgroundColor = .clear
+                    cell.myBackView.backgroundColor = .clear
+                    cell.myImageDateLabel.alpha = 0
+                    cell.imageDateLabel.alpha = 1
+                    cell.dateLabel.alpha = 0
+                    cell.myDateLabel.alpha = 0
+                }
+            } else {
+                cell.myImageDateLabel.alpha = 0
+                cell.imageDateLabel.alpha = 0
+                cell.dateLabel.alpha = 1
+                cell.myDateLabel.alpha = 0
+            }
         } else {
             cell.backView.alpha = 0
             cell.userNameLabel.alpha = 0
@@ -284,9 +305,34 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
             cell.dateLabel.alpha = 0
             cell.userImage.alpha = 0
             cell.imageDateLabel.alpha = 0
+            
+            cell.myBackView.alpha = 1
+            cell.myMessageLabel.alpha = 1
+            
+            
             cell.imageRightConstraint.constant = 8
             cell.imageLeftConstraint.constant = width/4 + 42
+            
+            if ChatRoomInfo[indexPath.row].sendImageURL != "" {
+                if let url = URL(string: ChatRoomInfo[indexPath.row].sendImageURL) {
+                    Nuke.loadImage(with: url, into: cell.sendImageView!)
+                    cell.Imageheight.constant = width*0.55
+                    cell.backView.backgroundColor = .clear
+                    cell.myBackView.backgroundColor = .clear
+                    cell.myImageDateLabel.alpha = 1
+                    cell.imageDateLabel.alpha = 0
+                    cell.dateLabel.alpha = 0
+                    cell.myDateLabel.alpha = 0
+                }
+            } else {
+                cell.myImageDateLabel.alpha = 0
+                cell.imageDateLabel.alpha = 0
+                cell.dateLabel.alpha = 0
+                cell.myDateLabel.alpha = 1
+            }
         }
+        
+        
         
         return cell
     }
@@ -314,7 +360,7 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
               print("Current data: \(data)")
             }
 
-        db.collection("users").document()
+//        db.collection("users").document()
         
         
     }

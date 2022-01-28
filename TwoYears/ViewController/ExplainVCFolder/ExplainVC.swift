@@ -174,7 +174,6 @@ class ExplainVC:UIViewController{
         super.viewDidLoad()
         
         
-//                try? Auth.auth().signOut()
 
         
         explainSecondView.alpha = 0
