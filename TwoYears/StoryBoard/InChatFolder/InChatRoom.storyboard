@@ -64,11 +64,24 @@
                             <constraint firstItem="2HU-LG-P48" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="oMS-eA-kBY"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="In" id="WEh-70-PYk"/>
+                    <navigationItem key="navigationItem" title="In" id="WEh-70-PYk">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="QUj-0b-M0q">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="yG4-MO-bjs">
+                                <rect key="frame" x="302" y="5" width="92" height="34.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="memberTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="UMR-eG-fMP"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="backGroundImageView" destination="x0y-wf-ZoN" id="l3e-H1-CmE"/>
                         <outlet property="inChatTableView" destination="2HU-LG-P48" id="wYw-S9-40F"/>
+                        <outlet property="memberButton" destination="yG4-MO-bjs" id="fQW-AM-m2C"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

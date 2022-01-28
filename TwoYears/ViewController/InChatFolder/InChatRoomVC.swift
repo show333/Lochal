@@ -18,9 +18,16 @@ class InChatRoomVC:UIViewController{
     var teamRoomDic : Team?
     var ChatRoomInfo = [ChatsInfo]()
     var userInfo : [UserInfo] = []
+    let db = Firestore.firestore()
 
     @IBOutlet weak var backGroundImageView: UIImageView!
     @IBOutlet weak var inChatTableView: UITableView!
+    
+    @IBOutlet weak var memberButton: UIButton!
+    
+    @IBAction func memberTappedButton(_ sender: Any) {
+        print("あいあいい")
+    }
     
     private let cellId = "cellId"
     private let accessoryHeight: CGFloat = 90
@@ -37,8 +44,6 @@ class InChatRoomVC:UIViewController{
         return view
     }()
     
-    let db = Firestore.firestore()
-    
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -54,9 +59,6 @@ class InChatRoomVC:UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        inChatTableView.alpha = 0.9
-//        inChatTableView.backgroundView?.alpha = 0
-//        inChatTableView.backgroundColor = .white
         setSwipeBack()
         setupNotification()
         

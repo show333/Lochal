@@ -19,6 +19,8 @@ class UnitHomeVC:UIViewController {
     let db = Firestore.firestore()
     
     @IBOutlet weak var buildingImageView: UIImageView!
+    
+
     @IBOutlet weak var headerBackView: UIView!
     @IBOutlet weak var headerBackViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var teamImageView: UIImageView!
@@ -34,6 +36,16 @@ class UnitHomeVC:UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        headerBackView.clipsToBounds = true
+        headerBackView.layer.masksToBounds = false
+        headerBackView.layer.cornerRadius = 30
+        headerBackView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        headerBackView.layer.shadowOffset = CGSize(width: 0, height: 0)
+        headerBackView.layer.shadowOpacity = 0.4
+        headerBackView.layer.shadowRadius = 5
+
         
         let statusbarHeight = UIApplication.shared.statusBarFrame.height
         let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
