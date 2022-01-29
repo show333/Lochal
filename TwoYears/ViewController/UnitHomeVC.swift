@@ -9,13 +9,29 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import Nuke
+import ImageViewer
 
+extension UIImageView: DisplaceableView {}
 
-class UnitHomeVC:UIViewController {
+class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViewsDataSource {
+    func itemCount() -> Int {
+        return 1
+    }
+    
+    func provideGalleryItem(_ index: Int) -> GalleryItem {
+        GalleryItem.image { $0(self.teamImageView.image!) }
+    }
+    
+    func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
+        return teamImageView
+    }
+    
     
     var teamInfo : Team?
     var userInfo : [UserInfo] = []
-
+    var galleyItem: GalleryItem!
+    
+    
     let db = Firestore.firestore()
     
     @IBOutlet weak var buildingImageView: UIImageView!
@@ -58,18 +74,33 @@ class UnitHomeVC:UIViewController {
         teamNameLabel.text = teamInfo?.teamName
         if let url = URL(string:teamInfo?.teamImage ?? "") {
             Nuke.loadImage(with: url, into: teamImageView)
+            
         } else {
             teamImageView.image = nil
         }
+        
+//        let image:UIImage = UIImage(url: teamInfo?.teamImage ?? "")
+//        galleyItem = GalleryItem.image{ $0(image) }
+//
+//        teamImageView.isUserInteractionEnabled = true
+//        let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.onTap(_:)))
+//        teamImageView.addGestureRecognizer(recognizer)
+        
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(didTap(_:)))
+        teamImageView.addGestureRecognizer(tapGesture)
+        teamImageView.isUserInteractionEnabled = true
+        
+        
+        
+        
         
         teamImageView.clipsToBounds = true
         teamImageView.layer.cornerRadius = headerHeight/8
         
         setSwipeBack()
         
-   
-
-
         userCollectionView.dataSource = self
         userCollectionView.delegate = self
         let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -97,7 +128,17 @@ class UnitHomeVC:UIViewController {
         
         print("あああいあいあ")
     }
-    
+    @objc private func didTap(_ sender: UITapGestureRecognizer) {
+        let viewController = GalleryViewController(
+            startIndex: 0,
+            itemsDataSource: self,
+            displacedViewsDataSource: self,
+            configuration: [
+                .deleteButtonMode(.none),
+                .thumbnailsButtonMode(.none)
+            ])
+        presentImageGallery(viewController)
+    }
     
     func fetchUserTeamInfo(teamId:String){
         
@@ -187,4 +228,3 @@ class UserCollectionViewCell: UICollectionViewCell {
         super.init(coder: aDecoder)
     }
 }
-

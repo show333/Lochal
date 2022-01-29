@@ -64,7 +64,7 @@ class FirstMakeTeamVC: UIViewController, UIGestureRecognizerDelegate {
         let storageRef = Storage.storage().reference().child("Team_Image").child(imageString!)
         
         guard let image = imageButton.imageView?.image  else { return }
-        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
+        guard let uploadImage = image.jpegData(compressionQuality: 0.1) else { return }
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         func randomString(length: Int) -> String {

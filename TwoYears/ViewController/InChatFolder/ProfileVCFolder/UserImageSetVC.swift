@@ -59,7 +59,7 @@ class UserImageSetVC : UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let storageRef = Storage.storage().reference().child("User_Image").child(imageString!)
         guard let image = imageButton.imageView?.image  else { return }
-        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
+        guard let uploadImage = image.jpegData(compressionQuality: 0.1) else { return }
         
         storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
             if let err = err {

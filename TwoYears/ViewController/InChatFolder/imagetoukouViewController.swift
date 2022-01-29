@@ -25,7 +25,7 @@ class imagetoukouViewController: UIViewController {
     
     @IBAction func sendTappedButton(_ sender: Any) {
         guard let image = imageButton.imageView?.image  else { return }
-        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
+        guard let uploadImage = image.jpegData(compressionQuality: 0.2) else { return }
         
         let fileName = NSUUID().uuidString
         let storageRef = Storage.storage().reference().child("ChatRoom_image").child(fileName)

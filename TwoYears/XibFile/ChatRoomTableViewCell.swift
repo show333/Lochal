@@ -11,13 +11,14 @@ import FirebaseAuth
 import Firebase
 import SwiftMoment
 import TTTAttributedLabel
+import ImageViewer
 
 
-class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
+class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate{
     
     
     var chatRoomInfo : ChatsInfo?
-    
+    var galleyItem: GalleryItem!
     @IBDesignable
     final class ImageButton: UIButton {
 
@@ -99,6 +100,21 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
         userImage.isUserInteractionEnabled = true
         userImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
         
+//        sendImageView.isUserInteractionEnabled = true
+//        sendImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendImageTapped(_:))))
+        
+    
+//
+//        sendImageView.isUserInteractionEnabled = true
+//        let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.onTap(_:)))
+        //        sendImageView.addGestureRecognizer(recognizer)
+        
+        let tapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(didTap(_:)))
+        sendImageView.addGestureRecognizer(tapGesture)
+        sendImageView.isUserInteractionEnabled = true
+        //
         messageLabel.enabledTextCheckingTypes = NSTextCheckingResult.CheckingType.link.rawValue
         messageLabel.delegate = self
         
@@ -148,8 +164,36 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
         ProfileVC.tabBarController?.tabBar.isHidden = true
         ViewController()?.navigationController?.navigationBar.isHidden = false
         ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
-        
     }
+    
+    @objc private func didTap(_ sender: UITapGestureRecognizer) {
+        let viewController = GalleryViewController(
+            startIndex: 0,
+            itemsDataSource: self,
+            displacedViewsDataSource: self,
+            configuration: [
+                .deleteButtonMode(.none),
+                .thumbnailsButtonMode(.none)
+            ])
+        ViewController()?.presentImageGallery(viewController)
+    }
+    
+//    @objc func onTap(_ sender: UIImageView) {
+//        let image = UIImage(named: "https://firebasestorage.googleapis.com:443/v0/b/totalgood-7b3a3.appspot.com/o/ChatRoom_image%2F9BB9FEB9-4191-45CE-8A93-158D6A1DF1F4?alt=media&token=7d410f68-915e-4b6a-aa86-3f636df0d121")
+//        galleyItem = GalleryItem.image{ $0(image) }
+//        let galleryViewController = GalleryViewController(startIndex: 0, itemsDataSource: self, configuration: [.deleteButtonMode(.none), .seeAllCloseButtonMode(.none), .thumbnailsButtonMode(.none)])
+//            InChatRoomVC()?.present(galleryViewController, animated: true, completion: nil)
+//    }
+//
+//    // MARK: GalleryItemsDataSource
+//    func itemCount() -> Int {
+//    return 1
+//    }
+//
+//    func provideGalleryItem(_ index: Int) -> GalleryItem {
+//    return galleyItem
+//    }
+    
     
     //urlリンク飛ぶ
     func attributedLabel(_ label: TTTAttributedLabel!, didSelectLinkWith url: URL!) {
@@ -168,3 +212,19 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate  {
     }
 }
 
+extension ChatRoomTableViewCell: GalleryItemsDataSource {
+    func itemCount() -> Int {
+        return 1
+    }
+
+    func provideGalleryItem(_ index: Int) -> GalleryItem {
+        return GalleryItem.image { $0(self.sendImageView.image!) }
+    }
+}
+
+// MARK: GalleryDisplacedViewsDataSource
+extension ChatRoomTableViewCell: GalleryDisplacedViewsDataSource {
+    func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
+        return sendImageView
+    }
+}

@@ -12,11 +12,13 @@ import FirebaseFirestore
 import SwiftMoment
 import Nuke
 import DZNEmptyDataSet
+import ImageViewer
 
-class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
+class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource{
     
     var outMemo: [OutMemo] = []
     var teamInfo : [Team] = []
+    var galleyItem: GalleryItem!
     var statusFollow : String?
     
     var safeArea : CGFloat = 0
@@ -238,7 +240,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         followerButton.setTitle("1111", for: .normal)
 
         
-
     
 //        getFollowId(userId:userId ?? "",uid:uid)
         
@@ -507,7 +508,16 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             
             let followingCount = document["followingCount"] as? Int ?? 0
             let followerCount = document["followerCount"] as? Int ?? 0
-
+            
+            let image:UIImage = UIImage(url: userImage)
+                 galleyItem = GalleryItem.image{ $0(image) }
+            
+            let tapGesture = UITapGestureRecognizer(
+                target: self,
+                action: #selector(didTap(_:)))
+            userImageView.addGestureRecognizer(tapGesture)
+            userImageView.isUserInteractionEnabled = true
+            
             followingButton.setTitle(String(followingCount), for: .normal)
             followerButton.setTitle(String(followerCount), for: .normal)
             
@@ -520,50 +530,18 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             }
         }
     }
+    @objc private func didTap(_ sender: UITapGestureRecognizer) {
+        let viewController = GalleryViewController(
+            startIndex: 0,
+            itemsDataSource: self,
+            displacedViewsDataSource: self,
+            configuration: [
+                .deleteButtonMode(.none),
+                .thumbnailsButtonMode(.none)
+            ])
+        presentImageGallery(viewController)
+    }
     
-//    func fetchUserTeamInfo(userId:String){
-//
-//
-//        self.db.collection("users").document(userId).collection("belong_Team").document("teamId")
-//            .addSnapshotListener { documentSnapshot, error in
-//                guard let document = documentSnapshot else {
-//                    print("Error fetching document: \(error!)")
-//                    return
-//                }
-//                guard let data = document.data() else {
-//                    print("Document data was empty.")
-//                    return
-//                }
-//                print("Current data: \(data)")
-//                let teamIdArray = data["teamId"] as! Array<String>
-//                print(teamIdArray)
-//                print(teamIdArray[0])
-//
-//                self.teamInfo.removeAll()
-//                self.teamCollectionView.reloadData()
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                    teamIdArray.forEach{
-//                        self.getTeamInfo(teamId: $0)
-//                    }
-//                }
-//            }
-//
-//    }
-//
-//    func getTeamInfo(teamId:String){
-//        db.collection("Team").document(teamId).getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-//                print("Document data: \(dataDescription)")
-//                let teamDic = Team(dic: document.data()!)
-//                self.teamInfo.append(teamDic)
-//
-//                self.teamCollectionView.reloadData()
-//            } else {
-//                print("Document does not exist")
-//            }
-//        }
-//    }
 }
 
 extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
@@ -860,5 +838,22 @@ class profileCollectionViewCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+}
+
+extension ProfileVC: GalleryItemsDataSource {
+    func itemCount() -> Int {
+        return 1
+    }
+
+    func provideGalleryItem(_ index: Int) -> GalleryItem {
+        return GalleryItem.image { $0(self.userImageView.image!) }
+    }
+}
+
+// MARK: GalleryDisplacedViewsDataSource
+extension ProfileVC: GalleryDisplacedViewsDataSource {
+    func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
+        return userImageView
     }
 }
