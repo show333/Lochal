@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -31,6 +31,10 @@
 		A3598411279B2169003CB00B /* ExplainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3598410279B2169003CB00B /* ExplainVC.swift */; };
 		A36DC50427A430200083F76D /* Members.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A36DC50327A430200083F76D /* Members.storyboard */; };
 		A36DC50627A430470083F76D /* MembersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36DC50527A430470083F76D /* MembersVC.swift */; };
+		A36DC50927A5B9D50083F76D /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = A36DC50827A5B9D50083F76D /* FacebookCore */; };
+		A36DC50B27A5B9D50083F76D /* FacebookGamingServices in Frameworks */ = {isa = PBXBuildFile; productRef = A36DC50A27A5B9D50083F76D /* FacebookGamingServices */; };
+		A36DC50D27A5B9D50083F76D /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = A36DC50C27A5B9D50083F76D /* FacebookLogin */; };
+		A36DC50F27A5B9D50083F76D /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = A36DC50E27A5B9D50083F76D /* FacebookShare */; };
 		A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C8614276B7C45002078A0 /* ChatsInfo.swift */; };
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
 		A3B115CF27971B1F001820EC /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3B115CE27971B1F001820EC /* Settings.storyboard */; };
@@ -248,7 +252,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A36DC50D27A5B9D50083F76D /* FacebookLogin in Frameworks */,
+				A36DC50B27A5B9D50083F76D /* FacebookGamingServices in Frameworks */,
 				B1ECFF570D15E24B5D63F1D7 /* Pods_TOTALGOOD.framework in Frameworks */,
+				A36DC50F27A5B9D50083F76D /* FacebookShare in Frameworks */,
+				A36DC50927A5B9D50083F76D /* FacebookCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -520,6 +528,12 @@
 			dependencies = (
 			);
 			name = TOTALGOOD;
+			packageProductDependencies = (
+				A36DC50827A5B9D50083F76D /* FacebookCore */,
+				A36DC50A27A5B9D50083F76D /* FacebookGamingServices */,
+				A36DC50C27A5B9D50083F76D /* FacebookLogin */,
+				A36DC50E27A5B9D50083F76D /* FacebookShare */,
+			);
 			productName = protain;
 			productReference = CF2A223025C3FC7000C5BFC1 /* TOTALGOOD.app */;
 			productType = "com.apple.product-type.application";
@@ -548,6 +562,9 @@
 				Base,
 			);
 			mainGroup = CF2A222725C3FC7000C5BFC1;
+			packageReferences = (
+				A36DC50727A5B9D40083F76D /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+			);
 			productRefGroup = CF2A223125C3FC7000C5BFC1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -965,6 +982,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A36DC50727A5B9D40083F76D /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A36DC50827A5B9D50083F76D /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A36DC50727A5B9D40083F76D /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		A36DC50A27A5B9D50083F76D /* FacebookGamingServices */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A36DC50727A5B9D40083F76D /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookGamingServices;
+		};
+		A36DC50C27A5B9D50083F76D /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A36DC50727A5B9D40083F76D /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
+		};
+		A36DC50E27A5B9D50083F76D /* FacebookShare */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A36DC50727A5B9D40083F76D /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookShare;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		CF2A223C25C3FC7000C5BFC1 /* protain.xcdatamodeld */ = {
