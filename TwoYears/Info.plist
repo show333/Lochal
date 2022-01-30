@@ -18,23 +18,23 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>515281953168851</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-    <key>CFBundleURLTypes</key>
-    <array>
-      <dict>
-      <key>CFBundleURLSchemes</key>
-      <array>
-        <string>515281953168851</string>
-      </array>
-      </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>515281953168851</string>
-    <key>FacebookClientToken</key>
-    <string>29a1aa2e8bc7d70898ef95904a931458</string>
-    <key>FacebookDisplayName</key>
-    <string>515281953168851</string>
+	<key>FacebookAppID</key>
+	<string>515281953168851</string>
+	<key>FacebookClientToken</key>
+	<string>29a1aa2e8bc7d70898ef95904a931458</string>
+	<key>FacebookDisplayName</key>
+	<string>515281953168851</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9686355783426956~1327454889</string>
 	<key>LSRequiresIPhoneOS</key>

@@ -320,7 +320,6 @@
 				CF0C14C125CA067C006A7C86 /* ChatInputAccessoryView.swift */,
 				CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */,
 				CF39F28426567D960006716A /* stampViewController.swift */,
-				A36DC50027A416340083F76D /* ProfileVCFolder */,
 			);
 			path = InChatFolder;
 			sourceTree = "<group>";
@@ -442,6 +441,7 @@
 			children = (
 				A33F066B279C26DD0008B29A /* ExplainVCFolder */,
 				A36DC4FF27A415EF0083F76D /* InChatFolder */,
+				A36DC50027A416340083F76D /* ProfileVCFolder */,
 				CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */,
 				CF24EF7825D7AAD6009FE517 /* SplashViewController.swift */,
 				CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */,

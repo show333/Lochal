@@ -41,7 +41,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
     private let headerMoveHeight: CGFloat = 7
     
-    
     @IBOutlet weak var followerLabel: UILabel!
     @IBOutlet weak var followLabel: UILabel!
     @IBOutlet weak var settingsLabel: UILabel!
@@ -126,9 +125,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         let docData = [
             "createdAt": FieldValue.serverTimestamp(),
             "userId": uid ?? "",
-            "userName":userName ?? "",
-            "userImage":userImage ?? "",
-            "userFrontId":userFrontId ?? "",
+            "userName":UserDefaults.standard.string(forKey: "userName") ?? "unKnown",
+            "userImage":UserDefaults.standard.string(forKey: "userImage") ?? "unKnown",
+            "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
             "documentId" : uid ?? "",
             "reactionImage": "",
             "reactionMessage":"さんからフォロー申請です",
@@ -509,7 +508,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             let followingCount = document["followingCount"] as? Int ?? 0
             let followerCount = document["followerCount"] as? Int ?? 0
             
-            let image:UIImage = UIImage(url: userImage)
+            let image:UIImage = UIImage(url: userImage ?? "")
                  galleyItem = GalleryItem.image{ $0(image) }
             
             let tapGesture = UITapGestureRecognizer(
@@ -521,9 +520,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             followingButton.setTitle(String(followingCount), for: .normal)
             followerButton.setTitle(String(followerCount), for: .normal)
             
-            userFrontIdLabel.text = "ID: "+userFrontId
+            userFrontIdLabel.text = userFrontId
             userNameLabel.text = userName
-            if let url = URL(string:userImage) {
+            if let url = URL(string:userImage ?? "") {
                 Nuke.loadImage(with: url, into: userImageView)
             } else {
                 userImageView?.image = nil
