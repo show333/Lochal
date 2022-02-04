@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FAX-i2-YaM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FAX-i2-YaM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -57,7 +57,7 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Cell" id="ORS-4w-763" customClass="UserCollectionViewCell" customModule="TOTALGOOD" customModuleProvider="target">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="userCell" id="ORS-4w-763" customClass="UserCollectionViewCell" customModule="TOTALGOOD" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="65" height="47"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="aJP-OS-XPQ">
@@ -102,24 +102,74 @@
                                     <constraint firstAttribute="trailing" secondItem="Sui-EJ-o2B" secondAttribute="trailing" constant="10" id="uy9-U0-tmi"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IEX-Jg-DkX">
-                                <rect key="frame" x="87" y="224" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ljT-jX-BsZ">
+                                <rect key="frame" x="0.0" y="88" width="414" height="466"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OnJ-P1-m8F">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="postCell" id="Vft-hY-e2j" customClass="PostCollectionViewCell" customModule="TOTALGOOD" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="tfb-Sh-D3d">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="emV-2m-v23">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <color key="backgroundColor" systemColor="systemRedColor"/>
+                                                </imageView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="emV-2m-v23" firstAttribute="top" secondItem="tfb-Sh-D3d" secondAttribute="top" id="87x-14-zMU"/>
+                                                <constraint firstAttribute="trailing" secondItem="emV-2m-v23" secondAttribute="trailing" id="9pu-Ei-Idx"/>
+                                                <constraint firstItem="emV-2m-v23" firstAttribute="leading" secondItem="tfb-Sh-D3d" secondAttribute="leading" id="Rfd-Fx-GH7"/>
+                                                <constraint firstAttribute="bottom" secondItem="emV-2m-v23" secondAttribute="bottom" id="l2H-9R-3V0"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                        <connections>
+                                            <outlet property="postImageView" destination="emV-2m-v23" id="4WB-vk-lg7"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="CIR-r9-hrY" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="J5u-Ko-W6M"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ljT-jX-BsZ" secondAttribute="trailing" id="Qh8-rp-i9b"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="CIR-r9-hrY" secondAttribute="trailing" constant="8" id="RwO-L1-7Lw"/>
+                            <constraint firstItem="ljT-jX-BsZ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="d0P-cv-JG7"/>
+                            <constraint firstItem="ljT-jX-BsZ" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="ihu-Ma-hBL"/>
+                            <constraint firstItem="CIR-r9-hrY" firstAttribute="top" secondItem="ljT-jX-BsZ" secondAttribute="bottom" id="mdl-H6-S2n"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="CIR-r9-hrY" secondAttribute="bottom" constant="8" id="xXy-p8-K1m"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="UnitHome" id="znn-AI-dd6"/>
+                    <navigationItem key="navigationItem" title="UnitHome" id="znn-AI-dd6">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="1Xr-RW-fbu">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" id="fUr-fM-ASV">
+                                <rect key="frame" x="345" y="5" width="49" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="" image="plus.square" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" image="plus.square" catalog="system" title=""/>
+                                <connections>
+                                    <action selector="newPostTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="ZdC-IJ-vp1"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="buildingImageView" destination="IEX-Jg-DkX" id="WYQ-RD-Cjr"/>
                         <outlet property="headerBackView" destination="CIR-r9-hrY" id="5BQ-db-WMl"/>
                         <outlet property="headerBackViewConstraint" destination="Osx-AF-wIA" id="vT9-ZD-xbi"/>
+                        <outlet property="newPostButton" destination="fUr-fM-ASV" id="2pH-Rd-oGM"/>
+                        <outlet property="postCollectionView" destination="ljT-jX-BsZ" id="JNd-B0-cBa"/>
                         <outlet property="teamImageView" destination="gw3-Ek-0BI" id="zvx-vM-Geb"/>
                         <outlet property="teamImageViewConstraint" destination="rha-iK-6mR" id="vF9-Ph-vfv"/>
                         <outlet property="teamNameLabel" destination="glC-Yc-4cB" id="AiW-UB-hoj"/>
@@ -133,8 +183,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="plus.square" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemGroupedBackgroundColor">
             <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

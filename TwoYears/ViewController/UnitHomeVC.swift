@@ -34,7 +34,18 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
     
     let db = Firestore.firestore()
     
-    @IBOutlet weak var buildingImageView: UIImageView!
+    @IBOutlet weak var newPostButton: UIButton!
+    
+    @IBAction func newPostTappedButton(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "CollectionPost", bundle: nil)
+        let CollectionPostVC = storyboard.instantiateViewController(withIdentifier: "CollectionPostVC")
+        self.present(CollectionPostVC, animated: true, completion: nil)
+        
+    }
+    
+    @IBOutlet weak var postCollectionView: UICollectionView!
+    
+//    @IBOutlet weak var buildingImageView: UIImageView!
     
 
     @IBOutlet weak var headerBackView: UIView!
@@ -60,6 +71,13 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
         super.viewDidLoad()
         
         
+        
+        
+//        postCollectionView.register(UINib(nibName: "PostCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "postCell")
+//
+//        userCollectionView.register(UINib(nibName: "UserCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "userCell")
+
+
         headerBackView.clipsToBounds = true
         headerBackView.layer.masksToBounds = false
         headerBackView.layer.cornerRadius = 30
@@ -107,6 +125,8 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
         
         setSwipeBack()
         
+        postCollectionView.dataSource = self
+        postCollectionView.delegate = self
         userCollectionView.dataSource = self
         userCollectionView.delegate = self
         let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -125,11 +145,11 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
         
         fetchUserTeamInfo(teamId: teamInfo?.teamId ?? "")
         
-        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2F%20building.001.png?alt=media&token=fc8ff7f1-e980-4d30-b3f0-494970e76882") {
-            Nuke.loadImage(with: url, into: buildingImageView)
-        } else {
-            buildingImageView.image = nil
-        }
+//        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2F%20building.001.png?alt=media&token=fc8ff7f1-e980-4d30-b3f0-494970e76882") {
+//            Nuke.loadImage(with: url, into: buildingImageView)
+//        } else {
+//            buildingImageView.image = nil
+//        }
  
         
         print("あああいあいあ")
@@ -174,52 +194,94 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
                 }
             })
             userCollectionView.reloadData()
+            postCollectionView.reloadData()
         }
     }
 }
 
 extension UnitHomeVC:UICollectionViewDataSource,UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if collectionView == self.userCollectionView {
+            return userInfo.count
+
+        }
         return userInfo.count
+
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
             let horizontalSpace : CGFloat = 50
             let cellSize : CGFloat = self.view.bounds.width / 3 - horizontalSpace
-            return CGSize(width: cellSize, height: cellSize)
-        }
+        return CGSize(width: cellSize, height: cellSize)
+    }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as!  UserCollectionViewCell
-        let statusbarHeight = UIApplication.shared.statusBarFrame.height
-        let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
-        let headerHeight = safeAreaHeight/3
-        cell.clipsToBounds = true
-        cell.layer.cornerRadius = headerHeight/8
-        cell.userImageView.image = nil
         
-        print("usera",userInfo)
-        if let url = URL(string:userInfo[indexPath.row].userImage) {
-            Nuke.loadImage(with: url, into: cell.userImageView)
+        if collectionView == self.userCollectionView {
+            let userCell = collectionView.dequeueReusableCell(withReuseIdentifier: "userCell", for: indexPath) as!  UserCollectionViewCell
+            let statusbarHeight = UIApplication.shared.statusBarFrame.height
+            let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
+            let headerHeight = safeAreaHeight/3
+            userCell.clipsToBounds = true
+            userCell.layer.cornerRadius = headerHeight/8
+            userCell.userImageView.image = nil
+
+            print("uuuuu",userInfo)
+            if let url = URL(string:userInfo[indexPath.row].userImage) {
+                Nuke.loadImage(with: url, into: userCell.userImageView)
+            } else {
+                userCell.userImageView.image = nil
+            }
+            return userCell
         } else {
-            cell.userImageView.image = nil
+            
+            let postCell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as!  PostCollectionViewCell
+            let statusbarHeight = UIApplication.shared.statusBarFrame.height
+            let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
+            let headerHeight = safeAreaHeight/3
+            postCell.clipsToBounds = true
+            postCell.layer.cornerRadius = headerHeight/8
+            postCell.postImageView.image = nil
+            
+            print("iiiiii",userInfo)
+            if let url = URL(string:userInfo[indexPath.row].userImage) {
+                Nuke.loadImage(with: url, into: postCell.postImageView)
+            } else {
+                postCell.postImageView.image = nil
+            }
+            return postCell
+            
         }
-        return cell
+        
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        
-        ProfileVC.userId = userInfo[indexPath.row].userId
-        ProfileVC.userName = userInfo[indexPath.row].userName
-        ProfileVC.userImage = userInfo[indexPath.row].userImage
-        ProfileVC.userFrontId = userInfo[indexPath.row].userFrontId
-        ProfileVC.cellImageTap = true
-
-
-        navigationController?.pushViewController(ProfileVC, animated: true)
+        if collectionView == self.userCollectionView {
+            
+            let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+            let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+            
+            ProfileVC.userId = userInfo[indexPath.row].userId
+            ProfileVC.userName = userInfo[indexPath.row].userName
+            ProfileVC.userImage = userInfo[indexPath.row].userImage
+            ProfileVC.userFrontId = userInfo[indexPath.row].userFrontId
+            ProfileVC.cellImageTap = true
+            
+            navigationController?.pushViewController(ProfileVC, animated: true)
+        } else {
+            let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+            let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+            
+            ProfileVC.userId = userInfo[indexPath.row].userId
+            ProfileVC.userName = userInfo[indexPath.row].userName
+            ProfileVC.userImage = userInfo[indexPath.row].userImage
+            ProfileVC.userFrontId = userInfo[indexPath.row].userFrontId
+            ProfileVC.cellImageTap = true
+            
+            navigationController?.pushViewController(ProfileVC, animated: true)
+        }
     }
     
     
@@ -232,5 +294,14 @@ class UserCollectionViewCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+}
+
+class PostCollectionViewCell: UICollectionViewCell {
+    
+    @IBOutlet weak var postImageView: UIImageView!
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
     }
 }
