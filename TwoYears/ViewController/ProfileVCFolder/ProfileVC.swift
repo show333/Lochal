@@ -325,7 +325,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
         
         if userId == uid {
-            self.tabBarController?.tabBar.isHidden = false
             self.navigationController?.navigationBar.isHidden = true
             followButton.alpha = 0
             settingsButton.alpha = 1
@@ -335,8 +334,33 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             followerLabel.alpha = 1
             settingsLabel.alpha = 1
         } else {
-            self.tabBarController?.tabBar.isHidden = true
             self.navigationController?.navigationBar.isHidden = false
+            followButton.alpha = 1
+            settingsButton.alpha = 0
+            followingButton.alpha = 0
+            followerButton.alpha = 0
+            followLabel.alpha = 0
+            followerLabel.alpha = 0
+            settingsLabel.alpha = 0
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        
+        if userId == uid {
+            self.tabBarController?.tabBar.isHidden = false
+            followButton.alpha = 0
+            settingsButton.alpha = 1
+            followingButton.alpha = 1
+            followerButton.alpha = 1
+            followLabel.alpha = 1
+            followerLabel.alpha = 1
+            settingsLabel.alpha = 1
+        } else {
+            self.tabBarController?.tabBar.isHidden = true
             followButton.alpha = 1
             settingsButton.alpha = 0
             followingButton.alpha = 0

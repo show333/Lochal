@@ -12,10 +12,10 @@ const admin = require('firebase-admin')
 admin.initializeApp()
 const firestore = admin.firestore()
 
-const pushMessage = (fcmToken, bookName) => ({
+const pushMessage = (fcmToken, reactionMessage, userName) => ({
   notification: {
-    title: '保存が完了しました',
-    body: `「${bookName}」の保存が完了しました🙌`,
+    title: `「${userName}」`,
+    body: `「${reactionMessage}」の保存が完了しました🙌`,
   },
   data: {
     hoge: 'fuga', // 任意のデータを送れる
@@ -23,17 +23,17 @@ const pushMessage = (fcmToken, bookName) => ({
   token: fcmToken,
 })
 
-exports.saveBook = functions.firestore
-  .document('version/1/user/{userID}/books/{bookID}')
+exports.NotificationPush = functions.firestore
+  .document('users/{userID}/Notification/{notificationId}')
   .onCreate((snapshot, context) => {
     // 以下のようにすればbookの中身が取れる.
-    const book = snapshot.data()
+    const notificationId = snapshot.data()
     // 以下のようにすればuserIDやbookIDが取れる.
-    const userID = context.params.userID
-    const userRef = firestore.doc(`version/1/user/${userID}`)
-    userRef.get().then((user) => {
-      const userData = user.data()
-      admin.messaging().send(pushMessage(userData.fcmToken, book.name))
+    const userId = context.params.userId
+    const userRef = firestore.doc(`users/${userId}`)
+    userRef.get().then((userId) => {
+      const userData = userId.data()
+      admin.messaging().send(pushMessage(userData.fcmToken, notificationId.reactionMessage, notificationId.userName))
         .then((response) => {
           console.log('Successfully sent message:', response)
         })

@@ -83,6 +83,13 @@ class FirstSetNameVC:UIViewController{
         
         db.collection("users").document(uid ?? "").setData(firstSetup,merge: true)
         
+        let profile = [
+            "admin":false,
+            "userId":uid ?? "",
+        ] as [String: Any]
+        
+        db.collection("users").document(uid ?? "").collection("Profile").document("profile").setData(profile,merge: true)
+        
     }
     
     func setFirestore(userId:String,userName:String){

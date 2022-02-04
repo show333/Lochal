@@ -138,27 +138,9 @@ class ExplainVC:UIViewController{
     func createAuth(){
         let randomId = randomString(length: 8)
         Auth.auth().createUser(withEmail: randomId + "@2.years", password: "ONELIFE") { authResult, error in
-            let uid = Auth.auth().currentUser?.uid
-            self.profileSet(userId:uid ?? "")
+//            let uid = Auth.auth().currentUser?.uid
+//            self.profileSet(userId:uid ?? "")
         }
-    }
-    
-    func profileSet(userId:String){
-        
-//        let firstSetup = [
-//            "admin":false,
-//            "userId":userId,
-//            "nowjikan": FieldValue.serverTimestamp(),
-//            "createdAt": FieldValue.serverTimestamp(),
-//        ] as [String: Any]
-//        
-        let profile = [
-            "admin":false,
-            "userId":userId,
-        ] as [String: Any]
-//        
-//        db.collection("users").document(userId).setData(firstSetup,merge: true)
-        db.collection("users").document(userId).collection("Profile").document("profile").setData(profile,merge: true)
     }
     
     func randomString(length: Int) -> String {

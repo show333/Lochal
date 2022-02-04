@@ -120,13 +120,15 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     @IBOutlet weak var backGroundImageView: UIImageView!
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.tabBarController?.tabBar.isHidden = false
+//        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
         
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false        
         if UserDefaults.standard.bool(forKey: "firstPost") != true{
             guard let uid = Auth.auth().currentUser?.uid else { return }
             UserDefaults.standard.set(true, forKey: "firstPost")

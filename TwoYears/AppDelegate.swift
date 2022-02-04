@@ -53,6 +53,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("Error fetching FCM registration token: \(error)")
           } else if let token = token {
             print("FCM registration token: \(token)")
+              
+              UserDefaults.standard.set(token, forKey: "FCM_TOKEN")
+              
 //            print("Remote FCM registration token: \(token)"
           }
         }

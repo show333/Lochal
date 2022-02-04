@@ -48,8 +48,14 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         self.tabBarController?.tabBar.isHidden = true
+
         self.navigationController?.navigationBar.isHidden = false
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+//        self.tabBarController?.tabBar.isHidden = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
