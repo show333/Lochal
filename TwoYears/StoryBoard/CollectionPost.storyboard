@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -29,8 +29,12 @@
                                     <action selector="imageTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="1D4-tH-mxa"/>
                                 </connections>
                             </button>
+                            <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xCm-Lz-9x7">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="axY-id-44T">
-                                <rect key="frame" x="50" y="610" width="314" height="100"/>
+                                <rect key="frame" x="50" y="612" width="314" height="100"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="C06-Xv-tmM"/>
@@ -47,21 +51,26 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="YV8-u8-lNm" secondAttribute="trailing" constant="50" id="BIZ-nm-8b5"/>
                             <constraint firstItem="YV8-u8-lNm" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="50" id="G1u-w6-87X"/>
                             <constraint firstItem="YV8-u8-lNm" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="Luk-pb-vRx"/>
-                            <constraint firstItem="axY-id-44T" firstAttribute="top" secondItem="YV8-u8-lNm" secondAttribute="bottom" constant="10" id="cDf-sO-UxJ"/>
+                            <constraint firstItem="xCm-Lz-9x7" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="OGq-9T-DCS"/>
+                            <constraint firstAttribute="bottom" secondItem="xCm-Lz-9x7" secondAttribute="bottom" id="U5X-4v-kdt"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="axY-id-44T" secondAttribute="bottom" constant="150" id="cAf-V3-Dco"/>
                             <constraint firstItem="axY-id-44T" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="50" id="dFd-mh-Hzz"/>
                             <constraint firstItem="YV8-u8-lNm" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" constant="-5" id="mMV-3G-qU9"/>
                             <constraint firstItem="axY-id-44T" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="rGT-cY-y2U"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="axY-id-44T" secondAttribute="trailing" constant="50" id="rIo-0p-VlG"/>
+                            <constraint firstItem="xCm-Lz-9x7" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" id="xKd-eU-WpQ"/>
+                            <constraint firstItem="xCm-Lz-9x7" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="zKO-7f-gWc"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backView" destination="xCm-Lz-9x7" id="nQx-sE-mgK"/>
                         <outlet property="bottomTextView" destination="axY-id-44T" id="tb7-bH-rx2"/>
                         <outlet property="imageButton" destination="YV8-u8-lNm" id="0V7-Sx-fI5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="98"/>
+            <point key="canvasLocation" x="73.913043478260875" y="97.767857142857139"/>
         </scene>
     </scenes>
     <resources>

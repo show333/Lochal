@@ -42,7 +42,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
         let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou")
         self.present(sinkitoukou, animated: true, completion: nil)
-        Firestore.firestore().collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
+        db.collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
         //        try? Auth.auth().signOut()
     }
     

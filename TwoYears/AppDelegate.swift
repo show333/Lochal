@@ -30,6 +30,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             didFinishLaunchingWithOptions: launchOptions
         )
         
+//        application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge], categories: nil))
+//        application.applicationIconBadgeNumber = 1
+        
+        
         if #available(iOS 10.0, *) {
           // For iOS 10 display notification (sent via APNS)
           UNUserNotificationCenter.current().delegate = self
@@ -63,6 +67,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     // MARK: UISceneSession Lifecycle
+    
+    
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
@@ -165,6 +171,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // Print full message.
         print(userInfo)
+          
+//          userInfo.shouldBadge = true
 
         // Change this to your preferred presentation option
         completionHandler([[.banner, .list, .sound]])
