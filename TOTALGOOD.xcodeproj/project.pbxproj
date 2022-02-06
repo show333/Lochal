@@ -35,6 +35,9 @@
 		A36DC50B27A5B9D50083F76D /* FacebookGamingServices in Frameworks */ = {isa = PBXBuildFile; productRef = A36DC50A27A5B9D50083F76D /* FacebookGamingServices */; };
 		A36DC50D27A5B9D50083F76D /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = A36DC50C27A5B9D50083F76D /* FacebookLogin */; };
 		A36DC50F27A5B9D50083F76D /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = A36DC50E27A5B9D50083F76D /* FacebookShare */; };
+		A392220F27B0101500FFC936 /* PostInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392220E27B0101500FFC936 /* PostInfo.swift */; };
+		A392221127B013C900FFC936 /* detailPost.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A392221027B013C900FFC936 /* detailPost.storyboard */; };
+		A392221327B0141B00FFC936 /* detailPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A392221227B0141B00FFC936 /* detailPostVC.swift */; };
 		A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C8614276B7C45002078A0 /* ChatsInfo.swift */; };
 		A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */; };
 		A3B115CF27971B1F001820EC /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A3B115CE27971B1F001820EC /* Settings.storyboard */; };
@@ -155,6 +158,9 @@
 		A3598410279B2169003CB00B /* ExplainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplainVC.swift; sourceTree = "<group>"; };
 		A36DC50327A430200083F76D /* Members.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Members.storyboard; sourceTree = "<group>"; };
 		A36DC50527A430470083F76D /* MembersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersVC.swift; sourceTree = "<group>"; };
+		A392220E27B0101500FFC936 /* PostInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostInfo.swift; sourceTree = "<group>"; };
+		A392221027B013C900FFC936 /* detailPost.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = detailPost.storyboard; sourceTree = "<group>"; };
+		A392221227B0141B00FFC936 /* detailPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detailPostVC.swift; sourceTree = "<group>"; };
 		A39C8614276B7C45002078A0 /* ChatsInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsInfo.swift; sourceTree = "<group>"; };
 		A3AE6F512760AC0B00E2219C /* teamRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = teamRankingVC.swift; sourceTree = "<group>"; };
 		A3B115CE27971B1F001820EC /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
@@ -436,6 +442,7 @@
 				A3D13E2B276F3074002599B9 /* Reaction.swift */,
 				CF3B82A327868DEF00B4A257 /* ReadLog.swift */,
 				CF3B82A62786C90900B4A257 /* UserInfo.swift */,
+				A392220E27B0101500FFC936 /* PostInfo.swift */,
 			);
 			path = inisyaraiz;
 			sourceTree = "<group>";
@@ -462,6 +469,7 @@
 				CF3B82AF2786F70400B4A257 /* NotificationVC.swift */,
 				A359840A2799AA56003CB00B /* UnitHomeVC.swift */,
 				CF83D9B127AD4FA000DF9C76 /* CollectionPostVC.swift */,
+				A392221227B0141B00FFC936 /* detailPostVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -501,6 +509,7 @@
 				A35984082799A88B003CB00B /* UnitHome.storyboard */,
 				A359840C279A9A87003CB00B /* forexample.storyboard */,
 				CF83D9AF27AD4F7000DF9C76 /* CollectionPost.storyboard */,
+				A392221027B013C900FFC936 /* detailPost.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -626,6 +635,7 @@
 				CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */,
 				CF83D9B027AD4F7100DF9C76 /* CollectionPost.storyboard in Resources */,
 				A35984052798ED78003CB00B /* Followings.storyboard in Resources */,
+				A392221127B013C900FFC936 /* detailPost.storyboard in Resources */,
 				A35984092799A88C003CB00B /* UnitHome.storyboard in Resources */,
 				CF4C5A44261FA3F300342675 /* packmanload.json in Resources */,
 				CF15444F26110E2700400D87 /* GoogleService-Info.plist in Resources */,
@@ -738,6 +748,7 @@
 				CF3B82A427868DEF00B4A257 /* ReadLog.swift in Sources */,
 				A33F066F279C27400008B29A /* FirstSetImageVC.swift in Sources */,
 				A35984032798ED58003CB00B /* FollowersVC.swift in Sources */,
+				A392221327B0141B00FFC936 /* detailPostVC.swift in Sources */,
 				CF361A01277C829800C08160 /* Date-extension.swift in Sources */,
 				CF2A223425C3FC7000C5BFC1 /* AppDelegate.swift in Sources */,
 				CF0BD9DB25D01B04004A1958 /* SignInViewController.swift in Sources */,
@@ -757,6 +768,7 @@
 				CF3DDC1B25C73C580016AB0F /* Animal.swift in Sources */,
 				CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */,
 				A33F067B279C5B7C0008B29A /* FirstMakeTeamVC.swift in Sources */,
+				A392220F27B0101500FFC936 /* PostInfo.swift in Sources */,
 				CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */,
 				CF3D0C1D267BD349006021FB /* UserImageSetVC.swift in Sources */,
 				CF31079D2600AA1A00746480 /* TabbarController.swift in Sources */,

@@ -13,8 +13,8 @@ struct Team  {
     var teamName : String
     var invitedId : String
     var createdAt : Timestamp
-    var totalGood : Int
     var teamImage : String
+    
 
     
     init(dic: [String: Any]){
@@ -22,7 +22,6 @@ struct Team  {
         self.teamName = dic["teamName"] as? String ?? ""
         self.invitedId = dic["招待した人のID"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
-        self.totalGood = dic["TotalGood"] as? Int ?? 0
         self.teamImage = dic["teamImage"] as? String ?? ""
     }
     

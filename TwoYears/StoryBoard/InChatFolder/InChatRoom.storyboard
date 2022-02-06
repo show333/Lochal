@@ -61,7 +61,9 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="x0y-wf-ZoN" secondAttribute="trailing" id="XJ3-7j-5qg"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="2HU-LG-P48" secondAttribute="bottom" id="bM2-bE-nqI"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="2HU-LG-P48" secondAttribute="trailing" id="bmp-Yx-NIf"/>
+                            <constraint firstItem="x0y-wf-ZoN" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="cy5-IH-J7u"/>
                             <constraint firstItem="2HU-LG-P48" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="oMS-eA-kBY"/>
+                            <constraint firstItem="x0y-wf-ZoN" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="rdG-QK-b2l"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="In" id="WEh-70-PYk">

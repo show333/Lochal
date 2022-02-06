@@ -29,6 +29,7 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
     
     var teamInfo : Team?
     var userInfo : [UserInfo] = []
+    var unitPostInfo: [PostInfo] = []
     var galleyItem: GalleryItem!
     
     
@@ -38,7 +39,10 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
     
     @IBAction func newPostTappedButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "CollectionPost", bundle: nil)
-        let CollectionPostVC = storyboard.instantiateViewController(withIdentifier: "CollectionPostVC")
+        let CollectionPostVC = storyboard.instantiateViewController(withIdentifier: "CollectionPostVC") as! CollectionPostVC
+        
+        CollectionPostVC.postDocString = teamInfo?.teamId
+        
         self.present(CollectionPostVC, animated: true, completion: nil)
         
     }
@@ -62,17 +66,11 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
 
         self.navigationController?.navigationBar.isHidden = false
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(true)
-//        self.tabBarController?.tabBar.isHidden = true
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
-        
+                
 //        postCollectionView.register(UINib(nibName: "PostCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "postCell")
 //
 //        userCollectionView.register(UINib(nibName: "UserCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "userCell")
@@ -144,15 +142,6 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
         
         
         fetchUserTeamInfo(teamId: teamInfo?.teamId ?? "")
-        
-//        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2F%20building.001.png?alt=media&token=fc8ff7f1-e980-4d30-b3f0-494970e76882") {
-//            Nuke.loadImage(with: url, into: buildingImageView)
-//        } else {
-//            buildingImageView.image = nil
-//        }
- 
-        
-        print("あああいあいあ")
     }
     @objc private func didTap(_ sender: UITapGestureRecognizer) {
         let viewController = GalleryViewController(
@@ -194,9 +183,40 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
                 }
             })
             userCollectionView.reloadData()
+        }
+    }
+    
+    func fetchUnitPostInfo(teamId:String){
+        
+        
+        db.collection("Team").document(teamId).collection("UnitPost").addSnapshotListener { [self] ( snapshots, err) in
+            if let err = err {
+                
+                print("メッセージの取得に失敗、\(err)")
+                return
+            }
+            snapshots?.documentChanges.forEach({ (Naruto) in
+                switch Naruto.type {
+                case .added:
+                    let dic = Naruto.document.data()
+                    let unitPostInfoDoc = PostInfo(dic: dic)
+                    self.unitPostInfo.append(unitPostInfoDoc)
+                    
+                    self.userInfo.sort { (m1, m2) -> Bool in
+                        let m1Date = m1.createdAt.dateValue()
+                        let m2Date = m2.createdAt.dateValue()
+                        return m1Date > m2Date
+                    }
+
+                case .modified, .removed:
+                    print("noproblem")
+                }
+            })
             postCollectionView.reloadData()
         }
     }
+    
+    
 }
 
 extension UnitHomeVC:UICollectionViewDataSource,UICollectionViewDelegate {
@@ -205,7 +225,7 @@ extension UnitHomeVC:UICollectionViewDataSource,UICollectionViewDelegate {
             return userInfo.count
 
         }
-        return userInfo.count
+        return unitPostInfo.count
 
         
     }
@@ -245,8 +265,7 @@ extension UnitHomeVC:UICollectionViewDataSource,UICollectionViewDelegate {
             postCell.layer.cornerRadius = headerHeight/8
             postCell.postImageView.image = nil
             
-            print("iiiiii",userInfo)
-            if let url = URL(string:userInfo[indexPath.row].userImage) {
+            if let url = URL(string:unitPostInfo[indexPath.row].postImage) {
                 Nuke.loadImage(with: url, into: postCell.postImageView)
             } else {
                 postCell.postImageView.image = nil
@@ -271,16 +290,16 @@ extension UnitHomeVC:UICollectionViewDataSource,UICollectionViewDelegate {
             
             navigationController?.pushViewController(ProfileVC, animated: true)
         } else {
-            let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-            let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+            let storyboard = UIStoryboard.init(name: "detailPost", bundle: nil)
+            let detailPostVC = storyboard.instantiateViewController(withIdentifier: "detailPostVC") as! detailPostVC
             
-            ProfileVC.userId = userInfo[indexPath.row].userId
-            ProfileVC.userName = userInfo[indexPath.row].userName
-            ProfileVC.userImage = userInfo[indexPath.row].userImage
-            ProfileVC.userFrontId = userInfo[indexPath.row].userFrontId
-            ProfileVC.cellImageTap = true
+//            ProfileVC.userId = userInfo[indexPath.row].userId
+//            ProfileVC.userName = userInfo[indexPath.row].userName
+//            ProfileVC.userImage = userInfo[indexPath.row].userImage
+//            ProfileVC.userFrontId = userInfo[indexPath.row].userFrontId
+//            ProfileVC.cellImageTap = true
             
-            navigationController?.pushViewController(ProfileVC, animated: true)
+            navigationController?.pushViewController(detailPostVC, animated: true)
         }
     }
     

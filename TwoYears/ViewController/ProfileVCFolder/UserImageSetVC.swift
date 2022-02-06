@@ -39,19 +39,18 @@ class UserImageSetVC : UIViewController {
             sendImage()
         } else {
             DispatchQueue.main.async(execute: { () -> Void in
-                    self.explainLabel.text = "画像が選択されていません"
+                self.explainLabel.text = "画像が選択されていません"
+                
+                UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+                    self.explainLabel.alpha = 1
                     
-                    UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
-                        self.explainLabel.alpha = 1
-                        
-                    }) {(completed) in
-                        
-                        UIView.animate(withDuration: 0.2, delay: 2.5, options: UIView.AnimationOptions.allowUserInteraction, animations: {
-                            self.explainLabel.alpha = 0
-                        })
-                    }
-                })
-            
+                }) {(completed) in
+                    
+                    UIView.animate(withDuration: 0.2, delay: 2.5, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+                        self.explainLabel.alpha = 0
+                    })
+                }
+            })
         }
     }
     

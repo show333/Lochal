@@ -98,27 +98,6 @@ class sinkitoukou: UIViewController {
             
         ] as [String: Any]
         
-            
-            
-//            db.collection("users").document(uid).collection("Follower").document("follower_Id")
-//                .addSnapshotListener { documentSnapshot, error in
-//                    guard let document = documentSnapshot else {
-//                        print("Error fetching document: \(error!)")
-//                        return
-//                    }
-//                    guard let data = document.data() else {
-//                        print("Document data was empty.")
-//                        return
-//                    }
-//                    print("Current data: \(data)")
-//                    let userIdArray = data["userId"] as! Array<String>
-//
-//                    userIdArray.forEach{
-//                        db.collection("users").document($0).collection("TimeLine").document(memoId).setData(memoInfoDic)
-//
-//                    }
-//                }
-        
         db.collection("users").document(uid).collection("Follower").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")

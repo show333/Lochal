@@ -114,7 +114,7 @@ class teamRankingVC:UIViewController, UICollectionViewDataSource, UICollectionVi
                     
                 }
                 teamCollectionView.reloadData()
-                toriaLabel.text = String(teamInfo[0].totalGood)
+//                toriaLabel.text = String(teamInfo[0].totalGood)
                 
             }
         }
