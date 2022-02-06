@@ -225,7 +225,7 @@ extension UnitHomeVC:UICollectionViewDataSource,UICollectionViewDelegate {
             return userInfo.count
 
         }
-        return unitPostInfo.count
+        return 2
 
         
     }
@@ -258,18 +258,18 @@ extension UnitHomeVC:UICollectionViewDataSource,UICollectionViewDelegate {
         } else {
             
             let postCell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as!  PostCollectionViewCell
-            let statusbarHeight = UIApplication.shared.statusBarFrame.height
-            let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
-            let headerHeight = safeAreaHeight/3
-            postCell.clipsToBounds = true
-            postCell.layer.cornerRadius = headerHeight/8
-            postCell.postImageView.image = nil
-            
-            if let url = URL(string:unitPostInfo[indexPath.row].postImage) {
-                Nuke.loadImage(with: url, into: postCell.postImageView)
-            } else {
-                postCell.postImageView.image = nil
-            }
+//            let statusbarHeight = UIApplication.shared.statusBarFrame.height
+//            let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
+//            let headerHeight = safeAreaHeight/3
+//            postCell.clipsToBounds = true
+//            postCell.layer.cornerRadius = headerHeight/8
+//            postCell.postImageView.image = nil
+//
+//            if let url = URL(string:unitPostInfo[indexPath.row].postImage) {
+//                Nuke.loadImage(with: url, into: postCell.postImageView)
+//            } else {
+//                postCell.postImageView.image = nil
+//            }
             return postCell
             
         }

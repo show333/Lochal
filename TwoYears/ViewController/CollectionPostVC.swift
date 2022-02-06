@@ -17,10 +17,8 @@ class CollectionPostVC:UIViewController{
     var postDocString: String?
     
     let db = Firestore.firestore()
-
     
     @IBOutlet weak var imageButton: UIButton!
-    
     @IBAction func imageTappedButton(_ sender: Any) {
         
         let imagePickerController = UIImagePickerController()
@@ -101,9 +99,10 @@ class CollectionPostVC:UIViewController{
             "postImage":postImage,
             "titleComment":bottomTextView.text ?? "",
             "createdAt": FieldValue.serverTimestamp(),
+            "admin":false
         ] as [String:Any]
         
-        db.collection("Team").document(postDocString ?? "").collection("UnitPost").document(docString).setData(postDoc,merge: true)
+        db.collection("users").document(postDocString ?? "").collection("SendedPost").document(docString).setData(postDoc,merge: true)
     }
     
 
@@ -164,9 +163,7 @@ extension CollectionPostVC: UIImagePickerControllerDelegate, UINavigationControl
             print("アイウエオあきくこ")
             
             imageString = NSUUID().uuidString
-            
         }
-
         
         imageButton.imageView?.contentMode = .scaleAspectFit
         self.dismiss(animated: true, completion: nil)
