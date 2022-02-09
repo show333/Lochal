@@ -112,7 +112,6 @@ class SplashViewController: UIViewController {
                 let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
                 TabbarController.modalPresentationStyle = .fullScreen
                 self.present(TabbarController, animated: true, completion: nil)
-                
             }
         }
     }

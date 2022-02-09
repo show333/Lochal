@@ -64,6 +64,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var collectionLeft: NSLayoutConstraint!
     @IBOutlet weak var collectionRight: NSLayoutConstraint!
     
+    @IBOutlet weak var postBackGroundView: UIView!
+    
+    @IBOutlet weak var postBackImageView: UIImageView!
     
     @IBAction func postTappedButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "CollectionPost", bundle: nil)
@@ -223,6 +226,25 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        
+        postBackGroundView.clipsToBounds = true
+        postBackGroundView.layer.cornerRadius = 10
+        postBackGroundView.layer.masksToBounds = false
+        postBackGroundView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        postBackGroundView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        postBackGroundView.layer.shadowOpacity = 0.7
+        postBackGroundView.layer.shadowRadius = 5
+        
+        
+        postBackImageView.clipsToBounds = true
+        postBackImageView.layer.cornerRadius = 10
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FfollowsPostImages.png?alt=media&token=bb9320cc-e79e-4f28-a23a-5573da02b5f3") {
+            Nuke.loadImage(with: url, into: postBackImageView)
+        } else {
+            postBackImageView.image = nil
+        }
+        
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         
@@ -297,6 +319,16 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         // 背景色を設定
         self.teamCollectionView.backgroundColor = .clear
         
+        
+        let postLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        postLayout.itemSize = CGSize(width: safeAreaWidth/3, height: safeAreaWidth/3/9*16)
+        postLayout.minimumLineSpacing = 0
+        postLayout.minimumInteritemSpacing = 0
+        postLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
+
+        
+        self.postCollectionView.collectionViewLayout = postLayout
+        
         postCollectionView.dataSource = self
         postCollectionView.delegate = self
         teamCollectionView.dataSource = self
@@ -337,7 +369,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
         
         if userId == uid {
-            self.navigationController?.navigationBar.isHidden = true
             followButton.alpha = 0
             settingsButton.alpha = 1
             followingButton.alpha = 1
@@ -346,7 +377,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             followerLabel.alpha = 1
             settingsLabel.alpha = 1
         } else {
-            self.navigationController?.navigationBar.isHidden = false
             followButton.alpha = 1
             settingsButton.alpha = 0
             followingButton.alpha = 0
@@ -363,6 +393,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 
         
         if userId == uid {
+//            self.navigationController?.navigationBar.isHidden = true
             self.tabBarController?.tabBar.isHidden = false
             followButton.alpha = 0
             settingsButton.alpha = 1
@@ -372,7 +403,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             followerLabel.alpha = 1
             settingsLabel.alpha = 1
         } else {
-            self.tabBarController?.tabBar.isHidden = true
+            self.tabBarController?.tabBar.isHidden = false
+//            self.navigationController?.navigationBar.isHidden = true
             followButton.alpha = 1
             settingsButton.alpha = 0
             followingButton.alpha = 0
@@ -664,10 +696,12 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
         navigationController?.pushViewController(UnitHomeVC, animated: true)
     } else {
 //        self.tabBarController?.tabBar.isHidden = true
-//        self.navigationController?.navigationBar.isHidden = false
         let storyboard = UIStoryboard.init(name: "detailPost", bundle: nil)
         let detailPostVC = storyboard.instantiateViewController(withIdentifier: "detailPostVC") as! detailPostVC
-//        UnitHomeVC.teamInfo = teamInfo[indexPath.row]
+        self.navigationController?.navigationBar.isHidden = false
+//        detailPostVC.navigationController?.navigationBar.isHidden = false
+        detailPostVC.postInfo = postInfo[indexPath.row]
+        
         navigationController?.pushViewController(detailPostVC, animated: true)
     }
 }
@@ -957,8 +991,19 @@ extension ProfileVC: GalleryDisplacedViewsDataSource {
 class postCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var postImageView: UIImageView!
+
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+
+        self.layer.borderWidth = 6
+    
+        self.layer.borderColor = UIColor.tertiarySystemGroupedBackground.cgColor
+
+
+        // cellを丸くする
+        self.layer.cornerRadius = safeAreaWidth/18
     }
 }

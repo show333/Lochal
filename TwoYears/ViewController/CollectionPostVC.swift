@@ -51,6 +51,7 @@ class CollectionPostVC:UIViewController{
     }
     
     
+    @IBOutlet weak var wordCountLabel: UILabel!
     
     @IBOutlet weak var explainLabel: UILabel!
     @IBOutlet weak var bottomTextView: UITextView!
@@ -108,18 +109,52 @@ class CollectionPostVC:UIViewController{
 
     
     
+    fileprivate let placeholder: String = "一言コメントを入力" //プレイスホルダー
     
+    fileprivate var maxWordCount: Int = 30 //最大文字数
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        bottomTextView.delegate = self
+        bottomTextView.delegate = self
+        
+        bottomTextView.textColor = .gray
+        bottomTextView.text = placeholder
+        wordCountLabel.text = "30文字まで"
+                
+        backView.clipsToBounds = true
+        backView.layer.cornerRadius = 16
+        backView.layer.masksToBounds = false
+        backView.layer.shadowColor = UIColor.black.cgColor
+        backView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        backView.layer.shadowOpacity = 0.7
+        backView.layer.shadowRadius = 5
         
         imageButton.clipsToBounds = true
+        imageButton.layer.cornerRadius = 16
+        imageButton.layer.masksToBounds = false
+        imageButton.layer.shadowColor = UIColor.black.cgColor
+        imageButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        imageButton.layer.shadowOpacity = 0.7
+        imageButton.layer.shadowRadius = 5
+        
+        bottomTextView.clipsToBounds = true
+        bottomTextView.layer.cornerRadius = 10
+        
+        sendButton.clipsToBounds = true
+        sendButton.layer.cornerRadius = 10
+        sendButton.layer.masksToBounds = false
+        sendButton.layer.shadowColor = UIColor.black.cgColor
+        sendButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        sendButton.layer.shadowOpacity = 0.7
+        sendButton.layer.shadowRadius = 5
+        
+        explainLabel.alpha = 0
 
         
         
-        backView.alpha = 0
+//        backView.alpha = 0
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -129,7 +164,6 @@ class CollectionPostVC:UIViewController{
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            backView.alpha = 0.8
             if self.view.frame.origin.y == 0 {
                 self.view.frame.origin.y -= keyboardSize.height
             } else {
@@ -140,7 +174,6 @@ class CollectionPostVC:UIViewController{
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        backView.alpha = 0
             if self.view.frame.origin.y != 0 {
                 self.view.frame.origin.y = 0
             }
@@ -173,16 +206,16 @@ extension CollectionPostVC: UIImagePickerControllerDelegate, UINavigationControl
     }
 }
 
-//extension CollectionPostVC: UITextViewDelegate {
-//    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-//        let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
-//        let newLines = text.components(separatedBy: .newlines)//新規改行数
-//        let linesAfterChange = existingLines.count + newLines.count - 1 //最終改行数。-1は編集したら必ず1改行としてカウントされるから。
-//        return linesAfterChange <= 30 && textView.text.count + (text.count - range.length) <= maxWordCount
-//    }
-//    func textViewDidChange(_ textView: UITextView) {
-//        let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
-//        let textwhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)//空白、改行のみを防ぐ
+extension CollectionPostVC: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
+        let newLines = text.components(separatedBy: .newlines)//新規改行数
+        let linesAfterChange = existingLines.count + newLines.count - 1 //最終改行数。-1は編集したら必ず1改行としてカウントされるから。
+        return linesAfterChange <= 3 && textView.text.count + (text.count - range.length) <= maxWordCount
+    }
+    func textViewDidChange(_ textView: UITextView) {
+        let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
+        let textwhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)//空白、改行のみを防ぐ
 //        if textwhite.isEmpty {
 //            sinkiButton.isEnabled = false
 //            sinkiButton.backgroundColor = .gray
@@ -190,20 +223,20 @@ extension CollectionPostVC: UIImagePickerControllerDelegate, UINavigationControl
 //            sinkiButton.isEnabled = true
 //            sinkiButton.backgroundColor = #colorLiteral(red: 0, green: 0.9052245021, blue: 0.6851730943, alpha: 1)
 //        }
-//        if existingLines.count <= 30 {
-//            self.wordCountLabel.text = "残り\(maxWordCount - textView.text.count)文字"
-//        }
-//    }
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//        if textView.text == placeholder {
-//            textView.text = nil
-//            textView.textColor = .darkText
-//        }
-//    }
-//    func textViewDidEndEditing(_ textView: UITextView) {
-//        if textView.text.isEmpty {
-//            textView.textColor = .darkGray
-//            textView.text = placeholder
-//        }
-//    }
-//}
+        if existingLines.count <= 3 {
+            self.wordCountLabel.text = "残り\(maxWordCount - textView.text.count)文字"
+        }
+    }
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == placeholder {
+            textView.text = nil
+            textView.textColor = .darkText
+        }
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.textColor = .darkGray
+            textView.text = placeholder
+        }
+    }
+}
