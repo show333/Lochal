@@ -24,7 +24,7 @@ class NotificationVC: UIViewController {
     private let cellId = "cellId"
     let db = Firestore.firestore()
     
-
+    
     
     @IBOutlet weak var requestLabel: UILabel!
     @IBOutlet weak var reactionBackButton: UIButton!
@@ -236,7 +236,7 @@ class NotificationVC: UIViewController {
 
 
         if notificationTab == true {
-            self.tabBarController?.tabBar.isHidden = true
+            self.tabBarController?.tabBar.isHidden = false
             self.navigationController?.navigationBar.isHidden = false
         } else {
             self.tabBarController?.tabBar.isHidden = false
@@ -335,14 +335,19 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
                 acceptingBackButton.alpha = 0.8
                 acceptingButton.alpha = 1
                 requestLabel.text = "↓タップでフォローを許可"
-
+                
             } else {
                 acceptImageAnimation(imageView: acceptedImageView)
                 acceptingBackButton.alpha = 0.8
                 requestLabel.text = "フォロー認証済み"
-
             }
-            
+        } else if reaction[indexPath.row].dataType == "followersPost"{
+            let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+            let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            ProfileVC.userId = uid
+            ProfileVC.cellImageTap = true
+            navigationController?.pushViewController(ProfileVC, animated: true)
         } else {
             let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
             let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC

@@ -18,6 +18,16 @@ class FirstSetImageVC : UIViewController {
     let db = Firestore.firestore()
     var imageString : String?
     
+    let skipImageArray = [
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_blue.png?alt=media&token=c45c9978-6c0e-481c-98f3-2493ac67d5fe",
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_graypng.png?alt=media&token=3b5c4178-d1f5-4c48-aa1a-fb33730342e0",
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_green.png?alt=media&token=c1e66255-6c0b-4156-86e0-d95f2acb4d75",
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_purple.png?alt=media&token=929a9404-a62e-4e2a-a804-3daa193d41c1",
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_redr.png?alt=media&token=2b84aa67-abb3-4de2-9eb5-263ee8380e03",
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_td3r.png?alt=media&token=f2ea21ef-f532-4029-92d7-62c02a975431",
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_yellowr.png?alt=media&token=f74d54f3-a7e6-4f5c-8170-b991d1d72555"
+    ]
+    
     @IBOutlet weak var imageBackView: UIView!
         
     @IBOutlet weak var imageConstraint: NSLayoutConstraint!
@@ -30,7 +40,23 @@ class FirstSetImageVC : UIViewController {
         
         self.present(imagePickerController, animated: true, completion: nil)
     }
-
+    
+    @IBOutlet weak var skipButton: UIButton!
+    
+    @IBAction func skipTappedButton(_ sender: Any) {
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let skipImageString = skipImageArray.randomElement()
+        
+        UserDefaults.standard.set(skipImageString, forKey: "userImage")
+        setImage(userId: uid, userImage: skipImageString ?? "")
+        fetchMyPost(userId: uid, userImage: skipImageString ?? "")
+        
+        let storyboard = UIStoryboard.init(name: "FirstSetId", bundle: nil)
+        let FirstSetIdVC = storyboard.instantiateViewController(withIdentifier: "FirstSetIdVC") as! FirstSetIdVC
+        navigationController?.pushViewController(FirstSetIdVC, animated: true)
+    }
+    
     @IBOutlet weak var warningLabel: UILabel!
     @IBOutlet weak var kakuteiButton: UIButton!
     
@@ -41,8 +67,6 @@ class FirstSetImageVC : UIViewController {
         } else {
             labelAnimation()
         }
-    
-        
     }
     
     func sendImage() {
@@ -119,11 +143,13 @@ class FirstSetImageVC : UIViewController {
     }
     
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         warningLabel.alpha = 0
-        
+                
         self.navigationItem.hidesBackButton = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
@@ -136,9 +162,11 @@ class FirstSetImageVC : UIViewController {
         imageButton.clipsToBounds = true
         imageButton.layer.cornerRadius = safeAreaWidth/4
         
+        
+        imageConstraint.constant = safeAreaWidth/2
         imageBackView.clipsToBounds = true
         imageBackView.layer.masksToBounds = false
-        imageBackView.layer.cornerRadius = 75
+        imageBackView.layer.cornerRadius = safeAreaWidth/4
         imageBackView.layer.shadowColor = UIColor.black.cgColor
         imageBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
         imageBackView.layer.shadowOpacity = 0.7

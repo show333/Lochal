@@ -93,17 +93,38 @@ class CollectionPostVC:UIViewController{
     
     func setImage(userId:String,postImage:String){
         
-        let docString = randomString(length: 12)
+        let docString = randomString(length: 20)
 
         let postDoc = [
             "userId":userId,
             "postImage":postImage,
+            "documentId":docString,
             "titleComment":bottomTextView.text ?? "",
             "createdAt": FieldValue.serverTimestamp(),
             "admin":false
         ] as [String:Any]
         
         db.collection("users").document(postDocString ?? "").collection("SendedPost").document(docString).setData(postDoc,merge: true)
+        
+        let docData = [
+            "createdAt": FieldValue.serverTimestamp(),
+            "userId": userId,
+            "userName":UserDefaults.standard.string(forKey: "userName") ?? "unKnown",
+            "userImage":UserDefaults.standard.string(forKey: "userImage") ?? "unKnown",
+            "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
+            "documentId" : docString,
+            "reactionImage": "",
+            "reactionMessage":"さんから投稿を受けました",
+            "theMessage":"",
+            "dataType": "followersPost",
+            "acceptBool":false,
+            "anonymous":false,
+            "admin": false,
+        ] as [String: Any]
+        
+        db.collection("users").document(postDocString ?? "").collection("Notification").document(docString).setData(docData)
+        db.collection("users").document(postDocString ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+        
     }
     
 
@@ -134,10 +155,7 @@ class CollectionPostVC:UIViewController{
         imageButton.clipsToBounds = true
         imageButton.layer.cornerRadius = 16
         imageButton.layer.masksToBounds = false
-        imageButton.layer.shadowColor = UIColor.black.cgColor
-        imageButton.layer.shadowOffset = CGSize(width: 0, height: 3)
-        imageButton.layer.shadowOpacity = 0.7
-        imageButton.layer.shadowRadius = 5
+
         
         bottomTextView.clipsToBounds = true
         bottomTextView.layer.cornerRadius = 10

@@ -64,9 +64,12 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var collectionLeft: NSLayoutConstraint!
     @IBOutlet weak var collectionRight: NSLayoutConstraint!
     
+    @IBOutlet weak var postBackGroundHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var postBackGroundWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var postBackGroundView: UIView!
     
     @IBOutlet weak var postBackImageView: UIImageView!
+    @IBOutlet weak var postOtherLabel: UILabel!
     
     @IBAction func postTappedButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "CollectionPost", bundle: nil)
@@ -76,6 +79,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         self.present(CollectionPostVC, animated: true, completion: nil)
                 
     }
+    
     
     
     @IBOutlet weak var followButton: UIButton!
@@ -120,6 +124,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBAction func followingTappedButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "Followings", bundle: nil)
         let FollowingsVC = storyboard.instantiateViewController(withIdentifier: "FollowingsVC") as! FollowingsVC
+        FollowingsVC.userId = userId
         navigationController?.pushViewController(FollowingsVC, animated: true)
     }
     @IBOutlet weak var fButtonHeightConstraint: NSLayoutConstraint!
@@ -256,8 +261,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         let safeAreaWidth = UIScreen.main.bounds.size.width
         let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
         
-        fButtonWidthConstraint.constant = safeAreaWidth/3
-        fButtonHeightConstraint.constant = safeAreaWidth/12
+
         followButton.titleLabel?.adjustsFontSizeToFitWidth = true
         followButton.clipsToBounds = true
         followButton.layer.cornerRadius = safeAreaWidth/24
@@ -275,10 +279,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         followerButton.setTitle("1111", for: .normal)
 
         
-    
-        
         headerHigh = safeAreaHeight/3.5
-        headerhightConstraint.constant = headerHigh
+        
+        
         userImageView.isUserInteractionEnabled = true
         
         userImagehighConstraint.constant = headerHigh/2
@@ -362,6 +365,12 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
         getFollowId(userId:userId ?? "",uid:uid)
+        
+        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
+        let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+        headerHigh = safeAreaHeight/3.5
+        headerhightConstraint.constant = headerHigh/1.5
 
         
         if cellImageTap == true {
@@ -369,6 +378,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
         
         if userId == uid {
+            
+            headerhightConstraint.constant = headerHigh/1.5
             followButton.alpha = 0
             settingsButton.alpha = 1
             followingButton.alpha = 1
@@ -377,6 +388,13 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             followerLabel.alpha = 1
             settingsLabel.alpha = 1
         } else {
+            headerhightConstraint.constant = headerHigh
+            postBackGroundHeightConstraint.constant = headerHigh/4
+            postBackGroundWidthConstraint.constant = safeAreaWidth/2.8
+            
+            fButtonHeightConstraint.constant = headerHigh/5
+            fButtonWidthConstraint.constant = safeAreaWidth/2.8
+            
             followButton.alpha = 1
             settingsButton.alpha = 0
             followingButton.alpha = 0
@@ -407,9 +425,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //            self.navigationController?.navigationBar.isHidden = true
             followButton.alpha = 1
             settingsButton.alpha = 0
-            followingButton.alpha = 0
+            followingButton.alpha = 1
             followerButton.alpha = 0
-            followLabel.alpha = 0
+            followLabel.alpha = 1
             followerLabel.alpha = 0
             settingsLabel.alpha = 0
         }
@@ -472,17 +490,29 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     followButton.backgroundColor = .darkGray
                     followButton.setTitle("リクエスト済み", for: .normal)
                     followButton.setTitleColor(UIColor.white, for: .normal)
+                    postOtherLabel.alpha = 1
+                    postBackGroundView.alpha = 0
                     
                 } else if requestBool == false && acceptBool == true {
                     statusFollow = "accept"
                     followButton.backgroundColor = .darkGray
                     followButton.setTitle("フォロー中", for: .normal)
                     followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
+                    postOtherLabel.alpha = 0
+                    postBackGroundView.alpha = 1
                     
                 } else {
                     followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
                     followButton.setTitle("フォローする", for: .normal)
                     followButton.setTitleColor(UIColor.darkGray, for: .normal)
+                    
+                    postBackGroundView.alpha = 0
+                    if uid == userId {
+                        postOtherLabel.alpha = 0
+                    } else {
+                        postOtherLabel.alpha = 1
+                    }
+                    
                 }
 
             }
@@ -700,6 +730,8 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
         let detailPostVC = storyboard.instantiateViewController(withIdentifier: "detailPostVC") as! detailPostVC
         self.navigationController?.navigationBar.isHidden = false
 //        detailPostVC.navigationController?.navigationBar.isHidden = false
+        detailPostVC.profileUserId = userId
+        detailPostVC.userId = postInfo[indexPath.row].userId
         detailPostVC.postInfo = postInfo[indexPath.row]
         
         navigationController?.pushViewController(detailPostVC, animated: true)

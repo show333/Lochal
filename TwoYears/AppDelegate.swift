@@ -31,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         )
         
 //        application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge], categories: nil))
-//        application.applicationIconBadgeNumber = 1
+//        application.applicationIconBadgeNumber = 0
         
         
         if #available(iOS 10.0, *) {

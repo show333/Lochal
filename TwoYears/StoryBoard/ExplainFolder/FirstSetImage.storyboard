@@ -14,7 +14,7 @@
             <objects>
                 <navigationController id="I9h-ih-wO7" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="H6i-jx-ZUN">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -50,9 +50,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GS7-Ou-5fa">
                                 <rect key="frame" x="85" y="20" width="150" height="150"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pD0-3n-2KR">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pD0-3n-2KR">
                                         <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                        <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" image="person.fill" catalog="system"/>
                                         <connections>
                                             <action selector="imageTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="h22-VB-i3f"/>
                                         </connections>
@@ -69,7 +71,7 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="タップで画像を入力" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R5K-jb-6Ai">
-                                <rect key="frame" x="100" y="175" width="120" height="16"/>
+                                <rect key="frame" x="100" y="180" width="120" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                 <nil key="highlightedColor"/>
@@ -92,6 +94,19 @@
                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KER-I0-vh0">
+                                <rect key="frame" x="254.5" y="426.5" width="55.5" height="33.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Skip"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Skip">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="16"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="skipTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="zO0-on-E9j"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
@@ -99,6 +114,7 @@
                             <constraint firstItem="0mV-SF-HSU" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="2cM-hE-daz"/>
                             <constraint firstItem="R5K-jb-6Ai" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="4OR-bu-n9o"/>
                             <constraint firstItem="p3M-Su-06B" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="30" id="A6T-5j-Yhb"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="KER-I0-vh0" secondAttribute="trailing" constant="10" id="F1C-mJ-sP7"/>
                             <constraint firstItem="blH-AI-bQl" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="G4t-Oa-QA4"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="p3M-Su-06B" secondAttribute="trailing" constant="30" id="NkZ-oO-POM"/>
                             <constraint firstItem="GS7-Ou-5fa" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="XzW-YR-t2m"/>
@@ -106,9 +122,10 @@
                             <constraint firstItem="o6k-0I-P7T" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="Zot-Cb-X2O"/>
                             <constraint firstItem="o6k-0I-P7T" firstAttribute="top" secondItem="0mV-SF-HSU" secondAttribute="bottom" constant="10" id="aGb-gi-Cz5"/>
                             <constraint firstItem="p3M-Su-06B" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="eZQ-JH-RrH"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="KER-I0-vh0" secondAttribute="bottom" constant="20" id="hYQ-RA-SWw"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="o6k-0I-P7T" secondAttribute="bottom" constant="30" id="lbU-wZ-Kur"/>
                             <constraint firstItem="blH-AI-bQl" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="me2-gZ-mR2"/>
-                            <constraint firstItem="R5K-jb-6Ai" firstAttribute="top" secondItem="GS7-Ou-5fa" secondAttribute="bottom" constant="5" id="mxQ-lz-qSS"/>
+                            <constraint firstItem="R5K-jb-6Ai" firstAttribute="top" secondItem="GS7-Ou-5fa" secondAttribute="bottom" constant="10" id="mxQ-lz-qSS"/>
                             <constraint firstItem="p3M-Su-06B" firstAttribute="top" secondItem="blH-AI-bQl" secondAttribute="bottom" constant="20" id="nmc-Ny-zyd"/>
                         </constraints>
                     </view>
@@ -118,6 +135,7 @@
                         <outlet property="imageButton" destination="pD0-3n-2KR" id="tu0-ky-hR1"/>
                         <outlet property="imageConstraint" destination="AeW-CE-Y49" id="ivv-of-4dW"/>
                         <outlet property="kakuteiButton" destination="blH-AI-bQl" id="vJn-1s-XVW"/>
+                        <outlet property="skipButton" destination="KER-I0-vh0" id="ycl-lV-L6w"/>
                         <outlet property="warningLabel" destination="p3M-Su-06B" id="I7c-60-adK"/>
                     </connections>
                 </viewController>
@@ -127,6 +145,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

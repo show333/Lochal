@@ -106,8 +106,8 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         let NotificationVC = storyboard.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC//遷移先のViewControllerを設定
         db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
         NotificationVC.notificationTab = true
-        NotificationVC.tabBarController?.tabBar.isHidden = true
-        ViewController().navigationController?.navigationBar.isHidden = false
+//        NotificationVC.tabBarController?.tabBar.isHidden = true
+//        ViewController().navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(NotificationVC, animated: true)//遷移する
     }
     

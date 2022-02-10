@@ -18,6 +18,7 @@ class FollowingsVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
 
     let db = Firestore.firestore()
     var userInfo : [UserInfo] = []
+    var userId: String?
 
     
     @IBOutlet weak var userListTableView: UITableView!
@@ -32,12 +33,11 @@ class FollowingsVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
     override func viewDidLoad() {
         super.viewDidLoad()
         setSwipeBack()
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         userListTableView.dataSource = self
         userListTableView.delegate = self
         userListTableView.emptyDataSetDelegate = self
         userListTableView.emptyDataSetSource = self
-        fetchUserInfo(uid: uid)
+        fetchUserInfo(userId: userId ?? "")
     }
     
 //     blankword for tableview
@@ -46,9 +46,9 @@ class FollowingsVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
     }
     
     
-    func fetchUserInfo(uid:String){
+    func fetchUserInfo(userId:String){
         
-        self.db.collection("users").document(uid).collection("Following").getDocuments() { [self] (querySnapshot, err) in
+        self.db.collection("users").document(userId).collection("Following").getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
