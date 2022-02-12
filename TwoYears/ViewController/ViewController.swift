@@ -328,7 +328,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.flagButton.addTarget(self, action: #selector(flagButtonEvemt), for: UIControl.Event.touchUpInside)
 
         cell.userImageView.image = nil
-        fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
+        
+        //↓tableviewのunit表示
+//        fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
+        
+        //↓と↑交換
+        fetchMypostData(userId: outMemo[indexPath.row].userId, cell: cell, documentId: outMemo[indexPath.row].documentId)
+
 
 
         let date: Date = outMemo[indexPath.row].createdAt.dateValue()
@@ -519,6 +525,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
     
     func fetchDocContents(userId:String,cell:OutmMemoCellVC,documentId:String){
+        
         fetchMypostData(userId: userId, cell: cell, documentId: documentId)
         
 //        if cell.teamInfo.count == 0 {
@@ -541,32 +548,52 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 guard let data = document.data() else {
                     print("Document data was empty.")
+                    
+                    if userId == "gBD75KJjTSPcfZ6TvbapBgTqpd92" {
+                        
+                        let userImage = "https://firebasestorage.googleapis.com:443/v0/b/totalgood-7b3a3.appspot.com/o/User_Image%2F51115339-DA49-4BE0-B9E6-A45FC8198FE0?alt=media&token=dac0b228-8381-430d-bb07-71ef20d80f4d"
+                        let userFrontId = "ubatge"
+                        
+                        cell.userFrontIdLabel.text = userFrontId
+                        
+                        if let url = URL(string:userImage) {
+                            Nuke.loadImage(with: url, into: cell.userImageView)
+                        } else {
+                            cell.userImageView?.image = nil
+                        }
+                    }
+                    
+                    
                     return
                 }
-//                print("Current data: \(data)")
-//                let userId = document["userId"] as? String ?? "unKnown"
-//                userName = document["userName"] as? String ?? "unKnown"
+                //                print("Current data: \(data)")
+                //                let userId = document["userId"] as? String ?? "unKnown"
+                //                userName = document["userName"] as? String ?? "unKnown"
+                
                 let userImage = document["userImage"] as? String ?? ""
                 let userFrontId = document["userFrontId"] as? String ?? ""
-                let delete = document["delete"] as! Bool
                 
-                
-                if delete == true {
-                    cell.messageLabel.text = "この投稿は削除されました"
-                    db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
-                } else {
-//                    cell.messageLabel.text = message
-                }
                 cell.userFrontIdLabel.text = userFrontId
-                
-//                cell.nameLabel.text = userName
-//                getUserTeamInfo(userId: userId, cell: cell)
                 
                 if let url = URL(string:userImage) {
                     Nuke.loadImage(with: url, into: cell.userImageView)
                 } else {
                     cell.userImageView?.image = nil
                 }
+                
+                
+                let delete = document["delete"] as? Bool ?? false
+                
+                
+                if delete == true {
+                    cell.messageLabel.text = "この投稿は削除されました"
+                    db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
+                } else {
+                    //                    cell.messageLabel.text = message
+                }
+                //                cell.nameLabel.text = userName
+                //                getUserTeamInfo(userId: userId, cell: cell)
+                
             }
     }
     

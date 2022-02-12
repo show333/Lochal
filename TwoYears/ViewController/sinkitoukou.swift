@@ -52,6 +52,14 @@ class sinkitoukou: UIViewController {
         sendMemoFireStore()
         dismiss(animated: true, completion: nil)
     }
+    
+    @IBOutlet weak var closeButton: UIButton!
+    
+    @IBAction func closeTappedButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -73,7 +81,6 @@ class sinkitoukou: UIViewController {
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
             "userId":uid,
-            
             "readLog": false,
             "anonymous":false,
             "admin": false,

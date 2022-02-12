@@ -13,6 +13,7 @@ import SwiftMoment
 import Nuke
 import DZNEmptyDataSet
 import ImageViewer
+import Instructions
 
 class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource{
     
@@ -33,6 +34,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
     let DBU = Firestore.firestore().collection("users")
+    let coachMarksController = CoachMarksController()
     private let cellId = "cellId"
     private var prevContentOffset: CGPoint = .init(x: 0, y: 0)
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
@@ -233,6 +235,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
 //        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         
+        self.coachMarksController.dataSource = self
+        
         postBackGroundView.clipsToBounds = true
         postBackGroundView.layer.cornerRadius = 10
         postBackGroundView.layer.masksToBounds = false
@@ -408,7 +412,12 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         guard let uid = Auth.auth().currentUser?.uid else { return }
-
+        
+        if UserDefaults.standard.bool(forKey: "profileInstruct") != true{
+            UserDefaults.standard.set(true, forKey: "profileInstruct")
+            self.coachMarksController.start(in: .currentWindow(of: self))
+        }
+        
         
         if userId == uid {
 //            self.navigationController?.navigationBar.isHidden = true
@@ -741,6 +750,55 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
 
 
 }
+
+//MARK: Instructions
+
+extension ProfileVC: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
+    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+        return 2
+    }
+    func coachMarksController(_ coachMarksController: CoachMarksController,
+                              coachMarkAt index: Int) -> CoachMark {
+        
+        let highlightViews: Array<UIView> = [postBackGroundView,postBackGroundView]
+        //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
+        
+        //チュートリアルで使うビューの中からindexで何ステップ目かを指定
+        return coachMarksController.helper.makeCoachMark(for: highlightViews[index])
+    }
+    func coachMarksController(
+        _ coachMarksController: CoachMarksController,
+        coachMarkViewsAt index: Int,
+        madeFrom coachMark: CoachMark
+    ) -> (bodyView: UIView & CoachMarkBodyView, arrowView: (UIView & CoachMarkArrowView)?) {
+
+        //吹き出しのビューを作成します
+        let coachViews = coachMarksController.helper.makeDefaultCoachViews(
+            withArrow: true,    //三角の矢印をつけるか
+            arrowOrientation: coachMark.arrowOrientation    //矢印の向き(吹き出しの位置)
+        )
+
+        //index(ステップ)によって表示内容を分岐させます
+        switch index {
+        case 0:    //hogeLabel
+            coachViews.bodyView.hintLabel.text = "ここにラクがき投稿を行うボタンが\n表示されます"
+            coachViews.bodyView.nextLabel.text = "次へ"
+            
+        case 1:    //fugaButton
+            coachViews.bodyView.hintLabel.text = "他のユーザーをフォローして\n投稿をしてみましょう!"
+            coachViews.bodyView.nextLabel.text = "OK"
+            
+            
+        default:
+            break
+        
+        }
+        
+        //その他の設定が終わったら吹き出しを返します
+        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
+    }
+}
+
 
 //extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
 //

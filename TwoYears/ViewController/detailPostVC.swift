@@ -184,17 +184,17 @@ class detailPostVC:UIViewController {
     
     func deleteDoc(){
         db.collection("users").document(profileUserId ?? "").collection("SendedPost").document(postInfo?.documentId ?? "").delete()
-        // Create a reference to the file to delete
-        let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(postInfo?.postImage ?? "")
-        // Delete the file
-        storageRef.delete { error in
-          if let error = error {
-            // Uh-oh, an error occurred!
-              print(error)
-          } else {
-            // File deleted successfully
-          }
-        }
+//        // Create a reference to the file to delete
+//        let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(postInfo?.postImage ?? "")
+//        // Delete the file
+//        storageRef.delete { error in
+//          if let error = error {
+//            // Uh-oh, an error occurred!
+//              print(error)
+//          } else {
+//            // File deleted successfully
+//          }
+//        }
             
     }
     

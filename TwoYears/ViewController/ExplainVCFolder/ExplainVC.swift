@@ -19,27 +19,23 @@ class ExplainVC:UIViewController{
     let db = Firestore.firestore()
     
     let imageArray = [
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.001.png?alt=media&token=623efe75-23b4-489e-862b-6f3c43838f0c",//0
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.001.png?alt=media&token=f6065e0b-b9aa-4dde-ac7d-870ab92979bd",//0
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.002.png?alt=media&token=97a4d0ee-840b-491f-bdb9-4cad10b2af6e",//1
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.002.png?alt=media&token=13e4d505-319b-4071-a782-24e9901a18f8",//1
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.003.png?alt=media&token=f9fa88d7-83cb-49d7-b984-c882ab7a94c0",//2
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.003.png?alt=media&token=5b969cef-01e9-43e5-b03d-dcffcec11d0e",//2
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.004.png?alt=media&token=94358243-0824-4898-983a-654b81566367",//3
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.004.png?alt=media&token=917eaae9-4266-4e14-8636-24cd5bcc864f",//3
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.005.png?alt=media&token=b410eb52-8896-4fbf-b601-2ecb0312241b",//4
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.005.png?alt=media&token=79155f03-df5a-431f-bd2e-73ed05b95333",//4
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.006.png?alt=media&token=84891048-a15a-4851-9f0a-af4a4c8293a7",//5
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.006.png?alt=media&token=f3e77674-fda7-4c1b-908e-b12bfe259544",//5
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.007.png?alt=media&token=88f6ab83-833a-4bb4-8cee-cf4ae561908b",//6
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.007.png?alt=media&token=dfe439e6-c3dd-4017-b5cb-bbb4f44b5f7c",//6
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.008.png?alt=media&token=2d613535-1feb-489d-bd2e-8da2787ca042",//7
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.008.png?alt=media&token=e4eceb5c-d791-4229-b330-aefdaf350676",//7
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.009.png?alt=media&token=77e262f5-cd2e-47a2-86be-3db3794863ce",//8
-        
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.010.png?alt=media&token=2ab47984-355b-4159-9176-7829d73cd968",//9
-        
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages.011.png?alt=media&token=b6539d56-6fff-4d9f-9b7e-53ab16c3e8d4"//10
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.009.png?alt=media&token=dcd11fbc-16bd-4dcd-b205-8a66f455b096",//8
     ]
     
     @IBOutlet weak var explainImageView: UIImageView!
@@ -49,7 +45,7 @@ class ExplainVC:UIViewController{
     @IBOutlet weak var rightButton: UIButton!
     
     @IBAction func rightTappedButton(_ sender: Any) {
-        if pageCount < 10 {
+        if pageCount < 8 {
             pageCount += 1
         } else {
             
@@ -82,7 +78,7 @@ class ExplainVC:UIViewController{
             explainImageView?.image = nil
         }
 
-        if pageCount == 10 {
+        if pageCount == 8 {
             if let url = URL(string:imageArray[pageCount-1]) {
                 Nuke.loadImage(with: url, into: explainSecondView)
             } else {

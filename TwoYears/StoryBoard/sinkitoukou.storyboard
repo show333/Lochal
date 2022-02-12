@@ -74,11 +74,21 @@
                                     <constraint firstAttribute="height" constant="50" id="whu-O8-ZyG"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DeS-Ag-Jsv">
+                                <rect key="frame" x="10" y="20" width="60.5" height="31"/>
+                                <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Close"/>
+                                <connections>
+                                    <action selector="closeTappedButton:" destination="F9u-Ni-v7t" eventType="touchUpInside" id="8a9-a9-9si"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="lQt-Ir-bEx"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="XYs-i2-Ri8" firstAttribute="top" secondItem="lQt-Ir-bEx" secondAttribute="top" constant="50" id="4A0-6u-rTX"/>
+                            <constraint firstItem="DeS-Ag-Jsv" firstAttribute="top" secondItem="lQt-Ir-bEx" secondAttribute="top" constant="20" id="8sb-Pc-irG"/>
                             <constraint firstItem="7wl-lC-VlY" firstAttribute="centerX" secondItem="vgc-Xj-l5l" secondAttribute="centerX" id="E7v-uJ-acw"/>
                             <constraint firstItem="mPr-Ja-t73" firstAttribute="bottom" secondItem="BK3-vt-W27" secondAttribute="bottom" constant="-30" id="F7i-7y-LMB"/>
                             <constraint firstItem="7wl-lC-VlY" firstAttribute="leading" secondItem="lQt-Ir-bEx" secondAttribute="leading" constant="20" id="L7m-9d-PwO"/>
@@ -88,6 +98,7 @@
                             <constraint firstItem="mPr-Ja-t73" firstAttribute="top" secondItem="7wl-lC-VlY" secondAttribute="bottom" constant="30" id="bh0-Gr-3hP"/>
                             <constraint firstItem="lQt-Ir-bEx" firstAttribute="trailing" secondItem="fLF-IJ-uQ6" secondAttribute="trailing" constant="30" id="cGH-V6-mhg"/>
                             <constraint firstItem="lQt-Ir-bEx" firstAttribute="trailing" secondItem="mPr-Ja-t73" secondAttribute="trailing" constant="20" id="iXS-7W-fnt"/>
+                            <constraint firstItem="DeS-Ag-Jsv" firstAttribute="leading" secondItem="lQt-Ir-bEx" secondAttribute="leading" constant="10" id="mEZ-4s-Yke"/>
                             <constraint firstItem="mPr-Ja-t73" firstAttribute="leading" secondItem="lQt-Ir-bEx" secondAttribute="leading" constant="20" id="r7S-47-pWe"/>
                             <constraint firstItem="lQt-Ir-bEx" firstAttribute="trailing" secondItem="7wl-lC-VlY" secondAttribute="trailing" constant="20" id="uyc-gz-6ua"/>
                             <constraint firstItem="mPr-Ja-t73" firstAttribute="top" secondItem="XYs-i2-Ri8" secondAttribute="bottom" constant="90" id="zDt-B5-tva"/>
@@ -95,6 +106,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="VRi-Gg-c1z"/>
                     <connections>
+                        <outlet property="closeButton" destination="DeS-Ag-Jsv" id="9yt-mF-8Xt"/>
                         <outlet property="companyView" destination="fLF-IJ-uQ6" id="6Bk-F8-uJs"/>
                         <outlet property="ongakuLabel" destination="7wl-lC-VlY" id="k56-Kl-WmB"/>
                         <outlet property="sinkiButton" destination="XYs-i2-Ri8" id="HPZ-6T-kd3"/>
