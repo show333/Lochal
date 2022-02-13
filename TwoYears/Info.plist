@@ -23,7 +23,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>515281953168851</string>
+				<string>fb515281953168851</string>
 			</array>
 		</dict>
 	</array>
@@ -34,7 +34,7 @@
 	<key>FacebookClientToken</key>
 	<string>29a1aa2e8bc7d70898ef95904a931458</string>
 	<key>FacebookDisplayName</key>
-	<string>515281953168851</string>
+	<string>Ubatge</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9686355783426956~1327454889</string>
 	<key>LSRequiresIPhoneOS</key>
