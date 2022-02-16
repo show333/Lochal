@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -69,8 +69,8 @@
                                             <constraint firstAttribute="width" constant="60" id="qzj-lT-H4H"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wrg-6z-tN9">
-                                        <rect key="frame" x="90" y="40" width="41.5" height="20.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wrg-6z-tN9">
+                                        <rect key="frame" x="90" y="0.0" width="41.5" height="100"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -78,8 +78,10 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstItem="wrg-6z-tN9" firstAttribute="top" secondItem="ucy-c0-SUm" secondAttribute="top" id="0z2-hk-EOW"/>
                                     <constraint firstItem="9NS-JV-LYY" firstAttribute="leading" secondItem="ucy-c0-SUm" secondAttribute="leading" constant="20" id="6HK-84-cKO"/>
                                     <constraint firstItem="wrg-6z-tN9" firstAttribute="centerY" secondItem="ucy-c0-SUm" secondAttribute="centerY" id="7YZ-dq-MxM"/>
+                                    <constraint firstAttribute="bottom" secondItem="wrg-6z-tN9" secondAttribute="bottom" id="IzS-RL-efD"/>
                                     <constraint firstItem="wrg-6z-tN9" firstAttribute="leading" secondItem="9NS-JV-LYY" secondAttribute="trailing" constant="10" id="RT7-z4-odQ"/>
                                     <constraint firstAttribute="height" constant="100" id="bCf-Ky-8Wo"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="wrg-6z-tN9" secondAttribute="trailing" constant="20" id="nI0-2n-HIM"/>

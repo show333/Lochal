@@ -25,4 +25,6 @@ target 'TOTALGOOD' do
     pod 'Nuke'
     pod 'TTTAttributedLabel'
     pod 'DZNEmptyDataSet'
+    pod 'Instructions', '~> 2.0.1'
+    pod 'ImageViewer'
 end

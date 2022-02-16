@@ -16,6 +16,7 @@ class UserInfo {
     var userName: String
     var userImage: String
     var userFrontId:String
+    var createdAt: Timestamp
     var admin: Bool
     
     
@@ -24,6 +25,7 @@ class UserInfo {
         self.userName = dic["userName"] as? String ?? ""
         self.userImage = dic["userImage"] as? String ?? ""
         self.userFrontId = dic["userFrontId"] as? String ?? ""
+        self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.admin = dic["admin"] as? Bool ?? false
     }
     

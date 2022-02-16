@@ -34,6 +34,8 @@ class ReadLogVC: UIViewController{
     
     @IBAction func reallyTappedButton(_ sender: Any) {
         db.collection("users").document(uid ?? "").collection("MyPost").document(documentId ?? "").setData(["delete":true] as [String : Any],merge: true)
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
         dismiss(animated: true, completion: nil)
     }
     

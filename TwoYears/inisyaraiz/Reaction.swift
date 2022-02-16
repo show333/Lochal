@@ -22,6 +22,8 @@ class Reaction {
     var reactionMessage: String
     var createdAt: Timestamp
     var documentId : String
+    var dataType: String
+    var acceptBool : Bool
     var admin: Bool
     var anonymous: Bool
     
@@ -36,6 +38,8 @@ class Reaction {
         self.reactionMessage = dic["reactionMessage"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.documentId = dic["documentId"] as? String ?? ""
+        self.dataType = dic["dataType"] as? String ?? ""
+        self.acceptBool = dic["acceptBool"] as? Bool ?? false
         self.admin = dic["admin"] as? Bool ?? false
         self.anonymous = dic["admin"] as? Bool ?? false
 

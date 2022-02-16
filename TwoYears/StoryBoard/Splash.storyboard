@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="a2b-0n-WVm">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iQi-O4-feT">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="jO3-ZN-TIH">
+            <objects>
+                <navigationController id="iQi-O4-feT" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="RDx-gM-5cQ">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="a2b-0n-WVm" kind="relationship" relationship="rootViewController" id="wAb-ap-DUm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MAf-tA-OUH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-691" y="121"/>
+        </scene>
         <!--Splash View Controller-->
         <scene sceneID="mEz-zz-rsq">
             <objects>
@@ -38,6 +54,7 @@
                             <constraint firstItem="xa9-e0-cEa" firstAttribute="centerX" secondItem="4VC-QU-TmA" secondAttribute="centerX" id="vdc-HS-2pw"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="tPW-oO-DAW"/>
                     <connections>
                         <outlet property="subTitleLabel" destination="v7q-u2-t0T" id="hn8-Z6-YUg"/>
                         <outlet property="titleLabel" destination="xa9-e0-cEa" id="YKC-cr-58e"/>

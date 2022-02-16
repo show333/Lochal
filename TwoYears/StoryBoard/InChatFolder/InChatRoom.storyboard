@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Gyc-cp-73g">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="8t2-Dt-iW5">
+            <objects>
+                <navigationController id="Gyc-cp-73g" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9Y6-bQ-LGM">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Y6W-OH-hqX" kind="relationship" relationship="rootViewController" id="3QN-hx-0UI"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gFE-n6-vJd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-435" y="46"/>
+        </scene>
+        <!--In-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="InChatRoomVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Y6W-OH-hqX" customClass="InChatRoomVC" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="x0y-wf-ZoN">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                            </imageView>
+                            <view alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wah-Wy-R21">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
+                            </view>
+                            <view alpha="0.59999999999999998" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jBd-ZR-qVi">
+                                <rect key="frame" x="0.0" y="89" width="414" height="717"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="2HU-LG-P48">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="x0y-wf-ZoN" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="6ZN-TL-8NC"/>
+                            <constraint firstItem="x0y-wf-ZoN" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="A0F-fC-jtM"/>
+                            <constraint firstItem="x0y-wf-ZoN" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="JqZ-P2-CjO"/>
+                            <constraint firstItem="2HU-LG-P48" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="Ujl-7I-pXr"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="x0y-wf-ZoN" secondAttribute="trailing" id="XJ3-7j-5qg"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="2HU-LG-P48" secondAttribute="bottom" id="bM2-bE-nqI"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="2HU-LG-P48" secondAttribute="trailing" id="bmp-Yx-NIf"/>
+                            <constraint firstItem="x0y-wf-ZoN" firstAttribute="bottom" secondItem="vDu-zF-Fre" secondAttribute="bottom" id="cy5-IH-J7u"/>
+                            <constraint firstItem="2HU-LG-P48" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="oMS-eA-kBY"/>
+                            <constraint firstItem="x0y-wf-ZoN" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="rdG-QK-b2l"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="In" id="WEh-70-PYk">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="QUj-0b-M0q">
+                            <button key="customView" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="yG4-MO-bjs">
+                                <rect key="frame" x="302" y="5" width="92" height="34.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="memberTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="UMR-eG-fMP"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="backGroundImageView" destination="x0y-wf-ZoN" id="l3e-H1-CmE"/>
+                        <outlet property="inChatTableView" destination="2HU-LG-P48" id="wYw-S9-40F"/>
+                        <outlet property="memberButton" destination="yG4-MO-bjs" id="fQW-AM-m2C"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="298.55072463768118" y="45.535714285714285"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="tertiarySystemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tertiarySystemGroupedBackgroundColor">
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

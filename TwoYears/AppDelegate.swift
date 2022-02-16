@@ -10,13 +10,13 @@ import CoreData
 import FirebaseMessaging
 import Firebase
 import GoogleMobileAds
+import FBSDKCoreKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
     let gcmMessageIDKey = "porte"
-
-
+        
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -24,6 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start(completionHandler: nil)
 //        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
+        ApplicationDelegate.shared.application(
+            application,
+            didFinishLaunchingWithOptions: launchOptions
+        )
+        
+//        application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge], categories: nil))
+//        application.applicationIconBadgeNumber = 0
+        
         
         if #available(iOS 10.0, *) {
           // For iOS 10 display notification (sent via APNS)
@@ -48,6 +57,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("Error fetching FCM registration token: \(error)")
           } else if let token = token {
             print("FCM registration token: \(token)")
+              
+              UserDefaults.standard.set(token, forKey: "FCM_TOKEN")
+              
 //            print("Remote FCM registration token: \(token)"
           }
         }
@@ -55,6 +67,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     // MARK: UISceneSession Lifecycle
+    
+    
     
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         // Called when a new scene session is being created.
@@ -66,6 +80,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Called when the user discards a scene session.
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+    }
+    
+    func application(_ app: UIApplication,open url: URL,options: [UIApplication.OpenURLOptionsKey : Any] = [:]
+    ) -> Bool {
+
+        ApplicationDelegate.shared.application(
+            app,
+            open: url,
+            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+        )
     }
 
     // MARK: - Core Data stack
@@ -146,6 +171,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         // Print full message.
         print(userInfo)
+          
+//          userInfo.shouldBadge = true
 
         // Change this to your preferred presentation option
         completionHandler([[.banner, .list, .sound]])

@@ -14,22 +14,22 @@ import GuillotineMenu
 import SwiftMoment
 import Nuke
 import DZNEmptyDataSet
+import Instructions
 
 class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource{
     private let cellId = "cellId"
     private var prevContentOffset: CGPoint = .init(x: 0, y: 0)
     private let headerMoveHeight: CGFloat = 5
     
-//    var temes : [Team] = []
     var outMemo: [OutMemo] = []
     var teamInfo : [Team] = []
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
     var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     let db = Firestore.firestore()
-//    let uid = Auth.auth().currentUser?.uid
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
     let uid = Auth.auth().currentUser?.uid
+    let coachMarksController = CoachMarksController()
 
     
     fileprivate let cellHeight: CGFloat = 210
@@ -42,7 +42,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
         let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou")
         self.present(sinkitoukou, animated: true, completion: nil)
-        Firestore.firestore().collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
+        db.collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
         //        try? Auth.auth().signOut()
     }
     
@@ -106,8 +106,8 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         let NotificationVC = storyboard.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC//遷移先のViewControllerを設定
         db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
         NotificationVC.notificationTab = true
-        NotificationVC.tabBarController?.tabBar.isHidden = true
-        ViewController().navigationController?.navigationBar.isHidden = false
+//        NotificationVC.tabBarController?.tabBar.isHidden = true
+//        ViewController().navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(NotificationVC, animated: true)//遷移する
     }
     
@@ -116,11 +116,33 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     @IBOutlet var backView: UIView!
     
     
+    
+    @IBOutlet weak var backGroundImageView: UIImageView!
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.tabBarController?.tabBar.isHidden = false
+//        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
-
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.tabBarController?.tabBar.isHidden = false        
+        if UserDefaults.standard.bool(forKey: "firstPost") != true{
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            UserDefaults.standard.set(true, forKey: "firstPost")
+            let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
+            let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou") as! sinkitoukou
+            sinkitoukou.modalPresentationStyle = .fullScreen
+            self.present(sinkitoukou, animated: true, completion: nil)
+            Firestore.firestore().collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
+        } else {
+            if UserDefaults.standard.bool(forKey: "outMemoInstract") != true{
+                UserDefaults.standard.set(true, forKey: "outMemoInstract")
+                self.coachMarksController.start(in: .currentWindow(of: self))
+            }
+        }
     }
     
     override func viewDidLoad() {
@@ -129,11 +151,19 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         self.navigationController?.navigationBar.isHidden = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
+        self.coachMarksController.dataSource = self
+        
         notificationNumber.alpha = 0
         notificationButton.tintColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         notificationNumber.clipsToBounds = true
         notificationNumber.layer.cornerRadius = 10
 
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2Fsplashbackground.jpeg?alt=media&token=4c2fd869-a146-4182-83aa-47dd396f1ad6") {
+            Nuke.loadImage(with: url, into: backGroundImageView)
+        } else {
+            backGroundImageView.image = nil
+        }
+        
         //navigationbarのやつ
 //        let navBar = self.navigationController?.navigationBar
 //        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
@@ -204,10 +234,11 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             }
     }
     
-    
+    //        whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).
+
     
     private func fetchFireStore(userId:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")
@@ -226,7 +257,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                     } else {
                         if rarabai.delete == true {
                         } else{
-                            if momentType >= moment() - 2.days {
+                            if momentType >= moment() - 7.days {
                                 self.outMemo.append(rarabai)
                             }
                         }
@@ -260,15 +291,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
-        
-//        cell.coverView.backgroundColor = nil
-        
+
+
         cell.messageLabel.text = outMemo[indexPath.row].message
-        
+
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-                
+
         cell.messageBottomConstraint.constant =  105
-        
+
         if  outMemo[indexPath.row].readLog == true {
             cell.coverView.backgroundColor = .clear
             cell.coverViewConstraint.constant = 0
@@ -290,24 +320,27 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             cell.coverImageView?.image = nil
         }
-        
+
         if uid == outMemo[indexPath.row].userId {
         cell.flagButton.isHidden = true
         }
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(flagButtonEvemt), for: UIControl.Event.touchUpInside)
-//        addbutton.frame = CGRect(x:0, y:0, width:50, height: 5)
 
         cell.userImageView.image = nil
-//        cell.IndividualImageView.image = nil
-        fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
-
-//        print(cell.outMemo?.userId ?? "")
         
+        //↓tableviewのunit表示
+//        fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
+        
+        //↓と↑交換
+        fetchMypostData(userId: outMemo[indexPath.row].userId, cell: cell, documentId: outMemo[indexPath.row].documentId)
+
+
+
         let date: Date = outMemo[indexPath.row].createdAt.dateValue()
 
         cell.dateLabel.text = date.agoText()
-
+//
         cell.userImageView.layer.cornerRadius = 30
         cell.mainBackground.layer.cornerRadius = 8
         cell.mainBackground.layer.masksToBounds = true
@@ -343,6 +376,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             }
             
         } else {
+            
+            print("outmemoa",outMemo[indexPath.row].readLog)
+
             let readLogDic = [
                 "userId":uid,
                 "userName":userName ?? "unKnown",
@@ -364,46 +400,46 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func getUserTeamInfo(userId:String,cell:OutmMemoCellVC){
-        db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-
-                let teamIdArray = document.data()!["teamId"] as! Array<String>
-                print(teamIdArray)
-                print(teamIdArray[0])
-
-                
-                    teamIdArray.forEach{
-                        self.getTeamInfo(teamId: $0,cell: cell)
-                    }
-            } else {
-                print("Document does not exist")
-            }
-        }
-    }
-
-    func getTeamInfo(teamId:String,cell:OutmMemoCellVC){
-        db.collection("Team").document(teamId).getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-                let teamDic = Team(dic: document.data()!)
-                self.teamInfo.append(teamDic)
-                print("翼をください！",teamId)
-                print("翼をください！",document.data()!)
-                print("asefiosejof",teamDic)
-                
-                cell.teamCollectionView.alpha = 1
-                
-
-                cell.teamCollectionView.reloadData()
-            } else {
-                print("Document does not exist")
-            }
-        }
-    }
+//    func getUserTeamInfo(userId:String,cell:OutmMemoCellVC){
+//        db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
+//            if let document = document, document.exists {
+//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+//                print("Document data: \(dataDescription)")
+//
+//                let teamIdArray = document.data()!["teamId"] as! Array<String>
+//                print(teamIdArray)
+//                print(teamIdArray[0])
+//
+//                
+//                    teamIdArray.forEach{
+//                        self.getTeamInfo(teamId: $0,cell: cell)
+//                    }
+//            } else {
+//                print("Document does not exist")
+//            }
+//        }
+//    }
+//
+//    func getTeamInfo(teamId:String,cell:OutmMemoCellVC){
+//        db.collection("Team").document(teamId).getDocument { (document, error) in
+//            if let document = document, document.exists {
+//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+//                print("Document data: \(dataDescription)")
+//                let teamDic = Team(dic: document.data()!)
+//                self.teamInfo.append(teamDic)
+//                print("翼をください！",teamId)
+//                print("翼をください！",document.data()!)
+//                print("asefiosejof",teamDic)
+//                
+//                cell.teamCollectionView.alpha = 1
+//                
+//
+//                cell.teamCollectionView.reloadData()
+//            } else {
+//                print("Document does not exist")
+//            }
+//        }
+//    }
     
     
     @objc func flagButtonEvemt(_ sender: UIButton){
@@ -489,7 +525,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
     
     func fetchDocContents(userId:String,cell:OutmMemoCellVC,documentId:String){
-
+        
+        fetchMypostData(userId: userId, cell: cell, documentId: documentId)
+        
+//        if cell.teamInfo.count == 0 {
+            cell.teamInfo.removeAll()
+//            cell.teamCollectionView.reloadData()
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
+                //            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
+                self.getUserTeamInfo(userId: userId, cell: cell)
+//            }
+//        }
+    }
+    
+    func fetchMypostData(userId:String,cell:OutmMemoCellVC,documentId:String) {
         db.collection("users").document(userId).collection("MyPost").document(documentId)
             .addSnapshotListener { [self] documentSnapshot, error in
                 guard let document = documentSnapshot else {
@@ -498,34 +548,79 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 guard let data = document.data() else {
                     print("Document data was empty.")
+                    
+                    if userId == "gBD75KJjTSPcfZ6TvbapBgTqpd92" {
+                        
+                        let userImage = "https://firebasestorage.googleapis.com:443/v0/b/totalgood-7b3a3.appspot.com/o/User_Image%2F51115339-DA49-4BE0-B9E6-A45FC8198FE0?alt=media&token=dac0b228-8381-430d-bb07-71ef20d80f4d"
+                        let userFrontId = "ubatge"
+                        
+                        cell.userFrontIdLabel.text = userFrontId
+                        
+                        if let url = URL(string:userImage) {
+                            Nuke.loadImage(with: url, into: cell.userImageView)
+                        } else {
+                            cell.userImageView?.image = nil
+                        }
+                    }
+                    
+                    
                     return
                 }
-//                print("Current data: \(data)")
-//                let userId = document["userId"] as? String ?? "unKnown"
-//                userName = document["userName"] as? String ?? "unKnown"
+                //                print("Current data: \(data)")
+                //                let userId = document["userId"] as? String ?? "unKnown"
+                //                userName = document["userName"] as? String ?? "unKnown"
+                
                 let userImage = document["userImage"] as? String ?? ""
                 let userFrontId = document["userFrontId"] as? String ?? ""
-                let delete = document["delete"] as! Bool
                 
-                
-                if delete == true {
-                    cell.messageLabel.text = "この投稿は削除されました"
-                    db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
-                } else {
-//                    cell.messageLabel.text = message
-                }
                 cell.userFrontIdLabel.text = userFrontId
-
-
-//                cell.nameLabel.text = userName
-//                getUserTeamInfo(userId: userId, cell: cell)
                 
                 if let url = URL(string:userImage) {
                     Nuke.loadImage(with: url, into: cell.userImageView)
                 } else {
                     cell.userImageView?.image = nil
                 }
+                
+                
+                let delete = document["delete"] as? Bool ?? false
+                
+                
+                if delete == true {
+                    cell.messageLabel.text = "この投稿は削除されました"
+                    db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
+                } else {
+                    //                    cell.messageLabel.text = message
+                }
+                //                cell.nameLabel.text = userName
+                //                getUserTeamInfo(userId: userId, cell: cell)
+                
             }
+    }
+    
+    func getUserTeamInfo(userId:String,cell:OutmMemoCellVC){
+        
+        db.collection("users").document(userId).collection("belong_Team").addSnapshotListener {( snapshots, err) in
+            if let err = err {
+                
+                print("メッセージの取得に失敗、\(err)")
+                return
+            }
+            snapshots?.documentChanges.forEach({ (Naruto) in
+                switch Naruto.type {
+                case .added:
+                    let dic = Naruto.document.data()
+                    let teamInfoDic = Team(dic: dic)
+//                    let teamId = Naruto.document.data()["teamId"] as? String ?? ""
+                    cell.teamInfo.append(teamInfoDic)
+
+
+                case .modified, .removed:
+                    print("noproblem")
+                }
+            })
+            cell.teamCollectionView.reloadData()
+            
+        }
     }
 
 }
@@ -540,6 +635,52 @@ extension ViewController: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         presentationAnimator.mode = .dismissal
         return presentationAnimator
+    }
+}
+
+extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
+    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+        return 2
+    }
+    func coachMarksController(_ coachMarksController: CoachMarksController,
+                              coachMarkAt index: Int) -> CoachMark {
+        
+        let highlightViews: Array<UIView> = [notificationButton, bubuButton]
+        //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
+        
+        //チュートリアルで使うビューの中からindexで何ステップ目かを指定
+        return coachMarksController.helper.makeCoachMark(for: highlightViews[index])
+    }
+    func coachMarksController(
+        _ coachMarksController: CoachMarksController,
+        coachMarkViewsAt index: Int,
+        madeFrom coachMark: CoachMark
+    ) -> (bodyView: UIView & CoachMarkBodyView, arrowView: (UIView & CoachMarkArrowView)?) {
+
+        //吹き出しのビューを作成します
+        let coachViews = coachMarksController.helper.makeDefaultCoachViews(
+            withArrow: true,    //三角の矢印をつけるか
+            arrowOrientation: coachMark.arrowOrientation    //矢印の向き(吹き出しの位置)
+        )
+
+        //index(ステップ)によって表示内容を分岐させます
+        switch index {
+        case 0:    //hogeLabel
+            coachViews.bodyView.hintLabel.text = "ここにリアクションやフォローの\n通知が届きます"
+            coachViews.bodyView.nextLabel.text = "タップ"
+        
+        case 1:    //fugaButton
+        coachViews.bodyView.hintLabel.text = "ここから新しい投稿を行います!"
+            coachViews.bodyView.nextLabel.text = "OK"
+        
+        
+        default:
+            break
+        
+        }
+        
+        //その他の設定が終わったら吹き出しを返します
+        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
 }
 

@@ -10,19 +10,23 @@ import FirebaseAuth
 import FirebaseFirestore
 import GoogleMobileAds
 import Nuke
+import Instructions
 
 
 class ReserchVC:UIViewController{
+    
+    var selectBool:Bool = false
+    var userInfo: [UserInfo] = []
     private let cellId = "cellId"
     let db = Firestore.firestore()
-    var selectBool:Bool = false
-    var users: [Users] = []
+    let coachMarksController = CoachMarksController()
 
     
     @IBOutlet weak var explainLabel: UILabel!
     @IBOutlet weak var noExistLabel: UILabel!
     @IBOutlet weak var selectButton: UIButton!
     
+    @IBOutlet weak var backImageView: UIImageView!
     @IBAction func selectTappedButton(_ sender: Any) {
         if selectBool == false {
             selectBool = true
@@ -69,11 +73,11 @@ class ReserchVC:UIViewController{
                         noExsitAnimation()
                     } else {
                         noExistLabel.alpha = 0
-                        users.removeAll()
+                        userInfo.removeAll()
                         for document in querySnapshot!.documents {
                             print("\(document.documentID) => \(document.data())")
-                            let usersDic = Users(dic: document.data())
-                            self.users.append(usersDic)
+                            let userInfoDic = UserInfo(dic: document.data())
+                            self.userInfo.append(userInfoDic)
                         }
                         reserchTableView.reloadData()
                     }
@@ -108,11 +112,19 @@ class ReserchVC:UIViewController{
         super.viewWillAppear(true)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
-
     }
     // キーボードと閉じる際の処理
     @objc public func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if UserDefaults.standard.bool(forKey: "serchInstruct") != true{
+            UserDefaults.standard.set(true, forKey: "serchInstruct")
+            self.coachMarksController.start(in: .currentWindow(of: self))
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -121,6 +133,15 @@ class ReserchVC:UIViewController{
             target: self,
             action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages2.012.png?alt=media&token=526af1d4-3a14-4227-914c-65685ac70fe4") {
+            Nuke.loadImage(with: url, into: backImageView)
+        } else {
+            backImageView.image = nil
+        }
+        
+        self.coachMarksController.dataSource = self
+
         
         tapGesture.cancelsTouchesInView = false
         
@@ -142,7 +163,7 @@ class ReserchVC:UIViewController{
         
         //        テスト ca-app-pub-3940256099942544/2934735716
         //        本番 ca-app-pub-9686355783426956/8797317880
-        self.bannerView.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+        self.bannerView.adUnitID = "ca-app-pub-9686355783426956/8797317880"
         self.bannerView.rootViewController = self
         self.bannerView.load(GADRequest())
         
@@ -170,19 +191,19 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         return 70
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return users.count
+        return userInfo.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = reserchTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ReserhTableViewCell
         cell.userImageView.image = nil
-        cell.userNameLabel.text = users[indexPath.row].userName
-        cell.userFrontIdLabel.text = users[indexPath.row].userFrontId
+        cell.userNameLabel.text = userInfo[indexPath.row].userName
+        cell.userFrontIdLabel.text = userInfo[indexPath.row].userFrontId
         
         cell.userImageView.clipsToBounds = true
         cell.userImageView.layer.cornerRadius = 30
         
-        if let url = URL(string:users[indexPath.row].userImage) {
+        if let url = URL(string:userInfo[indexPath.row].userImage) {
             Nuke.loadImage(with: url, into: cell.userImageView)
         } else {
             cell.userImageView?.image = nil
@@ -195,7 +216,7 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         
         let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
         let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        ProfileVC.userId = users[indexPath.row].userId
+        ProfileVC.userId = userInfo[indexPath.row].userId
         ProfileVC.cellImageTap = true
         navigationController?.pushViewController(ProfileVC, animated: true)
 
@@ -210,5 +231,48 @@ class ReserhTableViewCell:UITableViewCell{
     @IBOutlet weak var userNameLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+}
+
+extension ReserchVC: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
+    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+        return 1
+    }
+    func coachMarksController(_ coachMarksController: CoachMarksController,
+                              coachMarkAt index: Int) -> CoachMark {
+        
+        let highlightViews: Array<UIView> = [reserchButton]
+        //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
+        
+        //チュートリアルで使うビューの中からindexで何ステップ目かを指定
+        return coachMarksController.helper.makeCoachMark(for: highlightViews[index])
+    }
+    func coachMarksController(
+        _ coachMarksController: CoachMarksController,
+        coachMarkViewsAt index: Int,
+        madeFrom coachMark: CoachMark
+    ) -> (bodyView: UIView & CoachMarkBodyView, arrowView: (UIView & CoachMarkArrowView)?) {
+
+        //吹き出しのビューを作成します
+        let coachViews = coachMarksController.helper.makeDefaultCoachViews(
+            withArrow: true,    //三角の矢印をつけるか
+            arrowOrientation: coachMark.arrowOrientation    //矢印の向き(吹き出しの位置)
+        )
+
+        //index(ステップ)によって表示内容を分岐させます
+        switch index {
+        case 0:    //hogeLabel
+            coachViews.bodyView.hintLabel.text = "ここから新しいユーザーを\n探します"
+            coachViews.bodyView.nextLabel.text = "OK"
+        
+        
+        
+        default:
+            break
+        
+        }
+        
+        //その他の設定が終わったら吹き出しを返します
+        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
 }
