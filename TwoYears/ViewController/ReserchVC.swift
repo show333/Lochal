@@ -57,7 +57,21 @@ class ReserchVC:UIViewController{
             getAccount(keyString:"userFrontId",reserchString: removeWhitesSpacesString)
         }
     }
+    
+    
+    @IBOutlet weak var refferalButton: UIButton!
+    
+    @IBAction func refferalTappedButton(_ sender: Any) {
+        
+        let storyboard = UIStoryboard.init(name: "Refferal", bundle: nil)
+        let RefferalVC = storyboard.instantiateViewController(withIdentifier: "RefferalVC") as! RefferalVC
+        self.present(RefferalVC, animated: true, completion: nil)
+        
+    }
+    
     @IBOutlet weak var bannerView: GADBannerView!
+    
+    
     
     
     func getAccount(keyString:String,reserchString: String){

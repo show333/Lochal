@@ -118,6 +118,8 @@
 		CF7E8E45277886B2003E3E84 /* TeamCollectionViewCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7E8E44277886B2003E3E84 /* TeamCollectionViewCellVC.swift */; };
 		CF83D9B027AD4F7100DF9C76 /* CollectionPost.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF83D9AF27AD4F7000DF9C76 /* CollectionPost.storyboard */; };
 		CF83D9B227AD4FA000DF9C76 /* CollectionPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF83D9B127AD4FA000DF9C76 /* CollectionPostVC.swift */; };
+		CF83D9B627BFA80E00DF9C76 /* Refferal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF83D9B527BFA80E00DF9C76 /* Refferal.storyboard */; };
+		CF83D9B827BFA82800DF9C76 /* RefferalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF83D9B727BFA82800DF9C76 /* RefferalVC.swift */; };
 		CF8B45062665698500CA6DE1 /* red_yellow.json in Resources */ = {isa = PBXBuildFile; fileRef = CF8B45052665698500CA6DE1 /* red_yellow.json */; };
 		CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF8F13A9263FD9D2007A0677 /* imagetoukou.storyboard */; };
 		CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */; };
@@ -247,6 +249,8 @@
 		CF83D9B127AD4FA000DF9C76 /* CollectionPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPostVC.swift; sourceTree = "<group>"; };
 		CF83D9B327B6BF7800DF9C76 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		CF83D9B427B6BF7900DF9C76 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		CF83D9B527BFA80E00DF9C76 /* Refferal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Refferal.storyboard; sourceTree = "<group>"; };
+		CF83D9B727BFA82800DF9C76 /* RefferalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefferalVC.swift; sourceTree = "<group>"; };
 		CF8B45052665698500CA6DE1 /* red_yellow.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = red_yellow.json; sourceTree = "<group>"; };
 		CF8F13A9263FD9D2007A0677 /* imagetoukou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = imagetoukou.storyboard; sourceTree = "<group>"; };
 		CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imagetoukouViewController.swift; sourceTree = "<group>"; };
@@ -472,6 +476,7 @@
 				A359840A2799AA56003CB00B /* UnitHomeVC.swift */,
 				CF83D9B127AD4FA000DF9C76 /* CollectionPostVC.swift */,
 				A392221227B0141B00FFC936 /* detailPostVC.swift */,
+				CF83D9B727BFA82800DF9C76 /* RefferalVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -512,6 +517,7 @@
 				A359840C279A9A87003CB00B /* forexample.storyboard */,
 				CF83D9AF27AD4F7000DF9C76 /* CollectionPost.storyboard */,
 				A392221027B013C900FFC936 /* detailPost.storyboard */,
+				CF83D9B527BFA80E00DF9C76 /* Refferal.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -647,6 +653,7 @@
 				A33F0667279C26890008B29A /* FirstSetImage.storyboard in Resources */,
 				A33F068B279D20110008B29A /* TeamExplain.storyboard in Resources */,
 				CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */,
+				CF83D9B627BFA80E00DF9C76 /* Refferal.storyboard in Resources */,
 				CF3B829E2785181400B4A257 /* ReadLog.storyboard in Resources */,
 				A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */,
 			);
@@ -723,6 +730,7 @@
 				A3598411279B2169003CB00B /* ExplainVC.swift in Sources */,
 				CF0C14B225C9F028006A7C86 /* ChatRoomViewController.swift in Sources */,
 				CF3B82A12785185500B4A257 /* ReadLogVC.swift in Sources */,
+				CF83D9B827BFA82800DF9C76 /* RefferalVC.swift in Sources */,
 				A35984072798EDA5003CB00B /* ChainVC.swift in Sources */,
 				A3C0D9EA2774859C00AC64D3 /* ReactionVC.swift in Sources */,
 				CF6846D52797C0FB004B80C5 /* UserNameSetVC.swift in Sources */,

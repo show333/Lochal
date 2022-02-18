@@ -96,6 +96,7 @@ class ThankyouVC:UIViewController {
         db.collection("users").document(uid).collection("SendedPost").document(documentId).setData(sendedPostDoc)
         db.collection("users").document(uid).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
 
+        UserDefaults.standard.string(forKey: "refferalUserId")
         
     }
 }

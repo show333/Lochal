@@ -49,11 +49,6 @@ class ExplainVC:UIViewController{
             pageCount += 1
         } else {
             
-            let uid = Auth.auth().currentUser?.uid
-            
-            if uid == nil {
-                createAuth()
-            }
             let storyboard = UIStoryboard.init(name: "FirstSetName", bundle: nil)
             let FirstSetNameVC = storyboard.instantiateViewController(withIdentifier: "FirstSetNameVC") as! FirstSetNameVC
             navigationController?.pushViewController(FirstSetNameVC, animated: true)
@@ -131,13 +126,7 @@ class ExplainVC:UIViewController{
         }
     }
     
-    func createAuth(){
-        let randomId = randomString(length: 8)
-        Auth.auth().createUser(withEmail: randomId + "@2.years", password: "ONELIFE") { authResult, error in
-//            let uid = Auth.auth().currentUser?.uid
-//            self.profileSet(userId:uid ?? "")
-        }
-    }
+
     
     func randomString(length: Int) -> String {
         let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

@@ -24,17 +24,13 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
-//        let storyboard = UIStoryboard.init(name: "Explain", bundle: nil)
-//        let vc = storyboard.instantiateViewController(identifier: "ExplainVC") as! ExplainVC
-//        let nav = UINavigationController(rootViewController: vc)
-//        nav.modalPresentationStyle = .fullScreen
-//        self.present(nav, animated: true, completion: nil)
-        
         let uid = Auth.auth().currentUser?.uid
+        
+        
         if uid != nil {
             profileGet(userId:uid ?? "")
         } else {
-            presentExplain()
+            presentSignInVC() 
         }
     }
 
@@ -49,48 +45,44 @@ class SplashViewController: UIViewController {
                 let userName = document["userName"] as? String ?? ""
                 let userImage = document["userImage"] as? String ?? ""
                 let userFrontId = document["userFrontId"] as? String ?? ""
-                
+                let UEnterdBool = document["UEnterdBool"] as? Bool ?? false
+
                 
                 print("あいあいあい",userName)
                 print("あいあい",userImage)
                 print("あいあいあ",userId)
                 
-                if userName != "" && userImage != "" && userFrontId != "" {
-                    presentTabbar(userId: userId)
-                    UserDefaults.standard.set(userId, forKey: "userId")
-                    UserDefaults.standard.set(userName, forKey: "userName")
-                    UserDefaults.standard.set(userImage, forKey: "userImage")
-                    UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
+                if UEnterdBool == true {
+                    if userName != "" && userImage != "" && userFrontId != "" {
+                        presentTabbar(userId: userId)
+                        UserDefaults.standard.set(userId, forKey: "userId")
+                        UserDefaults.standard.set(userName, forKey: "userName")
+                        UserDefaults.standard.set(userImage, forKey: "userImage")
+                        UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
+                        
+                    } else {
+                        presentExplain()
+                    }
                 } else {
-                    let storyboard = UIStoryboard.init(name: "Explain", bundle: nil)
-                    let vc = storyboard.instantiateViewController(identifier: "ExplainVC") as! ExplainVC
-                    let nav = UINavigationController(rootViewController: vc)
-                    nav.modalPresentationStyle = .fullScreen
-                    self.present(nav, animated: true, completion: nil)
-                    
+                    presentSignInVC()
                 }
-//                UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
+                
+                
+                
+                
             } else {
                 print("Document does not exist")
                 
-                presentExplain()
-                
-//                UserDefaults.standard.set(userId, forKey: "userId")
-//                UserDefaults.standard.set(userName, forKey: "userName")
-//                UserDefaults.standard.set(userImage, forKey: "userImage")
-//                UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
-//
-//                let profile = [
-//                    "admin":false,
-//                    "userId":userId,
-//                    "userImage":userImage ?? "",
-//                    "userName":userName
-//                ] as [String: Any]
-                
-//                self.db.collection("users").document(userId).collection("Profile").document("profile").setData(profile,merge: true)
-                print("ここにセットする")
+                presentSignInVC()
             }
         }
+    }
+    
+    func presentSignInVC() {
+        let storyboard = UIStoryboard.init(name: "SignIn", bundle: nil)
+        let SignInViewController = storyboard.instantiateViewController(withIdentifier: "SignInViewController") as! SignInViewController
+        SignInViewController.modalPresentationStyle = .fullScreen
+        self.present(SignInViewController, animated: true, completion: nil)
     }
     
     func presentTabbar(userId:String){
