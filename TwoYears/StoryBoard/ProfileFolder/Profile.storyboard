@@ -15,6 +15,7 @@
             <objects>
                 <navigationController useStoryboardIdentifierAsRestorationIdentifier="YES" id="Tjv-Wl-Sr5" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="AHi-Ob-aHa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -118,37 +119,8 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PfH-li-dGI">
-                                        <rect key="frame" x="240" y="5" width="60" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="PfH-li-dGI" secondAttribute="height" multiplier="1:1" id="Gz3-fP-YI6"/>
-                                            <constraint firstAttribute="width" constant="60" id="sA1-tg-WK3"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="0">
-                                            <color key="titleColor" systemColor="labelColor"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="followingTappedButton:" destination="zCO-tO-D7A" eventType="touchUpInside" id="dx7-Gw-z8c"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hSA-NO-h6O">
-                                        <rect key="frame" x="180" y="5" width="60" height="60"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="hSA-NO-h6O" secondAttribute="height" multiplier="1:1" id="DxL-rL-jn4"/>
-                                            <constraint firstAttribute="width" constant="60" id="eiB-6e-ImS"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="0">
-                                            <color key="titleColor" systemColor="labelColor"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="followerTappedButton:" destination="zCO-tO-D7A" eventType="touchUpInside" id="N2S-ho-7o1"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Ny-cM-nWF">
-                                        <rect key="frame" x="140" y="20" width="30" height="30"/>
+                                        <rect key="frame" x="180" y="40" width="30" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="ejB-VV-NtE"/>
                                             <constraint firstAttribute="width" constant="30" id="i86-UD-qB6"/>
@@ -160,20 +132,8 @@
                                             <action selector="settingsTappedButton:" destination="zCO-tO-D7A" eventType="touchUpInside" id="8h3-Jv-KFp"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="フォロー" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="odf-qN-vKo">
-                                        <rect key="frame" x="251.5" y="47" width="41" height="12"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="フォロワー" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qfG-WN-bs2">
-                                        <rect key="frame" x="186.5" y="47" width="51.5" height="12"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="設定" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bge-xm-rmq">
-                                        <rect key="frame" x="142.5" y="50" width="25" height="14.5"/>
+                                        <rect key="frame" x="182.5" y="70" width="25" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -221,12 +181,24 @@
                                             <constraint firstItem="XvW-Tk-RCc" firstAttribute="centerY" secondItem="ZMj-lr-yiM" secondAttribute="centerY" id="vtB-cj-O9Y"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="フォローを許可された後,投稿が可能になります" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHi-5f-YxV">
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="チェインを許可された後,投稿が可能になります" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHi-5f-YxV">
                                         <rect key="frame" x="170" y="117.5" width="130" height="57.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wyn-po-0Pd">
+                                        <rect key="frame" x="230" y="20" width="70" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="9jz-XS-0Gj"/>
+                                            <constraint firstAttribute="width" constant="70" id="Oi2-1U-DMh"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                        <connections>
+                                            <action selector="transitionTappedChainButton:" destination="zCO-tO-D7A" eventType="touchUpInside" id="o5f-vP-sMl"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -234,29 +206,23 @@
                                     <constraint firstAttribute="trailing" secondItem="ZMj-lr-yiM" secondAttribute="trailing" constant="30" id="3nQ-LI-aAB"/>
                                     <constraint firstAttribute="bottom" secondItem="YHi-5f-YxV" secondAttribute="bottom" constant="25" id="5qz-Zp-wtd"/>
                                     <constraint firstAttribute="bottom" secondItem="YoW-PG-LIz" secondAttribute="bottom" constant="20" id="62S-Ax-tMC"/>
-                                    <constraint firstAttribute="trailing" secondItem="PfH-li-dGI" secondAttribute="trailing" constant="20" id="6g2-Q7-AOu"/>
                                     <constraint firstAttribute="bottom" secondItem="h92-iJ-PQW" secondAttribute="bottom" constant="10" id="BkU-Vn-QEy"/>
-                                    <constraint firstItem="PfH-li-dGI" firstAttribute="leading" secondItem="hSA-NO-h6O" secondAttribute="trailing" id="BkW-J4-HzF"/>
-                                    <constraint firstItem="6Ny-cM-nWF" firstAttribute="centerY" secondItem="PfH-li-dGI" secondAttribute="centerY" id="GGe-wx-XE0"/>
+                                    <constraint firstAttribute="trailing" secondItem="Wyn-po-0Pd" secondAttribute="trailing" constant="20" id="C6y-hw-8oJ"/>
                                     <constraint firstAttribute="trailing" secondItem="YHi-5f-YxV" secondAttribute="trailing" constant="20" id="J9p-F6-DjR"/>
                                     <constraint firstItem="ydp-h6-IHV" firstAttribute="leading" secondItem="L0G-gd-PAF" secondAttribute="leading" constant="15" id="JDB-1f-qOH"/>
-                                    <constraint firstItem="qfG-WN-bs2" firstAttribute="centerX" secondItem="hSA-NO-h6O" secondAttribute="centerX" constant="2" id="Lhe-Ep-8Ny"/>
-                                    <constraint firstItem="PfH-li-dGI" firstAttribute="top" secondItem="L0G-gd-PAF" secondAttribute="top" constant="5" id="ThB-pa-mY3"/>
                                     <constraint firstItem="h92-iJ-PQW" firstAttribute="leading" secondItem="L0G-gd-PAF" secondAttribute="leading" constant="5" id="Vi1-Kx-wcy"/>
                                     <constraint firstAttribute="bottom" secondItem="ZMj-lr-yiM" secondAttribute="bottom" constant="15" id="YZm-Wa-Ngu"/>
-                                    <constraint firstItem="qfG-WN-bs2" firstAttribute="top" secondItem="hSA-NO-h6O" secondAttribute="bottom" constant="-18" id="YmE-cF-YZp"/>
                                     <constraint firstAttribute="trailing" secondItem="h92-iJ-PQW" secondAttribute="trailing" constant="5" id="bcn-Dw-JHm"/>
-                                    <constraint firstItem="odf-qN-vKo" firstAttribute="centerX" secondItem="PfH-li-dGI" secondAttribute="centerX" constant="2" id="djP-nA-Jtw"/>
                                     <constraint firstItem="bge-xm-rmq" firstAttribute="top" secondItem="6Ny-cM-nWF" secondAttribute="bottom" id="esl-6o-mSY"/>
+                                    <constraint firstItem="Wyn-po-0Pd" firstAttribute="top" secondItem="L0G-gd-PAF" secondAttribute="top" constant="20" id="fAc-wd-gq6"/>
                                     <constraint firstItem="YHi-5f-YxV" firstAttribute="leading" secondItem="YoW-PG-LIz" secondAttribute="trailing" constant="20" id="fqB-Po-AIT"/>
                                     <constraint firstItem="2L4-oD-cdc" firstAttribute="centerY" secondItem="ydp-h6-IHV" secondAttribute="centerY" constant="18" id="gR0-so-i56"/>
-                                    <constraint firstItem="hSA-NO-h6O" firstAttribute="centerY" secondItem="PfH-li-dGI" secondAttribute="centerY" id="hdi-sQ-KF3"/>
+                                    <constraint firstItem="Wyn-po-0Pd" firstAttribute="leading" secondItem="6Ny-cM-nWF" secondAttribute="trailing" constant="20" id="hsG-Ad-itD"/>
+                                    <constraint firstItem="6Ny-cM-nWF" firstAttribute="centerY" secondItem="Wyn-po-0Pd" secondAttribute="centerY" id="hvx-tf-eHT"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hXn-vX-bmC" secondAttribute="trailing" constant="10" id="i3Q-kd-jiz"/>
                                     <constraint firstItem="hXn-vX-bmC" firstAttribute="top" secondItem="2L4-oD-cdc" secondAttribute="bottom" constant="5" id="jeN-F9-ltP"/>
-                                    <constraint firstItem="hSA-NO-h6O" firstAttribute="leading" secondItem="6Ny-cM-nWF" secondAttribute="trailing" constant="10" id="kcA-to-HpH"/>
                                     <constraint firstAttribute="height" constant="200" id="khG-Gl-FjE"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="2L4-oD-cdc" secondAttribute="trailing" constant="10" id="mQQ-ly-IcR"/>
-                                    <constraint firstItem="odf-qN-vKo" firstAttribute="top" secondItem="PfH-li-dGI" secondAttribute="bottom" constant="-18" id="otf-7B-cRV"/>
                                     <constraint firstItem="YoW-PG-LIz" firstAttribute="leading" secondItem="L0G-gd-PAF" secondAttribute="leading" constant="30" id="pum-e7-IEv"/>
                                     <constraint firstItem="bge-xm-rmq" firstAttribute="centerX" secondItem="6Ny-cM-nWF" secondAttribute="centerX" id="tjp-Bg-zU2"/>
                                     <constraint firstItem="ydp-h6-IHV" firstAttribute="top" secondItem="L0G-gd-PAF" secondAttribute="top" constant="10" id="umf-5S-gHX"/>
@@ -312,20 +278,30 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" id="6Dn-QB-SqD"/>
-                    <navigationItem key="navigationItem" title="UsersHome" id="nMb-0Z-Ctp"/>
+                    <navigationItem key="navigationItem" title="UsersHome" id="nMb-0Z-Ctp">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="hpu-DH-Ptq">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="EZR-Sz-LWd">
+                                <rect key="frame" x="284" y="14" width="20" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="questionmark.circle" catalog="system"/>
+                                <connections>
+                                    <action selector="explainTappedButton:" destination="zCO-tO-D7A" eventType="touchUpInside" id="3bp-Kl-Deu"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="collectionBottom" destination="BkU-Vn-QEy" id="t6K-OJ-cCh"/>
                         <outlet property="collectionHighConstraint" destination="yWX-O3-ewo" id="vTB-gA-6Ic"/>
                         <outlet property="collectionLeft" destination="Vi1-Kx-wcy" id="ciE-SE-zEq"/>
                         <outlet property="collectionRight" destination="bcn-Dw-JHm" id="IHM-Bw-9zd"/>
+                        <outlet property="explainButton" destination="EZR-Sz-LWd" id="dgX-CH-m5z"/>
                         <outlet property="fButtonHeightConstraint" destination="2er-Nt-S5E" id="enn-kj-i5Y"/>
                         <outlet property="fButtonWidthConstraint" destination="mny-hC-T7K" id="fHO-aQ-Mv5"/>
                         <outlet property="followButton" destination="YoW-PG-LIz" id="LMi-5X-cIh"/>
-                        <outlet property="followLabel" destination="odf-qN-vKo" id="0j0-Rr-pXt"/>
-                        <outlet property="followerButton" destination="hSA-NO-h6O" id="MrQ-TD-fvf"/>
-                        <outlet property="followerLabel" destination="qfG-WN-bs2" id="Bam-I6-ax6"/>
-                        <outlet property="followingButton" destination="PfH-li-dGI" id="Lnf-vA-hfx"/>
                         <outlet property="headerView" destination="L0G-gd-PAF" id="6fa-qx-WxX"/>
                         <outlet property="headerhightConstraint" destination="khG-Gl-FjE" id="x6u-Wl-QOC"/>
                         <outlet property="headertopConstraint" destination="iKB-pN-XFu" id="PM6-NX-PsK"/>
@@ -339,6 +315,7 @@
                         <outlet property="settingsButton" destination="6Ny-cM-nWF" id="ldi-zW-eWD"/>
                         <outlet property="settingsLabel" destination="bge-xm-rmq" id="CyW-r9-NLL"/>
                         <outlet property="teamCollectionView" destination="h92-iJ-PQW" id="Jet-EB-Lmk"/>
+                        <outlet property="transitionChainButton" destination="Wyn-po-0Pd" id="lw8-cF-YqB"/>
                         <outlet property="userFrontIdLabel" destination="2L4-oD-cdc" id="Tba-a6-6Ik"/>
                         <outlet property="userImageLeftConstraint" destination="JDB-1f-qOH" id="q9U-Ba-J7p"/>
                         <outlet property="userImageTopConstraint" destination="umf-5S-gHX" id="LRW-qV-c0i"/>
@@ -355,9 +332,7 @@
     <resources>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="person" catalog="system" width="128" height="117"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="questionmark.circle" catalog="system" width="128" height="121"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -93,7 +93,7 @@ class NotificationVC: UIViewController {
             "userFrontId":userFrontId ?? "",
             "documentId" : "accept"+uid,
             "reactionImage": "",
-            "reactionMessage":"さんがフォローを許可しました",
+            "reactionMessage":"さんとチェインしました",
             "theMessage": "",
             "dataType": "accepted",
             "anonymous":false,
@@ -327,19 +327,19 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
             reactionBackButton.alpha = 0.8
             onAnimation()
             
-        } else if reaction[indexPath.row].dataType == "acceptingFollow"{
+        } else if reaction[indexPath.row].dataType == "acceptingChain"{
             cellDocumentId = reaction[indexPath.row].documentId
             userId = reaction[indexPath.row].userId
             if reaction[indexPath.row].acceptBool == false {
                 acceptImageAnimation(imageView: acceptImageView)
                 acceptingBackButton.alpha = 0.8
                 acceptingButton.alpha = 1
-                requestLabel.text = "↓タップでフォローを許可"
+                requestLabel.text = "↓タップでチェインを許可"
                 
             } else {
                 acceptImageAnimation(imageView: acceptedImageView)
                 acceptingBackButton.alpha = 0.8
-                requestLabel.text = "フォロー認証済み"
+                requestLabel.text = "チェイン認証済み"
             }
         } else if reaction[indexPath.row].dataType == "followersPost"{
             let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)

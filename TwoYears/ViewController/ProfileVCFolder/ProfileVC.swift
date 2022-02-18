@@ -21,7 +21,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var teamInfo : [Team] = []
     var galleyItem: GalleryItem!
     var postInfo: [PostInfo] = []
-    var statusFollow : String?
+    var statusChain : String?
     
     var safeArea : CGFloat = 0
     var headerHigh : CGFloat = 0
@@ -44,8 +44,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
     private let headerMoveHeight: CGFloat = 7
     
-    @IBOutlet weak var followerLabel: UILabel!
-    @IBOutlet weak var followLabel: UILabel!
     @IBOutlet weak var settingsLabel: UILabel!
     @IBOutlet weak var userFrontIdLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
@@ -66,6 +64,18 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var collectionLeft: NSLayoutConstraint!
     @IBOutlet weak var collectionRight: NSLayoutConstraint!
     
+    
+    @IBOutlet weak var explainButton: UIButton!
+    
+    
+    @IBAction func explainTappedButton(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "Explain", bundle: nil)
+        let ExplainVC = storyboard.instantiateViewController(withIdentifier: "ExplainVC") as! ExplainVC
+
+//        CollectionPostVC.postDocString = userId
+        self.present(ExplainVC, animated: true, completion: nil)
+    }
+    
     @IBOutlet weak var postBackGroundHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var postBackGroundWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var postBackGroundView: UIView!
@@ -82,53 +92,57 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 
     }
     
+    @IBOutlet weak var transitionChainButton: UIButton!
     
+    @IBAction func transitionTappedChainButton(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "Chain", bundle: nil)
+        let FollowingsVC = storyboard.instantiateViewController(withIdentifier: "ChainVC") as! ChainVC
+        FollowingsVC.userId = userId
+        navigationController?.pushViewController(FollowingsVC, animated: true)
+    }
     
     @IBOutlet weak var followButton: UIButton!
     
     @IBAction func followTappedButton(_ sender: Any) {
-        if statusFollow == "request" {
-            followButton.setTitle("フォローする", for: .normal)
+        if statusChain == "sendRequest" {
+            followButton.setTitle("チェインする", for: .normal)
             followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             followButton.setTitleColor(UIColor.darkGray, for: .normal)
-            unFollow()
-            statusFollow = ""
+            unChain()
+            statusChain = ""
             
-        } else if statusFollow == "accept" {
-            followButton.setTitle("フォローする", for: .normal)
+        } else if statusChain == "accept" {
+            followButton.setTitle("チェインする", for: .normal)
             followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             followButton.setTitleColor(UIColor.darkGray, for: .normal)
-            unFollow()
-            db.collection("users").document(uid ?? "").setData(["followingCount": FieldValue.increment(-1.0)], merge: true)
-            db.collection("users").document(userId ?? "").setData(["followerCount": FieldValue.increment(-1.0)], merge: true)
-            statusFollow = ""
+            unChain()
+//            db.collection("users").document(uid ?? "").setData(["followingCount": FieldValue.increment(-1.0)], merge: true)
+//            db.collection("users").document(userId ?? "").setData(["followerCount": FieldValue.increment(-1.0)], merge: true)
+            statusChain = ""
+        } else if statusChain == "gotRequest" {
+            
+            followButton.backgroundColor = .darkGray
+            followButton.setTitle("チェイン済", for: .normal)
+            followButton.setTitleColor(UIColor.white, for: .normal)
+//            chainRequest()
+            postBackGroundView.alpha = 1
+            statusChain = "accept"
+            
         } else {
             
             followButton.backgroundColor = .darkGray
-            followButton.setTitle("リクエスト済み", for: .normal)
+            followButton.setTitle("リクエスト中", for: .normal)
             followButton.setTitleColor(UIColor.white, for: .normal)
-            follow()
-            statusFollow = "request"
+            chainRequest()
+            statusChain = "sendRequest"
         }
     }
     
     
     
-    @IBOutlet weak var followerButton: UIButton!
-    @IBAction func followerTappedButton(_ sender: Any) {
-        let storyboard = UIStoryboard.init(name: "Followers", bundle: nil)
-        let FollowersVC = storyboard.instantiateViewController(withIdentifier: "FollowersVC") as! FollowersVC
-        navigationController?.pushViewController(FollowersVC, animated: true)
-    }
+
     
-    @IBOutlet weak var followingButton: UIButton!
     
-    @IBAction func followingTappedButton(_ sender: Any) {
-        let storyboard = UIStoryboard.init(name: "Followings", bundle: nil)
-        let FollowingsVC = storyboard.instantiateViewController(withIdentifier: "FollowingsVC") as! FollowingsVC
-        FollowingsVC.userId = userId
-        navigationController?.pushViewController(FollowingsVC, animated: true)
-    }
     @IBOutlet weak var fButtonHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var fButtonWidthConstraint: NSLayoutConstraint!
     
@@ -139,12 +153,12 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         let SettingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
         navigationController?.pushViewController(SettingsVC, animated: true)
     }
-    
-    func follow(){
+
+    func chainRequest(){
         
-        db.collection("users").document(uid ?? "").collection("Following").document(userId ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId ?? "","status":"request"], merge: true)
+        db.collection("users").document(uid ?? "").collection("Chainers").document(userId ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId ?? "","status":"sendRequest"], merge: true)
         
-        db.collection("users").document(userId ?? "").collection("Follower").document(uid ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid ?? "","status":"request"], merge: true)
+        db.collection("users").document(userId ?? "").collection("Chainers").document(uid ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid ?? "","status":"gotRequest"], merge: true)
         
         let docData = [
             "createdAt": FieldValue.serverTimestamp(),
@@ -154,7 +168,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
             "documentId" : uid ?? "",
             "reactionImage": "",
-            "reactionMessage":"さんからフォロー申請です",
+            "reactionMessage":"さんからチェイン申請です",
             "theMessage":"",
             "dataType": "acceptingFollow",
             "acceptBool":false,
@@ -167,13 +181,47 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
     }
     
-    func unFollow(){
-        db.collection("users").document(uid ?? "").collection("Following").document(userId ?? "").delete()
-        db.collection("users").document(userId ?? "").collection("Follower").document(uid ?? "").delete()
+    func unChain(){
+        db.collection("users").document(uid ?? "").collection("Chainers").document(userId ?? "").delete()
+        db.collection("users").document(userId ?? "").collection("Chainers").document(uid ?? "").delete()
         
         db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").delete()
     }
     
+    
+//    func chain(){
+//
+//        db.collection("users").document(uid ?? "").collection("Following").document(userId ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId ?? "","status":"request"], merge: true)
+//
+//        db.collection("users").document(userId ?? "").collection("Follower").document(uid ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid ?? "","status":"request"], merge: true)
+//
+//        let docData = [
+//            "createdAt": FieldValue.serverTimestamp(),
+//            "userId": uid ?? "",
+//            "userName":UserDefaults.standard.string(forKey: "userName") ?? "unKnown",
+//            "userImage":UserDefaults.standard.string(forKey: "userImage") ?? "unKnown",
+//            "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
+//            "documentId" : uid ?? "",
+//            "reactionImage": "",
+//            "reactionMessage":"さんからチェイン申請です",
+//            "theMessage":"",
+//            "dataType": "acceptingFollow",
+//            "acceptBool":false,
+//            "anonymous":false,
+//            "admin": false,
+//        ] as [String: Any]
+//
+//        db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").setData(docData)
+//
+//        db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+//    }
+//
+//    func unChain(){
+//        db.collection("users").document(uid ?? "").collection("Following").document(userId ?? "").delete()
+//        db.collection("users").document(userId ?? "").collection("Follower").document(uid ?? "").delete()
+//
+//        db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").delete()
+//    }
     
     
 //    func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -270,17 +318,11 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         followButton.clipsToBounds = true
         followButton.layer.cornerRadius = safeAreaWidth/24
         
-        followingButton.titleLabel?.numberOfLines = 2
-        followingButton.titleLabel?.textAlignment = NSTextAlignment.center
-        followingButton.titleLabel?.baselineAdjustment = .alignCenters
-        followingButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        followingButton.setTitle("1111", for: .normal)
-        
-        followerButton.titleLabel?.numberOfLines = 2
-        followerButton.titleLabel?.textAlignment = NSTextAlignment.center
-        followerButton.titleLabel?.baselineAdjustment = .alignCenters
-        followerButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        followerButton.setTitle("1111", for: .normal)
+//        followingButton.titleLabel?.numberOfLines = 2
+//        followingButton.titleLabel?.textAlignment = NSTextAlignment.center
+//        followingButton.titleLabel?.baselineAdjustment = .alignCenters
+//        followingButton.titleLabel?.adjustsFontSizeToFitWidth = true
+//        followingButton.setTitle("1111", for: .normal)
 
         
         headerHigh = safeAreaHeight/3.5
@@ -386,10 +428,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             headerhightConstraint.constant = headerHigh/1.5
             followButton.alpha = 0
             settingsButton.alpha = 1
-            followingButton.alpha = 1
-            followerButton.alpha = 1
-            followLabel.alpha = 1
-            followerLabel.alpha = 1
             settingsLabel.alpha = 1
         } else {
             headerhightConstraint.constant = headerHigh
@@ -401,10 +439,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             
             followButton.alpha = 1
             settingsButton.alpha = 0
-            followingButton.alpha = 0
-            followerButton.alpha = 0
-            followLabel.alpha = 0
-            followerLabel.alpha = 0
             settingsLabel.alpha = 0
         }
     }
@@ -424,20 +458,12 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             self.tabBarController?.tabBar.isHidden = false
             followButton.alpha = 0
             settingsButton.alpha = 1
-            followingButton.alpha = 1
-            followerButton.alpha = 1
-            followLabel.alpha = 1
-            followerLabel.alpha = 1
             settingsLabel.alpha = 1
         } else {
             self.tabBarController?.tabBar.isHidden = false
 //            self.navigationController?.navigationBar.isHidden = true
             followButton.alpha = 1
             settingsButton.alpha = 0
-            followingButton.alpha = 1
-            followerButton.alpha = 0
-            followLabel.alpha = 1
-            followerLabel.alpha = 0
             settingsLabel.alpha = 0
         }
     }
@@ -472,9 +498,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     func getFollowId(userId:String,uid:String){
-        var requestFollow : Array<String>? = []
-        var acceptFollow : Array<String>? = []
-        db.collection("users").document(uid).collection("Following").getDocuments() { [self] (querySnapshot, err) in
+        var sendArray : Array<String>? = []
+        var gotArray : Array<String>? = []
+        var acceptArray : Array<String>? = []
+        db.collection("users").document(uid).collection("Chainers").getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -485,36 +512,52 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     let status = document.data()["status"] as? String ?? ""
                     let getUserId = document.data()["userId"] as? String ?? ""
                     
-                    if status == "request"{
-                        requestFollow?.append(getUserId)
-                    } else if status == "accept"{
-                        acceptFollow?.append(getUserId)
-                    }
+                    if status == "sendRequest"{
+                        sendArray?.append(getUserId)
+                    }else if status == "gotRequest"{
+                        gotArray?.append(getUserId)
+                    }else if status == "accept"{
+                        acceptArray?.append(getUserId)
+                    } 
                 }
-                let requestBool = requestFollow?.contains(userId)
-                let acceptBool = acceptFollow?.contains(userId)
+                let sendBool = sendArray?.contains(userId)
+                let gotBool = gotArray?.contains(userId)
+                let acceptBool = acceptArray?.contains(userId)
                 
-                if requestBool == true && acceptBool == false {
-                    statusFollow = "request"
+                
+                if sendBool == true {
+                    statusChain = "sendRequest"
                     followButton.backgroundColor = .darkGray
-                    followButton.setTitle("リクエスト済み", for: .normal)
+                    followButton.setTitle("リクエスト中", for: .normal)
                     followButton.setTitleColor(UIColor.white, for: .normal)
                     postOtherLabel.alpha = 1
                     postBackGroundView.alpha = 0
                     
-                } else if requestBool == false && acceptBool == true {
-                    statusFollow = "accept"
+                } else if gotBool == true {
+                    statusChain = "gotRequest"
                     followButton.backgroundColor = .darkGray
-                    followButton.setTitle("フォロー中", for: .normal)
+                    followButton.setTitle("チェインする", for: .normal)
+                    followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
+                    postOtherLabel.alpha = 0
+                    if uid == userId {
+                        postOtherLabel.alpha = 0
+                    } else {
+                        postOtherLabel.alpha = 1
+                    }
+                    
+                    
+                } else if acceptBool == true {
+                    statusChain = "accept"
+                    followButton.backgroundColor = .darkGray
+                    followButton.setTitle("チェイン済み", for: .normal)
                     followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
                     postOtherLabel.alpha = 0
                     postBackGroundView.alpha = 1
                     
-                } else {
+                }else {
                     followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-                    followButton.setTitle("フォローする", for: .normal)
+                    followButton.setTitle("チェインする", for: .normal)
                     followButton.setTitleColor(UIColor.darkGray, for: .normal)
-                    
                     postBackGroundView.alpha = 0
                     if uid == userId {
                         postOtherLabel.alpha = 0
@@ -656,8 +699,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             userImageView.addGestureRecognizer(tapGesture)
             userImageView.isUserInteractionEnabled = true
             
-            followingButton.setTitle(String(followingCount), for: .normal)
-            followerButton.setTitle(String(followerCount), for: .normal)
+//            followingButton.setTitle(String(followingCount), for: .normal)
             
             userFrontIdLabel.text = userFrontId
             userNameLabel.text = userName
@@ -785,7 +827,7 @@ extension ProfileVC: CoachMarksControllerDataSource, CoachMarksControllerDelegat
             coachViews.bodyView.nextLabel.text = "次へ"
             
         case 1:    //fugaButton
-            coachViews.bodyView.hintLabel.text = "他のユーザーをフォローして\n投稿をしてみましょう!"
+            coachViews.bodyView.hintLabel.text = "他のユーザーとチェインして\n投稿をしてみましょう!"
             coachViews.bodyView.nextLabel.text = "OK"
             
             
