@@ -100,11 +100,10 @@ class NotificationVC: UIViewController {
             "admin": false,
         ] as [String: Any]
         
-        db.collection("users").document(userId ?? "").collection("Notification").document("accept"+uid).setData(acceptNotification, merge: true)
+        db.collection("users").document(userId ?? "").collection("Notification").document("Chaining"+uid).setData(acceptNotification, merge: true)
         db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
 
-        db.collection("users").document(uid).collection("Notification").document(cellDocumentId ?? "").setData(["reactionMessage":"さんとチェインしました"], merge: true)
-        db.collection("users").document(uid).collection("Notification").document(cellDocumentId ?? "").setData(["acceptBool":true], merge: true)
+        db.collection("users").document(uid).collection("Notification").document("Chaining\(String(describing:userId))").setData(["reactionMessage":"さんとチェインしました","acceptBool":true], merge: true)
         
         db.collection("users").document(userId ?? "").collection("Chainers").document(uid).setData(["status":"accept"], merge: true)
         

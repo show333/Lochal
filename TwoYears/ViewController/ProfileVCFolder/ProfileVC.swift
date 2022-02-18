@@ -173,16 +173,14 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             "admin": false,
         ] as [String: Any]
         
-        db.collection("users").document(userId ?? "").collection("Notification").document("accept"+uid).setData(acceptNotification, merge: true)
+        db.collection("users").document(userId ?? "").collection("Notification").document("Chaining"+uid).setData(acceptNotification, merge: true)
         db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
 //もしくは"accept"+uid ではなく, "accept"+userId
-        db.collection("users").document(uid).collection("Notification").document("accept"+userId).setData(["reactionMessage":"さんとチェインしました"], merge: true)
-        db.collection("users").document(uid).collection("Notification").document("accept"+userId).setData(["acceptBool":true], merge: true)
-//
+        db.collection("users").document(uid).collection("Notification").document("Chaining\(String(describing:userId))").setData(["reactionMessage":"さんとチェインしました","acceptBool":true], merge: true)
+        
+
         db.collection("users").document(userId ?? "").collection("Chainers").document(uid).setData(["status":"accept"], merge: true)
-        
         db.collection("users").document(uid).collection("Chainers").document(userId ?? "").setData(["status":"accept"], merge: true)
-        
         db.collection("users").document(userId ?? "").setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
         db.collection("users").document(uid).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
         
@@ -192,7 +190,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         guard let uid = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(uid).collection("Chainers").document(userId ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId ?? "","status":"sendRequest"], merge: true)
         
-        db.collection("users").document(userId ?? "").collection("Chainers").document(uid ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid ?? "","status":"gotRequest"], merge: true)
+        db.collection("users").document(userId ?? "").collection("Chainers").document(uid).setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid ,"status":"gotRequest"], merge: true)
         
         let docData = [
             "createdAt": FieldValue.serverTimestamp(),
@@ -210,7 +208,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             "admin": false,
         ] as [String: Any]
                 
-        db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").setData(docData)
+        db.collection("users").document(userId ?? "").collection("Notification").document("Chaining"+uid).setData(docData)
         db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
     }
     
