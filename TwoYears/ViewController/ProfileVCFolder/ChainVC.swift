@@ -48,7 +48,7 @@ class ChainVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     
     func fetchUserInfo(userId:String){
         
-        self.db.collection("users").document(userId).collection("Following").getDocuments() { [self] (querySnapshot, err) in
+        self.db.collection("users").document(userId).collection("Chainers").getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {

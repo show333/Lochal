@@ -116,8 +116,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             followButton.setTitleColor(UIColor.darkGray, for: .normal)
             unChain()
-//            db.collection("users").document(uid ?? "").setData(["followingCount": FieldValue.increment(-1.0)], merge: true)
-//            db.collection("users").document(userId ?? "").setData(["followerCount": FieldValue.increment(-1.0)], merge: true)
+            db.collection("users").document(uid ?? "").setData(["ChainersCount": FieldValue.increment(-1.0)], merge: true)
+            db.collection("users").document(userId ?? "").setData(["ChainersCount": FieldValue.increment(-1.0)], merge: true)
             statusChain = ""
         } else if statusChain == "gotRequest" {
             
@@ -170,21 +170,19 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             "reactionImage": "",
             "reactionMessage":"さんからチェイン申請です",
             "theMessage":"",
-            "dataType": "acceptingFollow",
+            "dataType": "acceptingChain",
             "acceptBool":false,
             "anonymous":false,
             "admin": false,
         ] as [String: Any]
                 
         db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").setData(docData)
-        
         db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
     }
     
     func unChain(){
         db.collection("users").document(uid ?? "").collection("Chainers").document(userId ?? "").delete()
         db.collection("users").document(userId ?? "").collection("Chainers").document(uid ?? "").delete()
-        
         db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").delete()
     }
     

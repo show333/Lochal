@@ -116,7 +116,7 @@ class CollectionPostVC:UIViewController{
             "reactionImage": "",
             "reactionMessage":"さんから投稿を受けました",
             "theMessage":"",
-            "dataType": "followersPost",
+            "dataType": "ChainersPost",
             "acceptBool":false,
             "anonymous":false,
             "admin": false,

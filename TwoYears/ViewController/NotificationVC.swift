@@ -103,15 +103,15 @@ class NotificationVC: UIViewController {
         db.collection("users").document(userId ?? "").collection("Notification").document("accept"+uid).setData(acceptNotification, merge: true)
         db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
 
-        db.collection("users").document(uid).collection("Notification").document(cellDocumentId ?? "").setData(["reactionMessage":"さんがフォローをしました"], merge: true)
+        db.collection("users").document(uid).collection("Notification").document(cellDocumentId ?? "").setData(["reactionMessage":"さんとチェインしました"], merge: true)
         db.collection("users").document(uid).collection("Notification").document(cellDocumentId ?? "").setData(["acceptBool":true], merge: true)
         
-        db.collection("users").document(userId ?? "").collection("Following").document(uid).setData(["status":"accept"], merge: true)
+        db.collection("users").document(userId ?? "").collection("Chainers").document(uid).setData(["status":"accept"], merge: true)
         
-        db.collection("users").document(uid).collection("Follower").document(userId ?? "").setData(["status":"accept"], merge: true)
+        db.collection("users").document(uid).collection("Chainers").document(userId ?? "").setData(["status":"accept"], merge: true)
         
-        db.collection("users").document(userId ?? "").setData(["followingCount": FieldValue.increment(1.0)], merge: true)
-        db.collection("users").document(uid).setData(["followerCount": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(userId ?? "").setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(uid).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
         
     }
     
@@ -341,7 +341,7 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
                 acceptingBackButton.alpha = 0.8
                 requestLabel.text = "チェイン認証済み"
             }
-        } else if reaction[indexPath.row].dataType == "followersPost"{
+        } else if reaction[indexPath.row].dataType == "ChainersPost"{
             let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
             let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
             guard let uid = Auth.auth().currentUser?.uid else { return }
