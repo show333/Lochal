@@ -125,7 +125,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             followButton.setTitle("チェイン済", for: .normal)
             followButton.setTitleColor(UIColor.white, for: .normal)
 //            chainRequest()
+            doChain()
             postBackGroundView.alpha = 1
+            postOtherLabel.alpha = 0
             statusChain = "accept"
             
         } else {
@@ -153,20 +155,52 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         let SettingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
         navigationController?.pushViewController(SettingsVC, animated: true)
     }
+    
+    func doChain(){
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let acceptNotification = [
+            "createdAt": FieldValue.serverTimestamp(),
+            "userId": uid,
+            "userName":userName ?? "",
+            "userImage":userImage ?? "",
+            "userFrontId":userFrontId ?? "",
+            "documentId" : "accept" + uid,
+            "reactionImage": "",
+            "reactionMessage":"さんとチェインしました",
+            "theMessage": "",
+            "dataType": "accepted",
+            "anonymous":false,
+            "admin": false,
+        ] as [String: Any]
+        
+        db.collection("users").document(userId ?? "").collection("Notification").document("accept"+uid).setData(acceptNotification, merge: true)
+        db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+//もしくは"accept"+uid ではなく, "accept"+userId
+        db.collection("users").document(uid).collection("Notification").document("accept"+userId).setData(["reactionMessage":"さんとチェインしました"], merge: true)
+        db.collection("users").document(uid).collection("Notification").document("accept"+userId).setData(["acceptBool":true], merge: true)
+//
+        db.collection("users").document(userId ?? "").collection("Chainers").document(uid).setData(["status":"accept"], merge: true)
+        
+        db.collection("users").document(uid).collection("Chainers").document(userId ?? "").setData(["status":"accept"], merge: true)
+        
+        db.collection("users").document(userId ?? "").setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(uid).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
+        
+    }
 
     func chainRequest(){
-        
-        db.collection("users").document(uid ?? "").collection("Chainers").document(userId ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId ?? "","status":"sendRequest"], merge: true)
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(uid).collection("Chainers").document(userId ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId ?? "","status":"sendRequest"], merge: true)
         
         db.collection("users").document(userId ?? "").collection("Chainers").document(uid ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid ?? "","status":"gotRequest"], merge: true)
         
         let docData = [
             "createdAt": FieldValue.serverTimestamp(),
-            "userId": uid ?? "",
+            "userId": uid,
             "userName":UserDefaults.standard.string(forKey: "userName") ?? "unKnown",
             "userImage":UserDefaults.standard.string(forKey: "userImage") ?? "unKnown",
             "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
-            "documentId" : uid ?? "",
+            "documentId" : uid,
             "reactionImage": "",
             "reactionMessage":"さんからチェイン申請です",
             "theMessage":"",
