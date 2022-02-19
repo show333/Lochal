@@ -34,7 +34,6 @@ class FirstSetNameVC:UIViewController{
             guard let uid = Auth.auth().currentUser?.uid else {return}
             UserDefaults.standard.set(sendName, forKey: "userName")
             setFirestore(userId: uid, userName: sendName)
-            firstSetup()
             
             let storyboard = UIStoryboard.init(name: "FirstSetImage", bundle: nil)
             let FirstSetImageVC = storyboard.instantiateViewController(withIdentifier: "FirstSetImageVC") as! FirstSetImageVC
@@ -71,26 +70,6 @@ class FirstSetNameVC:UIViewController{
         self.view.addGestureRecognizer(tapGR)
     }
     
-    func firstSetup() {
-        let uid = Auth.auth().currentUser?.uid
-        let firstSetup = [
-            "admin":false,
-            "userId":uid ?? "",
-            "nowjikan": FieldValue.serverTimestamp(),
-            "createdAt": FieldValue.serverTimestamp(),
-        ] as [String: Any]
-        UserDefaults.standard.set(uid, forKey: "userId")
-        
-        db.collection("users").document(uid ?? "").setData(firstSetup,merge: true)
-        
-        let profile = [
-            "admin":false,
-            "userId":uid ?? "",
-        ] as [String: Any]
-        
-        db.collection("users").document(uid ?? "").collection("Profile").document("profile").setData(profile,merge: true)
-        
-    }
     
     func setFirestore(userId:String,userName:String){
         setNameAccount(userId: userId, userName: userName)

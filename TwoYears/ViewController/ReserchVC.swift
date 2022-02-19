@@ -57,7 +57,26 @@ class ReserchVC:UIViewController{
             getAccount(keyString:"userFrontId",reserchString: removeWhitesSpacesString)
         }
     }
+    
+    
+    @IBOutlet weak var refferalButton: UIButton!
+    
+    @IBAction func refferalTappedButton(_ sender: Any) {
+        
+
+        
+        let storyboard = UIStoryboard.init(name: "Refferal", bundle: nil)
+        let RefferalVC = storyboard.instantiateViewController(withIdentifier: "RefferalVC") as! RefferalVC
+        navigationController?.pushViewController(RefferalVC, animated: true)
+        
+    }
+    
+    @IBOutlet weak var refferalCountLabel: UILabel!
+    
+    
     @IBOutlet weak var bannerView: GADBannerView!
+    
+    
     
     
     func getAccount(keyString:String,reserchString: String){
@@ -112,7 +131,39 @@ class ReserchVC:UIViewController{
         super.viewWillAppear(true)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        refferalCount(uid:uid)
+        
+        
     }
+    
+    func refferalCount(uid:String){
+        
+        
+        db.collection("users").document(uid).getDocument { [self](document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let refferalCount = document["refferalCount"] as? Int ?? 0
+                
+                if refferalCount != 0 {
+                    refferalCountLabel.alpha = 1
+                    refferalButton.alpha = 1
+                    refferalCountLabel.text = String(refferalCount)
+                } else {
+                    refferalCountLabel.alpha = 0
+                    refferalButton.alpha = 0
+                }
+                
+                
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
     // キーボードと閉じる際の処理
     @objc public func dismissKeyboard() {
         view.endEditing(true)
@@ -120,8 +171,8 @@ class ReserchVC:UIViewController{
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if UserDefaults.standard.bool(forKey: "serchInstruct") != true{
-            UserDefaults.standard.set(true, forKey: "serchInstruct")
+        if UserDefaults.standard.bool(forKey: "SerchInstruct") != true{
+            UserDefaults.standard.set(true, forKey: "SerchInstruct")
             self.coachMarksController.start(in: .currentWindow(of: self))
         }
         
@@ -141,6 +192,23 @@ class ReserchVC:UIViewController{
         }
         
         self.coachMarksController.dataSource = self
+        
+        
+        refferalButton.layer.cornerRadius = 30
+        refferalButton.clipsToBounds = true
+        refferalButton.layer.masksToBounds = false
+        refferalButton.layer.shadowColor = UIColor.black.cgColor
+        refferalButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        refferalButton.layer.shadowOpacity = 1
+        refferalButton.layer.shadowRadius = 5
+        
+        refferalCountLabel.clipsToBounds = true
+        refferalCountLabel.layer.cornerRadius = 12.5
+        
+        
+
+
+        
 
         
         tapGesture.cancelsTouchesInView = false
@@ -236,12 +304,12 @@ class ReserhTableViewCell:UITableViewCell{
 
 extension ReserchVC: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
     func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
-        return 1
+        return 2
     }
     func coachMarksController(_ coachMarksController: CoachMarksController,
                               coachMarkAt index: Int) -> CoachMark {
         
-        let highlightViews: Array<UIView> = [reserchButton]
+        let highlightViews: Array<UIView> = [reserchButton,refferalButton]
         //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
         
         //チュートリアルで使うビューの中からindexで何ステップ目かを指定
@@ -262,9 +330,11 @@ extension ReserchVC: CoachMarksControllerDataSource, CoachMarksControllerDelegat
         //index(ステップ)によって表示内容を分岐させます
         switch index {
         case 0:    //hogeLabel
-            coachViews.bodyView.hintLabel.text = "ここから新しいユーザーを\n探します"
+            coachViews.bodyView.hintLabel.text = "ここで新しいユーザーを\n探します"
+            coachViews.bodyView.nextLabel.text = "次へ"
+        case 1:    //hogeLabel
+            coachViews.bodyView.hintLabel.text = "ここから招待IDを\n発行することができます"
             coachViews.bodyView.nextLabel.text = "OK"
-        
         
         
         default:

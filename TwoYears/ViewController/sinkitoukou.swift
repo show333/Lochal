@@ -105,7 +105,7 @@ class sinkitoukou: UIViewController {
             
         ] as [String: Any]
         
-        db.collection("users").document(uid).collection("Follower").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
+        db.collection("users").document(uid).collection("Chainers").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {

@@ -14,6 +14,9 @@ class ThankyouVC:UIViewController {
     
     let db = Firestore.firestore()
     
+    var outMemo: OutMemo?
+
+    
     @IBOutlet weak var backGroundImageView: UIImageView!
     @IBOutlet weak var nextButton: UIButton!
     
@@ -30,9 +33,16 @@ class ThankyouVC:UIViewController {
     }
     override func viewDidLoad(){
         super.viewDidLoad()
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let userId = UserDefaults.standard.string(forKey: "refferalUserId") ?? "unKnown"
+
+
         
-        firstSetUpData()
-        
+        firstSetUpData(uid:uid)
+        firstChain(uid:uid,userId: userId)
+        PostGet(uid:uid,userId: userId)
+        PostGet(uid:userId,userId: uid)
+
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages4.013.png?alt=media&token=4e8ed41c-58f3-4568-a048-a27ff97194e9") {
             Nuke.loadImage(with: url, into:  backGroundImageView)
         } else {
@@ -48,9 +58,7 @@ class ThankyouVC:UIViewController {
         return String((0..<length).map{ _ in characters.randomElement()! })
     }
     
-    func firstSetUpData() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
+    func firstSetUpData(uid:String) {        
         let documentId = randomString(length: 20)
         
         let sendedPostDoc = [
@@ -94,8 +102,122 @@ class ThankyouVC:UIViewController {
         db.collection("users").document(uid).collection("Notification").document(documentId).setData(notificationDoc)
         db.collection("users").document(uid).collection("TimeLine").document(documentId).setData(timeLineDoc)
         db.collection("users").document(uid).collection("SendedPost").document(documentId).setData(sendedPostDoc)
-        db.collection("users").document(uid).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
-
+        
+        let addNumber = [
+            //        welcome と refferalの許可したぶんを合わせて2つ
+            "notificationNum": FieldValue.increment(2.0),
+            "refferalCount": 3
+        ] as [String:Any]
+        db.collection("users").document(uid).setData(addNumber, merge: true)
         
     }
+    
+    func firstChain(uid:String,userId:String){
+        
+        
+        db.collection("users").document(userId).collection("Profile").document("profile").getDocument { [self](document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let userName = document["userName"] as? String ?? ""
+                let userImage = document["userImage"] as? String ?? ""
+                let userFrontId = document["userFrontId"] as? String ?? ""
+                
+                
+                
+                let refferalUserProfile = [
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "userId": userId,
+                    "userName":userName,
+                    "userImage":userImage,
+                    "userFrontId":userFrontId,
+                    "documentId" : "Chaining"+userId,
+                    "reactionImage": "",
+                    "reactionMessage":"さんとチェインしました",
+                    "theMessage":"",
+                    "dataType": "acceptingChain",
+                    "acceptBool":true,
+                    "anonymous":false,
+                    "admin": false,
+                ] as [String: Any]
+                
+                let myUserProfile = [
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "userId": uid,
+                    "userName": UserDefaults.standard.object(forKey: "userName") as? String ?? "unKnown",
+                    "userImage": UserDefaults.standard.object(forKey: "userImage") as? String ?? "unKnown",
+                    "userFrontId": UserDefaults.standard.object(forKey: "userFrontId") as? String ?? "unKnown",
+                    "documentId" : "Chaining"+uid,
+                    "reactionImage": "",
+                    "reactionMessage":"さんとチェインしました",
+                    "theMessage":"",
+                    "dataType": "acceptingChain",
+                    "acceptBool":true,
+                    "anonymous":false,
+                    "admin": false,
+                ] as [String: Any]
+                
+                
+                db.collection("users").document(userId).collection("Notification").document("Chaining"+uid).setData(myUserProfile, merge: true)
+                db.collection("users").document(userId).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+                db.collection("users").document(uid).collection("Notification").document("Chaining\(userId)").setData(refferalUserProfile, merge: true)
+                db.collection("users").document(userId).collection("Chainers").document(uid).setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid,"status":"accept"], merge: true)
+                db.collection("users").document(uid).collection("Chainers").document(userId).setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId,"status":"accept"], merge: true)
+                db.collection("users").document(userId).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
+                db.collection("users").document(uid).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    func PostGet(uid:String,userId:String){
+        db.collection("users").document(uid).collection("MyPost").getDocuments() { [self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                
+                if querySnapshot?.documents.count ?? 0 >= 1{
+                    for document in querySnapshot!.documents {
+                    
+                        print("\(document.documentID) => \(document.data())")
+                        let dic = document.data()
+                        let outMemoDic = OutMemo(dic: dic)
+                        
+                        PostSet(userId:userId ,outMemo: outMemoDic)
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    func PostSet(userId:String,outMemo:OutMemo){
+        
+        let memoInfoDic = [
+            "message" : outMemo.message,
+            "sendImageURL": outMemo.sendImageURL,
+            "documentId": outMemo.documentId,
+            "createdAt": outMemo.createdAt,
+            "textMask":outMemo.textMask,
+            "userId":outMemo.userId,
+            "userName":outMemo.userName,
+            "userFrontId":outMemo.userFrontId,
+            "readLog": false,
+            "anonymous":outMemo.anonymous,
+            "admin": outMemo.admin,
+            "delete": outMemo.delete,
+            
+        ] as [String: Any]
+        
+        db.collection("users").document(userId).collection("TimeLine").document(outMemo.documentId).setData(memoInfoDic,merge: true)
+//        let userId = document.data()["userId"] as! String
+//                        getUserInfo(userId: userId)
+    }
+    
+    
+    
+    
 }

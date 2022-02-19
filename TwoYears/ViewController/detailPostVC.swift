@@ -43,19 +43,6 @@ class detailPostVC:UIViewController {
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        if uid == userId || uid == profileUserId {
-            TPButton.alpha = 1
-            userImageViewConstraint.constant = 60
-            userNameLabel.alpha = 1
-            userFrontIdLabel.alpha = 1
-            
-        } else {
-            TPButton.alpha = 0
-            userImageViewConstraint.constant = 0
-            userNameLabel.alpha = 0
-            userFrontIdLabel.alpha = 0
-        }
-        
         
         setSwipeBack()
         if let url = URL(string:postInfo?.postImage ?? "") {
