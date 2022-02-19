@@ -13,7 +13,7 @@ import SwiftMoment
 import FirebaseFirestore
 
 class ShoutaiHakkou: UIViewController {
-    //　タイムスタンプの取得回数を減らすため
+    // タイムスタンプの取得回数を減らすため
     var jigen : Timestamp?
     @IBOutlet weak var hakkoButton: UIButton!
     //戻るボタン

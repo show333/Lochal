@@ -128,18 +128,19 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        self.tabBarController?.tabBar.isHidden = false        
-        if UserDefaults.standard.bool(forKey: "firstPost") != true{
+        self.tabBarController?.tabBar.isHidden = false
+        
+        if UserDefaults.standard.bool(forKey: "FirstPost") != true{
             guard let uid = Auth.auth().currentUser?.uid else { return }
-            UserDefaults.standard.set(true, forKey: "firstPost")
+            UserDefaults.standard.set(true, forKey: "FirstPost")
             let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
             let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou") as! sinkitoukou
             sinkitoukou.modalPresentationStyle = .fullScreen
             self.present(sinkitoukou, animated: true, completion: nil)
             Firestore.firestore().collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
         } else {
-            if UserDefaults.standard.bool(forKey: "outMemoInstract") != true{
-                UserDefaults.standard.set(true, forKey: "outMemoInstract")
+            if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
+                UserDefaults.standard.set(true, forKey: "OutMemoInstract")
                 self.coachMarksController.start(in: .currentWindow(of: self))
             }
         }
@@ -666,7 +667,7 @@ extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDe
         //index(ステップ)によって表示内容を分岐させます
         switch index {
         case 0:    //hogeLabel
-            coachViews.bodyView.hintLabel.text = "ここにリアクションやフォローの\n通知が届きます"
+            coachViews.bodyView.hintLabel.text = "ここにリアクションやチェインの\n通知が届きます"
             coachViews.bodyView.nextLabel.text = "タップ"
         
         case 1:    //fugaButton

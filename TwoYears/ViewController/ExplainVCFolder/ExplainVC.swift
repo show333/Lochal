@@ -19,23 +19,27 @@ class ExplainVC:UIViewController{
     let db = Firestore.firestore()
     
     let imageArray = [
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.001.png?alt=media&token=f6065e0b-b9aa-4dde-ac7d-870ab92979bd",//0
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.001.png?alt=media&token=b7f7eb75-70ca-46a5-b3c2-c4304e098d9b",//0
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.002.png?alt=media&token=13e4d505-319b-4071-a782-24e9901a18f8",//1
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.002.png?alt=media&token=cc13ed76-b4a8-42ce-989f-a613ea710108",//1
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.003.png?alt=media&token=5b969cef-01e9-43e5-b03d-dcffcec11d0e",//2
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.003.png?alt=media&token=424fe895-ef5c-4392-9684-ddae524a4a66",//2
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.004.png?alt=media&token=917eaae9-4266-4e14-8636-24cd5bcc864f",//3
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.004.png?alt=media&token=9cc94c7c-e664-477f-b1cb-0d8246bb8e5c",//3
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.005.png?alt=media&token=79155f03-df5a-431f-bd2e-73ed05b95333",//4
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.005.png?alt=media&token=7e0dbe7a-5f0a-4f94-95a6-1d0a6ee2872d",//4
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.006.png?alt=media&token=f3e77674-fda7-4c1b-908e-b12bfe259544",//5
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.006.png?alt=media&token=6dfeee64-14a6-4cfd-b443-09851d85a546",//5
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.007.png?alt=media&token=dfe439e6-c3dd-4017-b5cb-bbb4f44b5f7c",//6
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.007.png?alt=media&token=bc8186e9-78ce-4c13-b513-04de6d292d37",//6
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.008.png?alt=media&token=e4eceb5c-d791-4229-b330-aefdaf350676",//7
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.008.png?alt=media&token=01e4edf4-02f9-4a05-80e4-f76ffda93019",//7
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Explain_Images2%2FnewExplainImage.009.png?alt=media&token=dcd11fbc-16bd-4dcd-b205-8a66f455b096",//8
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.009.png?alt=media&token=8088d622-e1f2-4a58-b72d-db61d20f1f4a",//8
+        
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.010.png?alt=media&token=bcf345e7-f247-419c-8401-1cb1e2c714d2",//9
+        
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.011.png?alt=media&token=9d9973a6-1df0-4368-b691-9c6363e979b9",//10
     ]
     
     @IBOutlet weak var explainImageView: UIImageView!
@@ -45,7 +49,7 @@ class ExplainVC:UIViewController{
     @IBOutlet weak var rightButton: UIButton!
     
     @IBAction func rightTappedButton(_ sender: Any) {
-        if pageCount < 8 {
+        if pageCount < 10 {
             pageCount += 1
         } else {
             
@@ -73,7 +77,7 @@ class ExplainVC:UIViewController{
             explainImageView?.image = nil
         }
 
-        if pageCount == 8 {
+        if pageCount == 10 {
             if let url = URL(string:imageArray[pageCount-1]) {
                 Nuke.loadImage(with: url, into: explainSecondView)
             } else {

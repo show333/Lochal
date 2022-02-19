@@ -26,6 +26,13 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let randomId = randomString(length: 8)
+        let uid = Auth.auth().currentUser?.uid
+        if uid == nil {
+            Auth.auth().createUser(withEmail: randomId + "@2.years", password: "ONELIFE") { authResult, error in
+            }
+        }
+        
         explainLabel.alpha = 0
         view.backgroundColor = #colorLiteral(red: 0.9402339228, green: 0.9045240944, blue: 0.8474154538, alpha: 1)
         let width = UIScreen.main.bounds.size.width
@@ -47,10 +54,6 @@ class SignInViewController: UIViewController {
     // サインインボタン
     @IBAction func buttonAction(_ button: TransitionButton) {
         guard let refferalId = idTextField.text else { return }
-        let randomId = randomString(length: 8)
-        Auth.auth().createUser(withEmail: randomId + "@2.years", password: "ONELIFE") { authResult, error in
-//            let uid = Auth.auth().currentUser?.uid else { return }/
-        }
         
         button.startAnimation() // 2: Then start the animation when the user tap the button
         let qualityOfServiceClass = DispatchQoS.QoSClass.background
@@ -95,16 +98,6 @@ class SignInViewController: UIViewController {
             DispatchQueue.main.async(execute: { () -> Void in
                 button.stopAnimation(animationStyle: .shake, completion: {
                     
-                    let user = Auth.auth().currentUser
-
-                    user?.delete { error in
-                      if let error = error {
-                          print(error)
-                      } else {
-                        // Account deleted.
-                          print("delete")
-                      }
-                    }
                     print("shake")
                     self.explainLabel.text = "このIDは招待されたIDと異なります。"
                     button.setTitle("Enter", for: .normal)
@@ -148,10 +141,12 @@ class SignInViewController: UIViewController {
     
     func firstSetup(refferalId:String) {
         let uid = Auth.auth().currentUser?.uid
-        
+        let userToken = UserDefaults.standard.string(forKey: "FCM_TOKEN")
+
         let firstSetup = [
             "admin":false,
             "UEnterdBool": true,
+            "fcmToken":userToken ?? "unKnown",
             "userId":uid ?? "",
             "nowjikan": FieldValue.serverTimestamp(),
             "createdAt": FieldValue.serverTimestamp(),

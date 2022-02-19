@@ -91,7 +91,7 @@ class NotificationVC: UIViewController {
             "userName":userName ?? "",
             "userImage":userImage ?? "",
             "userFrontId":userFrontId ?? "",
-            "documentId" : "accept"+uid,
+            "documentId" : "Chaining"+uid,
             "reactionImage": "",
             "reactionMessage":"さんとチェインしました",
             "theMessage": "",
@@ -239,6 +239,7 @@ class NotificationVC: UIViewController {
             self.navigationController?.navigationBar.isHidden = true
         }
     }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         guard let uid = Auth.auth().currentUser?.uid else { return }
