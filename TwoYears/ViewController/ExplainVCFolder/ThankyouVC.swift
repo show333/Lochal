@@ -94,9 +94,40 @@ class ThankyouVC:UIViewController {
         db.collection("users").document(uid).collection("Notification").document(documentId).setData(notificationDoc)
         db.collection("users").document(uid).collection("TimeLine").document(documentId).setData(timeLineDoc)
         db.collection("users").document(uid).collection("SendedPost").document(documentId).setData(sendedPostDoc)
-        db.collection("users").document(uid).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
-
-        UserDefaults.standard.string(forKey: "refferalUserId")
+//        welcome と refferalの許可したぶんを合わせて2つ
+        db.collection("users").document(uid).setData(["notificationNum": FieldValue.increment(2.0)], merge: true)
         
     }
+    
+    func followSet(uid:String){
+        
+        let acceptNotification = [
+            "createdAt": FieldValue.serverTimestamp(),
+            "userId": uid,
+            "userName":UserDefaults.standard.string(forKey: "userName") ?? "unKnown",
+            "userImage":UserDefaults.standard.string(forKey: "userImage") ?? "unKnown",
+            "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
+            "documentId" : uid,
+            "reactionImage": "",
+            "reactionMessage":"さんからチェイン申請です",
+            "theMessage":"",
+            "dataType": "acceptingChain",
+            "acceptBool":false,
+            "anonymous":false,
+            "admin": false,
+        ] as [String: Any]
+        
+        
+//            guard let userId = userId else {return}
+        db.collection("users").document(userId).collection("Notification").document("Chaining"+uid).setData(acceptNotification, merge: true)
+        db.collection("users").document(userId).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(uid).collection("Notification").document("Chaining\(userId)").setData(["reactionMessage":"さんとチェインしました","acceptBool":true], merge: true)
+        db.collection("users").document(userId).collection("Chainers").document(uid).setData(["status":"accept"], merge: true)
+        db.collection("users").document(uid).collection("Chainers").document(userId).setData(["status":"accept"], merge: true)
+        db.collection("users").document(userId).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(uid).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
+        
+    }
+    
+    
 }

@@ -155,6 +155,15 @@ class ReserchVC:UIViewController{
         }
         
         self.coachMarksController.dataSource = self
+        
+        
+        refferalButton.layer.cornerRadius = 30
+        refferalButton.clipsToBounds = true
+        refferalButton.layer.masksToBounds = false
+        refferalButton.layer.shadowColor = UIColor.black.cgColor
+        refferalButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        refferalButton.layer.shadowOpacity = 1
+        refferalButton.layer.shadowRadius = 5
 
         
         tapGesture.cancelsTouchesInView = false
