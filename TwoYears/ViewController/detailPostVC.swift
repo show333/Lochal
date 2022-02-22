@@ -42,6 +42,14 @@ class detailPostVC:UIViewController {
         super.viewDidLoad()
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        
+        if uid == userId || uid == profileUserId {
+             TPButton.alpha = 1
+
+         } else {
+             TPButton.alpha = 0
+         }
         
         
         setSwipeBack()
@@ -171,6 +179,7 @@ class detailPostVC:UIViewController {
     
     func deleteDoc(){
         db.collection("users").document(profileUserId ?? "").collection("SendedPost").document(postInfo?.documentId ?? "").delete()
+        self.navigationController?.popToRootViewController(animated: true)
 //        // Create a reference to the file to delete
 //        let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(postInfo?.postImage ?? "")
 //        // Delete the file

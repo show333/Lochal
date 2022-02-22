@@ -15,7 +15,7 @@
             <objects>
                 <navigationController useStoryboardIdentifierAsRestorationIdentifier="YES" id="Tjv-Wl-Sr5" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="AHi-Ob-aHa">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -26,7 +26,7 @@
             </objects>
             <point key="canvasLocation" x="-2383" y="198"/>
         </scene>
-        <!--UsersHome-->
+        <!--Profile-->
         <scene sceneID="FOv-Bo-wIu">
             <objects>
                 <viewController storyboardIdentifier="ProfileVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zCO-tO-D7A" customClass="ProfileVC" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
@@ -181,7 +181,7 @@
                                             <constraint firstItem="XvW-Tk-RCc" firstAttribute="centerY" secondItem="ZMj-lr-yiM" secondAttribute="centerY" id="vtB-cj-O9Y"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="チェインを許可された後,投稿が可能になります" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHi-5f-YxV">
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="コネクトを許可された後,投稿が可能になります" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHi-5f-YxV">
                                         <rect key="frame" x="170" y="117.5" width="130" height="57.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -199,7 +199,7 @@
                                             <action selector="transitionTappedChainButton:" destination="zCO-tO-D7A" eventType="touchUpInside" id="o5f-vP-sMl"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="チェイン" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Koq-3Z-acN">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="コネクト" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Koq-3Z-acN">
                                         <rect key="frame" x="240.5" y="60.5" width="49.5" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="textColor"/>
@@ -294,10 +294,10 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" id="6Dn-QB-SqD"/>
-                    <navigationItem key="navigationItem" title="UsersHome" id="nMb-0Z-Ctp">
+                    <navigationItem key="navigationItem" title="Profile" id="nMb-0Z-Ctp">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="hpu-DH-Ptq">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="EZR-Sz-LWd">
-                                <rect key="frame" x="284" y="14" width="20" height="22"/>
+                                <rect key="frame" x="284" y="11" width="20" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>

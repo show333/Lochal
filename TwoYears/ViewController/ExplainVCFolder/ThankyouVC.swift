@@ -43,7 +43,7 @@ class ThankyouVC:UIViewController {
         PostGet(uid:uid,userId: userId)
         PostGet(uid:userId,userId: uid)
 
-        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages4.013.png?alt=media&token=4e8ed41c-58f3-4568-a048-a27ff97194e9") {
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.012.png?alt=media&token=54f5aabc-1273-4e35-9fd5-f644e7bad865") {
             Nuke.loadImage(with: url, into:  backGroundImageView)
         } else {
             backGroundImageView.image = nil
@@ -115,7 +115,7 @@ class ThankyouVC:UIViewController {
     func firstChain(uid:String,userId:String){
         
         
-        db.collection("users").document(userId).collection("Profile").document("profile").getDocument { [self](document, error) in
+        db.collection("users").document(userId).getDocument { [self](document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
@@ -123,6 +123,7 @@ class ThankyouVC:UIViewController {
                 let userName = document["userName"] as? String ?? ""
                 let userImage = document["userImage"] as? String ?? ""
                 let userFrontId = document["userFrontId"] as? String ?? ""
+                let notificationNum = document["userFrontId"] as? Int ?? 0
                 
                 
                 
@@ -134,9 +135,10 @@ class ThankyouVC:UIViewController {
                     "userFrontId":userFrontId,
                     "documentId" : "Chaining"+userId,
                     "reactionImage": "",
-                    "reactionMessage":"さんとチェインしました",
+                    "reactionMessage":"さんとコネクトしました",
                     "theMessage":"",
-                    "dataType": "acceptingChain",
+                    "dataType": "acceptingConnect",
+                    "notificationNum":2,
                     "acceptBool":true,
                     "anonymous":false,
                     "admin": false,
@@ -148,24 +150,25 @@ class ThankyouVC:UIViewController {
                     "userName": UserDefaults.standard.object(forKey: "userName") as? String ?? "unKnown",
                     "userImage": UserDefaults.standard.object(forKey: "userImage") as? String ?? "unKnown",
                     "userFrontId": UserDefaults.standard.object(forKey: "userFrontId") as? String ?? "unKnown",
-                    "documentId" : "Chaining"+uid,
+                    "documentId" : "Connecting"+uid,
                     "reactionImage": "",
-                    "reactionMessage":"さんとチェインしました",
+                    "reactionMessage":"さんとコネクトしました",
                     "theMessage":"",
                     "dataType": "acceptingChain",
+                    "notificationNum":notificationNum,
                     "acceptBool":true,
                     "anonymous":false,
                     "admin": false,
                 ] as [String: Any]
                 
                 
-                db.collection("users").document(userId).collection("Notification").document("Chaining"+uid).setData(myUserProfile, merge: true)
+                db.collection("users").document(userId).collection("Notification").document("Connecting"+uid).setData(myUserProfile, merge: true)
                 db.collection("users").document(userId).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
-                db.collection("users").document(uid).collection("Notification").document("Chaining\(userId)").setData(refferalUserProfile, merge: true)
-                db.collection("users").document(userId).collection("Chainers").document(uid).setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid,"status":"accept"], merge: true)
-                db.collection("users").document(uid).collection("Chainers").document(userId).setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId,"status":"accept"], merge: true)
-                db.collection("users").document(userId).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
-                db.collection("users").document(uid).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
+                db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(refferalUserProfile, merge: true)
+                db.collection("users").document(userId).collection("Connections").document(uid).setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid,"status":"accept"], merge: true)
+                db.collection("users").document(uid).collection("Connections").document(userId).setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId,"status":"accept"], merge: true)
+                db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
+                db.collection("users").document(uid).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
                 
             } else {
                 print("Document does not exist")

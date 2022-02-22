@@ -105,7 +105,7 @@ class sinkitoukou: UIViewController {
             
         ] as [String: Any]
         
-        db.collection("users").document(uid).collection("Chainers").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
+        db.collection("users").document(uid).collection("Connections").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -142,9 +142,9 @@ class sinkitoukou: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if UserDefaults.standard.bool(forKey: "outMemoInstract") != true{
+        if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
             view.alpha = 1
-            ongakuLabel.text = "初めての投稿をしてみましょう！\n投稿はフォロワーに公開されます"
+            ongakuLabel.text = "初めての投稿をしてみましょう！\n投稿はコネクトをしたユーザーに\n公開されます"
 
 
         } else {

@@ -80,34 +80,47 @@ class NotificationVC: UIViewController {
         acceptingBackButton.alpha = 0
         requestLabel.alpha = 0
         
-        
     }
     
     func followSet(uid:String){
         
-        let acceptNotification = [
-            "createdAt": FieldValue.serverTimestamp(),
-            "userId": uid,
-            "userName":userName ?? "",
-            "userImage":userImage ?? "",
-            "userFrontId":userFrontId ?? "",
-            "documentId" : "Chaining"+uid,
-            "reactionImage": "",
-            "reactionMessage":"さんとチェインしました",
-            "theMessage": "",
-            "dataType": "accepted",
-            "anonymous":false,
-            "admin": false,
-        ] as [String: Any]
-        
         guard let userId = userId else {return}
-        db.collection("users").document(userId).collection("Notification").document("Chaining"+uid).setData(acceptNotification, merge: true)
-        db.collection("users").document(userId).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
-        db.collection("users").document(uid).collection("Notification").document("Chaining\(userId)").setData(["reactionMessage":"さんとチェインしました","acceptBool":true], merge: true)
+        
+        db.collection("users").document(userId).getDocument { [self] (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let notificationNum = document["notificationNum"] as? Int ?? 0
+                let acceptNotification = [
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "userId": uid,
+                    "userName":userName ?? "",
+                    "userImage":userImage ?? "",
+                    "userFrontId":userFrontId ?? "",
+                    "documentId" : "Connecting"+uid,
+                    "reactionImage": "",
+                    "reactionMessage":"さんとコネクトしました",
+                    "theMessage": "",
+                    "notificationNum":notificationNum+1,
+                    "dataType": "accepted",
+                    "anonymous":false,
+                    "admin": false,
+                ] as [String: Any]
+   
+                db.collection("users").document(userId).collection("Notification").document("Connecting"+uid).setData(acceptNotification, merge: true)
+                db.collection("users").document(userId).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
+        
+        db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(["reactionMessage":"さんとコネクトしました","acceptBool":true], merge: true)
         db.collection("users").document(userId).collection("Chainers").document(uid).setData(["status":"accept"], merge: true)
-        db.collection("users").document(uid).collection("Chainers").document(userId).setData(["status":"accept"], merge: true)
-        db.collection("users").document(userId).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
-        db.collection("users").document(uid).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(uid).collection("Connections").document(userId).setData(["status":"accept"], merge: true)
+        db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(uid).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
         
     }
     
@@ -168,6 +181,9 @@ class NotificationVC: UIViewController {
         super.viewDidLoad()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         setSwipeBack()
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
+
 
         let width = UIScreen.main.bounds.size.width
         onReactionViewConstraint.constant = width*0.55
@@ -244,6 +260,7 @@ class NotificationVC: UIViewController {
         super.viewDidDisappear(animated)
         guard let uid = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     func fetchReaction(userId:String) {
         db.collection("users").document(userId).collection("Notification").addSnapshotListener{ [self] ( snapshots, err) in
@@ -324,21 +341,21 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
             reactionBackButton.alpha = 0.8
             onAnimation()
             
-        } else if reaction[indexPath.row].dataType == "acceptingChain"{
+        } else if reaction[indexPath.row].dataType == "acceptingConnect"{
             cellDocumentId = reaction[indexPath.row].documentId
             userId = reaction[indexPath.row].userId
             if reaction[indexPath.row].acceptBool == false {
                 acceptImageAnimation(imageView: acceptImageView)
                 acceptingBackButton.alpha = 0.8
                 acceptingButton.alpha = 1
-                requestLabel.text = "↓タップでチェインを許可"
+                requestLabel.text = "↓タップでコネクトを許可"
                 
             } else {
                 acceptImageAnimation(imageView: acceptedImageView)
                 acceptingBackButton.alpha = 0.8
-                requestLabel.text = "チェイン認証済み"
+                requestLabel.text = "コネクト認証済み"
             }
-        } else if reaction[indexPath.row].dataType == "ChainersPost"{
+        } else if reaction[indexPath.row].dataType == "ConnectersPost"{
             let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
             let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
             guard let uid = Auth.auth().currentUser?.uid else { return }
