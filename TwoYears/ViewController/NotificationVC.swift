@@ -117,7 +117,7 @@ class NotificationVC: UIViewController {
         }
         
         db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(["reactionMessage":"さんとコネクトしました","acceptBool":true], merge: true)
-        db.collection("users").document(userId).collection("Chainers").document(uid).setData(["status":"accept"], merge: true)
+        db.collection("users").document(userId).collection("Connections").document(uid).setData(["status":"accept"], merge: true)
         db.collection("users").document(uid).collection("Connections").document(userId).setData(["status":"accept"], merge: true)
         db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
         db.collection("users").document(uid).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
@@ -179,6 +179,16 @@ class NotificationVC: UIViewController {
     @IBOutlet weak var reactionTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+          options: authOptions,
+          completionHandler: { _, _ in }
+        )
+        
+        
+        onMessageLabel.font = UIFont(name:"03SmartFontUI", size:19)
+        
         guard let uid = Auth.auth().currentUser?.uid else { return }
         setSwipeBack()
         

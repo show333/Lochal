@@ -41,6 +41,9 @@ class detailPostVC:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        titleLabel.font = UIFont(name:"03SmartFontUI", size:19)
+
+        
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
         

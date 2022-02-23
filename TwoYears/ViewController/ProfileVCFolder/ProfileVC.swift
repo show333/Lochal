@@ -93,6 +93,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 
     }
     
+    @IBOutlet weak var rakugakiLabel: UILabel!
     @IBOutlet weak var chainCountLabel: UILabel!
     
     
@@ -163,6 +164,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     
 
+    @IBOutlet weak var connectLabel: UILabel!
     
     
     @IBOutlet weak var fButtonHeightConstraint: NSLayoutConstraint!
@@ -212,7 +214,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         
         db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(["reactionMessage":"さんとチェインしました","acceptBool":true], merge: true)
-        db.collection("users").document(userId).collection("Chainers").document(uid).setData(["status":"accept"], merge: true)
+        db.collection("users").document(userId).collection("Connections").document(uid).setData(["status":"accept"], merge: true)
         db.collection("users").document(uid).collection("Connections").document(userId).setData(["status":"accept"], merge: true)
         db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
         db.collection("users").document(uid).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
@@ -321,64 +323,31 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//
-//        if scrollView.contentOffset.y < 0 { return }
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            self.prevContentOffset = scrollView.contentOffset
-//        }
-//
-//        guard let presentIndexPath = chatListTableView.indexPathForRow(at: scrollView.contentOffset) else { return }
-//        if scrollView.contentOffset.y < 0 { return }
-//        if presentIndexPath.row >= outMemo.count - 6 { return }
-//
-//        let alphaRatio = 1 / headerhightConstraint.constant
-//
-//        if self.prevContentOffset.y < scrollView.contentOffset.y {
-//            if headertopConstraint.constant <= -headerhightConstraint.constant { return }
-//            headertopConstraint.constant -= headerMoveHeight
-//            headerView.alpha -= alphaRatio * headerMoveHeight
-//        } else if self.prevContentOffset.y > scrollView.contentOffset.y {
-//            if headertopConstraint.constant >= 0 {return}
-//            headertopConstraint.constant += headerMoveHeight
-//            headerView.alpha += alphaRatio * headerMoveHeight
-//        }
-//
-//        print(self.prevContentOffset)
-//        print("えええ",scrollView.contentOffset)
-//    }
-    
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if !decelerate {
-//            headerViewEndAnimation()
-//        }
-//    }
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        headerViewEndAnimation()
-//    }
-//
-//    private func headerViewEndAnimation() {
-//        if headertopConstraint.constant < -headerhightConstraint.constant / 2 {
-//            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.8, options: [], animations:{ [self] in
-//                headertopConstraint.constant = -headerhightConstraint.constant
-//                headerView.alpha = 0
-//                view.layoutIfNeeded()
-//            })
-//        } else {
-//            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.8, options: [], animations:{ [self] in
-//                headertopConstraint.constant = 0
-//                headerView.alpha = 1
-//                view.layoutIfNeeded()
-//            })
-//        }
-//    }
-    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
 //        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        
+        connectLabel.font = UIFont(name:"03SmartFontUI", size:12)
+        settingsLabel.font = UIFont(name:"03SmartFontUI", size:12)
+        postOtherLabel.font = UIFont(name:"03SmartFontUI", size:12)
+        rakugakiLabel.font = UIFont(name:"03SmartFontUI", size:17)
+        
+        
+//        followButton.setTitle("コネクトする", for: .normal)
+//        followButton.setTitleColor(UIColor.darkGray, for: .normal)
+//        followButton.font.fontName = UIFont(name:"03SmartFontUI", size: 14)
+        
+        followButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 17)
+
+
+        
+        
+        
+
+//        03SmartFontUI
         
         self.coachMarksController.dataSource = self
         self.coachMarksControllerSecond.dataSource = self
@@ -803,7 +772,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             let userImage = document["userImage"] as? String ?? "unKnown"
             let userFrontId = document["userFrontId"] as? String ?? "unKnown"
 
-            let ConnectionsCount = document["ChainersCount"] as? Int ?? 0
+            let ConnectionsCount = document["ConnectionsCount"] as? Int ?? 0
             
             chainCountLabel.text = String(ConnectionsCount)
 

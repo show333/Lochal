@@ -120,6 +120,7 @@
 		CF83D9B227AD4FA000DF9C76 /* CollectionPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF83D9B127AD4FA000DF9C76 /* CollectionPostVC.swift */; };
 		CF83D9B627BFA80E00DF9C76 /* Refferal.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF83D9B527BFA80E00DF9C76 /* Refferal.storyboard */; };
 		CF83D9B827BFA82800DF9C76 /* RefferalVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF83D9B727BFA82800DF9C76 /* RefferalVC.swift */; };
+		CF83D9BA27C5B6BE00DF9C76 /* 03スマートフォントUI.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF83D9B927C5B6BD00DF9C76 /* 03スマートフォントUI.otf */; };
 		CF8B45062665698500CA6DE1 /* red_yellow.json in Resources */ = {isa = PBXBuildFile; fileRef = CF8B45052665698500CA6DE1 /* red_yellow.json */; };
 		CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF8F13A9263FD9D2007A0677 /* imagetoukou.storyboard */; };
 		CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */; };
@@ -251,6 +252,7 @@
 		CF83D9B427B6BF7900DF9C76 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CF83D9B527BFA80E00DF9C76 /* Refferal.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Refferal.storyboard; sourceTree = "<group>"; };
 		CF83D9B727BFA82800DF9C76 /* RefferalVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefferalVC.swift; sourceTree = "<group>"; };
+		CF83D9B927C5B6BD00DF9C76 /* 03スマートフォントUI.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "03スマートフォントUI.otf"; sourceTree = "<group>"; };
 		CF8B45052665698500CA6DE1 /* red_yellow.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = red_yellow.json; sourceTree = "<group>"; };
 		CF8F13A9263FD9D2007A0677 /* imagetoukou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = imagetoukou.storyboard; sourceTree = "<group>"; };
 		CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imagetoukouViewController.swift; sourceTree = "<group>"; };
@@ -419,6 +421,7 @@
 				CF2A224125C3FC7200C5BFC1 /* LaunchScreen.storyboard */,
 				CF40F3912637E34A00A65E95 /* Info.plist */,
 				CF2A223C25C3FC7000C5BFC1 /* protain.xcdatamodeld */,
+				CF83D9B927C5B6BD00DF9C76 /* 03スマートフォントUI.otf */,
 				CF4BF17E260FAB4C00942E6F /* YasashisaGothic.otf */,
 				CF4BF17A260FA5C900942E6F /* 07にくまるフォント.otf */,
 				CF4BF175260FA43800942E6F /* yasasisa.ttf */,
@@ -621,6 +624,7 @@
 				CF39F27E26567D3F0006716A /* stampCollection.storyboard in Resources */,
 				CF4BF17B260FA5CA00942E6F /* 07にくまるフォント.otf in Resources */,
 				CF40D36D26296C6E00F62858 /* goodloadingcolor.json in Resources */,
+				CF83D9BA27C5B6BE00DF9C76 /* 03スマートフォントUI.otf in Resources */,
 				CF4BF176260FA43800942E6F /* yasasisa.ttf in Resources */,
 				CF2A224025C3FC7200C5BFC1 /* Assets.xcassets in Resources */,
 				CF0C14BF25CA04C5006A7C86 /* ChatInputAccessoryView.xib in Resources */,
