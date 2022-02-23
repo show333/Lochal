@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjv-Wl-Sr5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjv-Wl-Sr5">
     <device id="retina3_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -15,7 +15,7 @@
             <objects>
                 <navigationController useStoryboardIdentifierAsRestorationIdentifier="YES" id="Tjv-Wl-Sr5" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="AHi-Ob-aHa">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -26,7 +26,7 @@
             </objects>
             <point key="canvasLocation" x="-2383" y="198"/>
         </scene>
-        <!--UsersHome-->
+        <!--Profile-->
         <scene sceneID="FOv-Bo-wIu">
             <objects>
                 <viewController storyboardIdentifier="ProfileVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="zCO-tO-D7A" customClass="ProfileVC" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
@@ -181,7 +181,7 @@
                                             <constraint firstItem="XvW-Tk-RCc" firstAttribute="centerY" secondItem="ZMj-lr-yiM" secondAttribute="centerY" id="vtB-cj-O9Y"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="チェインを許可された後,投稿が可能になります" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHi-5f-YxV">
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="コネクトを許可された後,投稿が可能になります" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHi-5f-YxV">
                                         <rect key="frame" x="170" y="117.5" width="130" height="57.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -199,9 +199,9 @@
                                             <action selector="transitionTappedChainButton:" destination="zCO-tO-D7A" eventType="touchUpInside" id="o5f-vP-sMl"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="チェイン" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Koq-3Z-acN">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="コネクト" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Koq-3Z-acN">
                                         <rect key="frame" x="240.5" y="60.5" width="49.5" height="14.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -294,10 +294,10 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" image="person" catalog="system" id="6Dn-QB-SqD"/>
-                    <navigationItem key="navigationItem" title="UsersHome" id="nMb-0Z-Ctp">
+                    <navigationItem key="navigationItem" title="Profile" id="nMb-0Z-Ctp">
                         <barButtonItem key="rightBarButtonItem" style="plain" id="hpu-DH-Ptq">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="EZR-Sz-LWd">
-                                <rect key="frame" x="284" y="14" width="20" height="22"/>
+                                <rect key="frame" x="284" y="11" width="20" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -315,6 +315,7 @@
                         <outlet property="collectionHighConstraint" destination="yWX-O3-ewo" id="vTB-gA-6Ic"/>
                         <outlet property="collectionLeft" destination="Vi1-Kx-wcy" id="ciE-SE-zEq"/>
                         <outlet property="collectionRight" destination="bcn-Dw-JHm" id="IHM-Bw-9zd"/>
+                        <outlet property="connectLabel" destination="Koq-3Z-acN" id="wcA-ds-Qos"/>
                         <outlet property="explainButton" destination="EZR-Sz-LWd" id="dgX-CH-m5z"/>
                         <outlet property="fButtonHeightConstraint" destination="2er-Nt-S5E" id="enn-kj-i5Y"/>
                         <outlet property="fButtonWidthConstraint" destination="mny-hC-T7K" id="fHO-aQ-Mv5"/>
@@ -329,6 +330,7 @@
                         <outlet property="postButton" destination="hVn-HS-d3z" id="SE9-X5-IVK"/>
                         <outlet property="postCollectionView" destination="EaP-tP-IZY" id="YFu-qh-kfX"/>
                         <outlet property="postOtherLabel" destination="YHi-5f-YxV" id="j5A-cb-6Qm"/>
+                        <outlet property="rakugakiLabel" destination="XvW-Tk-RCc" id="YDa-Gg-M3G"/>
                         <outlet property="settingsButton" destination="6Ny-cM-nWF" id="ldi-zW-eWD"/>
                         <outlet property="settingsLabel" destination="bge-xm-rmq" id="CyW-r9-NLL"/>
                         <outlet property="teamCollectionView" destination="h92-iJ-PQW" id="Jet-EB-Lmk"/>

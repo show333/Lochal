@@ -35,6 +35,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     let uid = Auth.auth().currentUser?.uid
     let DBU = Firestore.firestore().collection("users")
     let coachMarksController = CoachMarksController()
+    let coachMarksControllerSecond = CoachMarksController()
     private let cellId = "cellId"
     private var prevContentOffset: CGPoint = .init(x: 0, y: 0)
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
@@ -92,16 +93,17 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 
     }
     
+    @IBOutlet weak var rakugakiLabel: UILabel!
     @IBOutlet weak var chainCountLabel: UILabel!
     
     
     @IBOutlet weak var transitionChainButton: UIButton!
     
     @IBAction func transitionTappedChainButton(_ sender: Any) {
-        let storyboard = UIStoryboard.init(name: "Chain", bundle: nil)
-        let FollowingsVC = storyboard.instantiateViewController(withIdentifier: "ChainVC") as! ChainVC
-        FollowingsVC.userId = userId
-        navigationController?.pushViewController(FollowingsVC, animated: true)
+        let storyboard = UIStoryboard.init(name: "Connection", bundle: nil)
+        let ConnectionVC = storyboard.instantiateViewController(withIdentifier: "ConnectionVC") as! ConnectionVC
+        ConnectionVC.userId = userId
+        navigationController?.pushViewController(ConnectionVC, animated: true)
     }
     
     @IBOutlet weak var followButton: UIButton!
@@ -109,7 +111,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBAction func followTappedButton(_ sender: Any) {
         
         
-        db.collection("users").document(uid ?? "").collection("Chainers").document(userId ?? "").getDocument { [self](document, error) in
+        db.collection("users").document(uid ?? "").collection("Connections").document(userId ?? "").getDocument { [self](document, error) in
               if let document = document, document.exists {
                   let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                   print("Document data: \(dataDescription)")
@@ -119,24 +121,24 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                   
                   
                   if statusChain == "sendRequest" {
-                      followButton.setTitle("チェインする", for: .normal)
-                      followButton.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8470588235)
+                      followButton.setTitle("コネクトする", for: .normal)
+                      followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
                       followButton.setTitleColor(UIColor.darkGray, for: .normal)
                       unChain()
                       statusChain = ""
                       
                   } else if statusChain == "accept" {
-                      followButton.setTitle("チェインする", for: .normal)
+                      followButton.setTitle("コネクトする", for: .normal)
                       followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
                       followButton.setTitleColor(UIColor.darkGray, for: .normal)
                       unChain()
-                      db.collection("users").document(uid ?? "").setData(["ChainersCount": FieldValue.increment(-1.0)], merge: true)
-                      db.collection("users").document(userId ?? "").setData(["ChainersCount": FieldValue.increment(-1.0)], merge: true)
+                      db.collection("users").document(uid ?? "").setData(["ConnectionsCount": FieldValue.increment(-1.0)], merge: true)
+                      db.collection("users").document(userId ?? "").setData(["ConnectionsCount": FieldValue.increment(-1.0)], merge: true)
                       statusChain = ""
                   } else if statusChain == "gotRequest" {
                       
                       followButton.backgroundColor = .darkGray
-                      followButton.setTitle("チェイン済み", for: .normal)
+                      followButton.setTitle("コネクト済み", for: .normal)
                       followButton.setTitleColor(UIColor.white, for: .normal)
                       followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
                       doChain()
@@ -155,17 +157,14 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                   chainRequest()
                   statusChain = "sendRequest"
                   
-                  
               }
           }
-        
-        
-
     }
     
     
     
 
+    @IBOutlet weak var connectLabel: UILabel!
     
     
     @IBOutlet weak var fButtonHeightConstraint: NSLayoutConstraint!
@@ -181,32 +180,44 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     func doChain(){
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let acceptNotification = [
-            "createdAt": FieldValue.serverTimestamp(),
-            "userId": uid,
-            "userName":userName ?? "",
-            "userImage":userImage ?? "",
-            "userFrontId":userFrontId ?? "",
-            "documentId" : "Chaining" + uid,
-            "reactionImage": "",
-            "reactionMessage":"さんとチェインしました",
-            "theMessage": "",
-            "dataType": "accepted",
-            "anonymous":false,
-            "admin": false,
-        ] as [String: Any]
-        
         guard let userId = userId else {return}
-        
-        db.collection("users").document(userId).collection("Notification").document("Chaining"+uid).setData(acceptNotification, merge: true)
-        db.collection("users").document(userId).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
-        db.collection("users").document(uid).collection("Notification").document("Chaining\(userId)").setData(["reactionMessage":"さんとチェインしました","acceptBool":true], merge: true)
-        
 
-        db.collection("users").document(userId).collection("Chainers").document(uid).setData(["status":"accept"], merge: true)
-        db.collection("users").document(uid).collection("Chainers").document(userId).setData(["status":"accept"], merge: true)
-        db.collection("users").document(userId).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
-        db.collection("users").document(uid).setData(["ChainersCount": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(userId).getDocument { [self] (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let notificationNum = document["notificationNum"] as? Int ?? 0
+                let acceptNotification = [
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "userId": uid,
+                    "userName":userName ?? "",
+                    "userImage":userImage ?? "",
+                    "userFrontId":userFrontId ?? "",
+                    "documentId" : "Connecting" + uid,
+                    "reactionImage": "",
+                    "reactionMessage":"さんとコネクトしました",
+                    "theMessage": "",
+                    "notificationNum":notificationNum+1,
+                    "dataType": "accepted",
+                    "anonymous":false,
+                    "admin": false,
+                ] as [String: Any]
+                db.collection("users").document(userId).collection("Notification").document("Connecting"+uid).setData(acceptNotification, merge: true)
+                db.collection("users").document(userId).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
+        
+        
+        
+        db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(["reactionMessage":"さんとチェインしました","acceptBool":true], merge: true)
+        db.collection("users").document(userId).collection("Connections").document(uid).setData(["status":"accept"], merge: true)
+        db.collection("users").document(uid).collection("Connections").document(userId).setData(["status":"accept"], merge: true)
+        db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(uid).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
         
         
         PostGet(uid:uid,userId:userId)
@@ -218,33 +229,51 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 
     func chainRequest(){
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        db.collection("users").document(uid).collection("Chainers").document(userId ?? "").setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId ?? "","status":"sendRequest"], merge: true)
+        guard let userId = userId else {return}
+
+        db.collection("users").document(uid).collection("Connections").document(userId).setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId,"status":"sendRequest"], merge: true)
         
-        db.collection("users").document(userId ?? "").collection("Chainers").document(uid).setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid ,"status":"gotRequest"], merge: true)
+        db.collection("users").document(userId).collection("Connections").document(uid).setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid ,"status":"gotRequest"], merge: true)
         
-        let docData = [
-            "createdAt": FieldValue.serverTimestamp(),
-            "userId": uid,
-            "userName":UserDefaults.standard.string(forKey: "userName") ?? "unKnown",
-            "userImage":UserDefaults.standard.string(forKey: "userImage") ?? "unKnown",
-            "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
-            "documentId" : "Chaining"+uid,
-            "reactionImage": "",
-            "reactionMessage":"さんからチェイン申請です",
-            "theMessage":"",
-            "dataType": "acceptingChain",
-            "acceptBool":false,
-            "anonymous":false,
-            "admin": false,
-        ] as [String: Any]
+
+        
+        db.collection("users").document(userId).getDocument { [self] (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
                 
-        db.collection("users").document(userId ?? "").collection("Notification").document("Chaining"+uid).setData(docData)
-        db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+                let notificationNum = document["notificationNum"] as? Int ?? 0
+                let docData = [
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "userId": uid,
+                    "userName":UserDefaults.standard.string(forKey: "userName") ?? "unKnown",
+                    "userImage":UserDefaults.standard.string(forKey: "userImage") ?? "unKnown",
+                    "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
+                    "documentId" : "Chaining"+uid,
+                    "reactionImage": "",
+                    "reactionMessage":"さんからコネクト申請です",
+                    "theMessage":"",
+                    "dataType": "acceptingConnect",
+                    "notificationNum":notificationNum+1,
+                    "acceptBool":false,
+                    "anonymous":false,
+                    "admin": false,
+                ] as [String: Any]
+                        
+                db.collection("users").document(userId).collection("Notification").document("Connecting"+uid).setData(docData)
+                db.collection("users").document(userId).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
+        
+
     }
     
     func unChain(){
-        db.collection("users").document(uid ?? "").collection("Chainers").document(userId ?? "").delete()
-        db.collection("users").document(userId ?? "").collection("Chainers").document(uid ?? "").delete()
+        db.collection("users").document(uid ?? "").collection("Connections").document(userId ?? "").delete()
+        db.collection("users").document(userId ?? "").collection("Connections").document(uid ?? "").delete()
         db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").delete()
     }
     
@@ -294,58 +323,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//
-//        if scrollView.contentOffset.y < 0 { return }
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//            self.prevContentOffset = scrollView.contentOffset
-//        }
-//
-//        guard let presentIndexPath = chatListTableView.indexPathForRow(at: scrollView.contentOffset) else { return }
-//        if scrollView.contentOffset.y < 0 { return }
-//        if presentIndexPath.row >= outMemo.count - 6 { return }
-//
-//        let alphaRatio = 1 / headerhightConstraint.constant
-//
-//        if self.prevContentOffset.y < scrollView.contentOffset.y {
-//            if headertopConstraint.constant <= -headerhightConstraint.constant { return }
-//            headertopConstraint.constant -= headerMoveHeight
-//            headerView.alpha -= alphaRatio * headerMoveHeight
-//        } else if self.prevContentOffset.y > scrollView.contentOffset.y {
-//            if headertopConstraint.constant >= 0 {return}
-//            headertopConstraint.constant += headerMoveHeight
-//            headerView.alpha += alphaRatio * headerMoveHeight
-//        }
-//
-//        print(self.prevContentOffset)
-//        print("えええ",scrollView.contentOffset)
-//    }
-    
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if !decelerate {
-//            headerViewEndAnimation()
-//        }
-//    }
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        headerViewEndAnimation()
-//    }
-//
-//    private func headerViewEndAnimation() {
-//        if headertopConstraint.constant < -headerhightConstraint.constant / 2 {
-//            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.8, options: [], animations:{ [self] in
-//                headertopConstraint.constant = -headerhightConstraint.constant
-//                headerView.alpha = 0
-//                view.layoutIfNeeded()
-//            })
-//        } else {
-//            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.8, options: [], animations:{ [self] in
-//                headertopConstraint.constant = 0
-//                headerView.alpha = 1
-//                view.layoutIfNeeded()
-//            })
-//        }
-//    }
-    
     
     
     override func viewDidLoad() {
@@ -353,7 +330,27 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
 //        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         
+        connectLabel.font = UIFont(name:"03SmartFontUI", size:12)
+        settingsLabel.font = UIFont(name:"03SmartFontUI", size:12)
+        postOtherLabel.font = UIFont(name:"03SmartFontUI", size:12)
+        rakugakiLabel.font = UIFont(name:"03SmartFontUI", size:17)
+        
+        
+//        followButton.setTitle("コネクトする", for: .normal)
+//        followButton.setTitleColor(UIColor.darkGray, for: .normal)
+//        followButton.font.fontName = UIFont(name:"03SmartFontUI", size: 14)
+        
+        followButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 17)
+
+
+        
+        
+        
+
+//        03SmartFontUI
+        
         self.coachMarksController.dataSource = self
+        self.coachMarksControllerSecond.dataSource = self
         
         postBackGroundView.clipsToBounds = true
         postBackGroundView.layer.cornerRadius = 10
@@ -516,18 +513,19 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+//        coachMarksController.start(in: .currentWindow(of: self))
+
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if UserDefaults.standard.bool(forKey: "ProfileTransition") != true{
                 UserDefaults.standard.set(true, forKey: "ProfileTransition")
-                
                 let userId = UserDefaults.standard.string(forKey: "refferalUserId") ?? "unKnown"
+
                 let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
                 let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
                 ProfileVC.userId = userId
-                ProfileVC.cellImageTap = true
-                self.navigationController?.pushViewController(ProfileVC, animated: true)
-                
+                ProfileVC.cellImageTap = false
+                self.present(ProfileVC, animated: true, completion: nil)
             } else {
                 if UserDefaults.standard.bool(forKey: "ProfileInstruct") != true{
                     UserDefaults.standard.set(true, forKey: "ProfileInstruct")
@@ -588,7 +586,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         var sendArray : Array<String>? = []
         var gotArray : Array<String>? = []
         var acceptArray : Array<String>? = []
-        db.collection("users").document(uid).collection("Chainers").getDocuments() { [self] (querySnapshot, err) in
+        db.collection("users").document(uid).collection("Connections").getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -623,7 +621,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 } else if gotBool == true {
                     statusChain = "gotRequest"
                     followButton.backgroundColor = .darkGray
-                    followButton.setTitle("チェインする", for: .normal)
+                    followButton.setTitle("コネクトする", for: .normal)
                     followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
                     postOtherLabel.alpha = 0
                     if uid == userId {
@@ -636,14 +634,14 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 } else if acceptBool == true {
                     statusChain = "accept"
                     followButton.backgroundColor = .darkGray
-                    followButton.setTitle("チェイン済み", for: .normal)
+                    followButton.setTitle("コネクト済み", for: .normal)
                     followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
                     postOtherLabel.alpha = 0
                     postBackGroundView.alpha = 1
                     
                 }else {
                     followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-                    followButton.setTitle("チェインする", for: .normal)
+                    followButton.setTitle("コネクトする", for: .normal)
                     followButton.setTitleColor(UIColor.darkGray, for: .normal)
                     postBackGroundView.alpha = 0
                     if uid == userId {
@@ -774,9 +772,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             let userImage = document["userImage"] as? String ?? "unKnown"
             let userFrontId = document["userFrontId"] as? String ?? "unKnown"
 
-            let ChainersCount = document["ChainersCount"] as? Int ?? 0
+            let ConnectionsCount = document["ConnectionsCount"] as? Int ?? 0
             
-            chainCountLabel.text = String(ChainersCount)
+            chainCountLabel.text = String(ConnectionsCount)
 
             
             let image:UIImage = UIImage(url: userImage)
@@ -886,12 +884,12 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
 
 extension ProfileVC: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
     func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
-        return 3
+        return 2
     }
     func coachMarksController(_ coachMarksController: CoachMarksController,
                               coachMarkAt index: Int) -> CoachMark {
         
-        let highlightViews: Array<UIView> = [postBackGroundView,transitionChainButton,postCollectionView]
+        let highlightViews: Array<UIView> = [postBackGroundView,transitionChainButton]
         //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
         
         //チュートリアルで使うビューの中からindexで何ステップ目かを指定
@@ -917,16 +915,12 @@ extension ProfileVC: CoachMarksControllerDataSource, CoachMarksControllerDelegat
             
         case 1:    //fugaButton
             coachViews.bodyView.hintLabel.text = "ここから他のユーザーを\n見ることができます"
-            coachViews.bodyView.nextLabel.text = "次へ"
-            
-        case 2:    //fugaButton
-            coachViews.bodyView.hintLabel.text = "他のユーザーとチェインして\n投稿をしてみましょう!"
             coachViews.bodyView.nextLabel.text = "OK"
+            
             
             
         default:
             break
-        
         }
         
         //その他の設定が終わったら吹き出しを返します

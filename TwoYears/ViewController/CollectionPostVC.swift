@@ -84,16 +84,18 @@ class CollectionPostVC:UIViewController{
                 guard let urlString = url?.absoluteString else { return }
                 print("urlString:", urlString)
                 
-                setImage(userId: uid, postImage: urlString)
+                let docString = randomString(length: 20)
+                
+                setImage(userId: uid, postImage: urlString,docString:docString)
+                setNotification(userId: uid, postImage: urlString,docString:docString)
             }
         }
         self.dismiss(animated: true, completion: nil)
     }
     
     
-    func setImage(userId:String,postImage:String){
+    func setImage(userId:String,postImage:String,docString:String){
         
-        let docString = randomString(length: 20)
 
         let postDoc = [
             "userId":userId,
@@ -106,24 +108,49 @@ class CollectionPostVC:UIViewController{
         
         db.collection("users").document(postDocString ?? "").collection("SendedPost").document(docString).setData(postDoc,merge: true)
         
-        let docData = [
-            "createdAt": FieldValue.serverTimestamp(),
-            "userId": userId,
-            "userName":UserDefaults.standard.string(forKey: "userName") ?? "unKnown",
-            "userImage":UserDefaults.standard.string(forKey: "userImage") ?? "unKnown",
-            "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
-            "documentId" : docString,
-            "reactionImage": "",
-            "reactionMessage":"さんから投稿を受けました",
-            "theMessage":"",
-            "dataType": "ChainersPost",
-            "acceptBool":false,
-            "anonymous":false,
-            "admin": false,
-        ] as [String: Any]
+    }
+    
+    func setNotification(userId: String, postImage: String,docString:String) {
         
-        db.collection("users").document(postDocString ?? "").collection("Notification").document(docString).setData(docData)
-        db.collection("users").document(postDocString ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+        db.collection("users").document(postDocString ?? "").getDocument { [self] (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let notificationNum = document["notificationNum"] as? Int ?? 0
+
+                
+                
+                let docData = [
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "userId": userId,
+                    "userName":UserDefaults.standard.string(forKey: "userName") ?? "unKnown",
+                    "userImage":UserDefaults.standard.string(forKey: "userImage") ?? "unKnown",
+                    "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
+                    "documentId" : docString,
+                    "reactionImage": "",
+                    "reactionMessage":"さんから投稿を受けました",
+                    "theMessage":"",
+                    "dataType": "ConnectersPost",
+                    "notificationNum": notificationNum+1,
+                    "acceptBool":false,
+                    "anonymous":false,
+                    "admin": false,
+                ] as [String: Any]
+                
+                db.collection("users").document(postDocString ?? "").collection("Notification").document(docString).setData(docData)
+                db.collection("users").document(postDocString ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+                
+                
+                
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
+        
+
+        
         
     }
     

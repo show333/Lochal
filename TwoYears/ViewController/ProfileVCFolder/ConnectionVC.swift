@@ -13,7 +13,7 @@ import Nuke
 import DZNEmptyDataSet
 
 
-class ChainVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
+class ConnectionVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     private let cellId = "cellId"
 
     let db = Firestore.firestore()
@@ -48,7 +48,7 @@ class ChainVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
     
     func fetchUserInfo(userId:String){
         
-        self.db.collection("users").document(userId).collection("Chainers").getDocuments() { [self] (querySnapshot, err) in
+        self.db.collection("users").document(userId).collection("Connections").getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -106,7 +106,7 @@ class ChainVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource {
 
 
 
-extension ChainVC :UITableViewDataSource,UITableViewDelegate {
+extension ConnectionVC :UITableViewDataSource,UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
@@ -114,7 +114,7 @@ extension ChainVC :UITableViewDataSource,UITableViewDelegate {
         return userInfo.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = userListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChainVCTableViewCell
+        let cell = userListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ConnectionTableViewCell
         
         cell.userNameLabel.text = userInfo[indexPath.row].userName
         cell.userFrontIdLabel.text = userInfo[indexPath.row].userFrontId
@@ -143,7 +143,7 @@ extension ChainVC :UITableViewDataSource,UITableViewDelegate {
     
 }
 
-class ChainVCTableViewCell: UITableViewCell {
+class ConnectionTableViewCell: UITableViewCell {
     
     
     @IBOutlet weak var userImageView: UIImageView!

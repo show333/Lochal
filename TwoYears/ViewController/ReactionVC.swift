@@ -37,6 +37,8 @@ class ReactionVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        messageLabel.font = UIFont(name:"03SmartFontUI", size:17)
+        
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.8020463346)
         reactiCollectionView.dataSource = self
         reactiCollectionView.delegate = self
@@ -127,28 +129,46 @@ extension ReactionVC :UICollectionViewDataSource, UICollectionViewDelegate {
     }
     
     private func addReactionToFirestore(urlString: String) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        func randomString(length: Int) -> String {
-            let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-            return String((0..<length).map{ _ in characters.randomElement()! })
+        
+        
+        
+        db.collection("users").document(userId ?? "").getDocument { [self] (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let notificationNum = document["notificationNum"] as? Int ?? 0
+                
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                func randomString(length: Int) -> String {
+                    let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                    return String((0..<length).map{ _ in characters.randomElement()! })
+                }
+                let documentId = randomString(length: 20)
+                let docData = [
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "userId": uid,
+                    "userName":userName ?? "",
+                    "userImage":userImage ?? "",
+                    "userFrontId":userFrontId ?? "",
+                    "documentId" : documentId,
+                    "reactionImage": urlString,
+                    "reactionMessage":"さんがリアクションをしました",
+                    "theMessage":message ?? "",
+                    "notificationNum":notificationNum+1,
+                    "dataType": "reaction",
+                    "anonymous":false,
+                    "admin": false,
+                ] as [String: Any]
+                db.collection("users").document(userId ?? "").collection("Notification").document(documentId).setData(docData)
+                db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+                
+                
+            } else {
+                print("Document does not exist")
+            }
         }
-        let documentId = randomString(length: 20)
-        let docData = [
-            "createdAt": FieldValue.serverTimestamp(),
-            "userId": uid,
-            "userName":userName ?? "",
-            "userImage":userImage ?? "",
-            "userFrontId":userFrontId ?? "",
-            "documentId" : documentId,
-            "reactionImage": urlString,
-            "reactionMessage":"さんがリアクションをしました",
-            "theMessage":message ?? "",
-            "dataType": "reaction",
-            "anonymous":false,
-            "admin": false,
-        ] as [String: Any]
-        db.collection("users").document(userId ?? "").collection("Notification").document(documentId).setData(docData)
-        db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+
         dismiss(animated: true, completion: nil)
     }
     

@@ -19,27 +19,27 @@ class ExplainVC:UIViewController{
     let db = Firestore.firestore()
     
     let imageArray = [
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.001.png?alt=media&token=b7f7eb75-70ca-46a5-b3c2-c4304e098d9b",//0
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.001.png?alt=media&token=77032f71-df0f-4612-95d1-3835021c753f",//0
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.002.png?alt=media&token=cc13ed76-b4a8-42ce-989f-a613ea710108",//1
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.002.png?alt=media&token=257ec466-8d59-4d89-94a1-99270cdcfabf",//1
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.003.png?alt=media&token=424fe895-ef5c-4392-9684-ddae524a4a66",//2
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.003.png?alt=media&token=15bd2706-7b55-4548-a571-458c1b450c6f",//2
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.004.png?alt=media&token=9cc94c7c-e664-477f-b1cb-0d8246bb8e5c",//3
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.004.png?alt=media&token=3a7ec224-0e90-40d0-8919-eae695ec748a",//3
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.005.png?alt=media&token=7e0dbe7a-5f0a-4f94-95a6-1d0a6ee2872d",//4
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.005.png?alt=media&token=8a69bf79-dc14-4563-a738-19b6c1a9bbef",//4
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.006.png?alt=media&token=6dfeee64-14a6-4cfd-b443-09851d85a546",//5
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.006.png?alt=media&token=63f2cc7a-e8c4-4467-a801-32c83c6a4cb0",//5
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.007.png?alt=media&token=bc8186e9-78ce-4c13-b513-04de6d292d37",//6
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.007.png?alt=media&token=7a8c6fc2-f77c-42c9-b19c-f84949a5e20a",//6
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.008.png?alt=media&token=01e4edf4-02f9-4a05-80e4-f76ffda93019",//7
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.008.png?alt=media&token=719b1b3b-be68-49b7-95ae-64c1a0e22ae2",//7
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.009.png?alt=media&token=8088d622-e1f2-4a58-b72d-db61d20f1f4a",//8
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.009.png?alt=media&token=a1007b70-4c2f-4185-8fc6-6c882f6cbed3",//8
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.010.png?alt=media&token=bcf345e7-f247-419c-8401-1cb1e2c714d2",//9
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.010.png?alt=media&token=9b91e0c4-0f21-4323-bc9b-f21b25b877b4",//9
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FchainImagesExplain.011.png?alt=media&token=9d9973a6-1df0-4368-b691-9c6363e979b9",//10
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.011.png?alt=media&token=ed655c9c-96e7-42ba-a696-0820f7db5b1f",//10
     ]
     
     @IBOutlet weak var explainImageView: UIImageView!

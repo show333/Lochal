@@ -667,7 +667,7 @@ extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDe
         //index(ステップ)によって表示内容を分岐させます
         switch index {
         case 0:    //hogeLabel
-            coachViews.bodyView.hintLabel.text = "ここにリアクションやチェインの\n通知が届きます"
+            coachViews.bodyView.hintLabel.text = "ここにリアクションやコネクトの\n通知が届きます"
             coachViews.bodyView.nextLabel.text = "タップ"
         
         case 1:    //fugaButton

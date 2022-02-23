@@ -74,6 +74,10 @@ class OutmMemoCellVC: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        
+        messageLabel.font = UIFont(name:"03SmartFontUI", size:19)
+        
         userImageView.isUserInteractionEnabled = true
         userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
         

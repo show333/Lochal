@@ -12,11 +12,22 @@ const admin = require('firebase-admin')
 admin.initializeApp()
 const firestore = admin.firestore()
 
-const pushMessage = (fcmToken, reactionmessage, username) => ({
+const pushMessage = (fcmToken, reactionmessage, username, notificationNum) => ({
   notification: {
     title: 'Ubatge',
     body: `${username}\n${reactionmessage}`,
   },
+  apns: {
+    headers: {
+        'apns-priority': '10'
+    },
+    payload: {
+        aps: {
+            badge: notificationNum,
+            sound: 'default'
+        }
+    }
+},
   data: {
     hoge: 'fuga', // 任意のデータを送れる
   },
@@ -35,7 +46,7 @@ exports.notificationPush = functions.firestore
     const userRef = firestore.doc(`users/${userID}`)
     userRef.get().then((users) => {
       const userData = users.data()
-      admin.messaging().send(pushMessage(userData.fcmToken, Notification.reactionMessage, Notification.userName))
+      admin.messaging().send(pushMessage(userData.fcmToken, Notification.reactionMessage, Notification.userName, Notification.notificationNum))
         .then((response) => {
           console.log('Successfully sent message:', response)
         })
