@@ -21,7 +21,7 @@ class ExplainVC:UIViewController{
     let imageArray = [
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.001.png?alt=media&token=77032f71-df0f-4612-95d1-3835021c753f",//0
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.002.png?alt=media&token=62080813-dc82-4187-9fd6-8604286a9cc7",//1
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.002.png?alt=media&token=257ec466-8d59-4d89-94a1-99270cdcfabf",//1
         
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.003.png?alt=media&token=15bd2706-7b55-4548-a571-458c1b450c6f",//2
         
