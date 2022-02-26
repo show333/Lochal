@@ -14,7 +14,10 @@ import Nuke
 
 class detailPostVC:UIViewController {
     
-    var postInfo: PostInfo?
+//    var postInfo: PostInfo?
+    var postInfoTitle: String?
+    var postInfoImage: String?
+    var postInfoDoc: String?
     var profileUserId:String?
     var userId: String?
     var userName: String?
@@ -38,6 +41,23 @@ class detailPostVC:UIViewController {
         alertAction()
     }
     
+    @IBOutlet weak var trainsitionReMemoButton: UIButton!
+    
+    @IBAction func transitionTappedReMemoButton(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "ReMemoPost", bundle: nil)
+        let ReMemoPostVC = storyboard.instantiateViewController(withIdentifier: "ReMemoPostVC") as! ReMemoPostVC
+        ReMemoPostVC.postInfoTitle = postInfoTitle
+        ReMemoPostVC.postInfoImage = postInfoImage
+        ReMemoPostVC.userId = self.userId
+        ReMemoPostVC.userFrontId = self.userFrontId
+        ReMemoPostVC.userName = self.userName
+        ReMemoPostVC.userImage = self.userImage
+
+        self.present(ReMemoPostVC, animated: true, completion: nil)
+        
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,7 +76,7 @@ class detailPostVC:UIViewController {
         
         
         setSwipeBack()
-        if let url = URL(string:postInfo?.postImage ?? "") {
+        if let url = URL(string:postInfoImage ?? "") {
             Nuke.loadImage(with: url, into: postImageView)
         } else {
             postImageView.image = nil
@@ -83,7 +103,7 @@ class detailPostVC:UIViewController {
         userImageView.clipsToBounds = true
         userImageView.layer.cornerRadius = 30
         
-        titleLabel.text = postInfo?.titleComment
+        titleLabel.text = postInfoTitle
         getUserInfo()
     }
     
@@ -181,7 +201,7 @@ class detailPostVC:UIViewController {
     }
     
     func deleteDoc(){
-        db.collection("users").document(profileUserId ?? "").collection("SendedPost").document(postInfo?.documentId ?? "").delete()
+        db.collection("users").document(profileUserId ?? "").collection("SendedPost").document(postInfoDoc ?? "").delete()
         self.navigationController?.popToRootViewController(animated: true)
 //        // Create a reference to the file to delete
 //        let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(postInfo?.postImage ?? "")

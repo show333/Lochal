@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bHY-FH-klR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bHY-FH-klR">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -74,6 +74,15 @@
                                     <action selector="TPTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="yab-NS-V6T"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gUb-qa-t1G">
+                                <rect key="frame" x="174" y="682" width="67" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="transitionTappedReMemoButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="m3N-WE-9Lt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
@@ -102,6 +111,7 @@
                         <outlet property="TPButton" destination="SpA-g6-JRW" id="kc6-sb-50I"/>
                         <outlet property="postImageView" destination="ENE-Y8-hMC" id="Iug-u4-Yec"/>
                         <outlet property="titleLabel" destination="wzh-p5-PP6" id="cjr-L9-FPJ"/>
+                        <outlet property="trainsitionReMemoButton" destination="gUb-qa-t1G" id="nbR-Ot-pTT"/>
                         <outlet property="userFrontIdLabel" destination="Pgc-kr-qfD" id="Aiq-i7-2ca"/>
                         <outlet property="userImageView" destination="76e-ov-h2H" id="HDv-eH-JCF"/>
                         <outlet property="userImageViewConstraint" destination="qqP-If-Kmv" id="B7R-qs-0hn"/>

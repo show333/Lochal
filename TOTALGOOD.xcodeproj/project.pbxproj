@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A33473F827C8ADCB00FB4A6C /* ReMemoPost.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A33473F727C8ADCB00FB4A6C /* ReMemoPost.storyboard */; };
+		A33473FA27C8ADF500FB4A6C /* ReMemoPostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33473F927C8ADF500FB4A6C /* ReMemoPostVC.swift */; };
 		A33F0665279C26550008B29A /* FirstSetName.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A33F0664279C26550008B29A /* FirstSetName.storyboard */; };
 		A33F0667279C26890008B29A /* FirstSetImage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A33F0666279C26890008B29A /* FirstSetImage.storyboard */; };
 		A33F0669279C26B70008B29A /* FirstSetId.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A33F0668279C26B70008B29A /* FirstSetId.storyboard */; };
@@ -137,6 +139,8 @@
 		113A41803FF344D0EDE5D28D /* Pods_TOTALGOOD.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TOTALGOOD.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81BB0B529C4EF808153685BF /* Pods-TOTALGOOD.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TOTALGOOD.debug.xcconfig"; path = "Target Support Files/Pods-TOTALGOOD/Pods-TOTALGOOD.debug.xcconfig"; sourceTree = "<group>"; };
 		8F568B91F637BC6D82FF9569 /* Pods-TOTALGOOD.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TOTALGOOD.release.xcconfig"; path = "Target Support Files/Pods-TOTALGOOD/Pods-TOTALGOOD.release.xcconfig"; sourceTree = "<group>"; };
+		A33473F727C8ADCB00FB4A6C /* ReMemoPost.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReMemoPost.storyboard; sourceTree = "<group>"; };
+		A33473F927C8ADF500FB4A6C /* ReMemoPostVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReMemoPostVC.swift; sourceTree = "<group>"; };
 		A33F0664279C26550008B29A /* FirstSetName.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FirstSetName.storyboard; sourceTree = "<group>"; };
 		A33F0666279C26890008B29A /* FirstSetImage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FirstSetImage.storyboard; sourceTree = "<group>"; };
 		A33F0668279C26B70008B29A /* FirstSetId.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FirstSetId.storyboard; sourceTree = "<group>"; };
@@ -480,6 +484,7 @@
 				CF83D9B127AD4FA000DF9C76 /* CollectionPostVC.swift */,
 				A392221227B0141B00FFC936 /* detailPostVC.swift */,
 				CF83D9B727BFA82800DF9C76 /* RefferalVC.swift */,
+				A33473F927C8ADF500FB4A6C /* ReMemoPostVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -521,6 +526,7 @@
 				CF83D9AF27AD4F7000DF9C76 /* CollectionPost.storyboard */,
 				A392221027B013C900FFC936 /* detailPost.storyboard */,
 				CF83D9B527BFA80E00DF9C76 /* Refferal.storyboard */,
+				A33473F727C8ADCB00FB4A6C /* ReMemoPost.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -625,6 +631,7 @@
 				CF4BF17B260FA5CA00942E6F /* 07にくまるフォント.otf in Resources */,
 				CF40D36D26296C6E00F62858 /* goodloadingcolor.json in Resources */,
 				CF83D9BA27C5B6BE00DF9C76 /* 03スマートフォントUI.otf in Resources */,
+				A33473F827C8ADCB00FB4A6C /* ReMemoPost.storyboard in Resources */,
 				CF4BF176260FA43800942E6F /* yasasisa.ttf in Resources */,
 				CF2A224025C3FC7200C5BFC1 /* Assets.xcassets in Resources */,
 				CF0C14BF25CA04C5006A7C86 /* ChatInputAccessoryView.xib in Resources */,
@@ -791,6 +798,7 @@
 				A3D13E34277371EC002599B9 /* CreateTeamVC.swift in Sources */,
 				CF1E420D262AF05C00CEF85A /* CopyUILabel.swift in Sources */,
 				A33F0681279C5BE40008B29A /* FirstJoinTeamVC.swift in Sources */,
+				A33473FA27C8ADF500FB4A6C /* ReMemoPostVC.swift in Sources */,
 				A33F0685279C7E8E0008B29A /* TeamExplainVC.swift in Sources */,
 				A3B115D127971B48001820EC /* SettingsVC.swift in Sources */,
 				A36DC50627A430470083F76D /* MembersVC.swift in Sources */,

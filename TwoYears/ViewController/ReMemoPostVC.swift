@@ -1,27 +1,27 @@
 //
-//  sinkitoukou.swift
-//  protain
+//  ReNewPostVC.swift
+//  TOTALGOOD
 //
-//  Created by 平田翔大 on 2021/01/29.
+//  Created by 平田翔大 on 2022/02/25.
 //
 
 import UIKit
-import Firebase
-import FirebaseFirestore
 import FirebaseAuth
-import SwiftMoment
+import FirebaseFirestore
 import Nuke
 
-
-class sinkitoukou: UIViewController {
-    let uid = UserDefaults.standard.string(forKey: "userId")
-    let db = Firestore.firestore()
-    var company1Id : String?
-    var followerId : [String] = []
+class ReMemoPostVC:UIViewController {
+    var postInfoTitle: String?
+    var postInfoImage: String?
+    var postInfoDoc:String?
+    var userId: String?
+    var userName: String?
+    var userImage: String?
+    var userFrontId: String?
     
-    var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
-    var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
-    var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
+    
+    
+    let db = Firestore.firestore()
     
     let textMask : Array = [
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth1.001.png?alt=media&token=bae3c928-485e-464f-ac00-35a97e03d681",//1
@@ -43,36 +43,42 @@ class sinkitoukou: UIViewController {
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth20.001.png?alt=media&token=e0693059-4e99-4378-a5cf-1b19854f30e0",//20
     ]
     
-    @IBOutlet weak var wordCountLabel: UILabel!
-    @IBOutlet weak var ongakuLabel: UILabel!
-    @IBOutlet weak var sinkiButton: UIButton!
-    @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var companyView: UIImageView!
-    @IBAction func tappedSinkiButton(_ sender: Any) {
-        sendMemoFireStore()
-        dismiss(animated: true, completion: nil)
-    }
     
-    @IBOutlet weak var closeButton: UIButton!
+    @IBOutlet weak var sendButton: UIButton!
     
-    @IBAction func closeTappedButton(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+    @IBAction func tappedSendButton(_ sender: Any) {
+        reSendMemoFireStore()
+        print("鮮度")
     }
     
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    private func sendMemoFireStore() {
+    @IBOutlet weak var commentTextView: UITextView!
+    
+    @IBOutlet weak var graffitiUserImageView: UIImageView!
+    @IBOutlet weak var graffitiUserLabel: UILabel!
+    @IBOutlet weak var graffitiContentsImageView: UIImageView!
+    @IBOutlet weak var graffitiTitleLabel: UILabel!
+    
+    
+    func reSendMemoFireStore() {
 
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             return String((0..<length).map{ _ in characters.randomElement()! })
         }
         guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let graffitiUserId = userId else {return}
+        guard let graffitiUserName = userName else {return}
+        guard let graffitiUserImage = userImage else {return}
+        guard let graffitiUserFrontId = userFrontId else {return}
+        guard let graffitiContentsImage = postInfoImage else {return}
+        guard let graffitiTitle = postInfoTitle else {return}
+
+        
         let db = Firestore.firestore()
         let memoId = randomString(length: 20)
-        let thisisMessage = self.textView.text.trimmingCharacters(in: .newlines)
+        let thisisMessage = self.commentTextView.text.trimmingCharacters(in: .newlines)
+
         
         let memoInfoDic = [
             "message" : thisisMessage as Any,
@@ -81,6 +87,12 @@ class sinkitoukou: UIViewController {
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
             "userId":uid,
+            "graffitiUserId":graffitiUserId,
+            "graffitiUserFrontId":graffitiUserFrontId,
+            "graffitiUserName":graffitiUserName,
+            "graffitiUserImage":graffitiUserImage,
+            "graffitiTitle":graffitiTitle,
+            "graffitiContentsImage":graffitiContentsImage,
             "readLog": false,
             "anonymous":false,
             "admin": false,
@@ -94,10 +106,16 @@ class sinkitoukou: UIViewController {
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
-            "userName":userName ?? "",
-            "userImage":userImage ?? "",
-            "userFrontId":userFrontId ?? "",
+            "userName":UserDefaults.standard.string(forKey: "userName") ?? "",
+            "userImage":UserDefaults.standard.string(forKey: "userImage") ?? "",
+            "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "",
             "userId":uid,
+            "graffitiUserId":graffitiUserId,
+            "graffitiUserFrontId":graffitiUserFrontId,
+            "graffitiUserName":graffitiUserName,
+            "graffitiUserImage":graffitiUserImage,
+            "graffitiTitle":graffitiTitle,
+            "graffitiContentsImage":graffitiContentsImage,
             "anonymous":false,
             "admin": false,
             "delete": false,
@@ -119,7 +137,6 @@ class sinkitoukou: UIViewController {
                 }
             }
         }
-        
         db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
 //
         db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
@@ -129,72 +146,24 @@ class sinkitoukou: UIViewController {
     }
     
     
-    
-    
-    fileprivate let placeholder: String = "ポテチ食べたい\nコンビニの新作アイスめっちゃ美味い\nうちの猫めっちゃ可愛い\n授業,会社だるい\n布団から出られない\nなど" //プレイスホルダー
-    fileprivate var maxWordCount: Int = 300 //最大文字数
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        self.navigationController?.navigationBar.isHidden = true
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
-            view.alpha = 1
-            ongakuLabel.text = "初めての投稿をしてみましょう！\n投稿はコネクトをしたユーザーに\n公開されます"
-
-
+        graffitiUserLabel.text = userFrontId
+        graffitiTitleLabel.text = postInfoTitle
+        
+        if let url = URL(string:userImage ?? "") {
+            Nuke.loadImage(with: url, into: graffitiUserImageView)
         } else {
-            view.alpha = 0.9
-            ongakuLabel.text = "投稿は一週間で消えます"
+            graffitiUserImageView.image = nil
         }
         
-        self.textView.delegate = self
-        sinkiButton.isEnabled = false
-        sinkiButton.backgroundColor = .gray
-        textView.textColor = .gray
-        textView.text = placeholder
-        textView.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.862745098, alpha: 1)
-        textView.clipsToBounds = true
-        textView.layer.cornerRadius = 8
-        sinkiButton.clipsToBounds = true
-        sinkiButton.layer.cornerRadius = 5
-        wordCountLabel.text = "300文字まで"
-    }
-}
-extension sinkitoukou: UITextViewDelegate {
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
-        let newLines = text.components(separatedBy: .newlines)//新規改行数
-        let linesAfterChange = existingLines.count + newLines.count - 1 //最終改行数。-1は編集したら必ず1改行としてカウントされるから。
-        return linesAfterChange <= 30 && textView.text.count + (text.count - range.length) <= maxWordCount
-    }
-    func textViewDidChange(_ textView: UITextView) {
-        let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
-        let textwhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)//空白、改行のみを防ぐ
-        if textwhite.isEmpty {
-            sinkiButton.isEnabled = false
-            sinkiButton.backgroundColor = .gray
+        if let url = URL(string:postInfoImage ?? "") {
+            Nuke.loadImage(with: url, into: graffitiContentsImageView)
         } else {
-            sinkiButton.isEnabled = true
-            sinkiButton.backgroundColor = #colorLiteral(red: 0, green: 0.9052245021, blue: 0.6851730943, alpha: 1)
+            graffitiContentsImageView.image = nil
         }
-        if existingLines.count <= 30 {
-            self.wordCountLabel.text = "残り\(maxWordCount - textView.text.count)文字"
-        }
-    }
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == placeholder {
-            textView.text = nil
-            textView.textColor = .darkText
-        }
-    }
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.textColor = .darkGray
-            textView.text = placeholder
-        }
+        
+        
     }
 }

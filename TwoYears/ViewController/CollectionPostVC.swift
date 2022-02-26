@@ -58,6 +58,7 @@ class CollectionPostVC:UIViewController{
     
     @IBOutlet weak var textViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var backView: UIView!
+
     
     func randomString(length: Int) -> String {
         let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

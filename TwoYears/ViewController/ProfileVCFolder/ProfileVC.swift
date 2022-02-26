@@ -213,7 +213,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         
         
-        db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(["reactionMessage":"さんとチェインしました","acceptBool":true], merge: true)
+        db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(["reactionMessage":"さんとコネクトしました","acceptBool":true], merge: true)
         db.collection("users").document(userId).collection("Connections").document(uid).setData(["status":"accept"], merge: true)
         db.collection("users").document(uid).collection("Connections").document(userId).setData(["status":"accept"], merge: true)
         db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
@@ -870,7 +870,9 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
 //        detailPostVC.navigationController?.navigationBar.isHidden = false
         detailPostVC.profileUserId = userId
         detailPostVC.userId = postInfo[indexPath.row].userId
-        detailPostVC.postInfo = postInfo[indexPath.row]
+        detailPostVC.postInfoTitle = postInfo[indexPath.row].titleComment
+        detailPostVC.postInfoImage = postInfo[indexPath.row].postImage
+        detailPostVC.postInfoDoc = postInfo[indexPath.row].documentId
         
         navigationController?.pushViewController(detailPostVC, animated: true)
     }
