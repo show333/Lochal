@@ -42,7 +42,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
         let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou")
         self.present(sinkitoukou, animated: true, completion: nil)
-        db.collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
+        db.collection("users").document(uid).setData(["currentTime": FieldValue.serverTimestamp()], merge: true)
         //        try? Auth.auth().signOut()
     }
     
@@ -137,7 +137,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou") as! sinkitoukou
             sinkitoukou.modalPresentationStyle = .fullScreen
             self.present(sinkitoukou, animated: true, completion: nil)
-            Firestore.firestore().collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
+            Firestore.firestore().collection("users").document(uid).setData(["currentTime": FieldValue.serverTimestamp()], merge: true)
         } else {
             if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
                 UserDefaults.standard.set(true, forKey: "OutMemoInstract")

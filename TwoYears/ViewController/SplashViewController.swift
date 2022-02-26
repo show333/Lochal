@@ -88,7 +88,7 @@ class SplashViewController: UIViewController {
     func presentTabbar(userId:String){
         let userToken = UserDefaults.standard.string(forKey: "FCM_TOKEN")
 
-        db.collection("users").document(userId).setData(["nowjikan":FieldValue.serverTimestamp(),"fcmToken":userToken ?? ""]as[String:Any], merge:true)
+        db.collection("users").document(userId).setData(["currentTime":FieldValue.serverTimestamp(),"fcmToken":userToken ?? ""]as[String:Any], merge:true)
         UIView.animate(withDuration: 0.4, delay: 0, animations: {
             self.titleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
             self.subTitleLabel.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)

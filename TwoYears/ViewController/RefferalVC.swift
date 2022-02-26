@@ -28,23 +28,23 @@ class RefferalVC : UIViewController {
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
         
-        makeRefferalId()
+        makeReferralId()
         labelAnimation()
         
         
     }
     
-    func makeRefferalId() {
+    func makeReferralId() {
         let randomId = randomString(length: 8)
         guard let uid = Auth.auth().currentUser?.uid else { return }
-                let refferalDoc = [
+                let referralDoc = [
             "createdAt": FieldValue.serverTimestamp(),
             "userId": uid,
             "usedBool": false,
-            "refferalId":randomId,
+            "referralId":randomId,
         ] as [String : Any]
-        db.collection("RefferalId").document(randomId).setData(refferalDoc)
-        db.collection("users").document(uid).setData(["refferalCount": FieldValue.increment(-1.0)],merge: true)
+        db.collection("ReferralId").document(randomId).setData(referralDoc)
+        db.collection("users").document(uid).setData(["referralCount": FieldValue.increment(-1.0)],merge: true)
         
         codeLabel.text = randomId
     }

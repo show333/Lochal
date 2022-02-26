@@ -519,7 +519,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if UserDefaults.standard.bool(forKey: "ProfileTransition") != true{
                 UserDefaults.standard.set(true, forKey: "ProfileTransition")
-                let userId = UserDefaults.standard.string(forKey: "refferalUserId") ?? "unKnown"
+                let userId = UserDefaults.standard.string(forKey: "referralUserlId") ?? "unKnown"
 
                 let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
                 let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC

@@ -15,6 +15,7 @@ import Nuke
 class detailPostVC:UIViewController {
     
 //    var postInfo: PostInfo?
+    var sendedBool:Bool?
     var postInfoTitle: String?
     var postInfoImage: String?
     var postInfoDoc: String?
@@ -62,11 +63,27 @@ class detailPostVC:UIViewController {
         super.viewDidLoad()
         
         titleLabel.font = UIFont(name:"03SmartFontUI", size:19)
+        
+        trainsitionReMemoButton.backgroundColor = .white
+        trainsitionReMemoButton.clipsToBounds = true
+        trainsitionReMemoButton.layer.masksToBounds = false
+        trainsitionReMemoButton.layer.cornerRadius = 10
+        trainsitionReMemoButton.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        trainsitionReMemoButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        trainsitionReMemoButton.layer.shadowOpacity = 0.7
+        trainsitionReMemoButton.layer.shadowRadius = 5
+        
+        trainsitionReMemoButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 17)
+
 
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
-
         
+        if uid == profileUserId {
+            trainsitionReMemoButton.alpha = 1
+        } else {
+            trainsitionReMemoButton.alpha = 0
+        }
         if uid == userId || uid == profileUserId {
              TPButton.alpha = 1
 
@@ -105,6 +122,12 @@ class detailPostVC:UIViewController {
         
         titleLabel.text = postInfoTitle
         getUserInfo()
+    }
+    
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("aaa")
     }
     
     func getUserInfo(){

@@ -90,6 +90,7 @@ class OutmMemoCellVC: UITableViewCell {
         
         
         messageLabel.font = UIFont(name:"03SmartFontUI", size:19)
+        graffitiTitleLabel.font = UIFont(name:"03SmartFontUI", size:16)
         
         userImageView.isUserInteractionEnabled = true
         userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(userImageTapped(_:))))

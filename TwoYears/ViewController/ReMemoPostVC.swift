@@ -44,13 +44,17 @@ class ReMemoPostVC:UIViewController {
     ]
     
     
+    @IBOutlet weak var wordCountLabel: UILabel!
     @IBOutlet weak var sendButton: UIButton!
     
     @IBAction func tappedSendButton(_ sender: Any) {
         reSendMemoFireStore()
-        print("鮮度")
+//        let vc = self.presentingViewController as! detailPostVC
+//        vc.var1 = "value1"
+        self.dismiss(animated: true, completion: nil)
     }
     
+    @IBOutlet weak var graffitiBackGroundView: UIView!
     
     @IBOutlet weak var commentTextView: UITextView!
     
@@ -58,6 +62,9 @@ class ReMemoPostVC:UIViewController {
     @IBOutlet weak var graffitiUserLabel: UILabel!
     @IBOutlet weak var graffitiContentsImageView: UIImageView!
     @IBOutlet weak var graffitiTitleLabel: UILabel!
+    
+    @IBOutlet weak var commentTextViewConstraint: NSLayoutConstraint!
+    
     
     
     func reSendMemoFireStore() {
@@ -145,12 +152,46 @@ class ReMemoPostVC:UIViewController {
         
     }
     
+    fileprivate let placeholder: String = "返信コメントを入力" //プレイスホルダー
+    fileprivate var maxWordCount: Int = 200 //最大文字数
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         graffitiUserLabel.text = userFrontId
         graffitiTitleLabel.text = postInfoTitle
+        graffitiTitleLabel.font = UIFont(name:"03SmartFontUI", size:16)
+
+        let safeAreaHeight = UIScreen.main.bounds.size.height
+        
+        commentTextViewConstraint.constant = safeAreaHeight/8
+        
+        graffitiUserImageView.clipsToBounds = true
+        graffitiUserImageView.layer.cornerRadius = 25
+        
+        graffitiContentsImageView.clipsToBounds = true
+        graffitiContentsImageView.layer.cornerRadius = 10
+        
+        graffitiBackGroundView.clipsToBounds = true
+        graffitiBackGroundView.layer.cornerRadius = 10
+        
+        self.commentTextView.delegate = self
+
+        commentTextView.textColor = .gray
+        commentTextView.text = placeholder
+        
+        wordCountLabel.text = "200文字まで"
+        
+        commentTextView.clipsToBounds = true
+        commentTextView.layer.cornerRadius = 8
+        
+        sendButton.backgroundColor = .gray
+        sendButton.clipsToBounds = true
+        sendButton.layer.cornerRadius = 5
+
+        
+
         
         if let url = URL(string:userImage ?? "") {
             Nuke.loadImage(with: url, into: graffitiUserImageView)
@@ -163,7 +204,40 @@ class ReMemoPostVC:UIViewController {
         } else {
             graffitiContentsImageView.image = nil
         }
-        
-        
+    }
+}
+
+extension ReMemoPostVC : UITextViewDelegate {
+    func textView(_ commentTextView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let existingLines = commentTextView.text.components(separatedBy: .newlines)//既に存在する改行数
+        let newLines = text.components(separatedBy: .newlines)//新規改行数
+        let linesAfterChange = existingLines.count + newLines.count - 1 //最終改行数。-1は編集したら必ず1改行としてカウントされるから。
+        return linesAfterChange <= 20 && commentTextView.text.count + (text.count - range.length) <= maxWordCount
+    }
+    func textViewDidChange(_ commentTextView: UITextView) {
+        let existingLines = commentTextView.text.components(separatedBy: .newlines)//既に存在する改行数
+        let textwhite = commentTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)//空白、改行のみを防ぐ
+        if textwhite.isEmpty {
+            sendButton.isEnabled = false
+            sendButton.backgroundColor = .gray
+        } else {
+            sendButton.isEnabled = true
+            sendButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        }
+        if existingLines.count <= 20 {
+            self.wordCountLabel.text = "残り\(maxWordCount - commentTextView.text.count)文字"
+        }
+    }
+    func textViewDidBeginEditing(_ commentTextView: UITextView) {
+        if commentTextView.text == placeholder {
+            commentTextView.text = nil
+            commentTextView.textColor = .darkText
+        }
+    }
+    func textViewDidEndEditing(_ commentTextView: UITextView) {
+        if commentTextView.text.isEmpty {
+            commentTextView.textColor = .darkGray
+            commentTextView.text = placeholder
+        }
     }
 }
