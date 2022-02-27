@@ -129,6 +129,8 @@
 		CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC12794454000D4C472 /* Reserch.storyboard */; };
 		CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC32794456000D4C472 /* ReserchVC.swift */; };
 		CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC5279453CD00D4C472 /* ad.storyboard */; };
+		CFAB80B227CA5075007DECA0 /* backGroundSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAB80B127CA5075007DECA0 /* backGroundSettings.storyboard */; };
+		CFAB80B427CA5097007DECA0 /* backGroundSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAB80B327CA5097007DECA0 /* backGroundSettingsVC.swift */; };
 		CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */; };
 		CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFE909142618F0AE001AFCFB /* EULA.storyboard */; };
 		CFE909182618F23E001AFCFB /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE909172618F23E001AFCFB /* EULAViewController.swift */; };
@@ -263,6 +265,8 @@
 		CFA19DC12794454000D4C472 /* Reserch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reserch.storyboard; sourceTree = "<group>"; };
 		CFA19DC32794456000D4C472 /* ReserchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserchVC.swift; sourceTree = "<group>"; };
 		CFA19DC5279453CD00D4C472 /* ad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ad.storyboard; sourceTree = "<group>"; };
+		CFAB80B127CA5075007DECA0 /* backGroundSettings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = backGroundSettings.storyboard; sourceTree = "<group>"; };
+		CFAB80B327CA5097007DECA0 /* backGroundSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = backGroundSettingsVC.swift; sourceTree = "<group>"; };
 		CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		CFE909142618F0AE001AFCFB /* EULA.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EULA.storyboard; sourceTree = "<group>"; };
 		CFE909172618F23E001AFCFB /* EULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
@@ -357,6 +361,7 @@
 				CF6846D22797C0E9004B80C5 /* UserIdSetVC.swift */,
 				CF6846D42797C0FB004B80C5 /* UserNameSetVC.swift */,
 				A36DC50527A430470083F76D /* MembersVC.swift */,
+				CFAB80B327CA5097007DECA0 /* backGroundSettingsVC.swift */,
 			);
 			path = ProfileVCFolder;
 			sourceTree = "<group>";
@@ -387,6 +392,7 @@
 				CF6846CE2797C0C4004B80C5 /* UserNameSet.storyboard */,
 				A35984002798ED39003CB00B /* Followers.storyboard */,
 				A35984042798ED78003CB00B /* Connection.storyboard */,
+				CFAB80B127CA5075007DECA0 /* backGroundSettings.storyboard */,
 			);
 			path = ProfileFolder;
 			sourceTree = "<group>";
@@ -665,6 +671,7 @@
 				A33F068B279D20110008B29A /* TeamExplain.storyboard in Resources */,
 				CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */,
 				CF83D9B627BFA80E00DF9C76 /* Refferal.storyboard in Resources */,
+				CFAB80B227CA5075007DECA0 /* backGroundSettings.storyboard in Resources */,
 				CF3B829E2785181400B4A257 /* ReadLog.storyboard in Resources */,
 				A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */,
 			);
@@ -762,6 +769,7 @@
 				CF1BAC37266FB2380025A660 /* MyAccountViewController.swift in Sources */,
 				CF6846D32797C0E9004B80C5 /* UserIdSetVC.swift in Sources */,
 				CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */,
+				CFAB80B427CA5097007DECA0 /* backGroundSettingsVC.swift in Sources */,
 				A3D13E2E276FC4B1002599B9 /* Users.swift in Sources */,
 				A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */,
 				CF3B82B02786F70400B4A257 /* NotificationVC.swift in Sources */,

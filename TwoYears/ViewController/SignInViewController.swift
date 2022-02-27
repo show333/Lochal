@@ -60,7 +60,7 @@ class SignInViewController: UIViewController {
         let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
         backgroundQueue.async(execute: { [self] in
             sleep(1) // 3: Do your networking task or background work here.
-            
+            //            RefferalId
             db.collection("ReferralId").whereField("usedBool", isEqualTo: false).whereField("referralId", isEqualTo: referralId)
                 .getDocuments() { (querySnapshot, err) in
                     if let err = err {
@@ -76,9 +76,33 @@ class SignInViewController: UIViewController {
                             }
                             
                         } else {
-                            self.ErrorAnimation(button: button)
+                            
+                            db.collection("RefferalId").whereField("usedBool", isEqualTo: false).whereField("refferalId", isEqualTo: referralId)
+                                .getDocuments() { (querySnapshot, err) in
+                                    if let err = err {
+                                        print("Error getting documents: \(err)")
+                                    } else {
+                                        
+                                        if querySnapshot!.documents.count != 0 {
+                                            self.successAnimation(button: button, referralId: referralId)
+                                            
+                                            for document in querySnapshot!.documents {
+                                                let referralUserlId = document.data()["userId"] as? String ?? ""
+                                                UserDefaults.standard.set(referralUserlId, forKey: "referralUserlId")
+                                            }
+                                            
+                                        } else {
+                                            
+                                            
+                                            self.ErrorAnimation(button: button)
+                                        }
+                                    }
+                                    
+                                }
+                            //                            self.ErrorAnimation(button: button)
                         }
                     }
+                    
                 }
         })
     }
@@ -163,7 +187,9 @@ class SignInViewController: UIViewController {
         
         db.collection("users").document(uid ?? "").collection("Profile").document("profile").setData(profile,merge: true)
         
+        if referralId != "U" {
         db.collection("ReferralId").document(referralId).setData(["usedBool":true],merge: true)
+        }
         
         let storyboard = UIStoryboard.init(name: "Explain", bundle: nil)
         let vc = storyboard.instantiateViewController(identifier: "ExplainVC") as! ExplainVC

@@ -333,7 +333,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if  outMemo[indexPath.row].readLog == true {
             cell.coverView.backgroundColor = .clear
             cell.coverViewConstraint.constant = 0
-            cell.messageBottomConstraint.constant = 30
+            cell.messageBottomConstraint.constant = 20
             cell.messageLabel.numberOfLines = 0
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0

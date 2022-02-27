@@ -45,6 +45,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
     private let headerMoveHeight: CGFloat = 7
     
+    @IBOutlet weak var backGroundImageView: UIImageView!
     @IBOutlet weak var settingsLabel: UILabel!
     @IBOutlet weak var userFrontIdLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
@@ -342,12 +343,11 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         followButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 17)
 
+        backGroundImageView.alpha = 0.15
+        headerView.alpha = 0.8
+        postCollectionView.alpha = 0.8
+        
 
-        
-        
-        
-
-//        03SmartFontUI
         
         self.coachMarksController.dataSource = self
         self.coachMarksControllerSecond.dataSource = self
@@ -437,8 +437,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         
         let postLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        postLayout.itemSize = CGSize(width: safeAreaWidth/3, height: safeAreaWidth/3/9*16)
-        postLayout.minimumLineSpacing = 0
+        postLayout.itemSize = CGSize(width: safeAreaWidth/3-6, height: safeAreaWidth/3/9*16)
+        postLayout.minimumLineSpacing = 6
         postLayout.minimumInteritemSpacing = 0
         postLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
 
@@ -463,8 +463,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //        chatListTableView.backgroundColor = .clear
         
 //        fetchFireStore(userId: userId ?? "unKnown",uid: uid)
-        postCollectionView.reloadData()
-
         fetchUserProfile(userId: userId ?? "unKnown")
         fetchUserTeamInfo(userId:userId ?? "unKnown")
         fetchUnitPostInfo(userId: userId ?? "unKnown")
@@ -771,6 +769,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             let userName = document["userName"] as? String ?? "unKnown"
             let userImage = document["userImage"] as? String ?? "unKnown"
             let userFrontId = document["userFrontId"] as? String ?? "unKnown"
+            let userBackGround = document["userBackGround"] as? String ?? "unKnown"
+
 
             let ConnectionsCount = document["ConnectionsCount"] as? Int ?? 0
             
@@ -794,6 +794,12 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 Nuke.loadImage(with: url, into: userImageView)
             } else {
                 userImageView?.image = nil
+            }
+            
+            if let url = URL(string:userBackGround) {
+                Nuke.loadImage(with: url, into: backGroundImageView)
+            } else {
+                backGroundImageView?.image = nil
             }
         }
     }
@@ -1221,7 +1227,7 @@ class postCollectionViewCell: UICollectionViewCell {
 
         self.layer.borderWidth = 6
     
-        self.layer.borderColor = UIColor.tertiarySystemGroupedBackground.cgColor
+        self.layer.borderColor = UIColor.clear.cgColor
 
 
         // cellを丸くする

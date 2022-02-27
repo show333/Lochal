@@ -27,4 +27,5 @@ target 'TOTALGOOD' do
     pod 'DZNEmptyDataSet'
     pod 'Instructions', '~> 2.0.1'
     pod 'ImageViewer'
+    pod 'CropViewController'
 end
