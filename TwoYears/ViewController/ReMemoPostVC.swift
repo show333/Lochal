@@ -152,6 +152,24 @@ class ReMemoPostVC:UIViewController {
         
     }
     
+    
+    
+    
+    //view.asImage()でUIImageに変換できます。ボタンが押されるタイミングで呼び出すのが良いでしょう。
+//    let image = graffitiBackGroundView.asImage()
+    
+    private func setupOpenInstagram() {
+            let image = graffitiBackGroundView.asImage()
+            let items: [[String: Any]] = [[
+                "com.instagram.sharedSticker.stickerImage": image,
+                "com.instagram.sharedSticker.backgroundTopColor": "#000000",
+                "com.instagram.sharedSticker.backgroundBottomColor": "#FFFFFF"
+            ]]
+            UIPasteboard.general.setItems(items, options: [:])
+            guard let shareInstagramStoryURL = "instagram-stories://share".convertURL else { return }
+            UIApplication.shared.open(shareInstagramStoryURL, options: [:], completionHandler: nil)
+        }
+    
     fileprivate let placeholder: String = "返信コメントを入力" //プレイスホルダー
     fileprivate var maxWordCount: Int = 200 //最大文字数
 
@@ -238,6 +256,16 @@ extension ReMemoPostVC : UITextViewDelegate {
         if commentTextView.text.isEmpty {
             commentTextView.textColor = .darkGray
             commentTextView.text = placeholder
+        }
+    }
+}
+
+extension UIView {
+    //UIViewをUIImageに変換するコード
+    func asImage() -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
         }
     }
 }

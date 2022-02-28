@@ -106,7 +106,7 @@ class ThankyouVC:UIViewController {
         let addNumber = [
             //        welcome と refferalの許可したぶんを合わせて2つ
             "notificationNum": FieldValue.increment(2.0),
-            "referralCount": 3
+            "referralCount": 15
         ] as [String:Any]
         db.collection("users").document(uid).setData(addNumber, merge: true)
         
