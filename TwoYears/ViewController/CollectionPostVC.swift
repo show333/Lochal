@@ -158,13 +158,20 @@ class CollectionPostVC:UIViewController{
 
     
     
-    fileprivate let placeholder: String = "一言コメントを入力" //プレイスホルダー
+    fileprivate let placeholder: String = "" //プレイスホルダー
     
     fileprivate var maxWordCount: Int = 30 //最大文字数
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = true
+        
+        self.present(imagePickerController, animated: true, completion: nil)
         
         bottomTextView.delegate = self
         

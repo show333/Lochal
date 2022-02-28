@@ -26,12 +26,13 @@ class detailPostVC:UIViewController {
     var userFrontId: String?
     let db = Firestore.firestore()
     
+    @IBOutlet weak var backGroundView: UIView!
     @IBOutlet weak var userFrontIdLabel: UILabel!
     
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
     
-    @IBOutlet weak var userImageViewConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var userImageViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -42,6 +43,8 @@ class detailPostVC:UIViewController {
         alertAction()
     }
     
+    @IBOutlet weak var transitionReMemoConstraint: NSLayoutConstraint!
+    @IBOutlet weak var transitionReMemoWidth: NSLayoutConstraint!
     @IBOutlet weak var trainsitionReMemoButton: UIButton!
     
     @IBAction func transitionTappedReMemoButton(_ sender: Any) {
@@ -58,11 +61,26 @@ class detailPostVC:UIViewController {
         
     }
     
+    @IBOutlet weak var storyShareConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var storyShareWidth: NSLayoutConstraint!
+    @IBOutlet weak var storyShareButton: UIButton!
+    
+    @IBAction func tappedStoryShareButton(_ sender: Any) {
+        TPButton.alpha = 0
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
+        shareStickerImage()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        titleLabel.font = UIFont(name:"03SmartFontUI", size:19)
+        backGroundView.clipsToBounds = true
+        backGroundView.layer.cornerRadius = 30
+        backGroundView.backgroundColor = .clear
+        
+        titleLabel.font = UIFont(name:"03SmartFontUI", size:22)
         
         trainsitionReMemoButton.backgroundColor = .white
         trainsitionReMemoButton.clipsToBounds = true
@@ -73,24 +91,46 @@ class detailPostVC:UIViewController {
         trainsitionReMemoButton.layer.shadowOpacity = 0.7
         trainsitionReMemoButton.layer.shadowRadius = 5
         
-        trainsitionReMemoButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 17)
+        storyShareButton.backgroundColor = .white
+        storyShareButton.clipsToBounds = true
+        storyShareButton.layer.masksToBounds = false
+        storyShareButton.layer.cornerRadius = 10
+        storyShareButton.layer.shadowColor = #colorLiteral(red: 1, green: 0.2916699052, blue: 0.7794274092, alpha: 1)
+        storyShareButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        storyShareButton.layer.shadowOpacity = 0.7
+        storyShareButton.layer.shadowRadius = 5
+        
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+
+        transitionReMemoWidth.constant = safeAreaWidth/2.5
+        transitionReMemoConstraint.constant = safeAreaWidth/16
+        storyShareWidth.constant = safeAreaWidth/2.5
+        storyShareConstraint.constant = safeAreaWidth/16
+        
+//        trainsitionReMemoButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        trainsitionReMemoButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 15)
+//        storyShareButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        storyShareButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 15)
 
 
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        if uid == profileUserId {
+//        if uid == profileUserId {
             trainsitionReMemoButton.alpha = 1
-        } else {
-            trainsitionReMemoButton.alpha = 0
-        }
+            storyShareButton.alpha = 1
+//        } else {
+//            trainsitionReMemoButton.alpha = 0
+//            storyShareButton.alpha = 0
+//        }
         if uid == userId || uid == profileUserId {
              TPButton.alpha = 1
 
          } else {
              TPButton.alpha = 0
          }
-        
+        backGroundView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 0.9)
+
         
         setSwipeBack()
         if let url = URL(string:postInfoImage ?? "") {
@@ -128,6 +168,21 @@ class detailPostVC:UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("aaa")
+    }
+    
+    func shareStickerImage() {
+        let image = backGroundView.asImage()
+        let backGroundImage:UIImage = UIImage(url:UserDefaults.standard.string(forKey: "userBackGround") ?? "")
+        let url = URL(string: "instagram-stories://share")
+        let items: NSArray = [["com.instagram.sharedSticker.stickerImage": image,
+                               "com.instagram.sharedSticker.backgroundImage": backGroundImage,
+                               "com.instagram.sharedSticker.backgroundTopColor": "#00ff00",
+                               "com.instagram.sharedSticker.backgroundBottomColor": "#ff00ff"]]
+        UIPasteboard.general.setItems(items as! [[String : Any]], options: [:])
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        
+        
+
     }
     
     func getUserInfo(){
@@ -253,5 +308,14 @@ extension detailPostVC: GalleryItemsDataSource {
 extension detailPostVC: GalleryDisplacedViewsDataSource {
     func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
         return postImageView
+    }
+}
+extension UIView {
+    //UIViewをUIImageに変換するコード
+    func asImage() -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: bounds)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
     }
 }
