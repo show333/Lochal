@@ -43,6 +43,8 @@ class detailPostVC:UIViewController {
         alertAction()
     }
     
+    @IBOutlet weak var memoLabel: UILabel!
+    @IBOutlet weak var transitionReMemoBackView: UIView!
     @IBOutlet weak var transitionReMemoConstraint: NSLayoutConstraint!
     @IBOutlet weak var transitionReMemoWidth: NSLayoutConstraint!
     @IBOutlet weak var trainsitionReMemoButton: UIButton!
@@ -61,6 +63,9 @@ class detailPostVC:UIViewController {
         
     }
     
+    @IBOutlet weak var storyShareLabel: UILabel!
+    @IBOutlet weak var storyShareBackView: UIView!
+    @IBOutlet weak var storyShareImageView: UIImageView!
     @IBOutlet weak var storyShareConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var storyShareWidth: NSLayoutConstraint!
@@ -76,41 +81,42 @@ class detailPostVC:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+
         backGroundView.clipsToBounds = true
-        backGroundView.layer.cornerRadius = 30
+        backGroundView.layer.cornerRadius = 15
         backGroundView.backgroundColor = .clear
         
         titleLabel.font = UIFont(name:"03SmartFontUI", size:22)
         
-        trainsitionReMemoButton.backgroundColor = .white
-        trainsitionReMemoButton.clipsToBounds = true
-        trainsitionReMemoButton.layer.masksToBounds = false
-        trainsitionReMemoButton.layer.cornerRadius = 10
-        trainsitionReMemoButton.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-        trainsitionReMemoButton.layer.shadowOffset = CGSize(width: 0, height: 3)
-        trainsitionReMemoButton.layer.shadowOpacity = 0.7
-        trainsitionReMemoButton.layer.shadowRadius = 5
+        transitionReMemoBackView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        transitionReMemoBackView.clipsToBounds = true
+        transitionReMemoBackView.layer.masksToBounds = false
+        transitionReMemoBackView.layer.cornerRadius = safeAreaWidth/12
+        transitionReMemoBackView.layer.shadowColor = UIColor.black.cgColor
+        transitionReMemoBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        transitionReMemoBackView.layer.shadowOpacity = 0.7
+        transitionReMemoBackView.layer.shadowRadius = 5
         
-        storyShareButton.backgroundColor = .white
-        storyShareButton.clipsToBounds = true
-        storyShareButton.layer.masksToBounds = false
-        storyShareButton.layer.cornerRadius = 10
-        storyShareButton.layer.shadowColor = #colorLiteral(red: 1, green: 0.2916699052, blue: 0.7794274092, alpha: 1)
-        storyShareButton.layer.shadowOffset = CGSize(width: 0, height: 3)
-        storyShareButton.layer.shadowOpacity = 0.7
-        storyShareButton.layer.shadowRadius = 5
+        storyShareBackView.backgroundColor = .clear
+        storyShareBackView.clipsToBounds = true
+        storyShareBackView.layer.masksToBounds = false
+        storyShareBackView.layer.cornerRadius = 10
+        storyShareBackView.layer.shadowColor = #colorLiteral(red: 1, green: 0.2916699052, blue: 0.7794274092, alpha: 1)
+        storyShareBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        storyShareBackView.layer.shadowOpacity = 0.7
+        storyShareBackView.layer.shadowRadius = 5
         
-        let safeAreaWidth = UIScreen.main.bounds.size.width
 
-        transitionReMemoWidth.constant = safeAreaWidth/2.5
-        transitionReMemoConstraint.constant = safeAreaWidth/16
-        storyShareWidth.constant = safeAreaWidth/2.5
-        storyShareConstraint.constant = safeAreaWidth/16
+        transitionReMemoWidth.constant = safeAreaWidth/6
+        transitionReMemoConstraint.constant = safeAreaWidth/4
+        storyShareWidth.constant = safeAreaWidth/6
+        storyShareConstraint.constant = safeAreaWidth/4
         
 //        trainsitionReMemoButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        trainsitionReMemoButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 15)
+        memoLabel.font = UIFont(name: "03SmartFontUI", size: 13)
 //        storyShareButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        storyShareButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 15)
+        storyShareLabel.font = UIFont(name: "03SmartFontUI", size: 11)
 
 
         
@@ -123,6 +129,14 @@ class detailPostVC:UIViewController {
 //            trainsitionReMemoButton.alpha = 0
 //            storyShareButton.alpha = 0
 //        }
+        
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FInstagram_Glyph_Gradient_RGB.png?alt=media&token=3d86956e-4d3e-46c3-9777-891495f5cf84") {
+            Nuke.loadImage(with: url, into: storyShareImageView)
+        } else {
+            storyShareImageView.image = nil
+        }
+        
         if uid == userId || uid == profileUserId {
              TPButton.alpha = 1
 

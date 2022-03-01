@@ -340,20 +340,29 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             if outMemo[indexPath.row].graffitiUserId != "" {
                 
+                if outMemo[indexPath.row].delete == true {
+                    cell.graffitiBackGroundConstraint.constant = 0
+                    cell.graffitiBackGroundView.alpha = 0
+                    cell.graffitiUserFrontIdLabel.alpha = 0
+                    cell.graffitiTitleLabel.alpha = 0
+                    cell.graffitiUserImageView.alpha = 0
+                    cell.graffitiContentsImageView.alpha = 0
+                } else {
                 cell.graffitiBackGroundConstraint.constant = 700
                 cell.graffitiBackGroundView.alpha = 1
                 cell.graffitiUserFrontIdLabel.alpha = 1
                 cell.graffitiTitleLabel.alpha = 1
                 cell.graffitiUserImageView.alpha = 1
                 cell.graffitiContentsImageView.alpha = 1
+                }
             } else {
-                
                 cell.graffitiBackGroundConstraint.constant = 0
                 cell.graffitiBackGroundView.alpha = 0
                 cell.graffitiUserFrontIdLabel.alpha = 0
                 cell.graffitiTitleLabel.alpha = 0
                 cell.graffitiUserImageView.alpha = 0
                 cell.graffitiContentsImageView.alpha = 0
+
             }
             
         } else {
@@ -647,6 +656,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 if delete == true {
                     cell.messageLabel.text = "この投稿は削除されました"
+                    
+                    //後で直す
+                    cell.graffitiContentsImageView.alpha = 0
+                    cell.graffitiBackGroundConstraint.constant = 0
                     db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
                 } else {
                     //                    cell.messageLabel.text = message
