@@ -185,15 +185,42 @@ class detailPostVC:UIViewController {
     }
     
     func shareStickerImage() {
-        let image = backGroundView.asImage()
-        let backGroundImage:UIImage = UIImage(url:UserDefaults.standard.string(forKey: "userBackGround") ?? "")
-        let url = URL(string: "instagram-stories://share")
-        let items: NSArray = [["com.instagram.sharedSticker.stickerImage": image,
-                               "com.instagram.sharedSticker.backgroundImage": backGroundImage,
-                               "com.instagram.sharedSticker.backgroundTopColor": "#00ff00",
-                               "com.instagram.sharedSticker.backgroundBottomColor": "#ff00ff"]]
-        UIPasteboard.general.setItems(items as! [[String : Any]], options: [:])
-        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        if UIApplication.shared.canOpenURL(URL(string: "instagram-stories://share")!) {
+            // xxxアプリがインストールされている
+            let image = backGroundView.asImage()
+            let backGroundImage:UIImage = UIImage(url:UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d")
+            let url = URL(string: "instagram-stories://share")
+            let items: NSArray = [["com.instagram.sharedSticker.stickerImage": image,
+                                   "com.instagram.sharedSticker.backgroundImage": backGroundImage,
+                                   "com.instagram.sharedSticker.backgroundTopColor": "#00ffdf",
+                                   "com.instagram.sharedSticker.backgroundBottomColor": "#ff00ff"]]
+            UIPasteboard.general.setItems(items as! [[String : Any]], options: [:])
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        } else {
+            // xxxアプリがインストールされていない
+            // ボタンを押下した時にアラートを表示するメソッド
+
+                // ① UIAlertControllerクラスのインスタンスを生成
+                // タイトル, メッセージ, Alertのスタイルを指定する
+                // 第3引数のpreferredStyleでアラートの表示スタイルを指定する
+            let alert: UIAlertController = UIAlertController(title: "Instagram", message: "をインストールしてください", preferredStyle:  UIAlertController.Style.alert)
+
+                // ② Actionの設定
+                // Action初期化時にタイトル, スタイル, 押された時に実行されるハンドラを指定する
+                // 第3引数のUIAlertActionStyleでボタンのスタイルを指定する
+                // OKボタン
+            let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+                    // ボタンが押された時の処理を書く（クロージャ実装）
+                    (action: UIAlertAction!) -> Void in
+                    print("OK")
+                })
+
+                // ③ UIAlertControllerにActionを追加
+                alert.addAction(defaultAction)
+
+                // ④ Alertを表示
+            present(alert, animated: true, completion: nil)
+            }
         
         
 
