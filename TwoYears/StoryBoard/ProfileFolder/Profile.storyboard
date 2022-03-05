@@ -259,41 +259,47 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="postCell" id="x9N-2I-aBE" customClass="postCollectionViewCell" customModule="TOTALGOOD" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="6Wx-rS-Ph1">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q5C-5h-ffr">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="gcg-w3-hPc">
-                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zUL-uI-g6L">
-                                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="zbI-qD-7zr">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iid-0J-CW1">
-                                                                            <rect key="frame" x="43.5" y="54" width="41.5" height="20.5"/>
-                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iid-0J-CW1">
+                                                                            <rect key="frame" x="-10" y="0.0" width="120" height="100"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="33"/>
                                                                             <nil key="textColor"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                     </subviews>
                                                                     <constraints>
+                                                                        <constraint firstAttribute="trailing" secondItem="Iid-0J-CW1" secondAttribute="trailing" constant="-10" id="5y5-ya-BWT"/>
+                                                                        <constraint firstItem="Iid-0J-CW1" firstAttribute="top" secondItem="zbI-qD-7zr" secondAttribute="top" id="8gS-Tp-SRA"/>
                                                                         <constraint firstItem="Iid-0J-CW1" firstAttribute="centerY" secondItem="zbI-qD-7zr" secondAttribute="centerY" id="SSk-Fk-Uye"/>
+                                                                        <constraint firstAttribute="bottom" secondItem="Iid-0J-CW1" secondAttribute="bottom" id="caH-k1-2JH"/>
                                                                         <constraint firstItem="Iid-0J-CW1" firstAttribute="centerX" secondItem="zbI-qD-7zr" secondAttribute="centerX" id="pfa-3F-xVr"/>
+                                                                        <constraint firstItem="Iid-0J-CW1" firstAttribute="leading" secondItem="zbI-qD-7zr" secondAttribute="leading" constant="-10" id="vLW-NT-xw8"/>
                                                                     </constraints>
                                                                 </view>
+                                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <vibrancyEffect>
                                                                     <blurEffect style="extraLight"/>
                                                                 </vibrancyEffect>
                                                             </visualEffectView>
                                                         </subviews>
+                                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="zUL-uI-g6L" firstAttribute="leading" secondItem="gcg-w3-hPc" secondAttribute="leading" id="9zB-3F-gVh"/>
                                                             <constraint firstAttribute="trailing" secondItem="zUL-uI-g6L" secondAttribute="trailing" id="V8C-w7-wse"/>
@@ -301,10 +307,15 @@
                                                             <constraint firstItem="zUL-uI-g6L" firstAttribute="top" secondItem="gcg-w3-hPc" secondAttribute="top" id="upU-da-dg0"/>
                                                         </constraints>
                                                     </view>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="100" id="B5P-Bj-GdC"/>
+                                                        <constraint firstAttribute="width" constant="100" id="ZJl-EM-UGp"/>
+                                                    </constraints>
                                                     <blurEffect style="extraLight"/>
                                                 </visualEffectView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C0o-57-H6b">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -320,6 +331,8 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
+                                            <outlet property="backVisualEffectView" destination="Q5C-5h-ffr" id="iXs-Dv-ydR"/>
+                                            <outlet property="collectionPostLabel" destination="Iid-0J-CW1" id="HOp-b6-dyM"/>
                                             <outlet property="postImageView" destination="C0o-57-H6b" id="e84-2M-TBI"/>
                                         </connections>
                                     </collectionViewCell>

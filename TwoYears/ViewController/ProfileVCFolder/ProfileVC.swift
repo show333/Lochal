@@ -31,6 +31,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var userFrontId: String? = UserDefaults.standard.string(forKey: "userFrontId")
     
     var cellImageTap : Bool = false
+    
+    
     let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
     let DBU = Firestore.firestore().collection("users")
@@ -449,6 +451,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         self.postCollectionView.collectionViewLayout = postLayout
         
+        //Pull To Refresh
+        postCollectionView.refreshControl = UIRefreshControl()
+        postCollectionView.refreshControl?.addTarget(self, action: #selector(onRefresh(_:)), for: .valueChanged)
+        
         postCollectionView.dataSource = self
         postCollectionView.delegate = self
         teamCollectionView.dataSource = self
@@ -472,6 +478,21 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         fetchUnitPostInfo(userId: userId ?? "unKnown")
         self.postCollectionView.reloadData()
 
+    }
+    
+    //Pull to Refresh
+    @objc func onRefresh(_ sender: AnyObject) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.postInfo.removeAll()
+            self?.postCollectionView.reloadData()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                // 0.5秒後に実行したい処理
+                self?.fetchUnitPostInfo(userId: self?.userId ?? "unKnown")
+            }
+     
+            self?.postCollectionView.refreshControl?.endRefreshing()
+        }
     }
     
     
@@ -516,7 +537,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         super.viewDidAppear(animated)
         
 //        coachMarksController.start(in: .currentWindow(of: self))
-
+        
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if UserDefaults.standard.bool(forKey: "ProfileTransition") != true{
@@ -568,6 +589,15 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 case .added:
                     let dic = Naruto.document.data()
                     let sendedPostInfoDic = PostInfo(dic: dic)
+                    
+                    
+//                    if sendedPostInfoDic. == true {
+//                    } else{
+//                        if momentType >= moment() - 7.days {
+//                            self.outMemo.append(rarabai)
+//                        }
+//                        
+//                    }
                     self.postInfo.append(sendedPostInfoDic)
                     
                     self.postInfo.sort { (m1, m2) -> Bool in
@@ -855,6 +885,17 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as!  postCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
 //            cell.backView.clipsToBounds = true
 //            cell.backView.layer.cornerRadius = headerHigh/16
+//            var mask: UIView? { get set }
+            
+
+            cell.collectionPostLabel.text = postInfo[indexPath.row].titleComment
+            cell.collectionPostLabel.font = UIFont(name:"Southpaw", size:40)
+            let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+            cell.collectionPostLabel.transform = transScale
+//            cell.backVisualEffectView.mask = cell.collectionPostLabel.text
+            cell.backVisualEffectView.backgroundColor = .clear
+//            cell.collectionPostLabel.alpha = 0
+            cell.postImageView.alpha = 0
             if let url = URL(string:postInfo[indexPath.row].postImage) {
                 Nuke.loadImage(with: url, into: cell.postImageView!)
             } else {
@@ -1223,6 +1264,9 @@ class postCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var postImageView: UIImageView!
 
+    @IBOutlet weak var backVisualEffectView: UIVisualEffectView!
+    @IBOutlet weak var collectionPostLabel: UILabel!
+    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

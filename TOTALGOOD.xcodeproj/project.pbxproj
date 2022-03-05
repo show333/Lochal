@@ -85,6 +85,7 @@
 		CF3107A12600AA6700746480 /* Tabbar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3107A02600AA6700746480 /* Tabbar.storyboard */; };
 		CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3107F726018BB200746480 /* ShoutaiHakkou.storyboard */; };
 		CF361A01277C829800C08160 /* Date-extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF361A00277C829700C08160 /* Date-extension.swift */; };
+		CF36709B27D358BD009367AE /* Southpaw.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF36709A27D358BD009367AE /* Southpaw.otf */; };
 		CF38CAD326655F2D00615D23 /* CountAnimationLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF38CAD126655E6400615D23 /* CountAnimationLabel.swift */; };
 		CF39377C260492BA0020BE97 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF39377B260492BA0020BE97 /* Profile.storyboard */; };
 		CF39565625D39A450097DBAA /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF39565525D39A450097DBAA /* Team.swift */; };
@@ -215,6 +216,7 @@
 		CF3107A02600AA6700746480 /* Tabbar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tabbar.storyboard; sourceTree = "<group>"; };
 		CF3107F726018BB200746480 /* ShoutaiHakkou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ShoutaiHakkou.storyboard; sourceTree = "<group>"; };
 		CF361A00277C829700C08160 /* Date-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date-extension.swift"; sourceTree = "<group>"; };
+		CF36709A27D358BD009367AE /* Southpaw.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Southpaw.otf; sourceTree = "<group>"; };
 		CF38CAD126655E6400615D23 /* CountAnimationLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountAnimationLabel.swift; sourceTree = "<group>"; };
 		CF39377B260492BA0020BE97 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		CF39565525D39A450097DBAA /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				CF83D9B927C5B6BD00DF9C76 /* 03スマートフォントUI.otf */,
 				CF4BF17E260FAB4C00942E6F /* YasashisaGothic.otf */,
 				CF4BF17A260FA5C900942E6F /* 07にくまるフォント.otf */,
+				CF36709A27D358BD009367AE /* Southpaw.otf */,
 				CF4BF175260FA43800942E6F /* yasasisa.ttf */,
 				CF2A223125C3FC7000C5BFC1 /* Products */,
 				CF4BF16F260E0FF200942E6F /* UIImage-extension.swift */,
@@ -629,6 +632,7 @@
 				CF4BF17F260FAB4D00942E6F /* YasashisaGothic.otf in Resources */,
 				CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */,
 				A3C0D9F02778603400AC64D3 /* OutMemoCell.xib in Resources */,
+				CF36709B27D358BD009367AE /* Southpaw.otf in Resources */,
 				A359840F279B20DE003CB00B /* Explain.storyboard in Resources */,
 				CF2A224325C3FC7200C5BFC1 /* LaunchScreen.storyboard in Resources */,
 				A33F0687279D1D380008B29A /* Thankyou.storyboard in Resources */,

@@ -197,7 +197,15 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     //Pull to Refresh
     @objc func onRefresh(_ sender: AnyObject) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.outMemo.removeAll()
             self?.chatListTableView.reloadData()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                // 0.5秒後に実行したい処理
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                self?.fetchFireStore(userId:uid)
+            }
+     
             self?.chatListTableView.refreshControl?.endRefreshing()
         }
     }

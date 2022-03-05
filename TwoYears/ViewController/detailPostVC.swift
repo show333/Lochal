@@ -25,16 +25,6 @@ class detailPostVC:UIViewController {
     var userImage: String?
     var userFrontId: String?
     let db = Firestore.firestore()
-//    let filterArray = ["original",
-//                       "CIPhotoEffectInstant",
-//                       "CIPhotoEffectInstant",
-//                       "CIPhotoEffectInstant",
-//                       "original",
-//                       "CIPhotoEffectInstant",
-//                       "CIPhotoEffectInstant",
-//                       "CIPhotoEffectInstant",
-//                       "CIPhotoEffectInstant"
-//     ]
     let filterArray = ["CIPhotoEffectMono",
                        "CIPhotoEffectChrome",
                        "CIPhotoEffectFade",
@@ -151,6 +141,8 @@ class detailPostVC:UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        effectButton.alpha = 0
         
         let safeAreaWidth = UIScreen.main.bounds.size.width
 
