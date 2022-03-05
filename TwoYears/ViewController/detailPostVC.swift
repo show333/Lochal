@@ -25,6 +25,29 @@ class detailPostVC:UIViewController {
     var userImage: String?
     var userFrontId: String?
     let db = Firestore.firestore()
+//    let filterArray = ["original",
+//                       "CIPhotoEffectInstant",
+//                       "CIPhotoEffectInstant",
+//                       "CIPhotoEffectInstant",
+//                       "original",
+//                       "CIPhotoEffectInstant",
+//                       "CIPhotoEffectInstant",
+//                       "CIPhotoEffectInstant",
+//                       "CIPhotoEffectInstant"
+//     ]
+    let filterArray = ["CIPhotoEffectMono",
+                       "CIPhotoEffectChrome",
+                       "CIPhotoEffectFade",
+                       "CIPhotoEffectInstant",
+                       "CIPhotoEffectNoir",
+                       "CIPhotoEffectProcess",
+                       "CIPhotoEffectTonal",
+                       "CIPhotoEffectTransfer",
+                       "CISepiaTone",
+                       "original"
+     ]
+//    CIPhotoEffectInstant
+    var filterNumber = 0
     
     @IBOutlet weak var backGroundView: UIView!
     @IBOutlet weak var userFrontIdLabel: UILabel!
@@ -36,6 +59,54 @@ class detailPostVC:UIViewController {
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var effectButton: UIButton!
+    
+    @IBAction func effectTappedButton(_ sender: Any) {
+        
+        //UIImageViewのimageをオプショナルバインディングでアンラップし、imageに代入
+              if let image = postImageView.image {
+                 //フィルター名を指定
+                 let filterName = filterArray[filterNumber]
+                  //ボタンを押すたびにフィルター内容が変わるように設定
+                  filterNumber += 1
+      //配列内の要素数とSelectNumberの値が等しければ、0を代入して初期化
+                  if filterNumber == filterArray.count {
+                      filterNumber = 0
+                  }
+      //画像の回転角度をを取得
+                  let rotate = image.imageOrientation
+                 //UIImage形式の画像をCIImage形式に変更し、加工可能な状態にする。
+                  let inputImage = CIImage(image: image)
+                 //フィルターの種類を引数で指定された種類を指定してCIFilterのインスタンスを取得
+                  guard let effectFilter = CIFilter(name: filterName) else{
+                      return
+                  }
+      //エフェクトのパラメータを初期化
+                  effectFilter.setDefaults()
+                 //インスタンスにエフェクトする画像を指定
+                  effectFilter.setValue(inputImage, forKey: kCIInputImageKey)
+      //エフェクト後のCIImage形式の画像を取り出す
+                  guard let outputImage = effectFilter.outputImage else{
+                      return
+                  }
+                // CIContextのインスタンスを取得
+                  let ciContext = CIContext(options: nil)
+                // エフェクト後の画像をCIContext上に描画し、結果をcgImageとしてCGImage形式の画像を取得
+                  guard let cgImage = ciContext.createCGImage(outputImage, from: outputImage.extent) else {
+                      return
+                  }
+      //エフェクト後の画像をCGImage形式からUIImage形式に変更、回転角度を指定、ImageViewに表示
+                  
+                  if let url = URL(string:postInfoImage ?? "") {
+                      Nuke.loadImage(with: url, into: postImageView)
+                  } else {
+                      postImageView.image = nil
+                  }
+                  DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                      self.postImageView.image = UIImage(cgImage: cgImage, scale: 1.0, orientation: rotate)
+                  }
+              }
+    }
 
     @IBOutlet weak var TPButton: UIButton!
     
@@ -183,6 +254,8 @@ class detailPostVC:UIViewController {
         super.viewDidAppear(animated)
         print("aaa")
     }
+    
+    
     
     func shareStickerImage() {
         if UIApplication.shared.canOpenURL(URL(string: "instagram-stories://share")!) {

@@ -172,6 +172,15 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="di4-HQ-c1f">
+                                <rect key="frame" x="163" y="627" width="67" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="effectTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="7nf-gu-kbw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
@@ -194,6 +203,7 @@
                     <connections>
                         <outlet property="TPButton" destination="MLU-Y5-Pxe" id="seA-gm-mF1"/>
                         <outlet property="backGroundView" destination="TJQ-M6-pPd" id="S60-4v-lUg"/>
+                        <outlet property="effectButton" destination="di4-HQ-c1f" id="Bkn-uc-EIr"/>
                         <outlet property="memoLabel" destination="MiT-3z-ZUk" id="hFd-nm-g23"/>
                         <outlet property="postImageView" destination="lRv-cx-v4Q" id="dOH-yU-IOy"/>
                         <outlet property="storyShareBackView" destination="Tt1-9j-O1O" id="qb8-VF-xFb"/>

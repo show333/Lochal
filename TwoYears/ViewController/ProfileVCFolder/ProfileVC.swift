@@ -56,6 +56,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //    @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet weak var postButton: UIButton!
     
+
+    
     @IBOutlet weak var postCollectionView: UICollectionView!
     @IBOutlet weak var headerhightConstraint: NSLayoutConstraint!
     @IBOutlet weak var headertopConstraint: NSLayoutConstraint!
@@ -343,9 +345,11 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         followButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 17)
 
-        backGroundImageView.alpha = 0.15
-        headerView.alpha = 0.8
-        postCollectionView.alpha = 0.8
+        backGroundImageView.alpha = 0.3
+        headerView.alpha = 1
+        postCollectionView.alpha = 1
+        
+        
         
 
         

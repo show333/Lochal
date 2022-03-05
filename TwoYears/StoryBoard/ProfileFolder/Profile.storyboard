@@ -265,20 +265,62 @@
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YkT-TQ-i9k">
+                                                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q5C-5h-ffr">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="gcg-w3-hPc">
+                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <subviews>
+                                                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zUL-uI-g6L">
+                                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="zbI-qD-7zr">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                    <subviews>
+                                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iid-0J-CW1">
+                                                                            <rect key="frame" x="43.5" y="54" width="41.5" height="20.5"/>
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                            <nil key="textColor"/>
+                                                                            <nil key="highlightedColor"/>
+                                                                        </label>
+                                                                    </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="Iid-0J-CW1" firstAttribute="centerY" secondItem="zbI-qD-7zr" secondAttribute="centerY" id="SSk-Fk-Uye"/>
+                                                                        <constraint firstItem="Iid-0J-CW1" firstAttribute="centerX" secondItem="zbI-qD-7zr" secondAttribute="centerX" id="pfa-3F-xVr"/>
+                                                                    </constraints>
+                                                                </view>
+                                                                <vibrancyEffect>
+                                                                    <blurEffect style="extraLight"/>
+                                                                </vibrancyEffect>
+                                                            </visualEffectView>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="zUL-uI-g6L" firstAttribute="leading" secondItem="gcg-w3-hPc" secondAttribute="leading" id="9zB-3F-gVh"/>
+                                                            <constraint firstAttribute="trailing" secondItem="zUL-uI-g6L" secondAttribute="trailing" id="V8C-w7-wse"/>
+                                                            <constraint firstAttribute="bottom" secondItem="zUL-uI-g6L" secondAttribute="bottom" id="kT8-Ad-2SZ"/>
+                                                            <constraint firstItem="zUL-uI-g6L" firstAttribute="top" secondItem="gcg-w3-hPc" secondAttribute="top" id="upU-da-dg0"/>
+                                                        </constraints>
+                                                    </view>
+                                                    <blurEffect style="extraLight"/>
+                                                </visualEffectView>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="C0o-57-H6b">
                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                 </imageView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="YkT-TQ-i9k" firstAttribute="top" secondItem="6Wx-rS-Ph1" secondAttribute="top" id="Hu8-Q8-oWe"/>
-                                                <constraint firstAttribute="trailing" secondItem="YkT-TQ-i9k" secondAttribute="trailing" id="N7H-5n-O14"/>
-                                                <constraint firstAttribute="bottom" secondItem="YkT-TQ-i9k" secondAttribute="bottom" id="ObG-99-w2u"/>
-                                                <constraint firstItem="YkT-TQ-i9k" firstAttribute="leading" secondItem="6Wx-rS-Ph1" secondAttribute="leading" id="nhC-zn-jMG"/>
+                                                <constraint firstAttribute="bottom" secondItem="C0o-57-H6b" secondAttribute="bottom" id="0UT-05-FvY"/>
+                                                <constraint firstItem="C0o-57-H6b" firstAttribute="top" secondItem="6Wx-rS-Ph1" secondAttribute="top" id="2aM-Zy-pQs"/>
+                                                <constraint firstAttribute="trailing" secondItem="Q5C-5h-ffr" secondAttribute="trailing" id="6UP-Cs-1W0"/>
+                                                <constraint firstAttribute="trailing" secondItem="C0o-57-H6b" secondAttribute="trailing" id="Hw1-Bg-PsD"/>
+                                                <constraint firstItem="Q5C-5h-ffr" firstAttribute="top" secondItem="6Wx-rS-Ph1" secondAttribute="top" id="Imd-fn-5do"/>
+                                                <constraint firstItem="Q5C-5h-ffr" firstAttribute="leading" secondItem="6Wx-rS-Ph1" secondAttribute="leading" id="Yl5-K3-GZK"/>
+                                                <constraint firstAttribute="bottom" secondItem="Q5C-5h-ffr" secondAttribute="bottom" id="a0T-iF-APQ"/>
+                                                <constraint firstItem="C0o-57-H6b" firstAttribute="leading" secondItem="6Wx-rS-Ph1" secondAttribute="leading" id="s0z-iK-oe7"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
-                                            <outlet property="postImageView" destination="YkT-TQ-i9k" id="KVy-8l-tZH"/>
+                                            <outlet property="postImageView" destination="C0o-57-H6b" id="e84-2M-TBI"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
