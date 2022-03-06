@@ -442,14 +442,18 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         self.teamCollectionView.backgroundColor = .clear
         
         
-        let postLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        postLayout.itemSize = CGSize(width: safeAreaWidth/3-6, height: safeAreaWidth/3/9*16)
-        postLayout.minimumLineSpacing = 6
-        postLayout.minimumInteritemSpacing = 0
-        postLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
-
+//        let postLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        postLayout.itemSize = CGSize(width: safeAreaWidth/3-6, height: safeAreaWidth/3/9*16)
+//        postLayout.minimumLineSpacing = 6
+//        postLayout.minimumInteritemSpacing = 0
+//        postLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
+//
+//
+//        self.postCollectionView.collectionViewLayout = postLayout
         
-        self.postCollectionView.collectionViewLayout = postLayout
+        let layout = UICollectionViewFlowLayout()
+          layout.sectionInset = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+          postCollectionView.collectionViewLayout = layout
         
         //Pull To Refresh
         postCollectionView.refreshControl = UIRefreshControl()
@@ -461,6 +465,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         teamCollectionView.delegate = self
         
         
+        let imageLayout = postCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+        imageLayout.estimatedItemSize = .zero
                 
 //        chatListTableView.refreshControl = UIRefreshControl()
 //        chatListTableView.refreshControl?.addTarget(self, action: #selector(onRefresh(_:)), for: .valueChanged)
@@ -851,7 +857,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
 }
 
-extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
+extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if collectionView == self.teamCollectionView {
@@ -864,9 +870,21 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let horizontalSpace : CGFloat = 50
+//        let horizontalSpace : CGFloat = 50
+//        let cellSize : CGFloat = self.view.bounds.width / 3
+        
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+
+//        postLayout.itemSize = CGSize(width: safeAreaWidth/3-6, height: safeAreaWidth/3/9*16)
+//        postLayout.minimumLineSpacing = 6
+//        postLayout.minimumInteritemSpacing = 0
+//        postLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
+
+//        return CGSize(width: safeAreaWidth/3-6, height: safeAreaWidth/3/9*16)
+        
+        let horizontalSpace : CGFloat = 12
         let cellSize : CGFloat = self.view.bounds.width / 3 - horizontalSpace
-        return CGSize(width: cellSize, height: cellSize)
+        return CGSize(width: cellSize, height: cellSize*2)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
