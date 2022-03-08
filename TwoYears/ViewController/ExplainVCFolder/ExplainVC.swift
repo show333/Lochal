@@ -31,7 +31,7 @@ class ExplainVC:UIViewController{
         
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesInsta.006.png?alt=media&token=66b38c75-b285-4765-b5d1-5a61f9cd8592",//5
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesInsta.007.png?alt=media&token=97e0ab9d-f7f3-4579-a355-2de2861f750e",//6
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesInsta.007.png?alt=media&token=c35e7005-144e-42a7-a5c7-0bb775e27919",//6
         
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesInsta.008.png?alt=media&token=32372b01-4bdc-4c53-b90f-480af584ec2b",//7
         

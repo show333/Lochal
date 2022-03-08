@@ -962,6 +962,8 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
         
         return cellSize
         
+        
+        
 //        if titleCount < 10 {
 //            return 100
 //        } else if titleCount < 20 {

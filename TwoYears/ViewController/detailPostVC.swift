@@ -186,7 +186,7 @@ class detailPostVC:UIViewController {
 //        }
         
         
-        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2Fglyph-logo_May2016.png?alt=media&token=598f9ee0-f49c-40fa-8b57-a926b1efd903") {
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FInstagram_Glyph_Gradient_RGB.png?alt=media&token=3d86956e-4d3e-46c3-9777-891495f5cf84") {
             Nuke.loadImage(with: url, into: storyShareImageView)
         } else {
             storyShareImageView.image = nil
