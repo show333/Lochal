@@ -127,6 +127,7 @@
 		CF8B45062665698500CA6DE1 /* red_yellow.json in Resources */ = {isa = PBXBuildFile; fileRef = CF8B45052665698500CA6DE1 /* red_yellow.json */; };
 		CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF8F13A9263FD9D2007A0677 /* imagetoukou.storyboard */; };
 		CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */; };
+		CF97017427D4D79400FB87EB /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF97017327D4D79400FB87EB /* PinterestLayout.swift */; };
 		CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC12794454000D4C472 /* Reserch.storyboard */; };
 		CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC32794456000D4C472 /* ReserchVC.swift */; };
 		CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC5279453CD00D4C472 /* ad.storyboard */; };
@@ -264,6 +265,7 @@
 		CF8B45052665698500CA6DE1 /* red_yellow.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = red_yellow.json; sourceTree = "<group>"; };
 		CF8F13A9263FD9D2007A0677 /* imagetoukou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = imagetoukou.storyboard; sourceTree = "<group>"; };
 		CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imagetoukouViewController.swift; sourceTree = "<group>"; };
+		CF97017327D4D79400FB87EB /* PinterestLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
 		CFA19DC12794454000D4C472 /* Reserch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reserch.storyboard; sourceTree = "<group>"; };
 		CFA19DC32794456000D4C472 /* ReserchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserchVC.swift; sourceTree = "<group>"; };
 		CFA19DC5279453CD00D4C472 /* ad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ad.storyboard; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 				CF3A766225D089DA00088D56 /* ViewController */,
 				CF2A223325C3FC7000C5BFC1 /* AppDelegate.swift */,
 				CF2A223525C3FC7000C5BFC1 /* SceneDelegate.swift */,
+				CF97017327D4D79400FB87EB /* PinterestLayout.swift */,
 				CF2A223F25C3FC7200C5BFC1 /* Assets.xcassets */,
 				CF5C4F492626136F000C6E51 /* jsonfile */,
 				CF15444E26110E2700400D87 /* GoogleService-Info.plist */,
@@ -797,6 +800,7 @@
 				CF43661426789CB500DABD78 /* NewCreateTeamVC.swift in Sources */,
 				A359840B2799AA56003CB00B /* UnitHomeVC.swift in Sources */,
 				CF4BF170260E0FF200942E6F /* UIImage-extension.swift in Sources */,
+				CF97017427D4D79400FB87EB /* PinterestLayout.swift in Sources */,
 				CF38CAD326655F2D00615D23 /* CountAnimationLabel.swift in Sources */,
 				CF0C14BC25C9F494006A7C86 /* ChatRoomTableViewCell.swift in Sources */,
 				CF3DDC1B25C73C580016AB0F /* Animal.swift in Sources */,

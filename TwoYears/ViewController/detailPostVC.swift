@@ -155,31 +155,23 @@ class detailPostVC:UIViewController {
         transitionReMemoBackView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         transitionReMemoBackView.clipsToBounds = true
         transitionReMemoBackView.layer.masksToBounds = false
-        transitionReMemoBackView.layer.cornerRadius = safeAreaWidth/12
+        transitionReMemoBackView.layer.cornerRadius = safeAreaWidth/16
         transitionReMemoBackView.layer.shadowColor = UIColor.black.cgColor
         transitionReMemoBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
         transitionReMemoBackView.layer.shadowOpacity = 0.7
         transitionReMemoBackView.layer.shadowRadius = 5
         
-        storyShareBackView.backgroundColor = .clear
-        storyShareBackView.clipsToBounds = true
-        storyShareBackView.layer.masksToBounds = false
-        storyShareBackView.layer.cornerRadius = 10
-        storyShareBackView.layer.shadowColor = #colorLiteral(red: 1, green: 0.2916699052, blue: 0.7794274092, alpha: 1)
-        storyShareBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
-        storyShareBackView.layer.shadowOpacity = 0.7
-        storyShareBackView.layer.shadowRadius = 5
         
 
-        transitionReMemoWidth.constant = safeAreaWidth/6
+        transitionReMemoWidth.constant = safeAreaWidth/8
         transitionReMemoConstraint.constant = safeAreaWidth/4
-        storyShareWidth.constant = safeAreaWidth/6
+        storyShareWidth.constant = safeAreaWidth/8
         storyShareConstraint.constant = safeAreaWidth/4
         
 //        trainsitionReMemoButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        memoLabel.font = UIFont(name: "03SmartFontUI", size: 13)
+//        memoLabel.font = UIFont(name: "03SmartFontUI", size: 13)
 //        storyShareButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        storyShareLabel.font = UIFont(name: "03SmartFontUI", size: 11)
+//        storyShareLabel.font = UIFont(name: "03SmartFontUI", size: 11)
 
 
         
@@ -194,7 +186,7 @@ class detailPostVC:UIViewController {
 //        }
         
         
-        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FInstagram_Glyph_Gradient_RGB.png?alt=media&token=3d86956e-4d3e-46c3-9777-891495f5cf84") {
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2Fglyph-logo_May2016.png?alt=media&token=598f9ee0-f49c-40fa-8b57-a926b1efd903") {
             Nuke.loadImage(with: url, into: storyShareImageView)
         } else {
             storyShareImageView.image = nil

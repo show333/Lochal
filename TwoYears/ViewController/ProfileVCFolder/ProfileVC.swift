@@ -396,7 +396,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //        followingButton.titleLabel?.baselineAdjustment = .alignCenters
 //        followingButton.titleLabel?.adjustsFontSizeToFitWidth = true
 //        followingButton.setTitle("1111", for: .normal)
-
+        
+        if let layout = postCollectionView.collectionViewLayout as? PinterestLayout {
+            layout.delegate = self
+        }
         
         headerHigh = safeAreaHeight/3.5
         
@@ -451,9 +454,17 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //
 //        self.postCollectionView.collectionViewLayout = postLayout
         
-        let layout = UICollectionViewFlowLayout()
-          layout.sectionInset = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
-          postCollectionView.collectionViewLayout = layout
+//        let layout = UICollectionViewFlowLayout()
+//          layout.sectionInset = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+//          postCollectionView.collectionViewLayout = layout
+        
+        let customLayout = PinterestLayout()
+        customLayout.delegate = self
+        postCollectionView.collectionViewLayout = customLayout
+        
+        if let pinterestLayout = postCollectionView.collectionViewLayout as? PinterestLayout {
+            pinterestLayout.delegate = self
+        }
         
         //Pull To Refresh
         postCollectionView.refreshControl = UIRefreshControl()
@@ -465,8 +476,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         teamCollectionView.delegate = self
         
         
-        let imageLayout = postCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-        imageLayout.estimatedItemSize = .zero
+//        let imageLayout = postCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+//        imageLayout.estimatedItemSize = .zero
                 
 //        chatListTableView.refreshControl = UIRefreshControl()
 //        chatListTableView.refreshControl?.addTarget(self, action: #selector(onRefresh(_:)), for: .valueChanged)
@@ -857,7 +868,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
 }
 
-extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout {
+extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,PinterestLayoutDelegate {
+
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if collectionView == self.teamCollectionView {
@@ -869,23 +882,18 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        let horizontalSpace : CGFloat = 50
-//        let cellSize : CGFloat = self.view.bounds.width / 3
-        
-        let safeAreaWidth = UIScreen.main.bounds.size.width
-
-//        postLayout.itemSize = CGSize(width: safeAreaWidth/3-6, height: safeAreaWidth/3/9*16)
-//        postLayout.minimumLineSpacing = 6
-//        postLayout.minimumInteritemSpacing = 0
-//        postLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
-
-//        return CGSize(width: safeAreaWidth/3-6, height: safeAreaWidth/3/9*16)
-        
-        let horizontalSpace : CGFloat = 12
-        let cellSize : CGFloat = self.view.bounds.width / 3 - horizontalSpace
-        return CGSize(width: cellSize, height: cellSize*2)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        if indexPath.row%2 != 1 {
+//        let horizontalSpace : CGFloat = 12
+//        let cellSize : CGFloat = self.view.bounds.width / 3 - horizontalSpace
+//        return CGSize(width: cellSize, height: cellSize*2)
+//        } else {
+//            let horizontalSpace : CGFloat = 12
+//            let cellSize : CGFloat = self.view.bounds.width / 3 - horizontalSpace
+//            return CGSize(width: cellSize, height: cellSize)
+//        }
+//    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.teamCollectionView {
@@ -911,9 +919,8 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
             let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
             cell.collectionPostLabel.transform = transScale
 //            cell.backVisualEffectView.mask = cell.collectionPostLabel.text
-            cell.backVisualEffectView.backgroundColor = .clear
-//            cell.collectionPostLabel.alpha = 0
-            cell.postImageView.alpha = 0
+            cell.collectionPostLabel.alpha = 0
+//            cell.postImageView.alpha = 0
             if let url = URL(string:postInfo[indexPath.row].postImage) {
                 Nuke.loadImage(with: url, into: cell.postImageView!)
             } else {
@@ -925,30 +932,56 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == self.teamCollectionView {
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.navigationBar.isHidden = false
-        let storyboard = UIStoryboard.init(name: "UnitHome", bundle: nil)
-        let UnitHomeVC = storyboard.instantiateViewController(withIdentifier: "UnitHomeVC") as! UnitHomeVC
-        UnitHomeVC.teamInfo = teamInfo[indexPath.row]
-        navigationController?.pushViewController(UnitHomeVC, animated: true)
-    } else {
-//        self.tabBarController?.tabBar.isHidden = true
-        let storyboard = UIStoryboard.init(name: "detailPost", bundle: nil)
-        let detailPostVC = storyboard.instantiateViewController(withIdentifier: "detailPostVC") as! detailPostVC
-        self.navigationController?.navigationBar.isHidden = false
-//        detailPostVC.navigationController?.navigationBar.isHidden = false
-        detailPostVC.profileUserId = userId
-        detailPostVC.userId = postInfo[indexPath.row].userId
-        detailPostVC.postInfoTitle = postInfo[indexPath.row].titleComment
-        detailPostVC.postInfoImage = postInfo[indexPath.row].postImage
-        detailPostVC.postInfoDoc = postInfo[indexPath.row].documentId
-        
-        navigationController?.pushViewController(detailPostVC, animated: true)
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.navigationBar.isHidden = false
+            let storyboard = UIStoryboard.init(name: "UnitHome", bundle: nil)
+            let UnitHomeVC = storyboard.instantiateViewController(withIdentifier: "UnitHomeVC") as! UnitHomeVC
+            UnitHomeVC.teamInfo = teamInfo[indexPath.row]
+            navigationController?.pushViewController(UnitHomeVC, animated: true)
+        } else {
+            //        self.tabBarController?.tabBar.isHidden = true
+            let storyboard = UIStoryboard.init(name: "detailPost", bundle: nil)
+            let detailPostVC = storyboard.instantiateViewController(withIdentifier: "detailPostVC") as! detailPostVC
+            self.navigationController?.navigationBar.isHidden = false
+            //        detailPostVC.navigationController?.navigationBar.isHidden = false
+            detailPostVC.profileUserId = userId
+            detailPostVC.userId = postInfo[indexPath.row].userId
+            detailPostVC.postInfoTitle = postInfo[indexPath.row].titleComment
+            detailPostVC.postInfoImage = postInfo[indexPath.row].postImage
+            detailPostVC.postInfoDoc = postInfo[indexPath.row].documentId
+            
+            navigationController?.pushViewController(detailPostVC, animated: true)
+        }
     }
-}
-
-
-
+    
+    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
+        
+        let titleCount = postInfo[indexPath.row].titleComment.count
+        
+        let cellSize : CGFloat = self.view.bounds.width / 3 * 2 - 12
+        
+        return cellSize
+        
+//        if titleCount < 10 {
+//            return 100
+//        } else if titleCount < 20 {
+//            return 150
+//        } else {
+//            return 200
+//        }
+    
+    
+    //        if indexPath.row % 4 == 0 {
+    //            return 200
+    //        } else if indexPath.row % 3 == 0 {
+    //            return 300
+    //        } else {
+    //            return 150
+    //        }
+    
+        
+    }
+    
 }
 
 //MARK: Instructions
@@ -1282,7 +1315,6 @@ class postCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var postImageView: UIImageView!
 
-    @IBOutlet weak var backVisualEffectView: UIVisualEffectView!
     @IBOutlet weak var collectionPostLabel: UILabel!
     
     
@@ -1294,7 +1326,6 @@ class postCollectionViewCell: UICollectionViewCell {
         self.layer.borderWidth = 6
     
         self.layer.borderColor = UIColor.clear.cgColor
-
 
         // cellを丸くする
         self.layer.cornerRadius = safeAreaWidth/18
