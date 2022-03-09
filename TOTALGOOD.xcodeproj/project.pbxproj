@@ -81,6 +81,34 @@
 		CF2A223E25C3FC7000C5BFC1 /* protain.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CF2A223C25C3FC7000C5BFC1 /* protain.xcdatamodeld */; };
 		CF2A224025C3FC7200C5BFC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF2A223F25C3FC7200C5BFC1 /* Assets.xcassets */; };
 		CF2A224325C3FC7200C5BFC1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF2A224125C3FC7200C5BFC1 /* LaunchScreen.storyboard */; };
+		CF2BF5AE27D8613D00F7D1CB /* Bear & loupe bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59227D8612A00F7D1CB /* Bear & loupe bold.otf */; };
+		CF2BF5AF27D8613D00F7D1CB /* Kbcurioussoul-m3W9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59327D8612B00F7D1CB /* Kbcurioussoul-m3W9.ttf */; };
+		CF2BF5B027D8613D00F7D1CB /* PapposBlues..._font.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59427D8612B00F7D1CB /* PapposBlues..._font.ttf */; };
+		CF2BF5B127D8613D00F7D1CB /* SweetPineapple.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59527D8612C00F7D1CB /* SweetPineapple.otf */; };
+		CF2BF5B227D8613D00F7D1CB /* LUNABAR_.TTF in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59627D8612D00F7D1CB /* LUNABAR_.TTF */; };
+		CF2BF5B327D8613D00F7D1CB /* Mayonaise-YVdj.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59727D8612E00F7D1CB /* Mayonaise-YVdj.ttf */; };
+		CF2BF5B427D8613D00F7D1CB /* KeyTabMetal-MOAJ.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59827D8612F00F7D1CB /* KeyTabMetal-MOAJ.ttf */; };
+		CF2BF5B527D8613D00F7D1CB /* Moon Flower.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59927D8613000F7D1CB /* Moon Flower.ttf */; };
+		CF2BF5B627D8613D00F7D1CB /* pastel crayon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59A27D8613000F7D1CB /* pastel crayon.ttf */; };
+		CF2BF5B727D8613D00F7D1CB /* Skinnybastard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59B27D8613100F7D1CB /* Skinnybastard-Regular.ttf */; };
+		CF2BF5B827D8613D00F7D1CB /* GrutchShaded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59C27D8613200F7D1CB /* GrutchShaded.ttf */; };
+		CF2BF5B927D8613D00F7D1CB /* REIS-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59D27D8613200F7D1CB /* REIS-Regular.otf */; };
+		CF2BF5BA27D8613D00F7D1CB /* Southpaw.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59E27D8613300F7D1CB /* Southpaw.ttf */; };
+		CF2BF5BB27D8613D00F7D1CB /* Sketchica-MB4Y.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59F27D8613400F7D1CB /* Sketchica-MB4Y.ttf */; };
+		CF2BF5BC27D8613D00F7D1CB /* Daniel-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5A027D8613500F7D1CB /* Daniel-Bold.otf */; };
+		CF2BF5BD27D8613D00F7D1CB /* Journal.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5A127D8613500F7D1CB /* Journal.otf */; };
+		CF2BF5BE27D8613D00F7D1CB /* CamdenRegular-1jAZ.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5A227D8613600F7D1CB /* CamdenRegular-1jAZ.ttf */; };
+		CF2BF5BF27D8613D00F7D1CB /* julies.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5A327D8613600F7D1CB /* julies.ttf */; };
+		CF2BF5C027D8613D00F7D1CB /* MtfCupcake-KEeX.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5A427D8613700F7D1CB /* MtfCupcake-KEeX.ttf */; };
+		CF2BF5C127D8613D00F7D1CB /* mami candy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5A527D8613800F7D1CB /* mami candy.ttf */; };
+		CF2BF5C227D8613D00F7D1CB /* MadeWithB-DdDx.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5A627D8613800F7D1CB /* MadeWithB-DdDx.ttf */; };
+		CF2BF5C327D8613D00F7D1CB /* Monika.TTF in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5A727D8613900F7D1CB /* Monika.TTF */; };
+		CF2BF5C427D8613D00F7D1CB /* LoveYaLikeASister.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5A827D8613A00F7D1CB /* LoveYaLikeASister.ttf */; };
+		CF2BF5C527D8613D00F7D1CB /* DoodlePen_Limited.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5A927D8613A00F7D1CB /* DoodlePen_Limited.ttf */; };
+		CF2BF5C627D8613D00F7D1CB /* LovingYou.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5AA27D8613B00F7D1CB /* LovingYou.ttf */; };
+		CF2BF5C727D8613D00F7D1CB /* Debby.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5AB27D8613C00F7D1CB /* Debby.ttf */; };
+		CF2BF5C827D8613D00F7D1CB /* Bistrosketch-wyG9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5AC27D8613C00F7D1CB /* Bistrosketch-wyG9.ttf */; };
+		CF2BF5C927D8613D00F7D1CB /* lackey.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5AD27D8613D00F7D1CB /* lackey.ttf */; };
 		CF31079D2600AA1A00746480 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF31079C2600AA1A00746480 /* TabbarController.swift */; };
 		CF3107A12600AA6700746480 /* Tabbar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3107A02600AA6700746480 /* Tabbar.storyboard */; };
 		CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3107F726018BB200746480 /* ShoutaiHakkou.storyboard */; };
@@ -213,6 +241,34 @@
 		CF2A223D25C3FC7000C5BFC1 /* protain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = protain.xcdatamodel; sourceTree = "<group>"; };
 		CF2A223F25C3FC7200C5BFC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF2A224225C3FC7200C5BFC1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CF2BF59227D8612A00F7D1CB /* Bear & loupe bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bear & loupe bold.otf"; sourceTree = "<group>"; };
+		CF2BF59327D8612B00F7D1CB /* Kbcurioussoul-m3W9.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Kbcurioussoul-m3W9.ttf"; sourceTree = "<group>"; };
+		CF2BF59427D8612B00F7D1CB /* PapposBlues..._font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PapposBlues..._font.ttf; sourceTree = "<group>"; };
+		CF2BF59527D8612C00F7D1CB /* SweetPineapple.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SweetPineapple.otf; sourceTree = "<group>"; };
+		CF2BF59627D8612D00F7D1CB /* LUNABAR_.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = LUNABAR_.TTF; sourceTree = "<group>"; };
+		CF2BF59727D8612E00F7D1CB /* Mayonaise-YVdj.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mayonaise-YVdj.ttf"; sourceTree = "<group>"; };
+		CF2BF59827D8612F00F7D1CB /* KeyTabMetal-MOAJ.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "KeyTabMetal-MOAJ.ttf"; sourceTree = "<group>"; };
+		CF2BF59927D8613000F7D1CB /* Moon Flower.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Moon Flower.ttf"; sourceTree = "<group>"; };
+		CF2BF59A27D8613000F7D1CB /* pastel crayon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pastel crayon.ttf"; sourceTree = "<group>"; };
+		CF2BF59B27D8613100F7D1CB /* Skinnybastard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Skinnybastard-Regular.ttf"; sourceTree = "<group>"; };
+		CF2BF59C27D8613200F7D1CB /* GrutchShaded.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GrutchShaded.ttf; sourceTree = "<group>"; };
+		CF2BF59D27D8613200F7D1CB /* REIS-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "REIS-Regular.otf"; sourceTree = "<group>"; };
+		CF2BF59E27D8613300F7D1CB /* Southpaw.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Southpaw.ttf; sourceTree = "<group>"; };
+		CF2BF59F27D8613400F7D1CB /* Sketchica-MB4Y.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sketchica-MB4Y.ttf"; sourceTree = "<group>"; };
+		CF2BF5A027D8613500F7D1CB /* Daniel-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Daniel-Bold.otf"; sourceTree = "<group>"; };
+		CF2BF5A127D8613500F7D1CB /* Journal.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Journal.otf; sourceTree = "<group>"; };
+		CF2BF5A227D8613600F7D1CB /* CamdenRegular-1jAZ.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CamdenRegular-1jAZ.ttf"; sourceTree = "<group>"; };
+		CF2BF5A327D8613600F7D1CB /* julies.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = julies.ttf; sourceTree = "<group>"; };
+		CF2BF5A427D8613700F7D1CB /* MtfCupcake-KEeX.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MtfCupcake-KEeX.ttf"; sourceTree = "<group>"; };
+		CF2BF5A527D8613800F7D1CB /* mami candy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "mami candy.ttf"; sourceTree = "<group>"; };
+		CF2BF5A627D8613800F7D1CB /* MadeWithB-DdDx.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MadeWithB-DdDx.ttf"; sourceTree = "<group>"; };
+		CF2BF5A727D8613900F7D1CB /* Monika.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = Monika.TTF; sourceTree = "<group>"; };
+		CF2BF5A827D8613A00F7D1CB /* LoveYaLikeASister.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LoveYaLikeASister.ttf; sourceTree = "<group>"; };
+		CF2BF5A927D8613A00F7D1CB /* DoodlePen_Limited.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = DoodlePen_Limited.ttf; sourceTree = "<group>"; };
+		CF2BF5AA27D8613B00F7D1CB /* LovingYou.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LovingYou.ttf; sourceTree = "<group>"; };
+		CF2BF5AB27D8613C00F7D1CB /* Debby.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Debby.ttf; sourceTree = "<group>"; };
+		CF2BF5AC27D8613C00F7D1CB /* Bistrosketch-wyG9.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bistrosketch-wyG9.ttf"; sourceTree = "<group>"; };
+		CF2BF5AD27D8613D00F7D1CB /* lackey.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lackey.ttf; sourceTree = "<group>"; };
 		CF31079C2600AA1A00746480 /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		CF3107A02600AA6700746480 /* Tabbar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tabbar.storyboard; sourceTree = "<group>"; };
 		CF3107F726018BB200746480 /* ShoutaiHakkou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ShoutaiHakkou.storyboard; sourceTree = "<group>"; };
@@ -242,7 +298,7 @@
 		CF449797264424A700A2F873 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		CF449798264424A700A2F873 /* Bridging-Header.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Bridging-Header.m"; sourceTree = "<group>"; };
 		CF4BF16F260E0FF200942E6F /* UIImage-extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage-extension.swift"; sourceTree = "<group>"; };
-		CF4BF175260FA43800942E6F /* yasasisa.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = yasasisa.ttf; path = ../yasasisa.ttf; sourceTree = "<group>"; };
+		CF4BF175260FA43800942E6F /* yasasisa.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = yasasisa.ttf; sourceTree = "<group>"; };
 		CF4BF17A260FA5C900942E6F /* 07にくまるフォント.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "07にくまるフォント.otf"; sourceTree = "<group>"; };
 		CF4BF17E260FAB4C00942E6F /* YasashisaGothic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = YasashisaGothic.otf; sourceTree = "<group>"; };
 		CF4C5A01261D185400342675 /* TOTALGOOD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TOTALGOOD.entitlements; sourceTree = "<group>"; };
@@ -436,11 +492,7 @@
 				CF2A224125C3FC7200C5BFC1 /* LaunchScreen.storyboard */,
 				CF40F3912637E34A00A65E95 /* Info.plist */,
 				CF2A223C25C3FC7000C5BFC1 /* protain.xcdatamodeld */,
-				CF83D9B927C5B6BD00DF9C76 /* 03スマートフォントUI.otf */,
-				CF4BF17E260FAB4C00942E6F /* YasashisaGothic.otf */,
-				CF4BF17A260FA5C900942E6F /* 07にくまるフォント.otf */,
-				CF36709A27D358BD009367AE /* Southpaw.otf */,
-				CF4BF175260FA43800942E6F /* yasasisa.ttf */,
+				CF4CC6BB27D8496E00BB36B3 /* fonts */,
 				CF2A223125C3FC7000C5BFC1 /* Products */,
 				CF4BF16F260E0FF200942E6F /* UIImage-extension.swift */,
 				CF38CAD126655E6400615D23 /* CountAnimationLabel.swift */,
@@ -543,6 +595,46 @@
 			path = StoryBoard;
 			sourceTree = "<group>";
 		};
+		CF4CC6BB27D8496E00BB36B3 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CF4BF175260FA43800942E6F /* yasasisa.ttf */,
+				CF4BF17E260FAB4C00942E6F /* YasashisaGothic.otf */,
+				CF83D9B927C5B6BD00DF9C76 /* 03スマートフォントUI.otf */,
+				CF4BF17A260FA5C900942E6F /* 07にくまるフォント.otf */,
+				CF36709A27D358BD009367AE /* Southpaw.otf */,
+				CF2BF59227D8612A00F7D1CB /* Bear & loupe bold.otf */,
+				CF2BF5AC27D8613C00F7D1CB /* Bistrosketch-wyG9.ttf */,
+				CF2BF5A227D8613600F7D1CB /* CamdenRegular-1jAZ.ttf */,
+				CF2BF5A027D8613500F7D1CB /* Daniel-Bold.otf */,
+				CF2BF5AB27D8613C00F7D1CB /* Debby.ttf */,
+				CF2BF5A927D8613A00F7D1CB /* DoodlePen_Limited.ttf */,
+				CF2BF59C27D8613200F7D1CB /* GrutchShaded.ttf */,
+				CF2BF5A127D8613500F7D1CB /* Journal.otf */,
+				CF2BF5A327D8613600F7D1CB /* julies.ttf */,
+				CF2BF59327D8612B00F7D1CB /* Kbcurioussoul-m3W9.ttf */,
+				CF2BF59827D8612F00F7D1CB /* KeyTabMetal-MOAJ.ttf */,
+				CF2BF5AD27D8613D00F7D1CB /* lackey.ttf */,
+				CF2BF5A827D8613A00F7D1CB /* LoveYaLikeASister.ttf */,
+				CF2BF5AA27D8613B00F7D1CB /* LovingYou.ttf */,
+				CF2BF59627D8612D00F7D1CB /* LUNABAR_.TTF */,
+				CF2BF5A627D8613800F7D1CB /* MadeWithB-DdDx.ttf */,
+				CF2BF5A527D8613800F7D1CB /* mami candy.ttf */,
+				CF2BF59727D8612E00F7D1CB /* Mayonaise-YVdj.ttf */,
+				CF2BF5A727D8613900F7D1CB /* Monika.TTF */,
+				CF2BF59927D8613000F7D1CB /* Moon Flower.ttf */,
+				CF2BF5A427D8613700F7D1CB /* MtfCupcake-KEeX.ttf */,
+				CF2BF59427D8612B00F7D1CB /* PapposBlues..._font.ttf */,
+				CF2BF59A27D8613000F7D1CB /* pastel crayon.ttf */,
+				CF2BF59D27D8613200F7D1CB /* REIS-Regular.otf */,
+				CF2BF59F27D8613400F7D1CB /* Sketchica-MB4Y.ttf */,
+				CF2BF59B27D8613100F7D1CB /* Skinnybastard-Regular.ttf */,
+				CF2BF59E27D8613300F7D1CB /* Southpaw.ttf */,
+				CF2BF59527D8612C00F7D1CB /* SweetPineapple.otf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		CF5C4F492626136F000C6E51 /* jsonfile */ = {
 			isa = PBXGroup;
 			children = (
@@ -625,17 +717,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				A35984012798ED39003CB00B /* Followers.storyboard in Resources */,
+				CF2BF5BC27D8613D00F7D1CB /* Daniel-Bold.otf in Resources */,
 				CF3107A12600AA6700746480 /* Tabbar.storyboard in Resources */,
 				A36DC50427A430200083F76D /* Members.storyboard in Resources */,
+				CF2BF5C027D8613D00F7D1CB /* MtfCupcake-KEeX.ttf in Resources */,
 				A3B115CF27971B1F001820EC /* Settings.storyboard in Resources */,
+				CF2BF5B327D8613D00F7D1CB /* Mayonaise-YVdj.ttf in Resources */,
 				CF8B45062665698500CA6DE1 /* red_yellow.json in Resources */,
+				CF2BF5B027D8613D00F7D1CB /* PapposBlues..._font.ttf in Resources */,
+				CF2BF5BB27D8613D00F7D1CB /* Sketchica-MB4Y.ttf in Resources */,
 				A3C0D9E42773976200AC64D3 /* EnterTeam.storyboard in Resources */,
+				CF2BF5AE27D8613D00F7D1CB /* Bear & loupe bold.otf in Resources */,
 				CF4C5A31261E3A4900342675 /* quiz.csv in Resources */,
 				CFF8192E25D344C600524B81 /* Splash.storyboard in Resources */,
 				CF4BF17F260FAB4D00942E6F /* YasashisaGothic.otf in Resources */,
+				CF2BF5C527D8613D00F7D1CB /* DoodlePen_Limited.ttf in Resources */,
 				CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */,
 				A3C0D9F02778603400AC64D3 /* OutMemoCell.xib in Resources */,
 				CF36709B27D358BD009367AE /* Southpaw.otf in Resources */,
+				CF2BF5C627D8613D00F7D1CB /* LovingYou.ttf in Resources */,
+				CF2BF5B527D8613D00F7D1CB /* Moon Flower.ttf in Resources */,
 				A359840F279B20DE003CB00B /* Explain.storyboard in Resources */,
 				CF2A224325C3FC7200C5BFC1 /* LaunchScreen.storyboard in Resources */,
 				A33F0687279D1D380008B29A /* Thankyou.storyboard in Resources */,
@@ -644,6 +745,7 @@
 				CF4BF17B260FA5CA00942E6F /* 07にくまるフォント.otf in Resources */,
 				CF40D36D26296C6E00F62858 /* goodloadingcolor.json in Resources */,
 				CF83D9BA27C5B6BE00DF9C76 /* 03スマートフォントUI.otf in Resources */,
+				CF2BF5B427D8613D00F7D1CB /* KeyTabMetal-MOAJ.ttf in Resources */,
 				A33473F827C8ADCB00FB4A6C /* ReMemoPost.storyboard in Resources */,
 				CF4BF176260FA43800942E6F /* yasasisa.ttf in Resources */,
 				CF2A224025C3FC7200C5BFC1 /* Assets.xcassets in Resources */,
@@ -658,28 +760,46 @@
 				CF3D0C1A267BD327006021FB /* UserImageSet.storyboard in Resources */,
 				CF6846CF2797C0C4004B80C5 /* UserNameSet.storyboard in Resources */,
 				A33F0665279C26550008B29A /* FirstSetName.storyboard in Resources */,
+				CF2BF5C227D8613D00F7D1CB /* MadeWithB-DdDx.ttf in Resources */,
 				A3C0D9EC277488BD00AC64D3 /* Reaction.storyboard in Resources */,
+				CF2BF5B627D8613D00F7D1CB /* pastel crayon.ttf in Resources */,
 				A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */,
 				CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */,
+				CF2BF5B927D8613D00F7D1CB /* REIS-Regular.otf in Resources */,
 				CF0C14B525C9F36A006A7C86 /* ChatRoomTableViewCell.xib in Resources */,
 				CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */,
 				CF0C14AF25C9F003006A7C86 /* ChatRoom.storyboard in Resources */,
+				CF2BF5BF27D8613D00F7D1CB /* julies.ttf in Resources */,
 				CF39377C260492BA0020BE97 /* Profile.storyboard in Resources */,
 				CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */,
 				CF83D9B027AD4F7100DF9C76 /* CollectionPost.storyboard in Resources */,
+				CF2BF5C127D8613D00F7D1CB /* mami candy.ttf in Resources */,
 				A35984052798ED78003CB00B /* Connection.storyboard in Resources */,
 				A392221127B013C900FFC936 /* detailPost.storyboard in Resources */,
+				CF2BF5B127D8613D00F7D1CB /* SweetPineapple.otf in Resources */,
+				CF2BF5B227D8613D00F7D1CB /* LUNABAR_.TTF in Resources */,
 				A35984092799A88C003CB00B /* UnitHome.storyboard in Resources */,
 				CF4C5A44261FA3F300342675 /* packmanload.json in Resources */,
 				CF15444F26110E2700400D87 /* GoogleService-Info.plist in Resources */,
+				CF2BF5BE27D8613D00F7D1CB /* CamdenRegular-1jAZ.ttf in Resources */,
+				CF2BF5AF27D8613D00F7D1CB /* Kbcurioussoul-m3W9.ttf in Resources */,
+				CF2BF5C427D8613D00F7D1CB /* LoveYaLikeASister.ttf in Resources */,
 				CF4366102678966E00DABD78 /* NewCreateTeam.storyboard in Resources */,
+				CF2BF5B827D8613D00F7D1CB /* GrutchShaded.ttf in Resources */,
 				A33F0669279C26B70008B29A /* FirstSetId.storyboard in Resources */,
+				CF2BF5BD27D8613D00F7D1CB /* Journal.otf in Resources */,
 				A33F0667279C26890008B29A /* FirstSetImage.storyboard in Resources */,
 				A33F068B279D20110008B29A /* TeamExplain.storyboard in Resources */,
+				CF2BF5BA27D8613D00F7D1CB /* Southpaw.ttf in Resources */,
 				CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */,
+				CF2BF5C327D8613D00F7D1CB /* Monika.TTF in Resources */,
 				CF83D9B627BFA80E00DF9C76 /* Refferal.storyboard in Resources */,
 				CFAB80B227CA5075007DECA0 /* backGroundSettings.storyboard in Resources */,
+				CF2BF5C827D8613D00F7D1CB /* Bistrosketch-wyG9.ttf in Resources */,
+				CF2BF5C727D8613D00F7D1CB /* Debby.ttf in Resources */,
 				CF3B829E2785181400B4A257 /* ReadLog.storyboard in Resources */,
+				CF2BF5C927D8613D00F7D1CB /* lackey.ttf in Resources */,
+				CF2BF5B727D8613D00F7D1CB /* Skinnybastard-Regular.ttf in Resources */,
 				A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

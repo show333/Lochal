@@ -264,7 +264,7 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8v-0N-D9S">
-                                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                    <rect key="frame" x="-5" y="-10" width="60" height="70"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -275,11 +275,11 @@
                                                 <constraint firstAttribute="bottom" secondItem="C0o-57-H6b" secondAttribute="bottom" id="0UT-05-FvY"/>
                                                 <constraint firstItem="C0o-57-H6b" firstAttribute="top" secondItem="6Wx-rS-Ph1" secondAttribute="top" id="2aM-Zy-pQs"/>
                                                 <constraint firstAttribute="trailing" secondItem="C0o-57-H6b" secondAttribute="trailing" id="Hw1-Bg-PsD"/>
-                                                <constraint firstAttribute="bottom" secondItem="i8v-0N-D9S" secondAttribute="bottom" id="Kbi-qf-eyt"/>
-                                                <constraint firstItem="i8v-0N-D9S" firstAttribute="leading" secondItem="6Wx-rS-Ph1" secondAttribute="leading" id="aK2-Lk-e30"/>
-                                                <constraint firstItem="i8v-0N-D9S" firstAttribute="top" secondItem="6Wx-rS-Ph1" secondAttribute="top" id="j9K-7W-DFS"/>
+                                                <constraint firstAttribute="bottom" secondItem="i8v-0N-D9S" secondAttribute="bottom" constant="-10" id="Kbi-qf-eyt"/>
+                                                <constraint firstItem="i8v-0N-D9S" firstAttribute="leading" secondItem="6Wx-rS-Ph1" secondAttribute="leading" constant="-5" id="aK2-Lk-e30"/>
+                                                <constraint firstItem="i8v-0N-D9S" firstAttribute="top" secondItem="6Wx-rS-Ph1" secondAttribute="top" constant="-10" id="j9K-7W-DFS"/>
                                                 <constraint firstItem="C0o-57-H6b" firstAttribute="leading" secondItem="6Wx-rS-Ph1" secondAttribute="leading" id="s0z-iK-oe7"/>
-                                                <constraint firstAttribute="trailing" secondItem="i8v-0N-D9S" secondAttribute="trailing" id="wNS-sj-pQi"/>
+                                                <constraint firstAttribute="trailing" secondItem="i8v-0N-D9S" secondAttribute="trailing" constant="-5" id="wNS-sj-pQi"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>

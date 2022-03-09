@@ -918,13 +918,27 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
             cell.collectionPostLabel.font = UIFont(name:"Southpaw", size:40)
             let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
             cell.collectionPostLabel.transform = transScale
-//            cell.backVisualEffectView.mask = cell.collectionPostLabel.text
-            cell.collectionPostLabel.alpha = 0
-//            cell.postImageView.alpha = 0
-            if let url = URL(string:postInfo[indexPath.row].postImage) {
-                Nuke.loadImage(with: url, into: cell.postImageView!)
+            
+        
+            
+//            cell.collectionPostLabel.alpha = 0
+            cell.postImageView.image = nil
+            
+            print(postInfo[indexPath.row])
+            
+            cell.postImageView.alpha = 0
+            
+            if postInfo[indexPath.row].postImage != "" {
+                cell.collectionPostLabel.alpha = 0
+                cell.postImageView.alpha = 1
+                if let url = URL(string:postInfo[indexPath.row].postImage) {
+                    Nuke.loadImage(with: url, into: cell.postImageView!)
+                } else {
+                    cell.postImageView?.image = nil
+                }
             } else {
-                cell.postImageView?.image = nil
+                cell.postImageView.alpha = 0
+                cell.collectionPostLabel.alpha = 1
             }
             return cell
         }
@@ -956,19 +970,41 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
     
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
         
+        let postImage = postInfo[indexPath.row].postImage
         let titleCount = postInfo[indexPath.row].titleComment.count
         
         let cellSize : CGFloat = self.view.bounds.width / 3 * 2 - 12
-        
-        return cellSize
-        
-        
-        
-//        if titleCount < 10 {
-//            return 100
-//        } else if titleCount < 20 {
-//            return 150
-//        } else {
+                
+        //        if postImage != "" {
+        //            return cellSize
+        //        } else {
+        if postImage == "" {
+            if titleCount < 6 {
+                return cellSize/3
+            } else if titleCount < 10 {
+                return cellSize/2.7
+            } else if titleCount < 15 {
+                return cellSize/2.5
+            } else if titleCount < 20 {
+                return cellSize/2.2
+            } else if titleCount < 25 {
+                return cellSize/2
+            } else {
+                return cellSize/1.5
+            }
+        } else {
+            if indexPath.row % 2 == 1 {
+                return cellSize/1.5
+            } else {
+                return cellSize
+            }
+        }
+            
+            //        if titleCount < 10 {
+            //            return 100
+        //        } else if titleCount < 20 {
+        //            return 150
+        //        } else {
 //            return 200
 //        }
     

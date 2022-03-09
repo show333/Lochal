@@ -11,7 +11,7 @@ import FirebaseStorage
 import FirebaseAuth
 
 
-class CollectionPostVC:UIViewController{
+class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     
     var imageString : String?
     var postDocString: String?
@@ -31,23 +31,38 @@ class CollectionPostVC:UIViewController{
     @IBOutlet weak var sendButton: UIButton!
     
     @IBAction func sendTappedButton(_ sender: Any) {
-        if imageString != nil {
-            sendImage()
-        } else {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.explainLabel.text = "画像が選択されていません"
-
-                UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
-                    self.explainLabel.alpha = 1
-
-                }) {(completed) in
-
-                    UIView.animate(withDuration: 0.2, delay: 2.5, options: UIView.AnimationOptions.allowUserInteraction, animations: {
-                        self.explainLabel.alpha = 0
-                    })
-                }
-            })
-        }
+        
+//        func showColorPicker(){
+            let colorPicker = UIColorPickerViewController()
+            colorPicker.selectedColor = UIColor.black // 初期カラー
+            colorPicker.delegate = self
+            self.present(colorPicker, animated: true, completion: nil)
+//        }
+        
+//        if imageString != nil {
+//            sendImage()
+//        } else {
+//            DispatchQueue.main.async(execute: { () -> Void in
+//                self.explainLabel.text = "画像が選択されていません"
+//
+//                UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+//                    self.explainLabel.alpha = 1
+//
+//                }) {(completed) in
+//
+//                    UIView.animate(withDuration: 0.2, delay: 2.5, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+//                        self.explainLabel.alpha = 0
+//                    })
+//                }
+//            })
+//        }
+    }
+    
+    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+        // 色を選択したときの処理
+        print("選択した色: \(viewController.selectedColor)")
+        wordCountLabel.textColor = viewController.selectedColor
+//        wordCountLabel.text = viewController.selectedColor
     }
     
     
@@ -67,37 +82,44 @@ class CollectionPostVC:UIViewController{
     
     func sendImage(){
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(imageString!)
-        guard let image = imageButton.imageView?.image  else { return }
-        guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
-        
-        storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
-            if let err = err {
-                print("firestrageへの情報の保存に失敗、、\(err)")
-                return
-            }
-            print("storageへの保存に成功!!")
-            storageRef.downloadURL { [self](url, err) in
+        let docString = randomString(length: 20)
+
+        if imageString != nil {
+            
+            let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(imageString!)
+            guard let image = imageButton.imageView?.image  else { return }
+            guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
+            
+            storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
                 if let err = err {
-                    print("firestorageからのダウンロードに失敗\(err)")
+                    print("firestrageへの情報の保存に失敗、、\(err)")
                     return
                 }
-                guard let urlString = url?.absoluteString else { return }
-                print("urlString:", urlString)
-                
-                let docString = randomString(length: 20)
-                
-                setImage(userId: uid, postImage: urlString,docString:docString)
-                setNotification(userId: uid, postImage: urlString,docString:docString)
+                print("storageへの保存に成功!!")
+                storageRef.downloadURL { [self](url, err) in
+                    if let err = err {
+                        print("firestorageからのダウンロードに失敗\(err)")
+                        return
+                    }
+                    guard let urlString = url?.absoluteString else { return }
+                    print("urlString:", urlString)
+                    
+                    
+                    setImage(userId: uid, postImage: urlString,docString:docString)
+                    setNotification(userId: uid, postImage: urlString,docString:docString)
+                }
             }
+        } else {
+            setImage(userId: uid, postImage: "",docString:docString)
+            setNotification(userId: uid, postImage: "",docString:docString)
         }
+        
         self.dismiss(animated: true, completion: nil)
+        
     }
-    
-    
     func setImage(userId:String,postImage:String,docString:String){
         
-
+        
         let postDoc = [
             "userId":userId,
             "postImage":postImage,
@@ -119,7 +141,7 @@ class CollectionPostVC:UIViewController{
                 print("Document data: \(dataDescription)")
                 
                 let notificationNum = document["notificationNum"] as? Int ?? 0
-
+                
                 
                 
                 let docData = [
@@ -150,18 +172,18 @@ class CollectionPostVC:UIViewController{
             }
         }
         
-
+        
         
         
     }
     
-
+    
     
     
     fileprivate let placeholder: String = "" //プレイスホルダー
     
     fileprivate var maxWordCount: Int = 30 //最大文字数
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -178,7 +200,7 @@ class CollectionPostVC:UIViewController{
         bottomTextView.textColor = .gray
         bottomTextView.text = placeholder
         wordCountLabel.text = "30文字まで"
-                
+        
         backView.clipsToBounds = true
         backView.layer.cornerRadius = 16
         backView.layer.masksToBounds = false
@@ -190,7 +212,7 @@ class CollectionPostVC:UIViewController{
         imageButton.clipsToBounds = true
         imageButton.layer.cornerRadius = 16
         imageButton.layer.masksToBounds = false
-
+        
         
         bottomTextView.clipsToBounds = true
         bottomTextView.layer.cornerRadius = 10
@@ -204,10 +226,10 @@ class CollectionPostVC:UIViewController{
         sendButton.layer.shadowRadius = 5
         
         explainLabel.alpha = 0
-
         
         
-//        backView.alpha = 0
+        
+        //        backView.alpha = 0
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -227,10 +249,10 @@ class CollectionPostVC:UIViewController{
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-            if self.view.frame.origin.y != 0 {
-                self.view.frame.origin.y = 0
-            }
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
         }
+    }
     
 }
 
