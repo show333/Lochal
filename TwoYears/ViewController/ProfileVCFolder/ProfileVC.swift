@@ -31,6 +31,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var userFrontId: String? = UserDefaults.standard.string(forKey: "userFrontId")
     
     var cellImageTap : Bool = false
+    
+    
     let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
     let DBU = Firestore.firestore().collection("users")
@@ -45,6 +47,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
     private let headerMoveHeight: CGFloat = 7
     
+    @IBOutlet weak var backGroundImageView: UIImageView!
     @IBOutlet weak var settingsLabel: UILabel!
     @IBOutlet weak var userFrontIdLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
@@ -54,6 +57,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var userNameLabel: UILabel!
 //    @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet weak var postButton: UIButton!
+    
+
     
     @IBOutlet weak var postCollectionView: UICollectionView!
     @IBOutlet weak var headerhightConstraint: NSLayoutConstraint!
@@ -213,7 +218,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         
         
-        db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(["reactionMessage":"さんとチェインしました","acceptBool":true], merge: true)
+        db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(["reactionMessage":"さんとコネクトしました","acceptBool":true], merge: true)
         db.collection("users").document(userId).collection("Connections").document(uid).setData(["status":"accept"], merge: true)
         db.collection("users").document(uid).collection("Connections").document(userId).setData(["status":"accept"], merge: true)
         db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
@@ -342,12 +347,13 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         followButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 17)
 
-
+        backGroundImageView.alpha = 0.3
+        headerView.alpha = 1
+        postCollectionView.alpha = 1
         
         
         
 
-//        03SmartFontUI
         
         self.coachMarksController.dataSource = self
         self.coachMarksControllerSecond.dataSource = self
@@ -390,7 +396,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //        followingButton.titleLabel?.baselineAdjustment = .alignCenters
 //        followingButton.titleLabel?.adjustsFontSizeToFitWidth = true
 //        followingButton.setTitle("1111", for: .normal)
-
+        
+        if let layout = postCollectionView.collectionViewLayout as? PinterestLayout {
+            layout.delegate = self
+        }
         
         headerHigh = safeAreaHeight/3.5
         
@@ -436,14 +445,30 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         self.teamCollectionView.backgroundColor = .clear
         
         
-        let postLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        postLayout.itemSize = CGSize(width: safeAreaWidth/3, height: safeAreaWidth/3/9*16)
-        postLayout.minimumLineSpacing = 0
-        postLayout.minimumInteritemSpacing = 0
-        postLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
-
+//        let postLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        postLayout.itemSize = CGSize(width: safeAreaWidth/3-6, height: safeAreaWidth/3/9*16)
+//        postLayout.minimumLineSpacing = 6
+//        postLayout.minimumInteritemSpacing = 0
+//        postLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
+//
+//
+//        self.postCollectionView.collectionViewLayout = postLayout
         
-        self.postCollectionView.collectionViewLayout = postLayout
+//        let layout = UICollectionViewFlowLayout()
+//          layout.sectionInset = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+//          postCollectionView.collectionViewLayout = layout
+        
+        let customLayout = PinterestLayout()
+        customLayout.delegate = self
+        postCollectionView.collectionViewLayout = customLayout
+        
+        if let pinterestLayout = postCollectionView.collectionViewLayout as? PinterestLayout {
+            pinterestLayout.delegate = self
+        }
+        
+        //Pull To Refresh
+        postCollectionView.refreshControl = UIRefreshControl()
+        postCollectionView.refreshControl?.addTarget(self, action: #selector(onRefresh(_:)), for: .valueChanged)
         
         postCollectionView.dataSource = self
         postCollectionView.delegate = self
@@ -451,6 +476,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         teamCollectionView.delegate = self
         
         
+//        let imageLayout = postCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+//        imageLayout.estimatedItemSize = .zero
                 
 //        chatListTableView.refreshControl = UIRefreshControl()
 //        chatListTableView.refreshControl?.addTarget(self, action: #selector(onRefresh(_:)), for: .valueChanged)
@@ -463,13 +490,26 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //        chatListTableView.backgroundColor = .clear
         
 //        fetchFireStore(userId: userId ?? "unKnown",uid: uid)
-        postCollectionView.reloadData()
-
         fetchUserProfile(userId: userId ?? "unKnown")
         fetchUserTeamInfo(userId:userId ?? "unKnown")
         fetchUnitPostInfo(userId: userId ?? "unKnown")
         self.postCollectionView.reloadData()
 
+    }
+    
+    //Pull to Refresh
+    @objc func onRefresh(_ sender: AnyObject) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.postInfo.removeAll()
+            self?.postCollectionView.reloadData()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                // 0.5秒後に実行したい処理
+                self?.fetchUnitPostInfo(userId: self?.userId ?? "unKnown")
+            }
+     
+            self?.postCollectionView.refreshControl?.endRefreshing()
+        }
     }
     
     
@@ -514,12 +554,12 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         super.viewDidAppear(animated)
         
 //        coachMarksController.start(in: .currentWindow(of: self))
-
+        
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if UserDefaults.standard.bool(forKey: "ProfileTransition") != true{
                 UserDefaults.standard.set(true, forKey: "ProfileTransition")
-                let userId = UserDefaults.standard.string(forKey: "refferalUserId") ?? "unKnown"
+                let userId = UserDefaults.standard.string(forKey: "referralUserlId") ?? "unKnown"
 
                 let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
                 let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
@@ -566,6 +606,15 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 case .added:
                     let dic = Naruto.document.data()
                     let sendedPostInfoDic = PostInfo(dic: dic)
+                    
+                    
+//                    if sendedPostInfoDic. == true {
+//                    } else{
+//                        if momentType >= moment() - 7.days {
+//                            self.outMemo.append(rarabai)
+//                        }
+//                        
+//                    }
                     self.postInfo.append(sendedPostInfoDic)
                     
                     self.postInfo.sort { (m1, m2) -> Bool in
@@ -771,6 +820,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             let userName = document["userName"] as? String ?? "unKnown"
             let userImage = document["userImage"] as? String ?? "unKnown"
             let userFrontId = document["userFrontId"] as? String ?? "unKnown"
+            let userBackGround = document["userBackGround"] as? String ?? "unKnown"
+
 
             let ConnectionsCount = document["ConnectionsCount"] as? Int ?? 0
             
@@ -795,6 +846,12 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             } else {
                 userImageView?.image = nil
             }
+            
+            if let url = URL(string:userBackGround) {
+                Nuke.loadImage(with: url, into: backGroundImageView)
+            } else {
+                backGroundImageView?.image = nil
+            }
         }
     }
     @objc private func didTap(_ sender: UITapGestureRecognizer) {
@@ -811,7 +868,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
 }
 
-extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
+extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,PinterestLayoutDelegate {
+
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if collectionView == self.teamCollectionView {
@@ -823,11 +882,18 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
         
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let horizontalSpace : CGFloat = 50
-        let cellSize : CGFloat = self.view.bounds.width / 3 - horizontalSpace
-        return CGSize(width: cellSize, height: cellSize)
-    }
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        if indexPath.row%2 != 1 {
+//        let horizontalSpace : CGFloat = 12
+//        let cellSize : CGFloat = self.view.bounds.width / 3 - horizontalSpace
+//        return CGSize(width: cellSize, height: cellSize*2)
+//        } else {
+//            let horizontalSpace : CGFloat = 12
+//            let cellSize : CGFloat = self.view.bounds.width / 3 - horizontalSpace
+//            return CGSize(width: cellSize, height: cellSize)
+//        }
+//    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.teamCollectionView {
@@ -845,10 +911,34 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as!  postCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
 //            cell.backView.clipsToBounds = true
 //            cell.backView.layer.cornerRadius = headerHigh/16
-            if let url = URL(string:postInfo[indexPath.row].postImage) {
-                Nuke.loadImage(with: url, into: cell.postImageView!)
+//            var mask: UIView? { get set }
+            
+
+            cell.collectionPostLabel.text = postInfo[indexPath.row].titleComment
+            cell.collectionPostLabel.font = UIFont(name:"Southpaw", size:40)
+            let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+            cell.collectionPostLabel.transform = transScale
+            
+        
+            
+//            cell.collectionPostLabel.alpha = 0
+            cell.postImageView.image = nil
+            
+            print(postInfo[indexPath.row])
+            
+            cell.postImageView.alpha = 0
+            
+            if postInfo[indexPath.row].postImage != "" {
+                cell.collectionPostLabel.alpha = 0
+                cell.postImageView.alpha = 1
+                if let url = URL(string:postInfo[indexPath.row].postImage) {
+                    Nuke.loadImage(with: url, into: cell.postImageView!)
+                } else {
+                    cell.postImageView?.image = nil
+                }
             } else {
-                cell.postImageView?.image = nil
+                cell.postImageView.alpha = 0
+                cell.collectionPostLabel.alpha = 1
             }
             return cell
         }
@@ -856,28 +946,80 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == self.teamCollectionView {
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.navigationBar.isHidden = false
-        let storyboard = UIStoryboard.init(name: "UnitHome", bundle: nil)
-        let UnitHomeVC = storyboard.instantiateViewController(withIdentifier: "UnitHomeVC") as! UnitHomeVC
-        UnitHomeVC.teamInfo = teamInfo[indexPath.row]
-        navigationController?.pushViewController(UnitHomeVC, animated: true)
-    } else {
-//        self.tabBarController?.tabBar.isHidden = true
-        let storyboard = UIStoryboard.init(name: "detailPost", bundle: nil)
-        let detailPostVC = storyboard.instantiateViewController(withIdentifier: "detailPostVC") as! detailPostVC
-        self.navigationController?.navigationBar.isHidden = false
-//        detailPostVC.navigationController?.navigationBar.isHidden = false
-        detailPostVC.profileUserId = userId
-        detailPostVC.userId = postInfo[indexPath.row].userId
-        detailPostVC.postInfo = postInfo[indexPath.row]
-        
-        navigationController?.pushViewController(detailPostVC, animated: true)
+            self.tabBarController?.tabBar.isHidden = true
+            self.navigationController?.navigationBar.isHidden = false
+            let storyboard = UIStoryboard.init(name: "UnitHome", bundle: nil)
+            let UnitHomeVC = storyboard.instantiateViewController(withIdentifier: "UnitHomeVC") as! UnitHomeVC
+            UnitHomeVC.teamInfo = teamInfo[indexPath.row]
+            navigationController?.pushViewController(UnitHomeVC, animated: true)
+        } else {
+            //        self.tabBarController?.tabBar.isHidden = true
+            let storyboard = UIStoryboard.init(name: "detailPost", bundle: nil)
+            let detailPostVC = storyboard.instantiateViewController(withIdentifier: "detailPostVC") as! detailPostVC
+            self.navigationController?.navigationBar.isHidden = false
+            //        detailPostVC.navigationController?.navigationBar.isHidden = false
+            detailPostVC.profileUserId = userId
+            detailPostVC.userId = postInfo[indexPath.row].userId
+            detailPostVC.postInfoTitle = postInfo[indexPath.row].titleComment
+            detailPostVC.postInfoImage = postInfo[indexPath.row].postImage
+            detailPostVC.postInfoDoc = postInfo[indexPath.row].documentId
+            
+            navigationController?.pushViewController(detailPostVC, animated: true)
+        }
     }
-}
-
-
-
+    
+    func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
+        
+        let postImage = postInfo[indexPath.row].postImage
+        let titleCount = postInfo[indexPath.row].titleComment.count
+        
+        let cellSize : CGFloat = self.view.bounds.width / 3 * 2 - 12
+                
+        //        if postImage != "" {
+        //            return cellSize
+        //        } else {
+        if postImage == "" {
+            if titleCount < 6 {
+                return cellSize/3
+            } else if titleCount < 10 {
+                return cellSize/2.7
+            } else if titleCount < 15 {
+                return cellSize/2.5
+            } else if titleCount < 20 {
+                return cellSize/2.2
+            } else if titleCount < 25 {
+                return cellSize/2
+            } else {
+                return cellSize/1.5
+            }
+        } else {
+            if indexPath.row % 2 == 1 {
+                return cellSize/1.5
+            } else {
+                return cellSize
+            }
+        }
+            
+            //        if titleCount < 10 {
+            //            return 100
+        //        } else if titleCount < 20 {
+        //            return 150
+        //        } else {
+//            return 200
+//        }
+    
+    
+    //        if indexPath.row % 4 == 0 {
+    //            return 200
+    //        } else if indexPath.row % 3 == 0 {
+    //            return 300
+    //        } else {
+    //            return 150
+    //        }
+    
+        
+    }
+    
 }
 
 //MARK: Instructions
@@ -1211,6 +1353,8 @@ class postCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var postImageView: UIImageView!
 
+    @IBOutlet weak var collectionPostLabel: UILabel!
+    
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -1219,8 +1363,7 @@ class postCollectionViewCell: UICollectionViewCell {
 
         self.layer.borderWidth = 6
     
-        self.layer.borderColor = UIColor.tertiarySystemGroupedBackground.cgColor
-
+        self.layer.borderColor = UIColor.clear.cgColor
 
         // cellを丸くする
         self.layer.cornerRadius = safeAreaWidth/18

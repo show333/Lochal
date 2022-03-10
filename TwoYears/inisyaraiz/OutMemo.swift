@@ -21,6 +21,15 @@ class OutMemo {
     var createdAt: Timestamp
     var textMask: String
     var documentId : String
+    
+    var graffitiUserId : String
+    var graffitiUserFrontId: String
+    var graffitiUserName: String
+    
+    var graffitiUserImage: String
+    var graffitiTitle: String
+    var graffitiContentsImage: String
+    
     var readLog: Bool
     var admin: Bool
     var anonymous: Bool
@@ -37,6 +46,14 @@ class OutMemo {
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.textMask = dic["textMask"] as? String ?? ""
         self.documentId = dic["documentId"] as? String ?? ""
+        
+        self.graffitiUserId = dic["graffitiUserId"] as? String ?? ""
+        self.graffitiUserFrontId = dic["graffitiUserFrontId"] as? String ?? ""
+        self.graffitiUserName = dic["graffitiUserName"] as? String ?? ""
+        self.graffitiUserImage = dic["graffitiUserImage"] as? String ?? ""
+        self.graffitiTitle = dic["graffitiTitle"] as? String ?? ""
+        self.graffitiContentsImage = dic["graffitiContentsImage"] as? String ?? ""
+        
         self.readLog = dic["readLog"] as? Bool ?? false
         self.admin = dic["admin"] as? Bool ?? false
         self.anonymous = dic["anonymous"] as? Bool ?? false
@@ -45,4 +62,3 @@ class OutMemo {
     }
     
 }
-

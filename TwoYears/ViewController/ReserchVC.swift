@@ -145,12 +145,12 @@ class ReserchVC:UIViewController{
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
                 
-                let refferalCount = document["refferalCount"] as? Int ?? 0
+                let referralCount = document["referralCount"] as? Int ?? 0
                 
-                if refferalCount != 0 {
+                if referralCount != 0 {
                     refferalCountLabel.alpha = 1
                     refferalButton.alpha = 1
-                    refferalCountLabel.text = String(refferalCount)
+                    refferalCountLabel.text = String(referralCount)
                 } else {
                     refferalCountLabel.alpha = 0
                     refferalButton.alpha = 0

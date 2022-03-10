@@ -10,6 +10,7 @@ import Nuke
 
 class SettingsVC : UIViewController{
     
+    @IBOutlet weak var centerConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var imageImageView: UIImageView!
     
@@ -20,10 +21,10 @@ class SettingsVC : UIViewController{
     
     @IBOutlet weak var downDistance: NSLayoutConstraint!
     
-    @IBOutlet weak var upView: UIView!
+    @IBOutlet weak var ImageBackView: UIView!
     
-    @IBOutlet weak var middleView: UIView!
-    @IBOutlet weak var downView: UIView!
+    @IBOutlet weak var IdBackView: UIView!
+    @IBOutlet weak var NameBackView: UIView!
     @IBOutlet weak var imageButton: UIButton!
     
     @IBOutlet weak var imageButtonHeight: NSLayoutConstraint!
@@ -48,6 +49,20 @@ class SettingsVC : UIViewController{
         let storyboard = UIStoryboard.init(name: "UserNameSet", bundle: nil)
         let UserNameSetVC = storyboard.instantiateViewController(withIdentifier: "UserNameSetVC") as! UserNameSetVC
         navigationController?.pushViewController(UserNameSetVC, animated: true)
+    }
+    
+    @IBOutlet weak var backGroundBackView: UIView!
+    
+    @IBOutlet weak var backGroundBackImageView: UIImageView!
+    @IBOutlet weak var backGroundDistance: NSLayoutConstraint!
+    
+    @IBOutlet weak var backGroundHeight: NSLayoutConstraint!
+    @IBOutlet weak var backGroundButton: UIButton!
+    
+    @IBAction func backGroundTappedButton(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "backGroundSettings", bundle: nil)
+        let backGroundSettingsVC = storyboard.instantiateViewController(withIdentifier: "backGroundSettingsVC") as! backGroundSettingsVC
+        navigationController?.pushViewController(backGroundSettingsVC, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -80,34 +95,50 @@ class SettingsVC : UIViewController{
             nameImageView?.image = nil
         }
         
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FbackGroundIcon.001.png?alt=media&token=080d7c22-2653-4a81-a810-e3e6490b72ad") {
+            Nuke.loadImage(with: url, into: backGroundBackImageView)
+        } else {
+            backGroundBackImageView?.image = nil
+        }
+        
         setSwipeBack()
         
-        upView.backgroundColor = .white
-        upView.clipsToBounds = true
-        upView.layer.masksToBounds = false
-        upView.layer.cornerRadius = 10
-        upView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-        upView.layer.shadowOffset = CGSize(width: 0, height: 3)
-        upView.layer.shadowOpacity = 0.7
-        upView.layer.shadowRadius = 5
+        ImageBackView.backgroundColor = .white
+        ImageBackView.clipsToBounds = true
+        ImageBackView.layer.masksToBounds = false
+        ImageBackView.layer.cornerRadius = 10
+        ImageBackView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        ImageBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        ImageBackView.layer.shadowOpacity = 0.7
+        ImageBackView.layer.shadowRadius = 5
         
-        middleView.backgroundColor = .white
-        middleView.clipsToBounds = true
-        middleView.layer.masksToBounds = false
-        middleView.layer.cornerRadius = 10
-        middleView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-        middleView.layer.shadowOffset = CGSize(width: 0, height: 3)
-        middleView.layer.shadowOpacity = 0.7
-        middleView.layer.shadowRadius = 5
+        IdBackView.backgroundColor = .white
+        IdBackView.clipsToBounds = true
+        IdBackView.layer.masksToBounds = false
+        IdBackView.layer.cornerRadius = 10
+        IdBackView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        IdBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        IdBackView.layer.shadowOpacity = 0.7
+        IdBackView.layer.shadowRadius = 5
         
-        downView.backgroundColor = .white
-        downView.clipsToBounds = true
-        downView.layer.masksToBounds = false
-        downView.layer.cornerRadius = 10
-        downView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-        downView.layer.shadowOffset = CGSize(width: 0, height: 3)
-        downView.layer.shadowOpacity = 0.7
-        downView.layer.shadowRadius = 5
+        NameBackView.backgroundColor = .white
+        NameBackView.clipsToBounds = true
+        NameBackView.layer.masksToBounds = false
+        NameBackView.layer.cornerRadius = 10
+        NameBackView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        NameBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        NameBackView.layer.shadowOpacity = 0.7
+        NameBackView.layer.shadowRadius = 5
+        
+        backGroundBackView.backgroundColor = .white
+        backGroundBackView.clipsToBounds = true
+        backGroundBackView.layer.masksToBounds = false
+        backGroundBackView.layer.cornerRadius = 10
+        backGroundBackView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        backGroundBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        backGroundBackView.layer.shadowOpacity = 0.7
+        backGroundBackView.layer.shadowRadius = 5
         
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         let navigationbarHeight = CGFloat((self.navigationController?.navigationBar.frame.size.height)!)
@@ -115,12 +146,16 @@ class SettingsVC : UIViewController{
         let tabbarHeight = CGFloat((tabBarController?.tabBar.frame.size.height)!)
         let safeArea = UIScreen.main.bounds.size.height - tabbarHeight - statusbarHeight - navigationbarHeight
         
-        upDistance.constant = safeArea/10
-        downDistance.constant = safeArea/10
+        centerConstraint.constant = -safeArea/12
         
-        imageButtonHeight.constant = safeArea/6
-        idButtonHeight.constant = safeArea/6
-        nameButtonHeight.constant = safeArea/6
+        upDistance.constant = safeArea/12
+        downDistance.constant = safeArea/12
+        backGroundDistance.constant = safeArea/12
+        
+        imageButtonHeight.constant = safeArea/8
+        idButtonHeight.constant = safeArea/8
+        nameButtonHeight.constant = safeArea/8
+        backGroundHeight.constant = safeArea/8
         
     }
 }

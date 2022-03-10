@@ -53,32 +53,56 @@ class SignInViewController: UIViewController {
     
     // サインインボタン
     @IBAction func buttonAction(_ button: TransitionButton) {
-        guard let refferalId = idTextField.text else { return }
+        guard let referralId = idTextField.text else { return }
         
         button.startAnimation() // 2: Then start the animation when the user tap the button
         let qualityOfServiceClass = DispatchQoS.QoSClass.background
         let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
         backgroundQueue.async(execute: { [self] in
             sleep(1) // 3: Do your networking task or background work here.
-            
-            db.collection("RefferalId").whereField("usedBool", isEqualTo: false).whereField("refferalId", isEqualTo: refferalId)
+            //            RefferalId
+            db.collection("ReferralId").whereField("usedBool", isEqualTo: false).whereField("referralId", isEqualTo: referralId)
                 .getDocuments() { (querySnapshot, err) in
                     if let err = err {
                         print("Error getting documents: \(err)")
                     } else {
                         
                         if querySnapshot!.documents.count != 0 {
-                            self.successAnimation(button: button, refferalId: refferalId)
+                            self.successAnimation(button: button, referralId: referralId)
                             
                             for document in querySnapshot!.documents {
-                                let refferalUserId = document.data()["userId"] as? String ?? ""
-                                UserDefaults.standard.set(refferalUserId, forKey: "refferalUserId")
+                                let referralUserlId = document.data()["userId"] as? String ?? ""
+                                UserDefaults.standard.set(referralUserlId, forKey: "referralUserlId")
                             }
                             
                         } else {
-                            self.ErrorAnimation(button: button)
+                            
+                            db.collection("RefferalId").whereField("usedBool", isEqualTo: false).whereField("refferalId", isEqualTo: referralId)
+                                .getDocuments() { (querySnapshot, err) in
+                                    if let err = err {
+                                        print("Error getting documents: \(err)")
+                                    } else {
+                                        
+                                        if querySnapshot!.documents.count != 0 {
+                                            self.successAnimation(button: button, referralId: referralId)
+                                            
+                                            for document in querySnapshot!.documents {
+                                                let referralUserlId = document.data()["userId"] as? String ?? ""
+                                                UserDefaults.standard.set(referralUserlId, forKey: "referralUserlId")
+                                            }
+                                            
+                                        } else {
+                                            
+                                            
+                                            self.ErrorAnimation(button: button)
+                                        }
+                                    }
+                                    
+                                }
+                            //                            self.ErrorAnimation(button: button)
                         }
                     }
+                    
                 }
         })
     }
@@ -119,7 +143,7 @@ class SignInViewController: UIViewController {
         }
     }
     
-    func successAnimation(button:TransitionButton,refferalId:String) {
+    func successAnimation(button:TransitionButton,referralId:String) {
         button.startAnimation() // 2: Then start the animation when the user tap the button
         let qualityOfServiceClass = DispatchQoS.QoSClass.background
         let backgroundQueue = DispatchQueue.global(qos: qualityOfServiceClass)
@@ -129,7 +153,7 @@ class SignInViewController: UIViewController {
             DispatchQueue.main.async(execute: { () -> Void in
                 button.stopAnimation(animationStyle: .expand, completion: { [self] in
                     print("setdata")
-                    firstSetup(refferalId: refferalId)
+                    firstSetup(referralId: referralId)
 
                 })
             })
@@ -139,7 +163,7 @@ class SignInViewController: UIViewController {
     }
     
     
-    func firstSetup(refferalId:String) {
+    func firstSetup(referralId:String) {
         let uid = Auth.auth().currentUser?.uid
         let userToken = UserDefaults.standard.string(forKey: "FCM_TOKEN")
 
@@ -148,7 +172,7 @@ class SignInViewController: UIViewController {
             "UEnterdBool": true,
             "fcmToken":userToken ?? "unKnown",
             "userId":uid ?? "",
-            "nowjikan": FieldValue.serverTimestamp(),
+            "currentTime": FieldValue.serverTimestamp(),
             "createdAt": FieldValue.serverTimestamp(),
         ] as [String: Any]
         UserDefaults.standard.set(uid, forKey: "userId")
@@ -163,7 +187,9 @@ class SignInViewController: UIViewController {
         
         db.collection("users").document(uid ?? "").collection("Profile").document("profile").setData(profile,merge: true)
         
-        db.collection("RefferalId").document(refferalId).setData(["usedBool":true],merge: true)
+        if referralId != "U" {
+        db.collection("ReferralId").document(referralId).setData(["usedBool":true],merge: true)
+        }
         
         let storyboard = UIStoryboard.init(name: "Explain", bundle: nil)
         let vc = storyboard.instantiateViewController(identifier: "ExplainVC") as! ExplainVC

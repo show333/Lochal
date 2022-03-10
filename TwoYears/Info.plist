@@ -37,6 +37,10 @@
 	<string>Ubatge</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9686355783426956~1327454889</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>instagram-stories</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -47,6 +51,34 @@
 		<string>07にくまるフォント.otf</string>
 		<string>YasashisaGothic.otf</string>
 		<string>03スマートフォントUI.otf</string>
+		<string>Bear &amp; loupe bold.otf</string>
+		<string>Bistrosketch-wyG9.ttf</string>
+		<string>CamdenRegular-1jAZ.ttf</string>
+		<string>Daniel-Bold.otf</string>
+		<string>Debby.ttf</string>
+		<string>DoodlePen_Limited.ttf</string>
+		<string>GrutchShaded.ttf</string>
+		<string>Journal.otf</string>
+		<string>julies.ttf</string>
+		<string>Kbcurioussoul-m3W9.ttf</string>
+		<string>KeyTabMetal-MOAJ.ttf</string>
+		<string>lackey.ttf</string>
+		<string>LoveYaLikeASister.ttf</string>
+		<string>LovingYou.ttf</string>
+		<string>LUNABAR_.TTF</string>
+		<string>MadeWithB-DdDx.ttf</string>
+		<string>mami candy.ttf</string>
+		<string>Mayonaise-YVdj.ttf</string>
+		<string>Monika.TTF</string>
+		<string>Moon Flower.ttf</string>
+		<string>MtfCupcake-KEeX.ttf</string>
+		<string>PapposBlues..._font.ttf</string>
+		<string>pastel crayon.ttf</string>
+		<string>REIS-Regular.otf</string>
+		<string>Sketchica-MB4Y.ttf</string>
+		<string>Skinnybastard-Regular.ttf</string>
+		<string>Southpaw.ttf</string>
+		<string>SweetPineapple.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

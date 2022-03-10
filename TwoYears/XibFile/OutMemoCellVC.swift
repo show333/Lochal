@@ -9,6 +9,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseFirestore
 import Nuke
+import ImageViewer
 
 
 class ShadowView: UIView {
@@ -72,14 +73,34 @@ class OutmMemoCellVC: UITableViewCell {
     @IBOutlet weak var flagButton: UIButton!
     
     
+    @IBOutlet weak var graffitiBackGroundView: UIView!
+    @IBOutlet weak var graffitiBackGroundConstraint: NSLayoutConstraint!
+    @IBOutlet weak var graffitiUserImageView: UIImageView!
+    
+    @IBOutlet weak var graffitiUserFrontIdLabel: UILabel!
+    
+    @IBOutlet weak var graffitiContentsImageView: UIImageView!
+    
+    @IBOutlet weak var graffitiTitleLabel: UILabel!
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         
         messageLabel.font = UIFont(name:"03SmartFontUI", size:19)
+        graffitiTitleLabel.font = UIFont(name:"03SmartFontUI", size:16)
         
         userImageView.isUserInteractionEnabled = true
-        userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:))))
+        userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(userImageTapped(_:))))
+                
+        graffitiUserImageView.isUserInteractionEnabled = true
+        graffitiUserImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(graffitiUserimageTapped(_:))))
+                
+        graffitiBackGroundView.isUserInteractionEnabled = true
+        graffitiBackGroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(graffitiBackGroundTapped(_:))))
+        
         
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
@@ -193,7 +214,7 @@ class OutmMemoCellVC: UITableViewCell {
         }
     }
     
-    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
+    @objc func userImageTapped(_ sender: UITapGestureRecognizer) {
         let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
         let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
         ProfileVC.userId = outMemo?.userId
@@ -202,6 +223,41 @@ class OutmMemoCellVC: UITableViewCell {
         ViewController()?.navigationController?.navigationBar.isHidden = false
         ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
     }
+    
+    @objc func graffitiUserimageTapped(_ sender: UITapGestureRecognizer) {
+        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        ProfileVC.userId = outMemo?.graffitiUserId
+        ProfileVC.cellImageTap = true
+        ProfileVC.tabBarController?.tabBar.isHidden = true
+        ViewController()?.navigationController?.navigationBar.isHidden = false
+        ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
+    }
+    
+    @objc func graffitiBackGroundTapped(_ sender: UITapGestureRecognizer) {
+        let storyboard = UIStoryboard.init(name: "detailPost", bundle: nil)
+        let detailPostVC = storyboard.instantiateViewController(withIdentifier: "detailPostVC") as! detailPostVC
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+//        var postInfo: PostInfo?
+//        var profileUserId:String?
+//        var userId: String?
+//        var userName: String?
+//        var userImage: String?
+//        var userFrontId: String?
+        detailPostVC.userId = outMemo?.graffitiUserId
+        detailPostVC.userName = outMemo?.graffitiUserName
+        detailPostVC.userImage = outMemo?.graffitiUserImage
+        detailPostVC.userFrontId = outMemo?.graffitiUserFrontId
+        detailPostVC.postInfoTitle = outMemo?.graffitiTitle
+        detailPostVC.postInfoDoc = outMemo?.documentId
+        detailPostVC.postInfoImage = outMemo?.graffitiContentsImage
+        detailPostVC.profileUserId = uid
+        detailPostVC.tabBarController?.tabBar.isHidden = true
+        ViewController()?.navigationController?.navigationBar.isHidden = false
+        ViewController()?.navigationController?.pushViewController(detailPostVC, animated: true)
+    }
+    
+
     
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -252,7 +308,3 @@ extension OutmMemoCellVC :UICollectionViewDataSource,UICollectionViewDelegate {
     }
     
 }
-
-
-
-

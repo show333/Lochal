@@ -42,7 +42,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
         let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou")
         self.present(sinkitoukou, animated: true, completion: nil)
-        db.collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
+        db.collection("users").document(uid).setData(["currentTime": FieldValue.serverTimestamp()], merge: true)
         //        try? Auth.auth().signOut()
     }
     
@@ -137,7 +137,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou") as! sinkitoukou
             sinkitoukou.modalPresentationStyle = .fullScreen
             self.present(sinkitoukou, animated: true, completion: nil)
-            Firestore.firestore().collection("users").document(uid).setData(["nowjikan": FieldValue.serverTimestamp()], merge: true)
+            Firestore.firestore().collection("users").document(uid).setData(["currentTime": FieldValue.serverTimestamp()], merge: true)
         } else {
             if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
                 UserDefaults.standard.set(true, forKey: "OutMemoInstract")
@@ -197,7 +197,15 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     //Pull to Refresh
     @objc func onRefresh(_ sender: AnyObject) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            self?.outMemo.removeAll()
             self?.chatListTableView.reloadData()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                // 0.5秒後に実行したい処理
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                self?.fetchFireStore(userId:uid)
+            }
+     
             self?.chatListTableView.refreshControl?.endRefreshing()
         }
     }
@@ -295,18 +303,76 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 
         cell.messageLabel.text = outMemo[indexPath.row].message
+        
+        cell.graffitiUserImageView.image = nil
+        if let url = URL(string:outMemo[indexPath.row].graffitiUserImage) {
+            Nuke.loadImage(with: url, into: cell.graffitiUserImageView)
+        } else {
+            cell.graffitiUserImageView?.image = nil
+        }
+        
+        cell.graffitiUserImageView.clipsToBounds = true
+        cell.graffitiUserImageView.layer.cornerRadius = 25
+        
+        cell.graffitiContentsImageView.clipsToBounds = true
+        cell.graffitiContentsImageView.layer.cornerRadius = 10
+        
+        cell.graffitiContentsImageView.image = nil
+        
+        if let url = URL(string:outMemo[indexPath.row].graffitiContentsImage) {
+            Nuke.loadImage(with: url, into: cell.graffitiContentsImageView)
+        } else {
+            cell.graffitiContentsImageView?.image = nil
+        }
+        
+        cell.graffitiUserFrontIdLabel.text = outMemo[indexPath.row].graffitiUserFrontId
+        
+        cell.graffitiTitleLabel.text = outMemo[indexPath.row].graffitiTitle
+        
+        cell.graffitiBackGroundView.clipsToBounds = true
+        cell.graffitiBackGroundView.layer.cornerRadius = 10
+        
+        
+        
 
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-
         cell.messageBottomConstraint.constant =  105
 
         if  outMemo[indexPath.row].readLog == true {
             cell.coverView.backgroundColor = .clear
             cell.coverViewConstraint.constant = 0
-            cell.messageBottomConstraint.constant = 30
+            cell.messageBottomConstraint.constant = 20
             cell.messageLabel.numberOfLines = 0
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
+            
+            if outMemo[indexPath.row].graffitiUserId != "" {
+                
+                if outMemo[indexPath.row].delete == true {
+                    cell.graffitiBackGroundConstraint.constant = 0
+                    cell.graffitiBackGroundView.alpha = 0
+                    cell.graffitiUserFrontIdLabel.alpha = 0
+                    cell.graffitiTitleLabel.alpha = 0
+                    cell.graffitiUserImageView.alpha = 0
+                    cell.graffitiContentsImageView.alpha = 0
+                } else {
+                cell.graffitiBackGroundConstraint.constant = 700
+                cell.graffitiBackGroundView.alpha = 1
+                cell.graffitiUserFrontIdLabel.alpha = 1
+                cell.graffitiTitleLabel.alpha = 1
+                cell.graffitiUserImageView.alpha = 1
+                cell.graffitiContentsImageView.alpha = 1
+                }
+            } else {
+                cell.graffitiBackGroundConstraint.constant = 0
+                cell.graffitiBackGroundView.alpha = 0
+                cell.graffitiUserFrontIdLabel.alpha = 0
+                cell.graffitiTitleLabel.alpha = 0
+                cell.graffitiUserImageView.alpha = 0
+                cell.graffitiContentsImageView.alpha = 0
+
+            }
+            
         } else {
             cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             cell.coverViewConstraint.constant = 100
@@ -314,20 +380,29 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 1
             cell.coverImageView.alpha = 0.8
             cell.textMaskLabel.alpha = 1
+            
+            cell.graffitiBackGroundConstraint.constant = 0
+            cell.graffitiBackGroundView.alpha = 0
+            cell.graffitiUserFrontIdLabel.alpha = 0
+            cell.graffitiTitleLabel.alpha = 0
+            cell.graffitiUserImageView.alpha = 0
+            cell.graffitiContentsImageView.alpha = 0
         }
-//
+        //
         if let url = URL(string:outMemo[indexPath.row].textMask) {
             Nuke.loadImage(with: url, into: cell.coverImageView)
         } else {
             cell.coverImageView?.image = nil
         }
-
+        
         if uid == outMemo[indexPath.row].userId {
-        cell.flagButton.isHidden = true
+            cell.flagButton.isHidden = true
+        } else {
+            cell.flagButton.isHidden = false
         }
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(flagButtonEvemt), for: UIControl.Event.touchUpInside)
-
+        
         cell.userImageView.image = nil
         
         //↓tableviewのunit表示
@@ -368,6 +443,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 self.present(ReactionVC, animated: true, completion: nil)
             } else {
                 
+                
                 let storyboard = UIStoryboard.init(name: "ReadLog", bundle: nil)
                 let ReadLogVC = storyboard.instantiateViewController(withIdentifier: "ReadLogVC") as! ReadLogVC
                 
@@ -378,7 +454,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
         } else {
             
-            print("outmemoa",outMemo[indexPath.row].readLog)
+            print("outmemo",outMemo[indexPath.row].readLog)
 
             let readLogDic = [
                 "userId":uid,
@@ -588,6 +664,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 if delete == true {
                     cell.messageLabel.text = "この投稿は削除されました"
+                    
+                    //後で直す
+                    cell.graffitiContentsImageView.alpha = 0
+                    cell.graffitiBackGroundConstraint.constant = 0
                     db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
                 } else {
                     //                    cell.messageLabel.text = message
