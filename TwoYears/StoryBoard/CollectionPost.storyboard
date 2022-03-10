@@ -80,6 +80,14 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sf6-gV-Mxf">
+                                <rect key="frame" x="265" y="94" width="67" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="fontTappedButton:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="OyH-ww-PT9"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
@@ -89,6 +97,8 @@
                             <constraint firstItem="UkV-uV-wiI" firstAttribute="top" secondItem="axY-id-44T" secondAttribute="bottom" constant="10" id="4vD-zm-XQC"/>
                             <constraint firstItem="Ci3-5F-9gt" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="5Kg-LK-s7r"/>
                             <constraint firstItem="axY-id-44T" firstAttribute="top" secondItem="J2e-Hn-EUW" secondAttribute="bottom" constant="30" id="5Qs-9k-44S"/>
+                            <constraint firstItem="Sf6-gV-Mxf" firstAttribute="leading" secondItem="YO6-3r-6Ss" secondAttribute="trailing" constant="30" id="AGP-wn-xxz"/>
+                            <constraint firstItem="Sf6-gV-Mxf" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="50" id="CVN-gK-GMu"/>
                             <constraint firstItem="J2e-Hn-EUW" firstAttribute="top" secondItem="uN1-AB-SL4" secondAttribute="bottom" constant="5" id="GSU-yV-h7l"/>
                             <constraint firstItem="axY-id-44T" firstAttribute="top" secondItem="Ci3-5F-9gt" secondAttribute="bottom" constant="1" id="Hpp-gB-Oy0"/>
                             <constraint firstItem="uN1-AB-SL4" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="10" id="NFF-78-fji"/>
@@ -108,6 +118,7 @@
                         <outlet property="backView" destination="J2e-Hn-EUW" id="oVd-tL-plq"/>
                         <outlet property="bottomTextView" destination="axY-id-44T" id="tb7-bH-rx2"/>
                         <outlet property="explainLabel" destination="uN1-AB-SL4" id="ntf-js-v5A"/>
+                        <outlet property="fontButton" destination="Sf6-gV-Mxf" id="PhK-zZ-omc"/>
                         <outlet property="imageButton" destination="p5n-Tk-K6G" id="8JL-o7-9Wv"/>
                         <outlet property="sendButton" destination="YO6-3r-6Ss" id="q5H-yU-16D"/>
                         <outlet property="textViewConstraint" destination="C06-Xv-tmM" id="Hf5-fB-QQw"/>

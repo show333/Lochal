@@ -24,38 +24,65 @@ class detailPostVC:UIViewController {
     var userName: String?
     var userImage: String?
     var userFrontId: String?
+    var originImage : UIImage?
+    var backTapCount = 0
+    
     let db = Firestore.firestore()
-    let filterArray = ["CIPhotoEffectMono",
-                       "CIPhotoEffectChrome",
-                       "CIPhotoEffectFade",
-                       "CIPhotoEffectInstant",
-                       "CIPhotoEffectNoir",
-                       "CIPhotoEffectProcess",
-                       "CIPhotoEffectTonal",
-                       "CIPhotoEffectTransfer",
-                       "CISepiaTone",
-                       "original"
-     ]
-//    CIPhotoEffectInstant
+    let filterArray = [
+        "CIPhotoEffectInstant",
+        "CIPhotoEffectChrome",
+        "CIPhotoEffectFade",
+        "CIPhotoEffectProcess",
+        "CIPhotoEffectTransfer",
+        "CIPhotoEffectMono",
+        "CIPhotoEffectNoir",
+        "CIPhotoEffectTonal",
+        "CISepiaTone",
+        "original",
+    ]
+    let filterNameArray = [
+        "Instant",
+        "Chrome",
+        "Fade",
+        "Process",
+        "Transfer",
+        "Mono",
+        "Noir",
+        "Tonal",
+        "SepiaTone",
+        "original",
+    ]
+    
+    //    CIPhotoEffectInstant
     var filterNumber = 0
     
     @IBOutlet weak var backGroundView: UIView!
+    
+    @IBOutlet weak var backGroundViewUpConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var backGroundViewDownConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var userFrontIdLabel: UILabel!
     
-    @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
     
-//    @IBOutlet weak var userImageViewConstraint: NSLayoutConstraint!
+    //    @IBOutlet weak var userImageViewConstraint: NSLayoutConstraint!
     @IBOutlet weak var postImageView: UIImageView!
+    
+    @IBOutlet weak var postImageViewWidthConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var postImageViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var filterLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     
+    @IBOutlet weak var titleWithFontLabel: UILabel!
     @IBOutlet weak var effectButton: UIButton!
     
     @IBAction func effectTappedButton(_ sender: Any) {
         
         //UIImageViewのimageをオプショナルバインディングでアンラップし、imageに代入
-              if let image = postImageView.image {
-                 //フィルター名を指定
+        if let image = postImageView.image {
+            //フィルター名を指定
                  let filterName = filterArray[filterNumber]
                   //ボタンを押すたびにフィルター内容が変わるように設定
                   filterNumber += 1
@@ -87,14 +114,9 @@ class detailPostVC:UIViewController {
                   }
       //エフェクト後の画像をCGImage形式からUIImage形式に変更、回転角度を指定、ImageViewに表示
                   
-                  if let url = URL(string:postInfoImage ?? "") {
-                      Nuke.loadImage(with: url, into: postImageView)
-                  } else {
-                      postImageView.image = nil
-                  }
-                  DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+
                       self.postImageView.image = UIImage(cgImage: cgImage, scale: 1.0, orientation: rotate)
-                  }
+                  
               }
     }
 
@@ -106,6 +128,10 @@ class detailPostVC:UIViewController {
     
     @IBOutlet weak var memoLabel: UILabel!
     @IBOutlet weak var transitionReMemoBackView: UIView!
+    
+    @IBOutlet weak var transitionReMemoFrontView: UIView!
+    @IBOutlet weak var transitionReMemoFrontViewConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var transitionReMemoConstraint: NSLayoutConstraint!
     @IBOutlet weak var transitionReMemoWidth: NSLayoutConstraint!
     @IBOutlet weak var trainsitionReMemoButton: UIButton!
@@ -127,6 +153,7 @@ class detailPostVC:UIViewController {
     @IBOutlet weak var storyShareLabel: UILabel!
     @IBOutlet weak var storyShareBackView: UIView!
     @IBOutlet weak var storyShareImageView: UIImageView!
+    @IBOutlet weak var storyShareImageConstraint: NSLayoutConstraint!
     @IBOutlet weak var storyShareConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var storyShareWidth: NSLayoutConstraint!
@@ -143,7 +170,8 @@ class detailPostVC:UIViewController {
         super.viewDidLoad()
         
         effectButton.alpha = 0
-        
+        filterLabel.alpha = 0
+                
         let safeAreaWidth = UIScreen.main.bounds.size.width
 
         backGroundView.clipsToBounds = true
@@ -152,28 +180,35 @@ class detailPostVC:UIViewController {
         
         titleLabel.font = UIFont(name:"03SmartFontUI", size:22)
         
-        transitionReMemoBackView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        transitionReMemoBackView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         transitionReMemoBackView.clipsToBounds = true
         transitionReMemoBackView.layer.masksToBounds = false
         transitionReMemoBackView.layer.cornerRadius = safeAreaWidth/16
-        transitionReMemoBackView.layer.shadowColor = UIColor.black.cgColor
+        transitionReMemoBackView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         transitionReMemoBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
         transitionReMemoBackView.layer.shadowOpacity = 0.7
         transitionReMemoBackView.layer.shadowRadius = 5
         
+        transitionReMemoFrontView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        transitionReMemoFrontView.clipsToBounds = true
+        transitionReMemoFrontView.layer.cornerRadius = safeAreaWidth/18
+
         
-
-        transitionReMemoWidth.constant = safeAreaWidth/8
-        transitionReMemoConstraint.constant = safeAreaWidth/4
-        storyShareWidth.constant = safeAreaWidth/8
-        storyShareConstraint.constant = safeAreaWidth/4
+        storyShareBackView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        storyShareBackView.clipsToBounds = true
+        storyShareBackView.layer.masksToBounds = false
+        storyShareBackView.layer.cornerRadius = safeAreaWidth/16
+        storyShareBackView.layer.shadowColor = #colorLiteral(red: 0.8880136013, green: 0.1003531218, blue: 0.6296043992, alpha: 1)
+        storyShareBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        storyShareBackView.layer.shadowOpacity = 0.7
+        storyShareBackView.layer.shadowRadius = 5
         
-//        trainsitionReMemoButton.titleLabel?.adjustsFontSizeToFitWidth = true
-//        memoLabel.font = UIFont(name: "03SmartFontUI", size: 13)
-//        storyShareButton.titleLabel?.adjustsFontSizeToFitWidth = true
-//        storyShareLabel.font = UIFont(name: "03SmartFontUI", size: 11)
-
-
+        transitionReMemoFrontViewConstraint.constant = safeAreaWidth/9
+        transitionReMemoWidth.constant = safeAreaWidth/5
+        transitionReMemoConstraint.constant = safeAreaWidth/4.5
+        storyShareWidth.constant = safeAreaWidth/5
+        storyShareConstraint.constant = safeAreaWidth/4.5
+        storyShareImageConstraint.constant = safeAreaWidth/10
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
@@ -184,7 +219,6 @@ class detailPostVC:UIViewController {
 //            trainsitionReMemoButton.alpha = 0
 //            storyShareButton.alpha = 0
 //        }
-        
         
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FInstagram_Glyph_Gradient_RGB.png?alt=media&token=3d86956e-4d3e-46c3-9777-891495f5cf84") {
             Nuke.loadImage(with: url, into: storyShareImageView)
@@ -198,15 +232,58 @@ class detailPostVC:UIViewController {
          } else {
              TPButton.alpha = 0
          }
-        backGroundView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 0.9)
-
+//        #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
+//        #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.9)
+//        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 0.9)
         
         setSwipeBack()
+        
+        backGroundView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
+        userFrontIdLabel.textColor = .lightGray
+        
+        
         if let url = URL(string:postInfoImage ?? "") {
             Nuke.loadImage(with: url, into: postImageView)
+            originImage = UIImage(url: postInfoImage ?? "")
+
+            titleLabel.alpha = 1
+            titleWithFontLabel.alpha = 0
+            
+            backGroundViewUpConstraint.constant = 20
+            backGroundViewDownConstraint.constant = safeAreaWidth/5 + 40
+            
+            if safeAreaWidth > 500 {
+                postImageViewWidthConstraint.constant = 500
+                postImageViewHeightConstraint.constant = 500
+            } else {
+                postImageViewWidthConstraint.constant = safeAreaWidth - 100
+                postImageViewHeightConstraint.constant = safeAreaWidth - 100
+            }
+
         } else {
             postImageView.image = nil
+            titleLabel.alpha = 0
+            titleWithFontLabel.alpha = 1
+            
+            backGroundViewUpConstraint.constant = safeAreaWidth/4
+            backGroundViewDownConstraint.constant = safeAreaWidth/5 + 40
+            
+            if safeAreaWidth > 500 {
+                postImageViewWidthConstraint.constant = 500
+                postImageViewHeightConstraint.constant = 0
+            } else {
+                postImageViewWidthConstraint.constant = safeAreaWidth - 80
+                postImageViewHeightConstraint.constant = 0
+            }
+            
         }
+        
+        let backGroundTapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(backGroundTap(_:)))
+        backGroundView.addGestureRecognizer(backGroundTapGesture)
+        backGroundView.isUserInteractionEnabled = true
+        
         
         let postTapGesture = UITapGestureRecognizer(
             target: self,
@@ -216,6 +293,12 @@ class detailPostVC:UIViewController {
         
         postImageView.clipsToBounds = true
         postImageView.layer.cornerRadius = 16
+        
+        let longTapGesture = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(longPostTap(_:))
+        )
+        postImageView.addGestureRecognizer(longTapGesture)
         
         
         
@@ -227,9 +310,13 @@ class detailPostVC:UIViewController {
         userImageView.isUserInteractionEnabled = true
 
         userImageView.clipsToBounds = true
-        userImageView.layer.cornerRadius = 30
+        userImageView.layer.cornerRadius = 25
         
         titleLabel.text = postInfoTitle
+        titleWithFontLabel.text = postInfoTitle
+        titleWithFontLabel.font = UIFont(name:"Southpaw", size:60)
+        let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+        titleWithFontLabel.transform = transScale
         getUserInfo()
     }
     
@@ -300,7 +387,7 @@ class detailPostVC:UIViewController {
                 
                 
                 
-                userNameLabel.text = userNameString
+//                userNameLabel.text = userNameString
                 userFrontIdLabel.text = userFrontIdString
                 if let url = URL(string:userImageString) {
                     Nuke.loadImage(with: url, into: userImageView)
@@ -311,16 +398,105 @@ class detailPostVC:UIViewController {
             }
         }
     }
+    
+    @objc private func backGroundTap(_ sender: UITapGestureRecognizer) {
+        print(backTapCount)
+        backTapCount += 1
+        
+        let surplusCount = backTapCount % 4
+        
+        if surplusCount == 1 {
+            backGroundView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8974241918)
+            userFrontIdLabel.textColor = .darkGray
+
+        } else if surplusCount == 2 {
+            backGroundView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 0.8966493152)
+            userFrontIdLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+
+        } else if surplusCount == 3 {
+            backGroundView.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.9457381246, blue: 0.7684240747, alpha: 0.9)
+            userFrontIdLabel.textColor = .white
+
+        } else {
+            backGroundView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
+            userFrontIdLabel.textColor = .lightGray
+
+        }
+        
+    }
+    
     @objc private func postTap(_ sender: UITapGestureRecognizer) {
-        let viewController = GalleryViewController(
-            startIndex: 0,
-            itemsDataSource: self,
-            displacedViewsDataSource: self,
-            configuration: [
-                .deleteButtonMode(.none),
-                .thumbnailsButtonMode(.none)
-            ])
-        presentImageGallery(viewController)
+        //UIImageViewのimageをオプショナルバインディングでアンラップし、imageに代入
+        if let image = originImage {
+            //フィルター名を指定
+            //ボタンを押すたびにフィルター内容が変わるように設定
+            filterLabel.text = filterNameArray[filterNumber]
+            let filterName = filterArray[filterNumber]
+            filterNumber += 1
+
+
+            //配列内の要素数とSelectNumberの値が等しければ、0を代入して初期化
+            if filterNumber == filterArray.count {
+                filterNumber = 0
+            }
+            //画像の回転角度をを取得
+            let rotate = image.imageOrientation
+            //UIImage形式の画像をCIImage形式に変更し、加工可能な状態にする。
+            let inputImage = CIImage(image: image)
+            //フィルターの種類を引数で指定された種類を指定してCIFilterのインスタンスを取得
+            guard let effectFilter = CIFilter(name: filterName) else{
+                self.postImageView.image = UIImage(url: postInfoImage ?? "")
+                
+                animationLabel()
+                return
+            }
+            //エフェクトのパラメータを初期化
+            effectFilter.setDefaults()
+            //インスタンスにエフェクトする画像を指定
+            effectFilter.setValue(inputImage, forKey: kCIInputImageKey)
+            //エフェクト後のCIImage形式の画像を取り出す
+            guard let outputImage = effectFilter.outputImage else{
+                return
+            }
+            // CIContextのインスタンスを取得
+            let ciContext = CIContext(options: nil)
+            // エフェクト後の画像をCIContext上に描画し、結果をcgImageとしてCGImage形式の画像を取得
+            guard let cgImage = ciContext.createCGImage(outputImage, from: outputImage.extent) else {
+                return
+            }
+            //エフェクト後の画像をCGImage形式からUIImage形式に変更、回転角度を指定、ImageViewに表示
+            
+            self.postImageView.image = UIImage(cgImage: cgImage, scale: 1.0, orientation: rotate)
+            animationLabel()
+        }
+    }
+    
+    @objc private func longPostTap(_ sender: UILongPressGestureRecognizer) {
+                let viewController = GalleryViewController(
+                    startIndex: 0,
+                    itemsDataSource: self,
+                    displacedViewsDataSource: self,
+                    configuration: [
+                        .deleteButtonMode(.none),
+                        .thumbnailsButtonMode(.none)
+                    ])
+                presentImageGallery(viewController)
+            
+    }
+    
+    func animationLabel(){
+        UIView.animate(withDuration: 0.1, delay: 0, animations: {
+            self.filterLabel.alpha = 1
+            //
+            //
+        }) { bool in
+            // ②アイコンを大きくする
+            UIView.animate(withDuration: 0.4, delay: 0.6, animations: {
+                self.filterLabel.alpha = 0
+
+            })
+        }
+        
     }
     
     @objc private func userTap(_ sender: UITapGestureRecognizer) {

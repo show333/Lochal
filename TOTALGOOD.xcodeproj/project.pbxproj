@@ -109,6 +109,8 @@
 		CF2BF5C727D8613D00F7D1CB /* Debby.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5AB27D8613C00F7D1CB /* Debby.ttf */; };
 		CF2BF5C827D8613D00F7D1CB /* Bistrosketch-wyG9.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5AC27D8613C00F7D1CB /* Bistrosketch-wyG9.ttf */; };
 		CF2BF5C927D8613D00F7D1CB /* lackey.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5AD27D8613D00F7D1CB /* lackey.ttf */; };
+		CF2BF5CB27D891CA00F7D1CB /* FontCollection.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF5CA27D891CA00F7D1CB /* FontCollection.storyboard */; };
+		CF2BF5CD27D891ED00F7D1CB /* FontCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2BF5CC27D891ED00F7D1CB /* FontCollectionVC.swift */; };
 		CF31079D2600AA1A00746480 /* TabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF31079C2600AA1A00746480 /* TabbarController.swift */; };
 		CF3107A12600AA6700746480 /* Tabbar.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3107A02600AA6700746480 /* Tabbar.storyboard */; };
 		CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3107F726018BB200746480 /* ShoutaiHakkou.storyboard */; };
@@ -269,6 +271,8 @@
 		CF2BF5AB27D8613C00F7D1CB /* Debby.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Debby.ttf; sourceTree = "<group>"; };
 		CF2BF5AC27D8613C00F7D1CB /* Bistrosketch-wyG9.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Bistrosketch-wyG9.ttf"; sourceTree = "<group>"; };
 		CF2BF5AD27D8613D00F7D1CB /* lackey.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = lackey.ttf; sourceTree = "<group>"; };
+		CF2BF5CA27D891CA00F7D1CB /* FontCollection.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FontCollection.storyboard; sourceTree = "<group>"; };
+		CF2BF5CC27D891ED00F7D1CB /* FontCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontCollectionVC.swift; sourceTree = "<group>"; };
 		CF31079C2600AA1A00746480 /* TabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarController.swift; sourceTree = "<group>"; };
 		CF3107A02600AA6700746480 /* Tabbar.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Tabbar.storyboard; sourceTree = "<group>"; };
 		CF3107F726018BB200746480 /* ShoutaiHakkou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ShoutaiHakkou.storyboard; sourceTree = "<group>"; };
@@ -549,6 +553,7 @@
 				A392221227B0141B00FFC936 /* detailPostVC.swift */,
 				CF83D9B727BFA82800DF9C76 /* RefferalVC.swift */,
 				A33473F927C8ADF500FB4A6C /* ReMemoPostVC.swift */,
+				CF2BF5CC27D891ED00F7D1CB /* FontCollectionVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -573,6 +578,7 @@
 				A33F0663279C24FA0008B29A /* ExplainFolder */,
 				A36DC50227A417680083F76D /* ProfileFolder */,
 				CF2A223925C3FC7000C5BFC1 /* Main.storyboard */,
+				CF2BF5CA27D891CA00F7D1CB /* FontCollection.storyboard */,
 				CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */,
 				CF0BD9D725D018FF004A1958 /* SignIn.storyboard */,
 				CF0C14AE25C9F003006A7C86 /* ChatRoom.storyboard */,
@@ -743,6 +749,7 @@
 				CF6846CD2797C0BA004B80C5 /* UserIdSet.storyboard in Resources */,
 				CF39F27E26567D3F0006716A /* stampCollection.storyboard in Resources */,
 				CF4BF17B260FA5CA00942E6F /* 07にくまるフォント.otf in Resources */,
+				CF2BF5CB27D891CA00F7D1CB /* FontCollection.storyboard in Resources */,
 				CF40D36D26296C6E00F62858 /* goodloadingcolor.json in Resources */,
 				CF83D9BA27C5B6BE00DF9C76 /* 03スマートフォントUI.otf in Resources */,
 				CF2BF5B427D8613D00F7D1CB /* KeyTabMetal-MOAJ.ttf in Resources */,
@@ -890,6 +897,7 @@
 				A33F0671279C27640008B29A /* FirstSetIdVC.swift in Sources */,
 				A33F0689279D1D670008B29A /* ThankyouVC.swift in Sources */,
 				A33F0677279C5A160008B29A /* SelectMakeTeamVC.swift in Sources */,
+				CF2BF5CD27D891ED00F7D1CB /* FontCollectionVC.swift in Sources */,
 				CF2A223E25C3FC7000C5BFC1 /* protain.xcdatamodeld in Sources */,
 				CF24EF7925D7AAD6009FE517 /* SplashViewController.swift in Sources */,
 				CF39F28526567D960006716A /* stampViewController.swift in Sources */,

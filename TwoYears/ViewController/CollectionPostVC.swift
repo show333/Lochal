@@ -15,6 +15,7 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     
     var imageString : String?
     var postDocString: String?
+    var fontString : String?
     
     let db = Firestore.firestore()
     
@@ -28,6 +29,16 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         self.present(imagePickerController, animated: true, completion: nil)
         
     }
+    
+    @IBOutlet weak var fontButton: UIButton!
+    
+    @IBAction func fontTappedButton(_ sender: Any) {
+        
+        let storyboard = UIStoryboard.init(name: "FontCollection", bundle: nil)
+        let FontCollectionVC = storyboard.instantiateViewController(withIdentifier: "FontCollectionVC") as! FontCollectionVC
+        self.present(FontCollectionVC, animated: true, completion: nil)
+    }
+    
     @IBOutlet weak var sendButton: UIButton!
     
     @IBAction func sendTappedButton(_ sender: Any) {
@@ -315,3 +326,5 @@ extension CollectionPostVC: UITextViewDelegate {
         }
     }
 }
+
+
