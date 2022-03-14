@@ -322,7 +322,7 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         graffitiTextView.layer.cornerRadius = 10
         
         fontBackLabel.text = "フォント"
-        fontBackLabel.font =  UIFont(name:"03スマートフォントUI", size:safeAreaWidth/20)
+        fontBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/20)
 
         
 
@@ -345,7 +345,7 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         }
         
         imageBackLabel.text = "画像"
-        imageBackLabel.font =  UIFont(name:"03スマートフォントUI", size:safeAreaWidth/20)
+        imageBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/20)
 
         imageBackView.clipsToBounds = true
         imageBackView.layer.cornerRadius = safeAreaHeight/40
@@ -369,7 +369,7 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         }
         
         sendBackLabel.text = "投稿"
-        sendBackLabel.font =  UIFont(name:"03スマートフォントUI", size:safeAreaWidth/20)
+        sendBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/20)
 
         sendButtonHeightConstraint.constant = safeAreaHeight/10
         sendButtonWidthConstraint.constant = safeAreaHeight/8

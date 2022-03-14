@@ -333,8 +333,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.graffitiBackGroundView.layer.cornerRadius = 10
         
         
+//        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         
-
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         cell.messageBottomConstraint.constant =  105
 
