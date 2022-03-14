@@ -40,6 +40,7 @@ class detailPostVC:UIViewController {
         "CISepiaTone",
         "original",
     ]
+    
     let filterNameArray = [
         "Instant",
         "Chrome",
@@ -56,7 +57,12 @@ class detailPostVC:UIViewController {
     //    CIPhotoEffectInstant
     var filterNumber = 0
     
+    
+    @IBOutlet weak var backGroundImageView: UIImageView!
+    
+    
     @IBOutlet weak var backGroundView: UIView!
+    
     
     @IBOutlet weak var backGroundViewUpConstraint: NSLayoutConstraint!
     
@@ -76,49 +82,6 @@ class detailPostVC:UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var titleWithFontLabel: UILabel!
-    @IBOutlet weak var effectButton: UIButton!
-    
-    @IBAction func effectTappedButton(_ sender: Any) {
-        
-        //UIImageViewのimageをオプショナルバインディングでアンラップし、imageに代入
-        if let image = postImageView.image {
-            //フィルター名を指定
-                 let filterName = filterArray[filterNumber]
-                  //ボタンを押すたびにフィルター内容が変わるように設定
-                  filterNumber += 1
-      //配列内の要素数とSelectNumberの値が等しければ、0を代入して初期化
-                  if filterNumber == filterArray.count {
-                      filterNumber = 0
-                  }
-      //画像の回転角度をを取得
-                  let rotate = image.imageOrientation
-                 //UIImage形式の画像をCIImage形式に変更し、加工可能な状態にする。
-                  let inputImage = CIImage(image: image)
-                 //フィルターの種類を引数で指定された種類を指定してCIFilterのインスタンスを取得
-                  guard let effectFilter = CIFilter(name: filterName) else{
-                      return
-                  }
-      //エフェクトのパラメータを初期化
-                  effectFilter.setDefaults()
-                 //インスタンスにエフェクトする画像を指定
-                  effectFilter.setValue(inputImage, forKey: kCIInputImageKey)
-      //エフェクト後のCIImage形式の画像を取り出す
-                  guard let outputImage = effectFilter.outputImage else{
-                      return
-                  }
-                // CIContextのインスタンスを取得
-                  let ciContext = CIContext(options: nil)
-                // エフェクト後の画像をCIContext上に描画し、結果をcgImageとしてCGImage形式の画像を取得
-                  guard let cgImage = ciContext.createCGImage(outputImage, from: outputImage.extent) else {
-                      return
-                  }
-      //エフェクト後の画像をCGImage形式からUIImage形式に変更、回転角度を指定、ImageViewに表示
-                  
-
-                      self.postImageView.image = UIImage(cgImage: cgImage, scale: 1.0, orientation: rotate)
-                  
-              }
-    }
 
     @IBOutlet weak var TPButton: UIButton!
     
@@ -169,7 +132,6 @@ class detailPostVC:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        effectButton.alpha = 0
         filterLabel.alpha = 0
                 
         let safeAreaWidth = UIScreen.main.bounds.size.width
@@ -220,6 +182,12 @@ class detailPostVC:UIViewController {
 //            storyShareButton.alpha = 0
 //        }
         
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FwallPaper.jpg?alt=media&token=1ee6defc-2184-43d8-8232-d0f17c2dc0ee") {
+            Nuke.loadImage(with: url, into: backGroundImageView)
+        } else {
+            backGroundImageView?.image = nil
+        }
+        
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FInstagram_Glyph_Gradient_RGB.png?alt=media&token=3d86956e-4d3e-46c3-9777-891495f5cf84") {
             Nuke.loadImage(with: url, into: storyShareImageView)
         } else {
@@ -250,7 +218,7 @@ class detailPostVC:UIViewController {
             titleWithFontLabel.alpha = 0
             
             backGroundViewUpConstraint.constant = 20
-            backGroundViewDownConstraint.constant = safeAreaWidth/5 + 40
+            backGroundViewDownConstraint.constant = safeAreaWidth/5 + 20
             
             if safeAreaWidth > 500 {
                 postImageViewWidthConstraint.constant = 500
@@ -266,7 +234,7 @@ class detailPostVC:UIViewController {
             titleWithFontLabel.alpha = 1
             
             backGroundViewUpConstraint.constant = safeAreaWidth/4
-            backGroundViewDownConstraint.constant = safeAreaWidth/5 + 40
+            backGroundViewDownConstraint.constant = safeAreaWidth/5 + 20
             
             if safeAreaWidth > 500 {
                 postImageViewWidthConstraint.constant = 500
@@ -313,8 +281,9 @@ class detailPostVC:UIViewController {
         userImageView.layer.cornerRadius = 25
         
         titleLabel.text = postInfoTitle
+        titleLabel.font = UIFont(name:"Southpaw", size:safeAreaWidth/20)
         titleWithFontLabel.text = postInfoTitle
-        titleWithFontLabel.font = UIFont(name:"Southpaw", size:60)
+        titleWithFontLabel.font = UIFont(name:"Southpaw", size:safeAreaWidth/6)
         let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
         titleWithFontLabel.transform = transScale
         getUserInfo()
@@ -403,24 +372,24 @@ class detailPostVC:UIViewController {
         print(backTapCount)
         backTapCount += 1
         
-        let surplusCount = backTapCount % 4
+        let surplusCount = backTapCount % 5
         
-        if surplusCount == 1 {
+        switch surplusCount{
+        case 1:
             backGroundView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8974241918)
             userFrontIdLabel.textColor = .darkGray
-
-        } else if surplusCount == 2 {
+        case 2 :
             backGroundView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 0.8966493152)
             userFrontIdLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-
-        } else if surplusCount == 3 {
+        case 3 :
             backGroundView.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.9457381246, blue: 0.7684240747, alpha: 0.9)
             userFrontIdLabel.textColor = .white
-
-        } else {
+        case 4 :
+            backGroundView.backgroundColor = .clear
+            userFrontIdLabel.textColor = .white
+        default:
             backGroundView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
             userFrontIdLabel.textColor = .lightGray
-
         }
         
     }

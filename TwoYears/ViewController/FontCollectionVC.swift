@@ -11,6 +11,7 @@ class FontCollectionVC:UIViewController {
     
     
     let fontArray = [
+        "Southpaw",
         "Bearandloupe-Bold",
         "BistroSketch",
         "Camden-Regular",
@@ -37,7 +38,6 @@ class FontCollectionVC:UIViewController {
         "REIS-Regular",
         "Sketchica",
         "Skinnybastard-Regular",
-        "Southpaw",
         "SweetPineapple-Regular",
     ]
     
@@ -73,7 +73,6 @@ extension FontCollectionVC:UICollectionViewDataSource,UICollectionViewDelegate {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! fontCollectionViewCell// 表示するセルを登録(先程命名した"Cell")
         
         cell.fontNameLabel.text = fontArray[indexPath.row]
-
         cell.fontLabel.font = UIFont(name:fontArray[indexPath.row], size:40)
         print(indexPath.row)
         
@@ -84,7 +83,9 @@ extension FontCollectionVC:UICollectionViewDataSource,UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let vc = self.presentingViewController as! CollectionPostVC
         vc.fontString = fontArray[indexPath.row]
-        vc.wordCountLabel.font = UIFont(name:fontArray[indexPath.row], size:40)
+        vc.fontedLabel.font = UIFont(name:fontArray[indexPath.row], size:40)
+        vc.fontedSecondLabel.font = UIFont(name:fontArray[indexPath.row], size:20)
+        
         self.dismiss(animated: true, completion: nil)
 
         print(fontArray[indexPath.row])

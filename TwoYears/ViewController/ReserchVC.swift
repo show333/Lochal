@@ -63,8 +63,6 @@ class ReserchVC:UIViewController{
     
     @IBAction func refferalTappedButton(_ sender: Any) {
         
-
-        
         let storyboard = UIStoryboard.init(name: "Refferal", bundle: nil)
         let RefferalVC = storyboard.instantiateViewController(withIdentifier: "RefferalVC") as! RefferalVC
         navigationController?.pushViewController(RefferalVC, animated: true)
@@ -103,6 +101,41 @@ class ReserchVC:UIViewController{
                 }
             }
     }
+    
+    func getUserList(userId:String){
+        
+        self.db.collection("users").document(userId).collection("Connections").getDocuments() { [self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                
+                if querySnapshot?.documents.count ?? 0 >= 1{
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let userId = document.data()["userId"] as? String ?? ""
+                        getUserInfo(userId: userId)
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    func getUserInfo(userId:String){
+        db.collection("users").document(userId).collection("Profile").document("profile").getDocument { (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                let userInfoDic = UserInfo(dic: document.data()!)
+                self.userInfo.append(userInfoDic)
+                self.reserchTableView.reloadData()
+            } else {
+                print("Document does not exist")
+            }
+        }
+    }
+    
+    
     
     func noExsitAnimation(){
         UIView.animate(withDuration: 0.1, delay: 0, animations: {
@@ -180,6 +213,11 @@ class ReserchVC:UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        getUserList(userId:uid)
+        
+        
             let tapGesture = UITapGestureRecognizer(
             target: self,
             action: #selector(dismissKeyboard))
@@ -204,13 +242,7 @@ class ReserchVC:UIViewController{
         
         refferalCountLabel.clipsToBounds = true
         refferalCountLabel.layer.cornerRadius = 12.5
-        
-        
 
-
-        
-
-        
         tapGesture.cancelsTouchesInView = false
         
         
