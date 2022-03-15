@@ -182,7 +182,8 @@ class detailPostVC:UIViewController {
 //            storyShareButton.alpha = 0
 //        }
         
-        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FwallPaper.jpg?alt=media&token=1ee6defc-2184-43d8-8232-d0f17c2dc0ee") {
+        let backGroundString = UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
+        if let url = URL(string:backGroundString) {
             Nuke.loadImage(with: url, into: backGroundImageView)
         } else {
             backGroundImageView?.image = nil

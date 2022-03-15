@@ -125,6 +125,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         
     }
     
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -146,6 +147,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         }
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -153,6 +155,10 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         self.coachMarksController.dataSource = self
+        
+        
+//        self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = "2"
+        
         
         notificationNumber.alpha = 0
         notificationButton.tintColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
@@ -164,6 +170,14 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         } else {
             backGroundImageView.image = nil
         }
+        
+        
+        
+//        //        テスト ca-app-pub-3940256099942544/2934735716
+//        //        本番 ca-app-pub-9686355783426956/8797317880
+//        self.bannerView.adUnitID = "ca-app-pub-9686355783426956/8797317880"
+//        self.bannerView.rootViewController = self
+//        self.bannerView.load(GADRequest())
         
         //navigationbarのやつ
 //        let navBar = self.navigationController?.navigationBar

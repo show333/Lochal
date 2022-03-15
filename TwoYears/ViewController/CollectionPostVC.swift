@@ -18,6 +18,8 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     var fontString : String?
     var blurTapCount = 0
     var keyBoardBool : Bool?
+    var graffitiColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+    var graffitiFontName = "Southpaw"
     
     
     let db = Firestore.firestore()
@@ -252,6 +254,7 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         let statusBarHeight = self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
        // ナビゲーションバーの高さを取得
         let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
@@ -270,21 +273,32 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         graffitiTextViewHeightConstraint.constant = safeAreaHeight/15
         graffitiTextViewBottomConstraint.constant = safeAreaHeight/3
 
+        let secondLabelTapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(secondLabelTap(_:)))
+        fontedSecondLabel.addGestureRecognizer(secondLabelTapGesture)
+        fontedSecondLabel.isUserInteractionEnabled = true
         
-//        fontedLabel.font = UIFont(name:"Southpaw", size:40)
-        
+        let secondLongTapGesture = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(secondLabellongTap(_:))
+        )
+        fontedSecondLabel.addGestureRecognizer(secondLongTapGesture)
+
+        self.fontedSecondLabel.alpha = 0
         fontedSecondLabel.text = ""
+        fontedLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        fontedSecondLabel.font = UIFont(name:"Southpaw", size:20)
+//        fontedSecondLabel
         
         fontedLabel.font = UIFont(name:"Southpaw", size:safeAreaHeight/20)
 
         fontedLabel.text = "Graffiti"
         
-        fontedSecondLabel.font = UIFont(name:"Southpaw", size:20)
         
         let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
         fontedLabel.transform = transScale
         
-        self.fontedSecondLabel.alpha = 0
         
         graffitiTextView.delegate = self
         graffitiTextView.textColor = .gray
@@ -316,21 +330,22 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
             target: self,
             action: #selector(longBlurTap(_:))
         )
+        
         graffitiBackView.addGestureRecognizer(longTapGesture)
         
         graffitiTextView.clipsToBounds = true
         graffitiTextView.layer.cornerRadius = 10
         
         fontBackLabel.text = "フォント"
-        fontBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/20)
+        fontBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/30)
 
         
 
-        fontButtonHeightConstraint.constant = safeAreaHeight/12
-        fontButtonWidthConstraint.constant = safeAreaHeight/10
+        fontButtonHeightConstraint.constant = safeAreaHeight/14
+        fontButtonWidthConstraint.constant = safeAreaHeight/12
         
         fontBackView.clipsToBounds = true
-        fontBackView.layer.cornerRadius = safeAreaHeight/40
+        fontBackView.layer.cornerRadius = safeAreaHeight/48
         fontBackView.layer.masksToBounds = false
         fontBackView.layer.shadowColor = UIColor.black.cgColor
         fontBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
@@ -345,10 +360,10 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         }
         
         imageBackLabel.text = "画像"
-        imageBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/20)
+        imageBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/30)
 
         imageBackView.clipsToBounds = true
-        imageBackView.layer.cornerRadius = safeAreaHeight/40
+        imageBackView.layer.cornerRadius = safeAreaHeight/48
         imageBackView.layer.masksToBounds = false
         imageBackView.layer.shadowColor = UIColor.black.cgColor
         imageBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
@@ -356,8 +371,8 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         imageBackView.layer.shadowRadius = 5
         
         
-        imageButtonHeightConstraint.constant = safeAreaHeight/12
-        imageButtonWidthConstraint.constant = safeAreaHeight/10
+        imageButtonHeightConstraint.constant = safeAreaHeight/14
+        imageButtonWidthConstraint.constant = safeAreaHeight/12
         imageButton.clipsToBounds = true
         imageButton.layer.cornerRadius = 16
         imageButton.layer.masksToBounds = false
@@ -369,16 +384,16 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         }
         
         sendBackLabel.text = "投稿"
-        sendBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/20)
-
-        sendButtonHeightConstraint.constant = safeAreaHeight/10
-        sendButtonWidthConstraint.constant = safeAreaHeight/8
+        sendBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/30)
+        
+        sendButtonHeightConstraint.constant = safeAreaHeight/12
+        sendButtonWidthConstraint.constant = safeAreaHeight/10
         
         sendButtonBottomConstraint.constant = safeAreaHeight/6
         
         
         sendBackView.clipsToBounds = true
-        sendBackView.layer.cornerRadius = safeAreaHeight/32
+        sendBackView.layer.cornerRadius = safeAreaHeight/40
         sendBackView.layer.masksToBounds = false
         sendBackView.layer.shadowColor = UIColor.black.cgColor
         sendBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
@@ -400,12 +415,21 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     }
     
     
+    @objc private func secondLabelTap(_ sender: UITapGestureRecognizer) {
+            colorChange()
+        print("aaa")
+    }
+    
+    @objc private func secondLabellongTap(_ sender: UILongPressGestureRecognizer) {
+        showColorPicker()
+    }
+    
+    
     @objc private func blurTap(_ sender: UITapGestureRecognizer) {
         if imageString != nil {
             let imagePickerController = UIImagePickerController()
             imagePickerController.delegate = self
             imagePickerController.allowsEditing = true
-            
             self.present(imagePickerController, animated: true, completion: nil)
         } else {
             colorChange()
@@ -425,6 +449,7 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         let colorPicker = UIColorPickerViewController()
         colorPicker.selectedColor = UIColor.black // 初期カラー
         colorPicker.delegate = self
+        colorPicker.supportsAlpha = false
         self.present(colorPicker, animated: true, completion: nil)
     }
     
@@ -434,28 +459,58 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         print("選択した色: \(viewController.selectedColor)")
         fontedLabel.textColor = viewController.selectedColor
         fontedSecondLabel.textColor = viewController.selectedColor
-//        wordCountLabel.text = viewController.selectedColor
+        graffitiColor = viewController.selectedColor
     }
     func colorChange() {
         blurTapCount += 1
         
-        let surplusCount = blurTapCount % 7
+        let surplusCount = blurTapCount % 9
         
         switch surplusCount {
         case 1 :
-            fontedLabel.textColor = .yellow
+            fontedLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            graffitiColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         case 2 :
-            fontedLabel.textColor = .red
+            fontedLabel.textColor = #colorLiteral(red: 0.1397110427, green: 0.1396122622, blue: 0.1522482646, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.1397110427, green: 0.1396122622, blue: 0.1522482646, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.1397110427, green: 0.1396122622, blue: 0.1522482646, alpha: 1)
         case 3 :
-            fontedLabel.textColor = .blue
+            fontedLabel.textColor = #colorLiteral(red: 0.8549019694, green: 0.1938080545, blue: 0.2193125394, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.8549019694, green: 0.1938080545, blue: 0.2193125394, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.8549019694, green: 0.1938080545, blue: 0.2193125394, alpha: 1)
         case 4 :
-            fontedLabel.textColor = .white
+            fontedLabel.textColor = #colorLiteral(red: 1, green: 0.5444763979, blue: 0.09583910595, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 1, green: 0.5444763979, blue: 0.09583910595, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 1, green: 0.5444763979, blue: 0.09583910595, alpha: 1)
         case 5 :
-            fontedLabel.textColor = .black
+            fontedLabel.textColor = #colorLiteral(red: 0.9607843161, green: 0.8782094742, blue: 0.1591694472, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.9607843161, green: 0.8782094742, blue: 0.1591694472, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.9607843161, green: 0.8782094742, blue: 0.1591694472, alpha: 1)
         case 6 :
-            fontedLabel.textColor = .green
+            fontedLabel.textColor = #colorLiteral(red: 0.9095779891, green: 0.3351947527, blue: 0.8762235135, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.9095779891, green: 0.3351947527, blue: 0.8762235135, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.9095779891, green: 0.3351947527, blue: 0.8762235135, alpha: 1)
+        case 7 :
+            fontedLabel.textColor = #colorLiteral(red: 0.6157082599, green: 0.4595190551, blue: 0.9686274529, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.6157082599, green: 0.4595190551, blue: 0.9686274529, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.6157082599, green: 0.4595190551, blue: 0.9686274529, alpha: 1)
+        case 8 :
+            fontedLabel.textColor = #colorLiteral(red: 0.3766358496, green: 0.9686274529, blue: 0.2729547503, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.3766358496, green: 0.9686274529, blue: 0.2729547503, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.3766358496, green: 0.9686274529, blue: 0.2729547503, alpha: 1)
         default :
-            fontedLabel.textColor = .orange
+            fontedLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         }
     }
     

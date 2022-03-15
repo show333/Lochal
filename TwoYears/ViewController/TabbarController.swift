@@ -33,6 +33,5 @@ class TabbarController: UITabBarController{
     override func viewDidLoad() {
         super.viewDidLoad()
         UITabBar.appearance().tintColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-        
     }
 }

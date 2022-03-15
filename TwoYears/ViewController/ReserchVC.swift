@@ -72,7 +72,6 @@ class ReserchVC:UIViewController{
     @IBOutlet weak var refferalCountLabel: UILabel!
     
     
-    @IBOutlet weak var bannerView: GADBannerView!
     
     
     
@@ -167,6 +166,14 @@ class ReserchVC:UIViewController{
         guard let uid = Auth.auth().currentUser?.uid else { return }
         refferalCount(uid:uid)
         
+        let backGroundString = UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
+        
+        if let url = URL(string:backGroundString) {
+            Nuke.loadImage(with: url, into: backImageView)
+        } else {
+            backImageView.image = nil
+        }
+        
         
     }
     
@@ -202,6 +209,14 @@ class ReserchVC:UIViewController{
         view.endEditing(true)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = false
+        print("aa")
+    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if UserDefaults.standard.bool(forKey: "SerchInstruct") != true{
@@ -217,17 +232,21 @@ class ReserchVC:UIViewController{
         guard let uid = Auth.auth().currentUser?.uid else { return }
         getUserList(userId:uid)
         
+        let downSwipe = UISwipeGestureRecognizer(
+            target: self,
+            action: #selector(didSwipe(_:))
+        )
+        downSwipe.direction = .down
+        self.view.addGestureRecognizer(downSwipe)
+        
         
             let tapGesture = UITapGestureRecognizer(
             target: self,
             action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
+
         
-        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImages2.012.png?alt=media&token=526af1d4-3a14-4227-914c-65685ac70fe4") {
-            Nuke.loadImage(with: url, into: backImageView)
-        } else {
-            backImageView.image = nil
-        }
+
         
         self.coachMarksController.dataSource = self
         
@@ -260,12 +279,7 @@ class ReserchVC:UIViewController{
             inputTextField.attributedPlaceholder = NSAttributedString(string: "ユーザーIDで検索", attributes: nil)
 
         }
-        
-        //        テスト ca-app-pub-3940256099942544/2934735716
-        //        本番 ca-app-pub-9686355783426956/8797317880
-        self.bannerView.adUnitID = "ca-app-pub-9686355783426956/8797317880"
-        self.bannerView.rootViewController = self
-        self.bannerView.load(GADRequest())
+
         
         selectButton.clipsToBounds = true
         selectButton.layer.masksToBounds = false
@@ -277,6 +291,12 @@ class ReserchVC:UIViewController{
         
         reserchTableView.dataSource = self
         reserchTableView.delegate = self
+    }
+    
+    @objc func didSwipe(_ sender: UISwipeGestureRecognizer) {
+
+        //スワイプ方向による実行処理をcase文で指定
+        print("aaa")
     }
 }
 extension StringProtocol where Self: RangeReplaceableCollection {

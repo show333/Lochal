@@ -328,8 +328,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -519,6 +517,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 
         getFollowId(userId:userId ?? "",uid:uid)
         
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
         let safeAreaWidth = UIScreen.main.bounds.size.width
