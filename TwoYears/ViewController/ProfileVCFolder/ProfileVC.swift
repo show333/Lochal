@@ -49,13 +49,16 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     @IBOutlet weak var backGroundImageView: UIImageView!
     @IBOutlet weak var settingsLabel: UILabel!
-    @IBOutlet weak var userFrontIdLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userImagehighConstraint: NSLayoutConstraint!
     @IBOutlet weak var userImageTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var userImageLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var userNameLabel: UILabel!
-//    @IBOutlet weak var chatListTableView: UITableView!
+    
+    @IBOutlet weak var userNameLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var selfIntroductionLabel: UILabel!
+    
+    //    @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet weak var postButton: UIButton!
     
 
@@ -404,13 +407,15 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         userImageView.isUserInteractionEnabled = true
         
-        userImagehighConstraint.constant = headerHigh/2
+        
+        userNameLabelTopConstraint.constant = headerHigh/5 - 15
+        userImagehighConstraint.constant = headerHigh/2.5
         userImageTopConstraint.constant = headerHigh/20
-        userImageLeftConstraint.constant = headerHigh/20
+        userImageLeftConstraint.constant = headerHigh/18
         
         
         userImageView.clipsToBounds = true
-        userImageView.layer.cornerRadius = headerHigh/4
+        userImageView.layer.cornerRadius = headerHigh/5
         
         collectionHighConstraint.constant = headerHigh/4
         collectionBottom.constant = headerHigh/20
@@ -839,7 +844,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             
 //            followingButton.setTitle(String(followingCount), for: .normal)
             
-            userFrontIdLabel.text = userFrontId
+            navigationItem.title = userFrontId
+            selfIntroductionLabel.text = ""
             userNameLabel.text = userName
             if let url = URL(string:userImage) {
                 Nuke.loadImage(with: url, into: userImageView)
@@ -916,6 +922,7 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
 
             cell.collectionPostLabel.text = postInfo[indexPath.row].titleComment
             cell.collectionPostLabel.font = UIFont(name:"Southpaw", size:40)
+            cell.collectionPostLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
             cell.collectionPostLabel.transform = transScale
             

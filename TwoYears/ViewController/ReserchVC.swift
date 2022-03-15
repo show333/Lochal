@@ -209,13 +209,19 @@ class ReserchVC:UIViewController{
         view.endEditing(true)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(animated)
+//        self.tabBarController?.tabBar.isHidden = false
+//        self.navigationController?.navigationBar.isHidden = false
+//        print("aa")
+//    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = false
-        print("aa")
+
     }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -223,7 +229,6 @@ class ReserchVC:UIViewController{
             UserDefaults.standard.set(true, forKey: "SerchInstruct")
             self.coachMarksController.start(in: .currentWindow(of: self))
         }
-        
     }
     
     override func viewDidLoad() {
