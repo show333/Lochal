@@ -244,7 +244,7 @@ class OutmMemoCellVC: UITableViewCell {
 //        var userName: String?
 //        var userImage: String?
 //        var userFrontId: String?
-        detailPostVC.userId = outMemo?.graffitiUserId
+        detailPostVC.postUserId = outMemo?.graffitiUserId
         detailPostVC.userName = outMemo?.graffitiUserName
         detailPostVC.userImage = outMemo?.graffitiUserImage
         detailPostVC.userFrontId = outMemo?.graffitiUserFrontId

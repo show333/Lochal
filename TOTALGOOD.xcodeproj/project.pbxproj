@@ -157,6 +157,7 @@
 		CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF8F13A9263FD9D2007A0677 /* imagetoukou.storyboard */; };
 		CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */; };
 		CF954A6B27E0A2DA002E8AC8 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF954A6A27E0A2DA002E8AC8 /* UIColorExtension.swift */; };
+		CF954A6D27E1A87C002E8AC8 /* StringAlphabet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF954A6C27E1A86C002E8AC8 /* StringAlphabet.swift */; };
 		CF97017427D4D79400FB87EB /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF97017327D4D79400FB87EB /* PinterestLayout.swift */; };
 		CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC12794454000D4C472 /* Reserch.storyboard */; };
 		CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC32794456000D4C472 /* ReserchVC.swift */; };
@@ -326,6 +327,7 @@
 		CF8F13A9263FD9D2007A0677 /* imagetoukou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = imagetoukou.storyboard; sourceTree = "<group>"; };
 		CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imagetoukouViewController.swift; sourceTree = "<group>"; };
 		CF954A6A27E0A2DA002E8AC8 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		CF954A6C27E1A86C002E8AC8 /* StringAlphabet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringAlphabet.swift; sourceTree = "<group>"; };
 		CF97017327D4D79400FB87EB /* PinterestLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
 		CFA19DC12794454000D4C472 /* Reserch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reserch.storyboard; sourceTree = "<group>"; };
 		CFA19DC32794456000D4C472 /* ReserchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserchVC.swift; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 				CF361A00277C829700C08160 /* Date-extension.swift */,
 				CF954A6A27E0A2DA002E8AC8 /* UIColorExtension.swift */,
 				CF1E420C262AF05700CEF85A /* CopyUILabel.swift */,
+				CF954A6C27E1A86C002E8AC8 /* StringAlphabet.swift */,
 				CF6846D627981E7A004B80C5 /* removeString-extension.swift */,
 				CF4C5A30261E3A4900342675 /* quiz.csv */,
 				CF3E437D264333EC00CB0DA7 /* TOTALGOOD-Bridging-Header.h */,
@@ -936,6 +939,7 @@
 				CF0C14BC25C9F494006A7C86 /* ChatRoomTableViewCell.swift in Sources */,
 				CF3DDC1B25C73C580016AB0F /* Animal.swift in Sources */,
 				CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */,
+				CF954A6D27E1A87C002E8AC8 /* StringAlphabet.swift in Sources */,
 				A33F067B279C5B7C0008B29A /* FirstMakeTeamVC.swift in Sources */,
 				A392220F27B0101500FFC936 /* PostInfo.swift in Sources */,
 				CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */,

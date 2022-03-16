@@ -20,7 +20,9 @@ class detailPostVC:UIViewController {
     var postInfoImage: String?
     var postInfoDoc: String?
     var profileUserId:String?
-    var userId: String?
+    var postUserId: String?
+    var postTextFontName: String?
+    var postHexColor: String?
     var userName: String?
     var userImage: String?
     var userFrontId: String?
@@ -104,7 +106,7 @@ class detailPostVC:UIViewController {
         let ReMemoPostVC = storyboard.instantiateViewController(withIdentifier: "ReMemoPostVC") as! ReMemoPostVC
         ReMemoPostVC.postInfoTitle = postInfoTitle
         ReMemoPostVC.postInfoImage = postInfoImage
-        ReMemoPostVC.userId = self.userId
+        ReMemoPostVC.userId = self.postUserId
         ReMemoPostVC.userFrontId = self.userFrontId
         ReMemoPostVC.userName = self.userName
         ReMemoPostVC.userImage = self.userImage
@@ -123,7 +125,6 @@ class detailPostVC:UIViewController {
     @IBOutlet weak var storyShareButton: UIButton!
     
     @IBAction func tappedStoryShareButton(_ sender: Any) {
-        TPButton.alpha = 0
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
         shareStickerImage()
@@ -133,14 +134,51 @@ class detailPostVC:UIViewController {
         super.viewDidLoad()
         
         filterLabel.alpha = 0
-                
+        
         let safeAreaWidth = UIScreen.main.bounds.size.width
-
+        
         backGroundView.clipsToBounds = true
         backGroundView.layer.cornerRadius = 15
         backGroundView.backgroundColor = .clear
         
-        titleLabel.font = UIFont(name:"03SmartFontUI", size:22)
+        let storyboard = UIStoryboard.init(name: "FontCollection", bundle: nil)
+        let FontCollectionVC = storyboard.instantiateViewController(withIdentifier: "FontCollectionVC") as! FontCollectionVC
+        
+        let fontBool = FontCollectionVC.fontArray.contains(postTextFontName ?? "")
+        let removeSpacePostTitle = postInfoTitle?.removeAllWhitespacesAndNewlines
+        
+        if removeSpacePostTitle?.isAlphanumericAll() == false {
+            titleLabel.font = UIFont(name:"03SmartFontUI", size:safeAreaWidth/18)
+            titleWithFontLabel.font = UIFont(name:"03SmartFontUI", size:safeAreaWidth/5)
+            
+        } else {
+            if fontBool == false {
+                titleLabel.font = UIFont(name:"Southpaw", size:safeAreaWidth/18)
+                titleWithFontLabel.font = UIFont(name:"Southpaw", size:safeAreaWidth/5)
+                
+            } else {
+                titleLabel.font = UIFont(name:postTextFontName ?? "", size:safeAreaWidth/18)
+                titleWithFontLabel.font = UIFont(name:postTextFontName ?? "", size:safeAreaWidth/5)
+                
+            }
+        }
+        
+        
+        titleLabel.text = postInfoTitle
+        titleWithFontLabel.text = postInfoTitle
+        let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+        titleWithFontLabel.transform = transScale
+        
+        
+        
+        if postHexColor == "" {
+            titleLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        } else {
+            let UITextColor = UIColor(hex: postHexColor ?? "")
+            titleLabel.textColor = UITextColor
+            titleWithFontLabel.textColor = UITextColor
+        }
+        
         
         transitionReMemoBackView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         transitionReMemoBackView.clipsToBounds = true
@@ -154,7 +192,7 @@ class detailPostVC:UIViewController {
         transitionReMemoFrontView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         transitionReMemoFrontView.clipsToBounds = true
         transitionReMemoFrontView.layer.cornerRadius = safeAreaWidth/18
-
+        
         
         storyShareBackView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         storyShareBackView.clipsToBounds = true
@@ -174,13 +212,13 @@ class detailPostVC:UIViewController {
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-//        if uid == profileUserId {
-            trainsitionReMemoButton.alpha = 1
-            storyShareButton.alpha = 1
-//        } else {
-//            trainsitionReMemoButton.alpha = 0
-//            storyShareButton.alpha = 0
-//        }
+        //        if uid == profileUserId {
+        trainsitionReMemoButton.alpha = 1
+        storyShareButton.alpha = 1
+        //        } else {
+        //            trainsitionReMemoButton.alpha = 0
+        //            storyShareButton.alpha = 0
+        //        }
         
         let backGroundString = UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
         if let url = URL(string:backGroundString) {
@@ -195,26 +233,24 @@ class detailPostVC:UIViewController {
             storyShareImageView.image = nil
         }
         
-        if uid == userId || uid == profileUserId {
-             TPButton.alpha = 1
-
-         } else {
-             TPButton.alpha = 0
-         }
-//        #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
-//        #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.9)
-//        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 0.9)
+        if uid == postUserId || uid == profileUserId {
+            TPButton.alpha = 1
+            
+        } else {
+            TPButton.alpha = 0
+        }
         
         setSwipeBack()
         
         backGroundView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
         userFrontIdLabel.textColor = .lightGray
+        userFrontIdLabel.font = UIFont.italicSystemFont(ofSize: safeAreaWidth/20)
         
         
         if let url = URL(string:postInfoImage ?? "") {
             Nuke.loadImage(with: url, into: postImageView)
             originImage = UIImage(url: postInfoImage ?? "")
-
+            
             titleLabel.alpha = 1
             titleWithFontLabel.alpha = 0
             
@@ -228,7 +264,7 @@ class detailPostVC:UIViewController {
                 postImageViewWidthConstraint.constant = safeAreaWidth - 100
                 postImageViewHeightConstraint.constant = safeAreaWidth - 100
             }
-
+            
         } else {
             postImageView.image = nil
             titleLabel.alpha = 0
@@ -277,16 +313,10 @@ class detailPostVC:UIViewController {
         
         userImageView.addGestureRecognizer(userTapGesture)
         userImageView.isUserInteractionEnabled = true
-
+        
         userImageView.clipsToBounds = true
         userImageView.layer.cornerRadius = 25
         
-        titleLabel.text = postInfoTitle
-        titleLabel.font = UIFont(name:"Southpaw", size:safeAreaWidth/20)
-        titleWithFontLabel.text = postInfoTitle
-        titleWithFontLabel.font = UIFont(name:"Southpaw", size:safeAreaWidth/6)
-        let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
-        titleWithFontLabel.transform = transScale
         getUserInfo()
     }
     
@@ -341,7 +371,7 @@ class detailPostVC:UIViewController {
     }
     
     func getUserInfo(){
-        db.collection("users").document(userId ?? "").collection("Profile").document("profile").getDocument { [self](document, error) in
+        db.collection("users").document(postUserId ?? "").collection("Profile").document("profile").getDocument { [self](document, error) in
             if let document = document, document.exists {
 //                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 
@@ -473,7 +503,7 @@ class detailPostVC:UIViewController {
         let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
         let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
         
-        ProfileVC.userId = userId
+        ProfileVC.userId = postUserId
         ProfileVC.userName = userName
         ProfileVC.userImage = userImage
         ProfileVC.userFrontId = userFrontId
@@ -524,7 +554,7 @@ class detailPostVC:UIViewController {
     
     func deleteDoc(){
         db.collection("users").document(profileUserId ?? "").collection("SendedPost").document(postInfoDoc ?? "").delete()
-        self.navigationController?.popToRootViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
 //        // Create a reference to the file to delete
 //        let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(postInfo?.postImage ?? "")
 //        // Delete the file

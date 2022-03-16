@@ -21,9 +21,7 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     var graffitiColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
     var graffitiFontName = "Southpaw"
     
-    
     let db = Firestore.firestore()
-    
     
     @IBOutlet weak var backGroundImageView: UIImageView!
     
@@ -73,23 +71,27 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     
     @IBAction func sendTappedButton(_ sender: Any) {
         
+        print("aaa")
+        
         if imageString != nil {
             sendImage()
         } else {
-            DispatchQueue.main.async(execute: { () -> Void in
-                self.explainLabel.text = "画像が選択されていません"
-
-                UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
-                    self.explainLabel.alpha = 1
-
-                }) {(completed) in
-
-                    UIView.animate(withDuration: 0.2, delay: 2.5, options: UIView.AnimationOptions.allowUserInteraction, animations: {
-                        self.explainLabel.alpha = 0
-                    })
+            let removeString = graffitiTextView.text.removeAllWhitespacesAndNewlines
+            if removeString == "" {
+                self.explainLabel.text = "画像や文字を入力してください"
+                labelAnimation()
+            } else {
+                
+                if graffitiTextView.text.isAlphanumericAll() == false {
+                    self.explainLabel.text = "文字だけの場合は英数字のみ投稿が可能です"
+                    labelAnimation()
+                } else {
+                    sendImage()
                 }
-            })
+            }
         }
+        
+        
     }
     
     
@@ -166,16 +168,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             
-//            if self.graffitiTextView.frame.origin.y == 0 {
-//                self.graffitiTextView.frame.origin.y -= 80
-//                print("aaa")
-//            } else {
-//                let suggestionHeight = self.graffitiTextView.frame.origin.y + keyboardSize.height
-//                self.graffitiTextView.frame.origin.y -= 80
-//                print("bbbb")
-            
-            print("why")
-            
             keyBoardBool = true
             
             let statusBarHeight = self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
@@ -195,61 +187,11 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
                 wordCountBottomConstraint.constant = keyboardSize.height + safeAreaHeight/15 + 5
 
             }
-//            if keyBoardBool == nil {
-//                UIView.animate(withDuration: 0.0, delay: 0, animations: {
-//                    self.graffitiTextView.alpha = 0
-//
-//                }) { bool in
-//                    // ②アイコンを大きくする
-//                    UIView.animate(withDuration: 0.05, delay: 0, animations: { [self] in
-//                        graffitiTextView.alpha = 1
-//
-//                        if graffitiTextViewBottomConstraint.constant == 200 {
-//                            graffitiTextViewBottomConstraint.constant = keyboardSize.height
-//                            print("aaa")
-//                        } else {
-//                            graffitiTextViewBottomConstraint.constant = keyboardSize.height
-//
-//                        }
-//                    })
-//                }
-
-//            } else {
-//                keyBoardBool = nil
-//                print("follow")
-//            }
             
 
         }
     }
-//
-//    @objc func keyboardWillHide(notification: NSNotification) {
-//        //        UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
-//        //            graffitiTextView.alpha = 1
-//        //            if graffitiTextViewBottomConstraint.constant != 200 {
-//        print("jojo")
-//
-////        graffitiTextViewBottomConstraint.constant = 400
-////        keyBoardBool = false
-////        print("cccc")
-//        keyBoardBool = false
-//
-//                UIView.animate(withDuration: 0, delay: 0, animations: {
-//                    self.graffitiTextView.alpha = 0
-//
-//                }) { bool in
-//                    // ②アイコンを大きくする
-//                    UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
-//                        graffitiTextView.alpha = 1
-//                        if graffitiTextViewBottomConstraint.constant != 200 {
-//                            graffitiTextViewBottomConstraint.constant = 200
-//                            print("cccc")
-//                            keyBoardBool = false
-//                }
-//            })
-//        }
-//    }
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -407,12 +349,12 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         }
         
         explainLabel.alpha = 0
-        
-        
-        
+                
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
 //        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    
+    
     
     
     @objc private func secondLabelTap(_ sender: UITapGestureRecognizer) {
@@ -509,9 +451,24 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         default :
             fontedLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             fontedSecondLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-
             graffitiColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            
         }
+    }
+    
+    func labelAnimation(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+                self.explainLabel.alpha = 1
+                
+            }) {(completed) in
+                
+                UIView.animate(withDuration: 0.2, delay: 2.5, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+                    self.explainLabel.alpha = 0
+                })
+            }
+        })
+    
     }
     
     
@@ -523,11 +480,13 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     func sendImage(){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let docString = randomString(length: 20)
+        
+        print("thanks")
 
         if imageString != nil {
-            
+            print("あいえ",imageString)
             let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(imageString!)
-            guard let image = imageButton.imageView?.image  else { return }
+            guard let image = graffitiImageView.image  else { return }
             guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
             
             storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
@@ -559,12 +518,16 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     }
     func setImage(userId:String,postImage:String,docString:String){
         
+        let hexColor = graffitiColor.toHexString()
+        let textFontName = graffitiFontName
         
         let postDoc = [
             "userId":userId,
             "postImage":postImage,
             "documentId":docString,
             "titleComment":graffitiTextView.text ?? "",
+            "hexColor":hexColor,
+            "textFontName":textFontName,
             "createdAt": FieldValue.serverTimestamp(),
             "admin":false
         ] as [String:Any]
@@ -581,7 +544,8 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
                 print("Document data: \(dataDescription)")
                 
                 let notificationNum = document["notificationNum"] as? Int ?? 0
-                
+                let hexColor = graffitiColor.toHexString()
+                let textFontName = graffitiFontName
                 
                 
                 let docData = [
@@ -592,6 +556,8 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
                     "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
                     "documentId" : docString,
                     "reactionImage": "",
+                    "hexColor":hexColor,
+                    "textFontName":textFontName,
                     "reactionMessage":"さんから投稿を受けました",
                     "theMessage":"",
                     "dataType": "ConnectersPost",
