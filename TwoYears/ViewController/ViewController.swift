@@ -106,6 +106,8 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         let NotificationVC = storyboard.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC//遷移先のViewControllerを設定
         db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
         NotificationVC.notificationTab = true
+        self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = nil
+
 //        NotificationVC.tabBarController?.tabBar.isHidden = true
 //        ViewController().navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(NotificationVC, animated: true)//遷移する
@@ -157,7 +159,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         self.coachMarksController.dataSource = self
         
         
-//        self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = "2"
         
         
         notificationNumber.alpha = 0
@@ -248,6 +249,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                 if notificationNum >= 1 {
                     notificationNumber.alpha = 1
                     notificationNumber.text = String(notificationNum)
+                    self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = String(notificationNum)
                 } else {
                     notificationNumber.alpha = 0
                 }

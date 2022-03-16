@@ -493,6 +493,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //        chatListTableView.backgroundColor = .clear
         
 //        fetchFireStore(userId: userId ?? "unKnown",uid: uid)
+        fetchNotification(userId:uid)
         fetchUserProfile(userId: userId ?? "unKnown")
         fetchUserTeamInfo(userId:userId ?? "unKnown")
         fetchUnitPostInfo(userId: userId ?? "unKnown")
@@ -806,6 +807,30 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
     }
     
+    func fetchNotification(userId:String){
+        
+        db.collection("users").document(userId).addSnapshotListener { [self] documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                print("Current data: \(data)")
+                let notificationNum = data["notificationNum"] as? Int ?? 0
+                print(notificationNum)
+                
+                if notificationNum >= 1 {
+                    self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = String(notificationNum)
+                } else {
+                }
+//                notificationNumber.text =
+//                self.teamInfo.removeAll()
+//                self.teamCollectionView.reloadData()
+            }
+    }
     
     
     func fetchUserProfile(userId:String){

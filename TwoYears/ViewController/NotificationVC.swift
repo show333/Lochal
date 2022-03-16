@@ -270,7 +270,8 @@ class NotificationVC: UIViewController {
         super.viewDidDisappear(animated)
         guard let uid = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
-        UIApplication.shared.applicationIconBadgeNumber = 0
+        UIApplication.shared.applicationIconBadgeNumber = 20 
+        self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = nil
     }
     func fetchReaction(userId:String) {
         db.collection("users").document(userId).collection("Notification").addSnapshotListener{ [self] ( snapshots, err) in
