@@ -91,6 +91,8 @@ class SignInViewController: UIViewController {
                             for document in querySnapshot!.documents {
                                 let referralUserlId = document.data()["userId"] as? String ?? ""
                                 UserDefaults.standard.set(referralUserlId, forKey: "referralUserlId")
+                                let uid = Auth.auth().currentUser?.uid
+                                db.collection("RefferalId").document(referralId).setData(["invitedUserId":uid ?? "unKnown"], merge: true)
                             }
                             
                         } else {
@@ -108,6 +110,8 @@ class SignInViewController: UIViewController {
                                                 let referralUserlId = document.data()["userId"] as? String ?? ""
                                                 UserDefaults.standard.set(referralUserlId, forKey: "referralUserlId")
                                             }
+                                            
+                         
                                             
                                         } else {
                                             

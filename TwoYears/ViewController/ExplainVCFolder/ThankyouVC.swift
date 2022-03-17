@@ -173,6 +173,7 @@ class ThankyouVC:UIViewController {
                 db.collection("users").document(uid).collection("Connections").document(userId).setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId,"status":"accept"], merge: true)
                 db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
                 db.collection("users").document(uid).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
+                db.collection("")
                 
             } else {
                 print("Document does not exist")
