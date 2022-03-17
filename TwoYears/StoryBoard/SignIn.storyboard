@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BzS-HO-JR5">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BzS-HO-JR5">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,11 +13,22 @@
             <objects>
                 <viewController storyboardIdentifier="SignInViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BzS-HO-JR5" customClass="SignInViewController" customModule="TOTALGOOD" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UCg-vp-a9k">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.25" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IwY-v6-jSY">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dbe-mN-10F">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="y8h-8L-X2Y">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="招待IDを入力" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3VN-Be-d3t">
-                                <rect key="frame" x="112.5" y="150" width="150" height="34"/>
+                                <rect key="frame" x="132" y="194" width="150" height="34"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="8dp-Hg-k1K"/>
@@ -27,34 +37,38 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QHS-2L-GfP">
-                                <rect key="frame" x="166" y="78.5" width="43.5" height="21.5"/>
+                                <rect key="frame" x="185.5" y="122.5" width="43.5" height="21.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="qKl-YA-AXL"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="3VN-Be-d3t" firstAttribute="top" secondItem="qKl-YA-AXL" secondAttribute="top" constant="150" id="0Wq-kX-KON"/>
+                            <constraint firstItem="dbe-mN-10F" firstAttribute="trailing" secondItem="qKl-YA-AXL" secondAttribute="trailing" id="Fm0-xV-gFc"/>
+                            <constraint firstAttribute="bottom" secondItem="IwY-v6-jSY" secondAttribute="bottom" id="LQ4-tr-vAz"/>
                             <constraint firstItem="3VN-Be-d3t" firstAttribute="centerX" secondItem="UCg-vp-a9k" secondAttribute="centerX" id="MM1-Oh-cqI"/>
+                            <constraint firstItem="dbe-mN-10F" firstAttribute="leading" secondItem="qKl-YA-AXL" secondAttribute="leading" id="Pcw-GH-hzl"/>
+                            <constraint firstAttribute="bottom" secondItem="dbe-mN-10F" secondAttribute="bottom" id="QuM-61-rDo"/>
                             <constraint firstItem="3VN-Be-d3t" firstAttribute="top" secondItem="QHS-2L-GfP" secondAttribute="bottom" constant="50" id="XGA-v3-iuh"/>
                             <constraint firstItem="QHS-2L-GfP" firstAttribute="centerX" secondItem="UCg-vp-a9k" secondAttribute="centerX" id="fG9-Gc-TGP"/>
+                            <constraint firstItem="dbe-mN-10F" firstAttribute="top" secondItem="UCg-vp-a9k" secondAttribute="top" id="geQ-gh-2p0"/>
+                            <constraint firstItem="IwY-v6-jSY" firstAttribute="trailing" secondItem="qKl-YA-AXL" secondAttribute="trailing" id="iga-kb-2sk"/>
+                            <constraint firstItem="IwY-v6-jSY" firstAttribute="top" secondItem="UCg-vp-a9k" secondAttribute="top" id="qMF-gw-tPb"/>
+                            <constraint firstItem="IwY-v6-jSY" firstAttribute="leading" secondItem="qKl-YA-AXL" secondAttribute="leading" id="zoP-j0-Xc3"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backGroundImageView" destination="IwY-v6-jSY" id="zBr-uS-9fn"/>
                         <outlet property="explainLabel" destination="QHS-2L-GfP" id="hb6-Wl-Y6n"/>
                         <outlet property="idTextField" destination="3VN-Be-d3t" id="Z1l-Cg-tgo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GI1-ok-DeV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="381" y="-58"/>
+            <point key="canvasLocation" x="379.71014492753625" y="-58.258928571428569"/>
         </scene>
     </scenes>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

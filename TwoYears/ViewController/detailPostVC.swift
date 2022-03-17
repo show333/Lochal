@@ -28,6 +28,7 @@ class detailPostVC:UIViewController {
     var userFrontId: String?
     var originImage : UIImage?
     var backTapCount = 0
+
     
     let db = Firestore.firestore()
     let filterArray = [
@@ -318,7 +319,10 @@ class detailPostVC:UIViewController {
         userImageView.layer.cornerRadius = 25
         
         getUserInfo()
+        
+        
     }
+
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -365,9 +369,6 @@ class detailPostVC:UIViewController {
                 // ④ Alertを表示
             present(alert, animated: true, completion: nil)
             }
-        
-        
-
     }
     
     func getUserInfo(){

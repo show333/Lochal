@@ -504,19 +504,19 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
                     print("urlString:", urlString)
                     
                     
-                    setImage(userId: uid, postImage: urlString,docString:docString)
-                    setNotification(userId: uid, postImage: urlString,docString:docString)
+                    setImage(userId: uid, postImage: urlString, docString:docString, imageString:imageString!)
+                    setNotification(userId: uid, postImage: urlString,docString:docString,imageString: imageString!)
                 }
             }
         } else {
-            setImage(userId: uid, postImage: "",docString:docString)
-            setNotification(userId: uid, postImage: "",docString:docString)
+            setImage(userId: uid, postImage: "",docString:docString,imageString: "")
+            setNotification(userId: uid, postImage: "",docString:docString,imageString: "")
         }
         
         self.dismiss(animated: true, completion: nil)
         
     }
-    func setImage(userId:String,postImage:String,docString:String){
+    func setImage(userId:String,postImage:String,docString:String,imageString:String){
         
         let hexColor = graffitiColor.toHexString()
         let textFontName = graffitiFontName
@@ -526,8 +526,10 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
             "postImage":postImage,
             "documentId":docString,
             "titleComment":graffitiTextView.text ?? "",
+            "imageAddress":imageString,
             "hexColor":hexColor,
             "textFontName":textFontName,
+            "releaseBool": false,
             "createdAt": FieldValue.serverTimestamp(),
             "admin":false
         ] as [String:Any]
@@ -536,7 +538,7 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         
     }
     
-    func setNotification(userId: String, postImage: String,docString:String) {
+    func setNotification(userId: String, postImage: String,docString:String,imageString:String) {
         
         db.collection("users").document(postDocString ?? "").getDocument { [self] (document, error) in
             if let document = document, document.exists {
@@ -559,9 +561,13 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
                     "hexColor":hexColor,
                     "textFontName":textFontName,
                     "reactionMessage":"さんから投稿を受けました",
+                    "postImage":postImage,
+                    "imageAddress":imageString,
+                    "titleComment":graffitiTextView.text ?? "",
                     "theMessage":"",
                     "dataType": "ConnectersPost",
                     "notificationNum": notificationNum+1,
+                    "releaseBool":false,
                     "acceptBool":false,
                     "anonymous":false,
                     "admin": false,
