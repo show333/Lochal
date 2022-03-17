@@ -64,30 +64,6 @@ class ConnectionVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
         }
     }
     
-//    func fetchUserInfo(userId:String){
-//
-//        self.db.collection("users").document(userId).collection("Following").document("following_Id")
-//            .addSnapshotListener { documentSnapshot, error in
-//                guard let document = documentSnapshot else {
-//                    print("Error fetching document: \(error!)")
-//                    return
-//                }
-//                guard let data = document.data() else {
-//                    print("Document data was empty.")
-//                    return
-//                }
-//                print("Current data: \(data)")
-//                let userIdArray = data["userId"] as! Array<String>
-//
-//                self.userInfo.removeAll()
-//                self.userListTableView.reloadData()
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                    userIdArray.forEach{
-//                        self.getUserInfo(userId: $0)
-//                    }
-//                }
-//            }
-//    }
     
     func getUserInfo(userId:String){
         db.collection("users").document(userId).collection("Profile").document("profile").getDocument { (document, error) in

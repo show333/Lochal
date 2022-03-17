@@ -166,11 +166,3 @@ class UserIdSetVC:UIViewController,UITextFieldDelegate{
         self.view.endEditing(true)
     }
 }
-
-
-extension String {
-    // 半角数字の判定
-    func isAlphanumeric() -> Bool {
-        return !isEmpty && range(of: "[^a-z0-9_]", options: .regularExpression) == nil
-    }
-}

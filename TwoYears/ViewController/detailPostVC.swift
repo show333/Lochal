@@ -20,7 +20,9 @@ class detailPostVC:UIViewController {
     var postInfoImage: String?
     var postInfoDoc: String?
     var profileUserId:String?
-    var userId: String?
+    var postUserId: String?
+    var postTextFontName: String?
+    var postHexColor: String?
     var userName: String?
     var userImage: String?
     var userFrontId: String?
@@ -40,6 +42,7 @@ class detailPostVC:UIViewController {
         "CISepiaTone",
         "original",
     ]
+    
     let filterNameArray = [
         "Instant",
         "Chrome",
@@ -56,7 +59,12 @@ class detailPostVC:UIViewController {
     //    CIPhotoEffectInstant
     var filterNumber = 0
     
+    
+    @IBOutlet weak var backGroundImageView: UIImageView!
+    
+    
     @IBOutlet weak var backGroundView: UIView!
+    
     
     @IBOutlet weak var backGroundViewUpConstraint: NSLayoutConstraint!
     
@@ -76,49 +84,6 @@ class detailPostVC:UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var titleWithFontLabel: UILabel!
-    @IBOutlet weak var effectButton: UIButton!
-    
-    @IBAction func effectTappedButton(_ sender: Any) {
-        
-        //UIImageViewのimageをオプショナルバインディングでアンラップし、imageに代入
-        if let image = postImageView.image {
-            //フィルター名を指定
-                 let filterName = filterArray[filterNumber]
-                  //ボタンを押すたびにフィルター内容が変わるように設定
-                  filterNumber += 1
-      //配列内の要素数とSelectNumberの値が等しければ、0を代入して初期化
-                  if filterNumber == filterArray.count {
-                      filterNumber = 0
-                  }
-      //画像の回転角度をを取得
-                  let rotate = image.imageOrientation
-                 //UIImage形式の画像をCIImage形式に変更し、加工可能な状態にする。
-                  let inputImage = CIImage(image: image)
-                 //フィルターの種類を引数で指定された種類を指定してCIFilterのインスタンスを取得
-                  guard let effectFilter = CIFilter(name: filterName) else{
-                      return
-                  }
-      //エフェクトのパラメータを初期化
-                  effectFilter.setDefaults()
-                 //インスタンスにエフェクトする画像を指定
-                  effectFilter.setValue(inputImage, forKey: kCIInputImageKey)
-      //エフェクト後のCIImage形式の画像を取り出す
-                  guard let outputImage = effectFilter.outputImage else{
-                      return
-                  }
-                // CIContextのインスタンスを取得
-                  let ciContext = CIContext(options: nil)
-                // エフェクト後の画像をCIContext上に描画し、結果をcgImageとしてCGImage形式の画像を取得
-                  guard let cgImage = ciContext.createCGImage(outputImage, from: outputImage.extent) else {
-                      return
-                  }
-      //エフェクト後の画像をCGImage形式からUIImage形式に変更、回転角度を指定、ImageViewに表示
-                  
-
-                      self.postImageView.image = UIImage(cgImage: cgImage, scale: 1.0, orientation: rotate)
-                  
-              }
-    }
 
     @IBOutlet weak var TPButton: UIButton!
     
@@ -141,7 +106,7 @@ class detailPostVC:UIViewController {
         let ReMemoPostVC = storyboard.instantiateViewController(withIdentifier: "ReMemoPostVC") as! ReMemoPostVC
         ReMemoPostVC.postInfoTitle = postInfoTitle
         ReMemoPostVC.postInfoImage = postInfoImage
-        ReMemoPostVC.userId = self.userId
+        ReMemoPostVC.userId = self.postUserId
         ReMemoPostVC.userFrontId = self.userFrontId
         ReMemoPostVC.userName = self.userName
         ReMemoPostVC.userImage = self.userImage
@@ -160,7 +125,6 @@ class detailPostVC:UIViewController {
     @IBOutlet weak var storyShareButton: UIButton!
     
     @IBAction func tappedStoryShareButton(_ sender: Any) {
-        TPButton.alpha = 0
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
         shareStickerImage()
@@ -169,16 +133,52 @@ class detailPostVC:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        effectButton.alpha = 0
         filterLabel.alpha = 0
-                
+        
         let safeAreaWidth = UIScreen.main.bounds.size.width
-
+        
         backGroundView.clipsToBounds = true
         backGroundView.layer.cornerRadius = 15
         backGroundView.backgroundColor = .clear
         
-        titleLabel.font = UIFont(name:"03SmartFontUI", size:22)
+        let storyboard = UIStoryboard.init(name: "FontCollection", bundle: nil)
+        let FontCollectionVC = storyboard.instantiateViewController(withIdentifier: "FontCollectionVC") as! FontCollectionVC
+        
+        let fontBool = FontCollectionVC.fontArray.contains(postTextFontName ?? "")
+        let removeSpacePostTitle = postInfoTitle?.removeAllWhitespacesAndNewlines
+        
+        if removeSpacePostTitle?.isAlphanumericAll() == false {
+            titleLabel.font = UIFont(name:"03SmartFontUI", size:safeAreaWidth/18)
+            titleWithFontLabel.font = UIFont(name:"03SmartFontUI", size:safeAreaWidth/5)
+            
+        } else {
+            if fontBool == false {
+                titleLabel.font = UIFont(name:"Southpaw", size:safeAreaWidth/18)
+                titleWithFontLabel.font = UIFont(name:"Southpaw", size:safeAreaWidth/5)
+                
+            } else {
+                titleLabel.font = UIFont(name:postTextFontName ?? "", size:safeAreaWidth/18)
+                titleWithFontLabel.font = UIFont(name:postTextFontName ?? "", size:safeAreaWidth/5)
+                
+            }
+        }
+        
+        
+        titleLabel.text = postInfoTitle
+        titleWithFontLabel.text = postInfoTitle
+        let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+        titleWithFontLabel.transform = transScale
+        
+        
+        
+        if postHexColor == "" {
+            titleLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        } else {
+            let UITextColor = UIColor(hex: postHexColor ?? "")
+            titleLabel.textColor = UITextColor
+            titleWithFontLabel.textColor = UITextColor
+        }
+        
         
         transitionReMemoBackView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         transitionReMemoBackView.clipsToBounds = true
@@ -192,7 +192,7 @@ class detailPostVC:UIViewController {
         transitionReMemoFrontView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         transitionReMemoFrontView.clipsToBounds = true
         transitionReMemoFrontView.layer.cornerRadius = safeAreaWidth/18
-
+        
         
         storyShareBackView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         storyShareBackView.clipsToBounds = true
@@ -212,13 +212,20 @@ class detailPostVC:UIViewController {
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-//        if uid == profileUserId {
-            trainsitionReMemoButton.alpha = 1
-            storyShareButton.alpha = 1
-//        } else {
-//            trainsitionReMemoButton.alpha = 0
-//            storyShareButton.alpha = 0
-//        }
+        //        if uid == profileUserId {
+        trainsitionReMemoButton.alpha = 1
+        storyShareButton.alpha = 1
+        //        } else {
+        //            trainsitionReMemoButton.alpha = 0
+        //            storyShareButton.alpha = 0
+        //        }
+        
+        let backGroundString = UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
+        if let url = URL(string:backGroundString) {
+            Nuke.loadImage(with: url, into: backGroundImageView)
+        } else {
+            backGroundImageView?.image = nil
+        }
         
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FInstagram_Glyph_Gradient_RGB.png?alt=media&token=3d86956e-4d3e-46c3-9777-891495f5cf84") {
             Nuke.loadImage(with: url, into: storyShareImageView)
@@ -226,31 +233,29 @@ class detailPostVC:UIViewController {
             storyShareImageView.image = nil
         }
         
-        if uid == userId || uid == profileUserId {
-             TPButton.alpha = 1
-
-         } else {
-             TPButton.alpha = 0
-         }
-//        #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
-//        #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.9)
-//        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 0.9)
+        if uid == postUserId || uid == profileUserId {
+            TPButton.alpha = 1
+            
+        } else {
+            TPButton.alpha = 0
+        }
         
         setSwipeBack()
         
         backGroundView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
         userFrontIdLabel.textColor = .lightGray
+        userFrontIdLabel.font = UIFont.italicSystemFont(ofSize: safeAreaWidth/20)
         
         
         if let url = URL(string:postInfoImage ?? "") {
             Nuke.loadImage(with: url, into: postImageView)
             originImage = UIImage(url: postInfoImage ?? "")
-
+            
             titleLabel.alpha = 1
             titleWithFontLabel.alpha = 0
             
             backGroundViewUpConstraint.constant = 20
-            backGroundViewDownConstraint.constant = safeAreaWidth/5 + 40
+            backGroundViewDownConstraint.constant = safeAreaWidth/5 + 20
             
             if safeAreaWidth > 500 {
                 postImageViewWidthConstraint.constant = 500
@@ -259,14 +264,14 @@ class detailPostVC:UIViewController {
                 postImageViewWidthConstraint.constant = safeAreaWidth - 100
                 postImageViewHeightConstraint.constant = safeAreaWidth - 100
             }
-
+            
         } else {
             postImageView.image = nil
             titleLabel.alpha = 0
             titleWithFontLabel.alpha = 1
             
             backGroundViewUpConstraint.constant = safeAreaWidth/4
-            backGroundViewDownConstraint.constant = safeAreaWidth/5 + 40
+            backGroundViewDownConstraint.constant = safeAreaWidth/5 + 20
             
             if safeAreaWidth > 500 {
                 postImageViewWidthConstraint.constant = 500
@@ -308,15 +313,10 @@ class detailPostVC:UIViewController {
         
         userImageView.addGestureRecognizer(userTapGesture)
         userImageView.isUserInteractionEnabled = true
-
+        
         userImageView.clipsToBounds = true
         userImageView.layer.cornerRadius = 25
         
-        titleLabel.text = postInfoTitle
-        titleWithFontLabel.text = postInfoTitle
-        titleWithFontLabel.font = UIFont(name:"Southpaw", size:60)
-        let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
-        titleWithFontLabel.transform = transScale
         getUserInfo()
     }
     
@@ -371,7 +371,7 @@ class detailPostVC:UIViewController {
     }
     
     func getUserInfo(){
-        db.collection("users").document(userId ?? "").collection("Profile").document("profile").getDocument { [self](document, error) in
+        db.collection("users").document(postUserId ?? "").collection("Profile").document("profile").getDocument { [self](document, error) in
             if let document = document, document.exists {
 //                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 
@@ -403,24 +403,24 @@ class detailPostVC:UIViewController {
         print(backTapCount)
         backTapCount += 1
         
-        let surplusCount = backTapCount % 4
+        let surplusCount = backTapCount % 5
         
-        if surplusCount == 1 {
+        switch surplusCount{
+        case 1:
             backGroundView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8974241918)
             userFrontIdLabel.textColor = .darkGray
-
-        } else if surplusCount == 2 {
+        case 2 :
             backGroundView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 0.8966493152)
             userFrontIdLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-
-        } else if surplusCount == 3 {
+        case 3 :
             backGroundView.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.9457381246, blue: 0.7684240747, alpha: 0.9)
             userFrontIdLabel.textColor = .white
-
-        } else {
+        case 4 :
+            backGroundView.backgroundColor = .clear
+            userFrontIdLabel.textColor = .white
+        default:
             backGroundView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
             userFrontIdLabel.textColor = .lightGray
-
         }
         
     }
@@ -503,7 +503,7 @@ class detailPostVC:UIViewController {
         let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
         let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
         
-        ProfileVC.userId = userId
+        ProfileVC.userId = postUserId
         ProfileVC.userName = userName
         ProfileVC.userImage = userImage
         ProfileVC.userFrontId = userFrontId
@@ -554,7 +554,7 @@ class detailPostVC:UIViewController {
     
     func deleteDoc(){
         db.collection("users").document(profileUserId ?? "").collection("SendedPost").document(postInfoDoc ?? "").delete()
-        self.navigationController?.popToRootViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
 //        // Create a reference to the file to delete
 //        let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(postInfo?.postImage ?? "")
 //        // Delete the file

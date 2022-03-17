@@ -90,7 +90,6 @@
 		CF2BF5B427D8613D00F7D1CB /* KeyTabMetal-MOAJ.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59827D8612F00F7D1CB /* KeyTabMetal-MOAJ.ttf */; };
 		CF2BF5B527D8613D00F7D1CB /* Moon Flower.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59927D8613000F7D1CB /* Moon Flower.ttf */; };
 		CF2BF5B627D8613D00F7D1CB /* pastel crayon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59A27D8613000F7D1CB /* pastel crayon.ttf */; };
-		CF2BF5B727D8613D00F7D1CB /* Skinnybastard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59B27D8613100F7D1CB /* Skinnybastard-Regular.ttf */; };
 		CF2BF5B827D8613D00F7D1CB /* GrutchShaded.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59C27D8613200F7D1CB /* GrutchShaded.ttf */; };
 		CF2BF5B927D8613D00F7D1CB /* REIS-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59D27D8613200F7D1CB /* REIS-Regular.otf */; };
 		CF2BF5BA27D8613D00F7D1CB /* Southpaw.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF2BF59E27D8613300F7D1CB /* Southpaw.ttf */; };
@@ -157,10 +156,13 @@
 		CF8B45062665698500CA6DE1 /* red_yellow.json in Resources */ = {isa = PBXBuildFile; fileRef = CF8B45052665698500CA6DE1 /* red_yellow.json */; };
 		CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF8F13A9263FD9D2007A0677 /* imagetoukou.storyboard */; };
 		CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */; };
+		CF954A6B27E0A2DA002E8AC8 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF954A6A27E0A2DA002E8AC8 /* UIColorExtension.swift */; };
+		CF954A6D27E1A87C002E8AC8 /* StringAlphabet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF954A6C27E1A86C002E8AC8 /* StringAlphabet.swift */; };
 		CF97017427D4D79400FB87EB /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF97017327D4D79400FB87EB /* PinterestLayout.swift */; };
 		CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC12794454000D4C472 /* Reserch.storyboard */; };
 		CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC32794456000D4C472 /* ReserchVC.swift */; };
 		CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC5279453CD00D4C472 /* ad.storyboard */; };
+		CFA1AD3727E0610600F36A79 /* PAULSON_.TTF in Resources */ = {isa = PBXBuildFile; fileRef = CFA1AD3627E0610600F36A79 /* PAULSON_.TTF */; };
 		CFAB80B227CA5075007DECA0 /* backGroundSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAB80B127CA5075007DECA0 /* backGroundSettings.storyboard */; };
 		CFAB80B427CA5097007DECA0 /* backGroundSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAB80B327CA5097007DECA0 /* backGroundSettingsVC.swift */; };
 		CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */; };
@@ -252,7 +254,6 @@
 		CF2BF59827D8612F00F7D1CB /* KeyTabMetal-MOAJ.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "KeyTabMetal-MOAJ.ttf"; sourceTree = "<group>"; };
 		CF2BF59927D8613000F7D1CB /* Moon Flower.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Moon Flower.ttf"; sourceTree = "<group>"; };
 		CF2BF59A27D8613000F7D1CB /* pastel crayon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pastel crayon.ttf"; sourceTree = "<group>"; };
-		CF2BF59B27D8613100F7D1CB /* Skinnybastard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Skinnybastard-Regular.ttf"; sourceTree = "<group>"; };
 		CF2BF59C27D8613200F7D1CB /* GrutchShaded.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = GrutchShaded.ttf; sourceTree = "<group>"; };
 		CF2BF59D27D8613200F7D1CB /* REIS-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "REIS-Regular.otf"; sourceTree = "<group>"; };
 		CF2BF59E27D8613300F7D1CB /* Southpaw.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Southpaw.ttf; sourceTree = "<group>"; };
@@ -325,10 +326,13 @@
 		CF8B45052665698500CA6DE1 /* red_yellow.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = red_yellow.json; sourceTree = "<group>"; };
 		CF8F13A9263FD9D2007A0677 /* imagetoukou.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = imagetoukou.storyboard; sourceTree = "<group>"; };
 		CF8F13AC263FD9F0007A0677 /* imagetoukouViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imagetoukouViewController.swift; sourceTree = "<group>"; };
+		CF954A6A27E0A2DA002E8AC8 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		CF954A6C27E1A86C002E8AC8 /* StringAlphabet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringAlphabet.swift; sourceTree = "<group>"; };
 		CF97017327D4D79400FB87EB /* PinterestLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
 		CFA19DC12794454000D4C472 /* Reserch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reserch.storyboard; sourceTree = "<group>"; };
 		CFA19DC32794456000D4C472 /* ReserchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserchVC.swift; sourceTree = "<group>"; };
 		CFA19DC5279453CD00D4C472 /* ad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ad.storyboard; sourceTree = "<group>"; };
+		CFA1AD3627E0610600F36A79 /* PAULSON_.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = PAULSON_.TTF; sourceTree = "<group>"; };
 		CFAB80B127CA5075007DECA0 /* backGroundSettings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = backGroundSettings.storyboard; sourceTree = "<group>"; };
 		CFAB80B327CA5097007DECA0 /* backGroundSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = backGroundSettingsVC.swift; sourceTree = "<group>"; };
 		CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -501,7 +505,9 @@
 				CF4BF16F260E0FF200942E6F /* UIImage-extension.swift */,
 				CF38CAD126655E6400615D23 /* CountAnimationLabel.swift */,
 				CF361A00277C829700C08160 /* Date-extension.swift */,
+				CF954A6A27E0A2DA002E8AC8 /* UIColorExtension.swift */,
 				CF1E420C262AF05700CEF85A /* CopyUILabel.swift */,
+				CF954A6C27E1A86C002E8AC8 /* StringAlphabet.swift */,
 				CF6846D627981E7A004B80C5 /* removeString-extension.swift */,
 				CF4C5A30261E3A4900342675 /* quiz.csv */,
 				CF3E437D264333EC00CB0DA7 /* TOTALGOOD-Bridging-Header.h */,
@@ -632,9 +638,9 @@
 				CF2BF5A427D8613700F7D1CB /* MtfCupcake-KEeX.ttf */,
 				CF2BF59427D8612B00F7D1CB /* PapposBlues..._font.ttf */,
 				CF2BF59A27D8613000F7D1CB /* pastel crayon.ttf */,
+				CFA1AD3627E0610600F36A79 /* PAULSON_.TTF */,
 				CF2BF59D27D8613200F7D1CB /* REIS-Regular.otf */,
 				CF2BF59F27D8613400F7D1CB /* Sketchica-MB4Y.ttf */,
-				CF2BF59B27D8613100F7D1CB /* Skinnybastard-Regular.ttf */,
 				CF2BF59E27D8613300F7D1CB /* Southpaw.ttf */,
 				CF2BF59527D8612C00F7D1CB /* SweetPineapple.otf */,
 			);
@@ -793,6 +799,7 @@
 				CF2BF5C427D8613D00F7D1CB /* LoveYaLikeASister.ttf in Resources */,
 				CF4366102678966E00DABD78 /* NewCreateTeam.storyboard in Resources */,
 				CF2BF5B827D8613D00F7D1CB /* GrutchShaded.ttf in Resources */,
+				CFA1AD3727E0610600F36A79 /* PAULSON_.TTF in Resources */,
 				A33F0669279C26B70008B29A /* FirstSetId.storyboard in Resources */,
 				CF2BF5BD27D8613D00F7D1CB /* Journal.otf in Resources */,
 				A33F0667279C26890008B29A /* FirstSetImage.storyboard in Resources */,
@@ -806,7 +813,6 @@
 				CF2BF5C727D8613D00F7D1CB /* Debby.ttf in Resources */,
 				CF3B829E2785181400B4A257 /* ReadLog.storyboard in Resources */,
 				CF2BF5C927D8613D00F7D1CB /* lackey.ttf in Resources */,
-				CF2BF5B727D8613D00F7D1CB /* Skinnybastard-Regular.ttf in Resources */,
 				A3EAFB41276059BE00942C97 /* InChat.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -933,9 +939,11 @@
 				CF0C14BC25C9F494006A7C86 /* ChatRoomTableViewCell.swift in Sources */,
 				CF3DDC1B25C73C580016AB0F /* Animal.swift in Sources */,
 				CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */,
+				CF954A6D27E1A87C002E8AC8 /* StringAlphabet.swift in Sources */,
 				A33F067B279C5B7C0008B29A /* FirstMakeTeamVC.swift in Sources */,
 				A392220F27B0101500FFC936 /* PostInfo.swift in Sources */,
 				CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */,
+				CF954A6B27E0A2DA002E8AC8 /* UIColorExtension.swift in Sources */,
 				CF3D0C1D267BD349006021FB /* UserImageSetVC.swift in Sources */,
 				CF31079D2600AA1A00746480 /* TabbarController.swift in Sources */,
 				A39C8615276B7C45002078A0 /* ChatsInfo.swift in Sources */,

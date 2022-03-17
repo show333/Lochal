@@ -14,6 +14,8 @@ class PostInfo {
     var documentId: String
     var titleComment: String
     var postImage:String
+    var hexColor: String
+    var textFontName: String
     var createdAt: Timestamp
     var admin: Bool
     
@@ -22,9 +24,10 @@ class PostInfo {
         self.postImage = dic["postImage"] as? String ?? ""
         self.documentId = dic["documentId"] as? String ?? ""
         self.titleComment = dic ["titleComment"] as? String ?? ""
+        self.hexColor = dic ["hexColor"] as? String ?? ""
+        self.textFontName = dic ["textFontName"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.admin = dic["admin"] as? Bool ?? false
     }
-    
 }
 

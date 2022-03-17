@@ -29,7 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             application,
             didFinishLaunchingWithOptions: launchOptions
         )
-        
 //        application.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge], categories: nil))
 //        application.applicationIconBadgeNumber = 1
         

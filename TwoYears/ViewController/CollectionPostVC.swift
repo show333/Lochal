@@ -9,16 +9,29 @@ import UIKit
 import FirebaseFirestore
 import FirebaseStorage
 import FirebaseAuth
-
+import Nuke
 
 class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     
     var imageString : String?
     var postDocString: String?
     var fontString : String?
+    var blurTapCount = 0
+    var keyBoardBool : Bool?
+    var graffitiColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+    var graffitiFontName = "Southpaw"
     
     let db = Firestore.firestore()
     
+    @IBOutlet weak var backGroundImageView: UIImageView!
+    
+    @IBOutlet weak var imageBackLabel: UILabel!
+    @IBOutlet weak var imageBackView: UIView!
+    
+    @IBOutlet weak var imageBackImageView: UIImageView!
+    
+    @IBOutlet weak var imageButtonHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imageButtonWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageButton: UIButton!
     @IBAction func imageTappedButton(_ sender: Any) {
         
@@ -29,9 +42,14 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         self.present(imagePickerController, animated: true, completion: nil)
         
     }
+    @IBOutlet weak var fontBackView: UIView!
     
+    @IBOutlet weak var fontBackImageView: UIImageView!
+    
+    @IBOutlet weak var fontButtonHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var fontButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var fontBackLabel: UILabel!
     @IBOutlet weak var fontButton: UIButton!
-    
     @IBAction func fontTappedButton(_ sender: Any) {
         
         let storyboard = UIStoryboard.init(name: "FontCollection", bundle: nil)
@@ -39,52 +57,420 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         self.present(FontCollectionVC, animated: true, completion: nil)
     }
     
+    
+    @IBOutlet weak var sendBackView: UIView!
+    
+    @IBOutlet weak var sendBackImageView: UIImageView!
     @IBOutlet weak var sendButton: UIButton!
+    
+    @IBOutlet weak var sendBackLabel: UILabel!
+    @IBOutlet weak var sendButtonHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var sendButtonWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var sendButtonBottomConstraint: NSLayoutConstraint!
     
     @IBAction func sendTappedButton(_ sender: Any) {
         
-//        func showColorPicker(){
-            let colorPicker = UIColorPickerViewController()
-            colorPicker.selectedColor = UIColor.black // 初期カラー
-            colorPicker.delegate = self
-            self.present(colorPicker, animated: true, completion: nil)
-//        }
+        print("aaa")
         
-//        if imageString != nil {
-//            sendImage()
-//        } else {
-//            DispatchQueue.main.async(execute: { () -> Void in
-//                self.explainLabel.text = "画像が選択されていません"
-//
-//                UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
-//                    self.explainLabel.alpha = 1
-//
-//                }) {(completed) in
-//
-//                    UIView.animate(withDuration: 0.2, delay: 2.5, options: UIView.AnimationOptions.allowUserInteraction, animations: {
-//                        self.explainLabel.alpha = 0
-//                    })
-//                }
-//            })
-//        }
+        if imageString != nil {
+            sendImage()
+        } else {
+            let removeString = graffitiTextView.text.removeAllWhitespacesAndNewlines
+            if removeString == "" {
+                self.explainLabel.text = "画像や文字を入力してください"
+                labelAnimation()
+            } else {
+                
+                if graffitiTextView.text.isAlphanumericAll() == false {
+                    self.explainLabel.text = "文字だけの場合は英数字のみ投稿が可能です"
+                    labelAnimation()
+                } else {
+                    sendImage()
+                }
+            }
+        }
+        
+        
     }
+    
+    
+    @IBOutlet weak var graffitiImageView: UIImageView!
+
+    @IBOutlet weak var fontedLabel: UILabel!
+    
+    @IBOutlet weak var fontedSecondLabel: UILabel!
+    @IBOutlet weak var fontedSecondBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var wordCountLabel: UILabel!
+    
+    @IBOutlet weak var wordCountBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var explainLabel: UILabel!
+    @IBOutlet weak var graffitiTextView: UITextView!
+    
+    @IBOutlet weak var graffitiTextViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var graffitiTextViewBottomConstraint: NSLayoutConstraint!
+    //    @IBOutlet weak var textViewConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var graffitiBackViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var graffitiBackViewWidthConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var graffitiBackView: UIView!
+
+    
+    @IBOutlet weak var graffitiBackViewBottomConstraint: NSLayoutConstraint!
+    
+    
+    
+    
+    
+    fileprivate let placeholder: String = "" //プレイスホルダー
+    
+    fileprivate var maxWordCount: Int = 30 //最大文字数
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let statusBarHeight = self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+       // ナビゲーションバーの高さを取得
+        let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+        
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+        let safeAreaHeight = UIScreen.main.bounds.size.height-statusBarHeight-navigationBarHeight
+        
+
+        if keyBoardBool == true {
+
+            UIView.animate(withDuration: 0, delay: 0, animations: {
+                self.graffitiTextView.alpha = 0
+
+            }) { bool in
+                // ②アイコンを大きくする
+                UIView.animate(withDuration: 0.1, delay: 0, animations: { [self] in
+                    graffitiTextView.alpha = 1
+                    
+                    if graffitiTextViewBottomConstraint.constant != safeAreaHeight/3 {
+                        graffitiTextViewBottomConstraint.constant = safeAreaHeight/3
+                        wordCountBottomConstraint.constant = safeAreaHeight/15 + safeAreaHeight/3 + 5
+                        keyBoardBool = nil
+                        print("ass")
+
+                    }
+                })
+            }
+            self.view.endEditing(true)
+
+        } else {
+            self.view.endEditing(true)
+
+        }
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            
+            keyBoardBool = true
+            
+            let statusBarHeight = self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+           // ナビゲーションバーの高さを取得
+            let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+            
+            let safeAreaWidth = UIScreen.main.bounds.size.width
+            let safeAreaHeight = UIScreen.main.bounds.size.height-statusBarHeight-navigationBarHeight
+
+            
+            if graffitiTextViewBottomConstraint.constant == 200 {
+                graffitiTextViewBottomConstraint.constant = keyboardSize.height
+                print("aaa")
+                wordCountBottomConstraint.constant = keyboardSize.height + safeAreaHeight/15 + 5
+            } else {
+                graffitiTextViewBottomConstraint.constant = keyboardSize.height
+                wordCountBottomConstraint.constant = keyboardSize.height + safeAreaHeight/15 + 5
+
+            }
+            
+
+        }
+    }
+
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        
+        let statusBarHeight = self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+       // ナビゲーションバーの高さを取得
+        let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+        
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+        let safeAreaHeight = UIScreen.main.bounds.size.height-statusBarHeight-navigationBarHeight
+        
+        fontedSecondBottomConstraint.constant = safeAreaHeight/2 + safeAreaHeight/3 + 10
+        wordCountBottomConstraint.constant = safeAreaHeight/15 + safeAreaHeight/3 + 5
+        
+        graffitiBackViewWidthConstraint.constant = safeAreaHeight/3
+        graffitiBackViewHeightConstraint.constant = safeAreaHeight/3
+        
+        graffitiBackViewBottomConstraint.constant = safeAreaHeight/2
+        
+        graffitiTextViewHeightConstraint.constant = safeAreaHeight/15
+        graffitiTextViewBottomConstraint.constant = safeAreaHeight/3
+
+        let secondLabelTapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(secondLabelTap(_:)))
+        fontedSecondLabel.addGestureRecognizer(secondLabelTapGesture)
+        fontedSecondLabel.isUserInteractionEnabled = true
+        
+        let secondLongTapGesture = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(secondLabellongTap(_:))
+        )
+        fontedSecondLabel.addGestureRecognizer(secondLongTapGesture)
+
+        self.fontedSecondLabel.alpha = 0
+        fontedSecondLabel.text = ""
+        fontedLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        fontedSecondLabel.font = UIFont(name:"Southpaw", size:20)
+//        fontedSecondLabel
+        
+        fontedLabel.font = UIFont(name:"Southpaw", size:safeAreaHeight/20)
+
+        fontedLabel.text = "Graffiti"
+        
+        
+        let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+        fontedLabel.transform = transScale
+        
+        
+        graffitiTextView.delegate = self
+        graffitiTextView.textColor = .gray
+        graffitiTextView.text = placeholder
+        wordCountLabel.text = "30文字まで"
+        
+        
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FwallPaper.jpg?alt=media&token=1ee6defc-2184-43d8-8232-d0f17c2dc0ee") {
+            Nuke.loadImage(with: url, into: backGroundImageView)
+        } else {
+            backGroundImageView?.image = nil
+        }
+        
+        
+        
+        graffitiImageView.alpha = 1
+        
+        let postTapGesture = UITapGestureRecognizer(
+            target: self,
+            action: #selector(blurTap(_:)))
+        graffitiBackView.addGestureRecognizer(postTapGesture)
+        graffitiBackView.isUserInteractionEnabled = true
+        
+        graffitiBackView.clipsToBounds = true
+        graffitiBackView.layer.cornerRadius = 16
+        
+        let longTapGesture = UILongPressGestureRecognizer(
+            target: self,
+            action: #selector(longBlurTap(_:))
+        )
+        
+        graffitiBackView.addGestureRecognizer(longTapGesture)
+        
+        graffitiTextView.clipsToBounds = true
+        graffitiTextView.layer.cornerRadius = 10
+        
+        fontBackLabel.text = "フォント"
+        fontBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/30)
+
+        
+
+        fontButtonHeightConstraint.constant = safeAreaHeight/14
+        fontButtonWidthConstraint.constant = safeAreaHeight/12
+        
+        fontBackView.clipsToBounds = true
+        fontBackView.layer.cornerRadius = safeAreaHeight/48
+        fontBackView.layer.masksToBounds = false
+        fontBackView.layer.shadowColor = UIColor.black.cgColor
+        fontBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        fontBackView.layer.shadowOpacity = 0.7
+        fontBackView.layer.shadowRadius = 5
+
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/graffiti_Icons%2FgraffitiIcons.001.png?alt=media&token=94ce8480-0af3-43b8-8280-a8e71815ec87") {
+            Nuke.loadImage(with: url, into: fontBackImageView)
+        } else {
+            fontBackImageView?.image = nil
+        }
+        
+        imageBackLabel.text = "画像"
+        imageBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/30)
+
+        imageBackView.clipsToBounds = true
+        imageBackView.layer.cornerRadius = safeAreaHeight/48
+        imageBackView.layer.masksToBounds = false
+        imageBackView.layer.shadowColor = UIColor.black.cgColor
+        imageBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        imageBackView.layer.shadowOpacity = 0.7
+        imageBackView.layer.shadowRadius = 5
+        
+        
+        imageButtonHeightConstraint.constant = safeAreaHeight/14
+        imageButtonWidthConstraint.constant = safeAreaHeight/12
+        imageButton.clipsToBounds = true
+        imageButton.layer.cornerRadius = 16
+        imageButton.layer.masksToBounds = false
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/graffiti_Icons%2FgraffitiIcons.002.png?alt=media&token=a60b7375-be6e-4877-b82f-3048350489d5") {
+            Nuke.loadImage(with: url, into: imageBackImageView)
+        } else {
+            imageBackImageView?.image = nil
+        }
+        
+        sendBackLabel.text = "投稿"
+        sendBackLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/30)
+        
+        sendButtonHeightConstraint.constant = safeAreaHeight/12
+        sendButtonWidthConstraint.constant = safeAreaHeight/10
+        
+        sendButtonBottomConstraint.constant = safeAreaHeight/6
+        
+        
+        sendBackView.clipsToBounds = true
+        sendBackView.layer.cornerRadius = safeAreaHeight/40
+        sendBackView.layer.masksToBounds = false
+        sendBackView.layer.shadowColor = UIColor.black.cgColor
+        sendBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        sendBackView.layer.shadowOpacity = 0.7
+        sendBackView.layer.shadowRadius = 5
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/graffiti_Icons%2FgraffitiIcons.003.png?alt=media&token=d47629d5-299d-4f9d-984b-e8be311c71c4") {
+            Nuke.loadImage(with: url, into: sendBackImageView)
+        } else {
+            sendBackImageView?.image = nil
+        }
+        
+        explainLabel.alpha = 0
+                
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    
+    
+    
+    @objc private func secondLabelTap(_ sender: UITapGestureRecognizer) {
+            colorChange()
+        print("aaa")
+    }
+    
+    @objc private func secondLabellongTap(_ sender: UILongPressGestureRecognizer) {
+        showColorPicker()
+    }
+    
+    
+    @objc private func blurTap(_ sender: UITapGestureRecognizer) {
+        if imageString != nil {
+            let imagePickerController = UIImagePickerController()
+            imagePickerController.delegate = self
+            imagePickerController.allowsEditing = true
+            self.present(imagePickerController, animated: true, completion: nil)
+        } else {
+            colorChange()
+        }
+    }
+    
+    @objc private func longBlurTap(_ sender: UILongPressGestureRecognizer) {
+        if imageString != nil {
+            
+        } else {
+            showColorPicker()
+        }
+    }
+    
+    
+    func showColorPicker(){
+        let colorPicker = UIColorPickerViewController()
+        colorPicker.selectedColor = UIColor.black // 初期カラー
+        colorPicker.delegate = self
+        colorPicker.supportsAlpha = false
+        self.present(colorPicker, animated: true, completion: nil)
+    }
+    
     
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
         // 色を選択したときの処理
         print("選択した色: \(viewController.selectedColor)")
-        wordCountLabel.textColor = viewController.selectedColor
-//        wordCountLabel.text = viewController.selectedColor
+        fontedLabel.textColor = viewController.selectedColor
+        fontedSecondLabel.textColor = viewController.selectedColor
+        graffitiColor = viewController.selectedColor
+    }
+    func colorChange() {
+        blurTapCount += 1
+        
+        let surplusCount = blurTapCount % 9
+        
+        switch surplusCount {
+        case 1 :
+            fontedLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+            graffitiColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        case 2 :
+            fontedLabel.textColor = #colorLiteral(red: 0.1397110427, green: 0.1396122622, blue: 0.1522482646, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.1397110427, green: 0.1396122622, blue: 0.1522482646, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.1397110427, green: 0.1396122622, blue: 0.1522482646, alpha: 1)
+        case 3 :
+            fontedLabel.textColor = #colorLiteral(red: 0.8549019694, green: 0.1938080545, blue: 0.2193125394, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.8549019694, green: 0.1938080545, blue: 0.2193125394, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.8549019694, green: 0.1938080545, blue: 0.2193125394, alpha: 1)
+        case 4 :
+            fontedLabel.textColor = #colorLiteral(red: 1, green: 0.5444763979, blue: 0.09583910595, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 1, green: 0.5444763979, blue: 0.09583910595, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 1, green: 0.5444763979, blue: 0.09583910595, alpha: 1)
+        case 5 :
+            fontedLabel.textColor = #colorLiteral(red: 0.9607843161, green: 0.8782094742, blue: 0.1591694472, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.9607843161, green: 0.8782094742, blue: 0.1591694472, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.9607843161, green: 0.8782094742, blue: 0.1591694472, alpha: 1)
+        case 6 :
+            fontedLabel.textColor = #colorLiteral(red: 0.9095779891, green: 0.3351947527, blue: 0.8762235135, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.9095779891, green: 0.3351947527, blue: 0.8762235135, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.9095779891, green: 0.3351947527, blue: 0.8762235135, alpha: 1)
+        case 7 :
+            fontedLabel.textColor = #colorLiteral(red: 0.6157082599, green: 0.4595190551, blue: 0.9686274529, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.6157082599, green: 0.4595190551, blue: 0.9686274529, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.6157082599, green: 0.4595190551, blue: 0.9686274529, alpha: 1)
+        case 8 :
+            fontedLabel.textColor = #colorLiteral(red: 0.3766358496, green: 0.9686274529, blue: 0.2729547503, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0.3766358496, green: 0.9686274529, blue: 0.2729547503, alpha: 1)
+
+            graffitiColor = #colorLiteral(red: 0.3766358496, green: 0.9686274529, blue: 0.2729547503, alpha: 1)
+        default :
+            fontedLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            fontedSecondLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            graffitiColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            
+        }
     }
     
+    func labelAnimation(){
+        DispatchQueue.main.async(execute: { () -> Void in
+            UIView.animate(withDuration: 0.4, delay: 0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+                self.explainLabel.alpha = 1
+                
+            }) {(completed) in
+                
+                UIView.animate(withDuration: 0.2, delay: 2.5, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+                    self.explainLabel.alpha = 0
+                })
+            }
+        })
     
-    @IBOutlet weak var wordCountLabel: UILabel!
+    }
     
-    @IBOutlet weak var explainLabel: UILabel!
-    @IBOutlet weak var bottomTextView: UITextView!
-    
-    @IBOutlet weak var textViewConstraint: NSLayoutConstraint!
-    @IBOutlet weak var backView: UIView!
-
     
     func randomString(length: Int) -> String {
         let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -94,11 +480,13 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     func sendImage(){
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let docString = randomString(length: 20)
+        
+        print("thanks")
 
         if imageString != nil {
-            
+            print("あいえ",imageString)
             let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(imageString!)
-            guard let image = imageButton.imageView?.image  else { return }
+            guard let image = graffitiImageView.image  else { return }
             guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
             
             storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
@@ -130,12 +518,16 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     }
     func setImage(userId:String,postImage:String,docString:String){
         
+        let hexColor = graffitiColor.toHexString()
+        let textFontName = graffitiFontName
         
         let postDoc = [
             "userId":userId,
             "postImage":postImage,
             "documentId":docString,
-            "titleComment":bottomTextView.text ?? "",
+            "titleComment":graffitiTextView.text ?? "",
+            "hexColor":hexColor,
+            "textFontName":textFontName,
             "createdAt": FieldValue.serverTimestamp(),
             "admin":false
         ] as [String:Any]
@@ -152,7 +544,8 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
                 print("Document data: \(dataDescription)")
                 
                 let notificationNum = document["notificationNum"] as? Int ?? 0
-                
+                let hexColor = graffitiColor.toHexString()
+                let textFontName = graffitiFontName
                 
                 
                 let docData = [
@@ -163,6 +556,8 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
                     "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
                     "documentId" : docString,
                     "reactionImage": "",
+                    "hexColor":hexColor,
+                    "textFontName":textFontName,
                     "reactionMessage":"さんから投稿を受けました",
                     "theMessage":"",
                     "dataType": "ConnectersPost",
@@ -175,9 +570,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
                 db.collection("users").document(postDocString ?? "").collection("Notification").document(docString).setData(docData)
                 db.collection("users").document(postDocString ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
                 
-                
-                
-                
             } else {
                 print("Document does not exist")
             }
@@ -188,103 +580,32 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         
     }
     
-    
-    
-    
-    fileprivate let placeholder: String = "" //プレイスホルダー
-    
-    fileprivate var maxWordCount: Int = 30 //最大文字数
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.allowsEditing = true
-        
-        self.present(imagePickerController, animated: true, completion: nil)
-        
-        bottomTextView.delegate = self
-        
-        bottomTextView.textColor = .gray
-        bottomTextView.text = placeholder
-        wordCountLabel.text = "30文字まで"
-        
-        backView.clipsToBounds = true
-        backView.layer.cornerRadius = 16
-        backView.layer.masksToBounds = false
-        backView.layer.shadowColor = UIColor.black.cgColor
-        backView.layer.shadowOffset = CGSize(width: 0, height: 3)
-        backView.layer.shadowOpacity = 0.7
-        backView.layer.shadowRadius = 5
-        
-        imageButton.clipsToBounds = true
-        imageButton.layer.cornerRadius = 16
-        imageButton.layer.masksToBounds = false
-        
-        
-        bottomTextView.clipsToBounds = true
-        bottomTextView.layer.cornerRadius = 10
-        
-        sendButton.clipsToBounds = true
-        sendButton.layer.cornerRadius = 10
-        sendButton.layer.masksToBounds = false
-        sendButton.layer.shadowColor = UIColor.black.cgColor
-        sendButton.layer.shadowOffset = CGSize(width: 0, height: 3)
-        sendButton.layer.shadowOpacity = 0.7
-        sendButton.layer.shadowRadius = 5
-        
-        explainLabel.alpha = 0
-        
-        
-        
-        //        backView.alpha = 0
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillChangeFrameNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
-            } else {
-                let suggestionHeight = self.view.frame.origin.y + keyboardSize.height
-                self.view.frame.origin.y -= suggestionHeight
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
-    }
-    
 }
 
 extension CollectionPostVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let editImage = info[.editedImage] as? UIImage {
-            imageButton.setImage(editImage.withRenderingMode(.alwaysOriginal), for: .normal)
+            graffitiImageView.image = editImage
+            backGroundImageView.image = editImage
+
             print(editImage)
             
             imageString = NSUUID().uuidString
             
         } else if let originalImage = info[.originalImage] as? UIImage {
-            imageButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
+            graffitiImageView.image = originalImage
+            backGroundImageView.image = originalImage
             print(originalImage)
             print("アイウエオあきくこ")
             
             imageString = NSUUID().uuidString
         }
         
-        imageButton.imageView?.contentMode = .scaleAspectFit
+//        graffitiImageView.image?.contentMode = .scaleAspectFit
+        
+        self.fontedLabel.alpha = 0
+        self.fontedSecondLabel.alpha = 1
         self.dismiss(animated: true, completion: nil)
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -311,6 +632,10 @@ extension CollectionPostVC: UITextViewDelegate {
 //        }
         if existingLines.count <= 3 {
             self.wordCountLabel.text = "残り\(maxWordCount - textView.text.count)文字"
+            self.fontedLabel.text = textView.text
+            if imageString != nil {
+            self.fontedSecondLabel.text = textView.text
+            }
         }
     }
     func textViewDidBeginEditing(_ textView: UITextView) {

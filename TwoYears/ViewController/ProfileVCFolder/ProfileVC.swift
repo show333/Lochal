@@ -49,13 +49,16 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     @IBOutlet weak var backGroundImageView: UIImageView!
     @IBOutlet weak var settingsLabel: UILabel!
-    @IBOutlet weak var userFrontIdLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userImagehighConstraint: NSLayoutConstraint!
     @IBOutlet weak var userImageTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var userImageLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var userNameLabel: UILabel!
-//    @IBOutlet weak var chatListTableView: UITableView!
+    
+    @IBOutlet weak var userNameLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var selfIntroductionLabel: UILabel!
+    
+    //    @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet weak var postButton: UIButton!
     
 
@@ -328,8 +331,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -406,13 +407,15 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         userImageView.isUserInteractionEnabled = true
         
-        userImagehighConstraint.constant = headerHigh/2
+        
+        userNameLabelTopConstraint.constant = headerHigh/5 - 15
+        userImagehighConstraint.constant = headerHigh/2.5
         userImageTopConstraint.constant = headerHigh/20
-        userImageLeftConstraint.constant = headerHigh/20
+        userImageLeftConstraint.constant = headerHigh/18
         
         
         userImageView.clipsToBounds = true
-        userImageView.layer.cornerRadius = headerHigh/4
+        userImageView.layer.cornerRadius = headerHigh/5
         
         collectionHighConstraint.constant = headerHigh/4
         collectionBottom.constant = headerHigh/20
@@ -519,6 +522,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 
         getFollowId(userId:userId ?? "",uid:uid)
         
+        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
         let safeAreaWidth = UIScreen.main.bounds.size.width
@@ -816,11 +821,12 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             }
             print("Current data: \(data)")
 
+            let backGroundString = "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2Fsplashbackground.jpeg?alt=media&token=4c2fd869-a146-4182-83aa-47dd396f1ad6"
 
             let userName = document["userName"] as? String ?? "unKnown"
             let userImage = document["userImage"] as? String ?? "unKnown"
             let userFrontId = document["userFrontId"] as? String ?? "unKnown"
-            let userBackGround = document["userBackGround"] as? String ?? "unKnown"
+            let userBackGround = document["userBackGround"] as? String ?? backGroundString
 
 
             let ConnectionsCount = document["ConnectionsCount"] as? Int ?? 0
@@ -839,7 +845,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             
 //            followingButton.setTitle(String(followingCount), for: .normal)
             
-            userFrontIdLabel.text = userFrontId
+            navigationItem.title = userFrontId
+            selfIntroductionLabel.text = ""
             userNameLabel.text = userName
             if let url = URL(string:userImage) {
                 Nuke.loadImage(with: url, into: userImageView)
@@ -912,14 +919,7 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
 //            cell.backView.clipsToBounds = true
 //            cell.backView.layer.cornerRadius = headerHigh/16
 //            var mask: UIView? { get set }
-            
-
-            cell.collectionPostLabel.text = postInfo[indexPath.row].titleComment
-            cell.collectionPostLabel.font = UIFont(name:"Southpaw", size:40)
-            let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
-            cell.collectionPostLabel.transform = transScale
-            
-        
+            let safeAreaWidth = UIScreen.main.bounds.size.width
             
 //            cell.collectionPostLabel.alpha = 0
             cell.postImageView.image = nil
@@ -927,6 +927,40 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
             print(postInfo[indexPath.row])
             
             cell.postImageView.alpha = 0
+            let storyboard = UIStoryboard.init(name: "FontCollection", bundle: nil)
+
+            let FontCollectionVC = storyboard.instantiateViewController(withIdentifier: "FontCollectionVC") as! FontCollectionVC
+            
+            let fontName = postInfo[indexPath.row].textFontName
+            let hexColor = postInfo[indexPath.row].hexColor
+            let titleComment = postInfo[indexPath.row].titleComment
+            
+            let fontBool = FontCollectionVC.fontArray.contains(fontName)
+
+//            if titleComment.isAlphanumericAll() == false {
+//                cell.collectionPostLabel.font = UIFont(name:"03SmartFontUI", size:safeAreaWidth/10)
+//            } else {
+                if fontBool == false {
+                    cell.collectionPostLabel.font = UIFont(name:"Southpaw", size:safeAreaWidth/10)
+                } else {
+                    cell.collectionPostLabel.font = UIFont(name:fontName, size:safeAreaWidth/10)
+                }
+//            }
+            
+            if hexColor == "" {
+                cell.collectionPostLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            } else {
+                let UITextColor = UIColor(hex: hexColor)
+                cell.collectionPostLabel.textColor = UITextColor
+            }
+            
+            
+            
+            cell.collectionPostLabel.text = postInfo[indexPath.row].titleComment
+//            cell.collectionPostLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+            cell.collectionPostLabel.transform = transScale
+
             
             if postInfo[indexPath.row].postImage != "" {
                 cell.collectionPostLabel.alpha = 0
@@ -959,10 +993,12 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
             self.navigationController?.navigationBar.isHidden = false
             //        detailPostVC.navigationController?.navigationBar.isHidden = false
             detailPostVC.profileUserId = userId
-            detailPostVC.userId = postInfo[indexPath.row].userId
+            detailPostVC.postUserId = postInfo[indexPath.row].userId
             detailPostVC.postInfoTitle = postInfo[indexPath.row].titleComment
             detailPostVC.postInfoImage = postInfo[indexPath.row].postImage
             detailPostVC.postInfoDoc = postInfo[indexPath.row].documentId
+            detailPostVC.postHexColor = postInfo[indexPath.row].hexColor
+            detailPostVC.postTextFontName = postInfo[indexPath.row].textFontName
             
             navigationController?.pushViewController(detailPostVC, animated: true)
         }
