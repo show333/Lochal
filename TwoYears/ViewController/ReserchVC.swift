@@ -296,12 +296,40 @@ class ReserchVC:UIViewController{
         
         reserchTableView.dataSource = self
         reserchTableView.delegate = self
+        
+        fetchNotification(userId:uid)
+
     }
     
     @objc func didSwipe(_ sender: UISwipeGestureRecognizer) {
 
         //スワイプ方向による実行処理をcase文で指定
         print("aaa")
+    }
+    
+    func fetchNotification(userId:String){
+        
+        db.collection("users").document(userId).addSnapshotListener { [self] documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching document: \(error!)")
+                    return
+                }
+                guard let data = document.data() else {
+                    print("Document data was empty.")
+                    return
+                }
+                print("Current data: \(data)")
+                let notificationNum = data["notificationNum"] as? Int ?? 0
+                print(notificationNum)
+                
+                if notificationNum >= 1 {
+                    self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = String(notificationNum)
+                } else {
+                }
+//                notificationNumber.text =
+//                self.teamInfo.removeAll()
+//                self.teamCollectionView.reloadData()
+            }
     }
 }
 extension StringProtocol where Self: RangeReplaceableCollection {
@@ -313,7 +341,7 @@ extension StringProtocol where Self: RangeReplaceableCollection {
 
 extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 60
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return userInfo.count
@@ -321,12 +349,19 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = reserchTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ReserhTableViewCell
+        
+        let selectionView = UIView()
+        selectionView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 0.2487988115)
+        cell.selectedBackgroundView = selectionView
+        
         cell.userImageView.image = nil
         cell.userNameLabel.text = userInfo[indexPath.row].userName
         cell.userFrontIdLabel.text = userInfo[indexPath.row].userFrontId
         
+        cell.userNameLabel.font = UIFont(name:"03SmartFontUI", size:19)
+        
         cell.userImageView.clipsToBounds = true
-        cell.userImageView.layer.cornerRadius = 30
+        cell.userImageView.layer.cornerRadius = 25
         
         if let url = URL(string:userInfo[indexPath.row].userImage) {
             Nuke.loadImage(with: url, into: cell.userImageView)
@@ -338,7 +373,9 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
 
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+  
+
         let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
         let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
         ProfileVC.userId = userInfo[indexPath.row].userId
