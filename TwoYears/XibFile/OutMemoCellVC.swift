@@ -88,7 +88,6 @@ class OutmMemoCellVC: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
         messageLabel.font = UIFont(name:"03SmartFontUI", size:19)
         graffitiTitleLabel.font = UIFont(name:"03SmartFontUI", size:16)
         

@@ -18,6 +18,7 @@ class PostInfo {
     var textFontName: String
     var createdAt: Timestamp
     var admin: Bool
+    var releaseBool: Bool
     
     init(dic: [String: Any]) {
         self.userId = dic["userId"] as? String ?? ""
@@ -28,6 +29,7 @@ class PostInfo {
         self.textFontName = dic ["textFontName"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.admin = dic["admin"] as? Bool ?? false
+        self.releaseBool = dic["releaseBool"] as? Bool ?? true // のちに変更した方が良い
     }
 }
 

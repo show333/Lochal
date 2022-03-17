@@ -15,16 +15,58 @@ class NotificationVC: UIViewController {
     
     var reaction : [Reaction] = []
     var outMemo: OutMemo?
-    var notificationTab : Bool = false
+    var notificationTab:Bool = false
     var userId : String?
     var cellDocumentId : String?
+    var releaseBool:Bool = false
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
     var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     private let cellId = "cellId"
+    
     let db = Firestore.firestore()
+    @IBOutlet weak var postBackView: UIView!
     
+    @IBOutlet weak var postView: UIView!
+    @IBOutlet weak var graffitiBackView: UIView!
     
+    @IBOutlet weak var graffitiImageView: UIImageView!
+    
+    @IBOutlet weak var graffitiImageWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var graffitiLabel: UILabel!
+    @IBOutlet weak var graffitiTitleLabel: UILabel!
+    @IBOutlet weak var postUserImageView: UIImageView!
+    @IBOutlet weak var postUserLabel: UILabel!
+    
+    @IBOutlet weak var postExplainLabel: UILabel!
+    @IBOutlet weak var closeLabel: UILabel!
+    @IBOutlet weak var postBackButton: UIButton!
+    
+    @IBAction func postBackTappedButton(_ sender: Any) {
+        postBackView.alpha = 0
+        print("eiisei")
+    }
+    
+    @IBAction func postFrontTappedButton(_ sender: Any) {
+        postBackView.alpha = 0
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        if releaseBool == false {
+            release(uid:uid)
+            reaction.removeAll()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                self.fetchReaction(userId:uid)
+            }
+            
+        } else {
+            
+        }
+        
+        
+        
+    }
     
     @IBOutlet weak var requestLabel: UILabel!
     @IBOutlet weak var reactionBackButton: UIButton!
@@ -60,15 +102,12 @@ class NotificationVC: UIViewController {
     @IBAction func acceptingTappedButton(_ sender: Any) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-//        reaction[indexPathRow ?? 0].reactionMessage = "さんがフォローをしました"
         
-   
         followSet(uid: uid)
         MyPostGet(uid: uid)
         
         
         reaction.removeAll()
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.fetchReaction(userId:uid)
 
@@ -142,9 +181,7 @@ class NotificationVC: UIViewController {
                 }
             }
         }
-        
     }
-    
     func MyPostSet(userId:String,outMemo:OutMemo){
         
         let memoInfoDic = [
@@ -163,9 +200,69 @@ class NotificationVC: UIViewController {
             
         ] as [String: Any]
         
+        
         db.collection("users").document(userId).collection("TimeLine").document(outMemo.documentId).setData(memoInfoDic,merge: true)
 //        let userId = document.data()["userId"] as! String
 //                        getUserInfo(userId: userId)
+    }
+    
+    func release(uid:String) {
+        guard let userId = userId else {return}
+        db.collection("users").document(uid).collection("SendedPost").document(cellDocumentId ?? "").setData(["releaseBool":true], merge: true)
+        
+        db.collection("users").document(uid).collection("Notification").document(cellDocumentId ?? "").setData(["releaseBool":true,"reactionMessage":"さんからの投稿を公開しました"], merge: true)
+ 
+        
+        
+        
+        db.collection("users").document(userId).getDocument { [self] (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let notificationNum = document["notificationNum"] as? Int ?? 0
+                
+                
+                let documentId = randomString(length: 20)
+                let docData = [
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "userId": uid,
+                    "userName":UserDefaults.standard.string(forKey: "userName") ?? "unKnown",
+                    "userImage":UserDefaults.standard.string(forKey: "userImage") ?? "unKnown",
+                    "userFrontId":UserDefaults.standard.string(forKey: "userFrontId") ?? "unKnown",
+                    "documentId" : documentId,
+                    "reactionImage": "",
+                    "hexColor":"",
+                    "textFontName":"",
+                    "reactionMessage":"さんがあなたの投稿を公開しました",
+                    "postImage":"",
+                    "imageAddress":"",
+                    "titleComment":"",
+                    "theMessage":"",
+                    "dataType": "releaseReport",
+                    "notificationNum": notificationNum+1,
+                    "releaseBool":false,
+                    "acceptBool":false,
+                    "anonymous":false,
+                    "admin": false,
+                ] as [String: Any]
+
+                db.collection("users").document(userId).collection("Notification").document(documentId).setData(docData, merge: true)
+                db.collection("users").document(userId).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
+        
+        
+
+
+    }
+    
+    func randomString(length: Int) -> String {
+        let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        return String((0..<length).map{ _ in characters.randomElement()! })
     }
     
     @IBOutlet weak var onUserImageView: UIImageView!
@@ -199,6 +296,8 @@ class NotificationVC: UIViewController {
         onReactionViewConstraint.constant = width*0.55
         onBackViewConstraint.constant = width*0.3
         
+        graffitiImageWidthConstraint.constant = width/2
+        
         onUserImageView.alpha = 0
         onUserNameLabel.alpha = 0
         onReactionView.alpha = 0
@@ -209,6 +308,21 @@ class NotificationVC: UIViewController {
         
         
         requestLabel.alpha = 0
+        
+        postBackView.alpha = 0
+        
+        postView.clipsToBounds = true
+        postView.layer.cornerRadius = 10
+        
+        graffitiImageView.clipsToBounds = true
+        graffitiImageView.layer.cornerRadius = 10
+        
+        postUserImageView.clipsToBounds = true
+        postUserImageView.layer.cornerRadius = 20
+        
+        let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+        graffitiLabel.transform = transScale
+        
         
         
         acceptImageConstraint.constant = width/2
@@ -271,6 +385,7 @@ class NotificationVC: UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
         UIApplication.shared.applicationIconBadgeNumber = 0
+        self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = nil
     }
     func fetchReaction(userId:String) {
         db.collection("users").document(userId).collection("Notification").addSnapshotListener{ [self] ( snapshots, err) in
@@ -332,7 +447,15 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if reaction[indexPath.row].dataType == "reaction" {
+        let storyboard = UIStoryboard.init(name: "FontCollection", bundle: nil)
+        let FontCollectionVC = storyboard.instantiateViewController(withIdentifier: "FontCollectionVC") as! FontCollectionVC
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+        cellDocumentId = reaction[indexPath.row].documentId
+        userId = reaction[indexPath.row].userId
+
+        let dataType = reaction[indexPath.row].dataType
+        switch dataType {
+        case "reaction" :
             onMessageLabel.text = reaction[indexPath.row].theMessage
             onUserNameLabel.text = reaction[indexPath.row].userName
             
@@ -341,8 +464,6 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
             } else {
                 onUserImageView.image = nil
             }
-            
-            
             if let url = URL(string:reaction[indexPath.row].reactionImage) {
                 Nuke.loadImage(with: url, into: onReactionView)
             } else {
@@ -351,38 +472,108 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
             reactionBackButton.alpha = 0.8
             onAnimation()
             
-        } else if reaction[indexPath.row].dataType == "acceptingConnect"{
-            cellDocumentId = reaction[indexPath.row].documentId
-            userId = reaction[indexPath.row].userId
+        case "acceptingConnect":
             if reaction[indexPath.row].acceptBool == false {
                 acceptImageAnimation(imageView: acceptImageView)
                 acceptingBackButton.alpha = 0.8
                 acceptingButton.alpha = 1
                 requestLabel.text = "↓タップでコネクトを許可"
-                
             } else {
                 acceptImageAnimation(imageView: acceptedImageView)
                 acceptingBackButton.alpha = 0.8
                 requestLabel.text = "コネクト認証済み"
             }
-        } else if reaction[indexPath.row].dataType == "ConnectersPost"{
-            let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-            let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            ProfileVC.userId = uid
-            ProfileVC.cellImageTap = true
-            navigationController?.pushViewController(ProfileVC, animated: true)
-        } else {
+        case "ConnectersPost":
+            releaseBool = reaction[indexPath.row].releaseBool
+            postViewAnimation(postView: postView)
+            postBackView.alpha = 0.95
+            
+            
+            if let url = URL(string:reaction[indexPath.row].userImage) {
+                Nuke.loadImage(with: url, into: postUserImageView)
+            } else {
+                postUserImageView.image = nil
+            }
+            if let url = URL(string:reaction[indexPath.row].postImage) {
+                Nuke.loadImage(with: url, into: graffitiImageView)
+                graffitiLabel.alpha = 0
+                graffitiTitleLabel.alpha = 1
+            } else {
+                graffitiImageView.image = nil
+                graffitiTitleLabel.alpha = 0
+                graffitiLabel.alpha = 1
+            }
+            postUserLabel.text = reaction[indexPath.row].userFrontId
+            graffitiLabel.text = reaction[indexPath.row].titleComment
+            graffitiTitleLabel.text = reaction[indexPath.row].titleComment
+            
+            
+            let fontBool = FontCollectionVC.fontArray.contains(reaction[indexPath.row].textFontName)
+            let removeSpacePostTitle = reaction[indexPath.row].titleComment.removeAllWhitespacesAndNewlines
+//
+            if removeSpacePostTitle.isAlphanumericAll() == false {
+                graffitiTitleLabel.font = UIFont(name:"03SmartFontUI", size:safeAreaWidth/20)
+                graffitiLabel.font = UIFont(name:"03SmartFontUI", size:safeAreaWidth/8)
+            } else {
+                if fontBool == false {
+                    graffitiTitleLabel.font = UIFont(name:"Southpaw", size:safeAreaWidth/20)
+                    graffitiLabel.font = UIFont(name:"Southpaw", size:safeAreaWidth/8)
+
+                } else {
+                    graffitiTitleLabel.font = UIFont(name:reaction[indexPath.row].textFontName, size:safeAreaWidth/20)
+                    graffitiLabel.font = UIFont(name:reaction[indexPath.row].textFontName, size:safeAreaWidth/8)
+
+                }
+            }
+
+            let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+            graffitiLabel.transform = transScale
+//
+//
+//
+            if reaction[indexPath.row].hexColor == "" {
+                graffitiTitleLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            } else {
+                let UITextColor = UIColor(hex: reaction[indexPath.row].hexColor)
+                graffitiTitleLabel.textColor = UITextColor
+                graffitiLabel.textColor = UITextColor
+            }
+            
+            
+            if reaction[indexPath.row].releaseBool == false {
+                postExplainLabel.text = "↓をタップで公開"
+            } else {
+                postExplainLabel.text = "公開済み"
+            }
+            
+        default :
             let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
             let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
             ProfileVC.userId = reaction[indexPath.row].userId
             ProfileVC.cellImageTap = true
             navigationController?.pushViewController(ProfileVC, animated: true)
         }
+        
+    }
+    
+    func postViewAnimation(postView: UIView){
+        
+        UIView.animate(withDuration: 0.1, delay: 0, animations: {
+            postView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+            postView.alpha = 1
+//            self.requestLabel.alpha = 1
+            
+        }) { bool in
+            // ②アイコンを大きくする
+            UIView.animate(withDuration: 0.05, delay: 0, animations: {
+                postView.transform = CGAffineTransform(scaleX: 1, y: 1)
+                
+                
+            })
+        }
     }
     
     func acceptImageAnimation(imageView: UIImageView){
-        
         
         UIView.animate(withDuration: 0.1, delay: 0, animations: {
             imageView.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)

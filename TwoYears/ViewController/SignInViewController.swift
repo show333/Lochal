@@ -12,6 +12,7 @@ import BATabBarController
 import TransitionButton
 import FirebaseFirestore
 import SwiftUI
+import Nuke
 
 
 
@@ -20,7 +21,23 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var idTextField: UITextField!
     @IBOutlet weak var explainLabel: UILabel!
     
+    @IBOutlet weak var backGroundImageView: UIImageView!
     let db = Firestore.firestore()
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        
+        let backGroundString = "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
+        
+        
+        if let url = URL(string:backGroundString) {
+            Nuke.loadImage(with: url, into: backGroundImageView)
+        } else {
+            backGroundImageView.image = nil
+        }
+    }
     
     
     override func viewDidLoad() {
@@ -34,17 +51,18 @@ class SignInViewController: UIViewController {
         }
         
         explainLabel.alpha = 0
-        view.backgroundColor = #colorLiteral(red: 0.9402339228, green: 0.9045240944, blue: 0.8474154538, alpha: 1)
         let width = UIScreen.main.bounds.size.width
         let height = UIScreen.main.bounds.size.height
         let button = TransitionButton(frame:CGRect(x:width/4,y:height/2.5,width:width/2,height:50)); // please use Autolayout in real project
         
         self.view.addSubview(button)
         
-        button.backgroundColor = #colorLiteral(red: 0, green: 0.9052245021, blue: 0.6851730943, alpha: 1)
+        button.backgroundColor = .darkGray
         button.setTitle("Enter", for: .normal)
         button.cornerRadius = 20
-        button.spinnerColor = .white
+        button.spinnerColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+
+
         
         button.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
         
@@ -73,6 +91,8 @@ class SignInViewController: UIViewController {
                             for document in querySnapshot!.documents {
                                 let referralUserlId = document.data()["userId"] as? String ?? ""
                                 UserDefaults.standard.set(referralUserlId, forKey: "referralUserlId")
+                                let uid = Auth.auth().currentUser?.uid
+                                db.collection("RefferalId").document(referralId).setData(["invitedUserId":uid ?? "unKnown"], merge: true)
                             }
                             
                         } else {
@@ -90,6 +110,8 @@ class SignInViewController: UIViewController {
                                                 let referralUserlId = document.data()["userId"] as? String ?? ""
                                                 UserDefaults.standard.set(referralUserlId, forKey: "referralUserlId")
                                             }
+                                            
+                         
                                             
                                         } else {
                                             
