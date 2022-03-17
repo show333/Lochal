@@ -103,10 +103,14 @@ class ThankyouVC:UIViewController {
         db.collection("users").document(uid).collection("TimeLine").document(documentId).setData(timeLineDoc)
         db.collection("users").document(uid).collection("SendedPost").document(documentId).setData(sendedPostDoc)
         
+        let userToken = UserDefaults.standard.string(forKey: "FCM_TOKEN")
+        
         let addNumber = [
             //        welcome と refferalの許可したぶんを合わせて2つ
             "notificationNum": FieldValue.increment(2.0),
-            "referralCount": 15
+            "referralCount": 15,
+            "currentTime":FieldValue.serverTimestamp(),
+            "fcmToken":userToken ?? ""
         ] as [String:Any]
         db.collection("users").document(uid).setData(addNumber, merge: true)
         

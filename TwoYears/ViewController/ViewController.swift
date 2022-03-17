@@ -116,14 +116,22 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     @IBOutlet weak var bubuButton: UIButton!
     @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet var backView: UIView!
-    
-    
-    
     @IBOutlet weak var backGroundImageView: UIImageView!
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 //        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
+        
+        
+        let backGroundString = UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
+        
+        
+        if let url = URL(string:backGroundString) {
+            Nuke.loadImage(with: url, into: backGroundImageView)
+        } else {
+            backGroundImageView.image = nil
+        }
         
     }
     
@@ -133,20 +141,20 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         
         self.tabBarController?.tabBar.isHidden = false
         
-        if UserDefaults.standard.bool(forKey: "FirstPost") != true{
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            UserDefaults.standard.set(true, forKey: "FirstPost")
-            let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
-            let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou") as! sinkitoukou
-            sinkitoukou.modalPresentationStyle = .fullScreen
-            self.present(sinkitoukou, animated: true, completion: nil)
-            Firestore.firestore().collection("users").document(uid).setData(["currentTime": FieldValue.serverTimestamp()], merge: true)
-        } else {
+//        if UserDefaults.standard.bool(forKey: "FirstPost") != true{
+//            guard let uid = Auth.auth().currentUser?.uid else { return }
+//            UserDefaults.standard.set(true, forKey: "FirstPost")
+//            let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
+//            let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou") as! sinkitoukou
+//            sinkitoukou.modalPresentationStyle = .fullScreen
+//            self.present(sinkitoukou, animated: true, completion: nil)
+//            Firestore.firestore().collection("users").document(uid).setData(["currentTime": FieldValue.serverTimestamp()], merge: true)
+//        } else {
             if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
                 UserDefaults.standard.set(true, forKey: "OutMemoInstract")
                 self.coachMarksController.start(in: .currentWindow(of: self))
             }
-        }
+//        }
     }
     
     
@@ -166,11 +174,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         notificationNumber.clipsToBounds = true
         notificationNumber.layer.cornerRadius = 10
 
-        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2Fsplashbackground.jpeg?alt=media&token=4c2fd869-a146-4182-83aa-47dd396f1ad6") {
-            Nuke.loadImage(with: url, into: backGroundImageView)
-        } else {
-            backGroundImageView.image = nil
-        }
+
         
         
         

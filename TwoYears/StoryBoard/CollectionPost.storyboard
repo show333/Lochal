@@ -46,7 +46,7 @@
                                                                 </connections>
                                                             </button>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="trailing" secondItem="o7F-SW-udf" secondAttribute="trailing" id="0Hv-S7-9lP"/>
                                                             <constraint firstItem="o7F-SW-udf" firstAttribute="top" secondItem="ZaF-KY-RDn" secondAttribute="top" id="1N1-jd-eF1"/>
@@ -74,7 +74,7 @@
                                                                 </connections>
                                                             </button>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstItem="eDr-BJ-a0V" firstAttribute="leading" secondItem="5vm-Qd-WrQ" secondAttribute="leading" id="1Mt-Nf-FWQ"/>
                                                             <constraint firstAttribute="bottom" secondItem="eDr-BJ-a0V" secondAttribute="bottom" id="CGO-G4-BNh"/>
@@ -102,7 +102,7 @@
                                                                 </connections>
                                                             </button>
                                                         </subviews>
-                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="bottom" secondItem="neS-3N-pOm" secondAttribute="bottom" id="2DP-kI-cdk"/>
                                                             <constraint firstItem="neS-3N-pOm" firstAttribute="leading" secondItem="0kP-pB-ag9" secondAttribute="leading" id="D1k-hy-N6f"/>
@@ -296,9 +296,6 @@
     <resources>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

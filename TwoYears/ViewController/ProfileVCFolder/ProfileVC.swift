@@ -275,8 +275,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 print("Document does not exist")
             }
         }
-        
-
     }
     
     func unChain(){
@@ -496,7 +494,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         fetchNotification(userId:uid)
         fetchUserProfile(userId: userId ?? "unKnown")
         fetchUserTeamInfo(userId:userId ?? "unKnown")
-        fetchUnitPostInfo(userId: userId ?? "unKnown")
+        fetchPostInfo(userId: userId ?? "unKnown")
         self.postCollectionView.reloadData()
 
     }
@@ -509,7 +507,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 // 0.5秒後に実行したい処理
-                self?.fetchUnitPostInfo(userId: self?.userId ?? "unKnown")
+                self?.fetchPostInfo(userId: self?.userId ?? "unKnown")
             }
      
             self?.postCollectionView.refreshControl?.endRefreshing()
@@ -599,7 +597,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
     }
     
-    func fetchUnitPostInfo(userId:String){
+    func fetchPostInfo(userId:String){
         
         db.collection("users").document(userId).collection("SendedPost").addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
@@ -613,15 +611,14 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     let dic = Naruto.document.data()
                     let sendedPostInfoDic = PostInfo(dic: dic)
                     
+                    if sendedPostInfoDic.releaseBool != false {
+                        self.postInfo.append(sendedPostInfoDic)
+                    } else {
+
+                    }
+
+
                     
-//                    if sendedPostInfoDic. == true {
-//                    } else{
-//                        if momentType >= moment() - 7.days {
-//                            self.outMemo.append(rarabai)
-//                        }
-//                        
-//                    }
-                    self.postInfo.append(sendedPostInfoDic)
                     
                     self.postInfo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()

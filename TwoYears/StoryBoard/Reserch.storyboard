@@ -35,6 +35,14 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.25" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="G82-9c-2XV">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9ZT-HK-rRf">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Mis-5w-TUd">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="shi-qI-DuU">
                                 <rect key="frame" x="0.0" y="44" width="414" height="80"/>
                                 <subviews>
@@ -190,6 +198,8 @@
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="9ZT-HK-rRf" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="6bE-XU-HPf"/>
+                            <constraint firstItem="9ZT-HK-rRf" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="88C-OY-Z72"/>
                             <constraint firstItem="k7G-Nw-sc1" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="A0c-lb-XgO"/>
                             <constraint firstItem="G82-9c-2XV" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="AHg-ul-74o"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="k7G-Nw-sc1" secondAttribute="trailing" id="CD3-BJ-NC8"/>
@@ -201,10 +211,12 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Vxg-Qg-rNy" secondAttribute="bottom" constant="30" id="T3a-qG-xlb"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="shi-qI-DuU" secondAttribute="trailing" id="Uc8-ud-8DU"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="eVS-nb-jPe" secondAttribute="bottom" constant="25" id="ayx-l3-8Jp"/>
+                            <constraint firstAttribute="bottom" secondItem="9ZT-HK-rRf" secondAttribute="bottom" id="blT-rL-yA4"/>
                             <constraint firstItem="shi-qI-DuU" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="bt1-m7-hSr"/>
                             <constraint firstItem="k7G-Nw-sc1" firstAttribute="top" secondItem="shi-qI-DuU" secondAttribute="bottom" constant="100" id="ce7-Ej-pS5"/>
                             <constraint firstItem="k7G-Nw-sc1" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="eEJ-mn-vgn"/>
                             <constraint firstItem="shi-qI-DuU" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="eet-cs-wJ4"/>
+                            <constraint firstItem="9ZT-HK-rRf" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="kQ3-qe-Kxm"/>
                             <constraint firstItem="G82-9c-2XV" firstAttribute="top" secondItem="5EZ-qb-Rvc" secondAttribute="top" id="pul-kk-KAq"/>
                             <constraint firstAttribute="bottom" secondItem="G82-9c-2XV" secondAttribute="bottom" id="s7M-sX-gLU"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="w8y-ow-RRY" secondAttribute="bottom" id="uKq-NK-F6D"/>

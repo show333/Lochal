@@ -1114,7 +1114,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TOTALGOOD.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FSBHB8CT4;
 				INFOPLIST_FILE = TwoYears/Info.plist;
@@ -1123,7 +1123,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.1;
+				MARKETING_VERSION = 4.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = zebra.TOTALGOOD;
 				PRODUCT_NAME = TOTALGOOD;
 				SWIFT_OBJC_BRIDGING_HEADER = "TwoYears/TOTALGOOD-Bridging-Header.h";
@@ -1142,7 +1142,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TOTALGOOD.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5FSBHB8CT4;
 				INFOPLIST_FILE = TwoYears/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
@@ -1150,7 +1150,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.1;
+				MARKETING_VERSION = 4.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = zebra.TOTALGOOD;
 				PRODUCT_NAME = TOTALGOOD;
 				SWIFT_OBJC_BRIDGING_HEADER = "TwoYears/TOTALGOOD-Bridging-Header.h";
