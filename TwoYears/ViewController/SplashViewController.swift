@@ -71,10 +71,6 @@ class SplashViewController: UIViewController {
                 } else {
                     presentSignInVC()
                 }
-                
-                
-                
-                
             } else {
                 print("Document does not exist")
                 

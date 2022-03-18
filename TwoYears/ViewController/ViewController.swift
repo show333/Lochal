@@ -322,6 +322,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
+        
+        
+        let safeAreaWidth = UIScreen.main.bounds.size.width
 
 
         cell.messageLabel.text = outMemo[indexPath.row].message
@@ -341,16 +344,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.graffitiContentsImageView.image = nil
         
-        if let url = URL(string:outMemo[indexPath.row].graffitiContentsImage) {
-            Nuke.loadImage(with: url, into: cell.graffitiContentsImageView)
-        } else {
-            cell.graffitiContentsImageView?.image = nil
-        }
+     
         
         cell.graffitiUserFrontIdLabel.text = outMemo[indexPath.row].graffitiUserFrontId
         
         cell.graffitiTitleLabel.text = outMemo[indexPath.row].graffitiTitle
+        cell.graffitiLabel.text = outMemo[indexPath.row].graffitiTitle
+        cell.graffitiLabel.font = UIFont(name:outMemo[indexPath.row].textFontName, size:safeAreaWidth/6)
         
+        cell.graffitiLabel.textColor = UIColor(hex: outMemo[indexPath.row].hexColor)
+        cell.graffitiTitleLabel.textColor = UIColor(hex: outMemo[indexPath.row].hexColor)
+        cell.graffitiBackGroundView.backgroundColor = UIColor(hex: outMemo[indexPath.row].backHexColor)
+        
+//        cell.userFrontIdLabel.textColor = .lightGray
+//        cell.userFrontIdLabel.font = UIFont.italicSystemFont(ofSize: safeAreaWidth/20)
+
         cell.graffitiBackGroundView.clipsToBounds = true
         cell.graffitiBackGroundView.layer.cornerRadius = 10
         
@@ -359,7 +367,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         cell.messageBottomConstraint.constant =  105
-
+        
+//        cell.graffitiImageViewWidthConstraint.constant = safeAreaWidth/1.5
+//        cell.graffitiImageViewHeightConstraint.constant = safeAreaWidth/1.5
+        
+        let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+        cell.graffitiLabel.transform = transScale
+        
+        //        cell.graffitiImageView.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
+        
         if  outMemo[indexPath.row].readLog == true {
             cell.coverView.backgroundColor = .clear
             cell.coverViewConstraint.constant = 0
@@ -370,6 +386,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             if outMemo[indexPath.row].graffitiUserId != "" {
                 
+                
                 if outMemo[indexPath.row].delete == true {
                     cell.graffitiBackGroundConstraint.constant = 0
                     cell.graffitiBackGroundView.alpha = 0
@@ -378,13 +395,38 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.graffitiUserImageView.alpha = 0
                     cell.graffitiContentsImageView.alpha = 0
                 } else {
-                cell.graffitiBackGroundConstraint.constant = 700
-                cell.graffitiBackGroundView.alpha = 1
-                cell.graffitiUserFrontIdLabel.alpha = 1
-                cell.graffitiTitleLabel.alpha = 1
-                cell.graffitiUserImageView.alpha = 1
-                cell.graffitiContentsImageView.alpha = 1
+                    
+                    
+                    if let url = URL(string:outMemo[indexPath.row].graffitiContentsImage) {
+                        Nuke.loadImage(with: url, into: cell.graffitiContentsImageView)
+                        
+                        cell.graffitiImageViewWidthConstraint.constant = safeAreaWidth/1.5
+                        cell.graffitiImageViewHeightConstraint.constant = safeAreaWidth/1.5
+                        cell.graffitiTitleLabel.alpha = 1
+                        cell.graffitiLabel.alpha = 0
+
+                    } else {
+                        cell.graffitiContentsImageView?.image = nil
+                        
+                        cell.graffitiImageViewWidthConstraint.constant = 0
+                        cell.graffitiImageViewHeightConstraint.constant = 0
+                        cell.graffitiTitleLabel.alpha = 0
+                        cell.graffitiLabel.alpha = 1
+
+                    }
+                    
+                    
+                    cell.graffitiBackGroundConstraint.constant = 700
+                    cell.graffitiBackGroundView.alpha = 1
+                    cell.graffitiUserFrontIdLabel.alpha = 1
+                    
+                    cell.graffitiUserImageView.alpha = 1
+                    cell.graffitiContentsImageView.alpha = 1
+                    
                 }
+                
+                
+                
             } else {
                 cell.graffitiBackGroundConstraint.constant = 0
                 cell.graffitiBackGroundView.alpha = 0
@@ -392,7 +434,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.graffitiTitleLabel.alpha = 0
                 cell.graffitiUserImageView.alpha = 0
                 cell.graffitiContentsImageView.alpha = 0
-
             }
             
         } else {

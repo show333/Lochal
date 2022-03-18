@@ -78,6 +78,8 @@ class OutmMemoCellVC: UITableViewCell {
     
     @IBOutlet weak var graffitiBackGroundView: UIView!
     @IBOutlet weak var graffitiBackGroundConstraint: NSLayoutConstraint!
+    @IBOutlet weak var graffitiImageViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var graffitiImageViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var graffitiUserImageView: UIImageView!
     
     @IBOutlet weak var graffitiUserFrontIdLabel: UILabel!
@@ -86,6 +88,7 @@ class OutmMemoCellVC: UITableViewCell {
     
     @IBOutlet weak var graffitiTitleLabel: UILabel!
     
+    @IBOutlet weak var graffitiLabel: UILabel!
     
     
     override func awakeFromNib() {
@@ -254,6 +257,7 @@ class OutmMemoCellVC: UITableViewCell {
         detailPostVC.postInfoDoc = outMemo?.documentId
         detailPostVC.postInfoImage = outMemo?.graffitiContentsImage
         detailPostVC.profileUserId = uid
+        detailPostVC.postHexColor = outMemo?.hexColor
         detailPostVC.tabBarController?.tabBar.isHidden = true
         ViewController()?.navigationController?.navigationBar.isHidden = false
         ViewController()?.navigationController?.pushViewController(detailPostVC, animated: true)

@@ -60,7 +60,7 @@ class OutMemo {
         
         self.hexColor = dic["hexColor"] as? String ?? ""
         self.backHexColor = dic["backHexColor"] as? String ?? ""
-        self.textFontName = dic["textFontName"] as? String ?? ""
+        self.textFontName = dic["textFontName"] as? String ?? "Southpaw"
         
         self.readLog = dic["readLog"] as? Bool ?? false
         self.admin = dic["admin"] as? Bool ?? false
