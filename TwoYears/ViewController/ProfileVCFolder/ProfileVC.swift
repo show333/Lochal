@@ -136,31 +136,24 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                       statusChain = ""
                       
                   } else if statusChain == "accept" {
-                      followButton.setTitle("コネクトする", for: .normal)
-                      followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-                      followButton.setTitleColor(UIColor.darkGray, for: .normal)
-                      unChain()
-                      db.collection("users").document(uid ?? "").setData(["ConnectionsCount": FieldValue.increment(-1.0)], merge: true)
-                      db.collection("users").document(userId ?? "").setData(["ConnectionsCount": FieldValue.increment(-1.0)], merge: true)
-                      statusChain = ""
+                      confirmationAlert()
                   } else if statusChain == "gotRequest" {
                       
                       followButton.backgroundColor = .darkGray
-                      followButton.setTitle("コネクト済み", for: .normal)
+                      followButton.setTitle("コネクト中", for: .normal)
                       followButton.setTitleColor(UIColor.white, for: .normal)
                       followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
                       doChain()
                       postBackGroundView.alpha = 1
                       postOtherLabel.alpha = 0
                       statusChain = "accept"
-                      
                   }
                   
               } else {
                   print("Document does not exist")
                   
                   followButton.backgroundColor = .darkGray
-                  followButton.setTitle("リクエスト中", for: .normal)
+                  followButton.setTitle("リクエスト済み", for: .normal)
                   followButton.setTitleColor(UIColor.white, for: .normal)
                   chainRequest()
                   statusChain = "sendRequest"
@@ -168,6 +161,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
               }
           }
     }
+    
+    
     
     
     
@@ -184,6 +179,32 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         let storyboard = UIStoryboard.init(name: "Settings", bundle: nil)
         let SettingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
         navigationController?.pushViewController(SettingsVC, animated: true)
+    }
+    
+    
+    func confirmationAlert() {
+        let alert = UIAlertController(title: "コネクト解除", message: "コネクトを解除してもよろしいですか？", preferredStyle: .alert)
+        
+        let delete = UIAlertAction(title: "解除", style: .default, handler: { [self] (action) -> Void in
+            print("Delete button tapped")
+            
+            followButton.setTitle("コネクトする", for: .normal)
+            followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            followButton.setTitleColor(UIColor.darkGray, for: .normal)
+            unChain()
+            db.collection("users").document(uid ?? "").setData(["ConnectionsCount": FieldValue.increment(-1.0)], merge: true)
+            db.collection("users").document(userId ?? "").setData(["ConnectionsCount": FieldValue.increment(-1.0)], merge: true)
+            statusChain = ""
+        })
+        
+        let cancel = UIAlertAction(title: "キャンセル", style: .cancel, handler: { (action) -> Void in
+            print("Cancel button tapped")
+        })
+        
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     func doChain(){
@@ -665,7 +686,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 if sendBool == true {
                     statusChain = "sendRequest"
                     followButton.backgroundColor = .darkGray
-                    followButton.setTitle("リクエスト中", for: .normal)
+                    followButton.setTitle("リクエスト済み", for: .normal)
                     followButton.setTitleColor(UIColor.white, for: .normal)
                     postOtherLabel.alpha = 1
                     postBackGroundView.alpha = 0
@@ -686,7 +707,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 } else if acceptBool == true {
                     statusChain = "accept"
                     followButton.backgroundColor = .darkGray
-                    followButton.setTitle("コネクト済み", for: .normal)
+                    followButton.setTitle("コネクト中", for: .normal)
                     followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
                     postOtherLabel.alpha = 0
                     postBackGroundView.alpha = 1

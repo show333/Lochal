@@ -20,6 +20,7 @@ class ReMemoPostVC:UIViewController {
     var userFrontId: String?
     var hexColor:String?
     var fontName:String?
+    var backHexColor:String?
     
     
     
@@ -66,7 +67,10 @@ class ReMemoPostVC:UIViewController {
     @IBOutlet weak var graffitiUserLabel: UILabel!
     @IBOutlet weak var graffitiContentsImageView: UIImageView!
     @IBOutlet weak var graffitiTitleLabel: UILabel!
+    @IBOutlet weak var graffitiLabel: UILabel!
     
+    @IBOutlet weak var graffitiImageWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var graffitiImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var commentTextViewConstraint: NSLayoutConstraint!
     
     
@@ -86,6 +90,7 @@ class ReMemoPostVC:UIViewController {
         guard let graffitiTitle = postInfoTitle else {return}
         
         let hexColorString = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1).toHexString()
+        let hexBackColorString = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162).toHexString()
 
         
         let db = Firestore.firestore()
@@ -107,6 +112,7 @@ class ReMemoPostVC:UIViewController {
             "graffitiTitle":graffitiTitle,
             "graffitiContentsImage":graffitiContentsImage,
             "hexColor": hexColor ?? hexColorString,
+            "backHexColor":backHexColor ?? hexBackColorString,
             "textFontName":fontName ?? "",
             "readLog": false,
             "anonymous":false,
@@ -132,6 +138,7 @@ class ReMemoPostVC:UIViewController {
             "graffitiTitle":graffitiTitle,
             "graffitiContentsImage":graffitiContentsImage,
             "hexColor": hexColor ?? hexColorString,
+            "backHexColor":backHexColor ?? hexBackColorString,
             "textFontName":fontName ?? "",
             "anonymous":false,
             "admin": false,
@@ -172,11 +179,20 @@ class ReMemoPostVC:UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+
         graffitiUserLabel.text = userFrontId
         graffitiTitleLabel.text = postInfoTitle
         graffitiTitleLabel.font = UIFont(name:"03SmartFontUI", size:16)
-
+        let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+        graffitiLabel.transform = transScale
+        graffitiLabel.font = UIFont(name: fontName ?? "Southpaw", size: safeAreaWidth/8)
+        graffitiLabel.text = postInfoTitle
+        
+        let hexColorString = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1).toHexString()
+        let UITextColor = UIColor(hex: hexColor ?? hexColorString)
+        graffitiLabel.textColor = UITextColor
+        
         let safeAreaHeight = UIScreen.main.bounds.size.height
         
         commentTextViewConstraint.constant = safeAreaHeight/8
@@ -189,6 +205,9 @@ class ReMemoPostVC:UIViewController {
         
         graffitiBackGroundView.clipsToBounds = true
         graffitiBackGroundView.layer.cornerRadius = 10
+        let hexBackColorString = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162).toHexString()
+
+        graffitiBackGroundView.backgroundColor = UIColor(hex: backHexColor ?? hexBackColorString)
         
         self.commentTextView.delegate = self
 
@@ -203,8 +222,9 @@ class ReMemoPostVC:UIViewController {
         sendButton.backgroundColor = .gray
         sendButton.clipsToBounds = true
         sendButton.layer.cornerRadius = 5
-
         
+      
+
 
         
         if let url = URL(string:userImage ?? "") {
@@ -215,8 +235,18 @@ class ReMemoPostVC:UIViewController {
         
         if let url = URL(string:postInfoImage ?? "") {
             Nuke.loadImage(with: url, into: graffitiContentsImageView)
+            graffitiTitleLabel.alpha = 1
+            graffitiLabel.alpha = 0
+            graffitiImageWidthConstraint.constant = safeAreaWidth/2
+            graffitiImageViewHeightConstraint.constant = safeAreaWidth/2
         } else {
             graffitiContentsImageView.image = nil
+            graffitiTitleLabel.alpha = 0
+            graffitiLabel.alpha = 1
+            graffitiImageWidthConstraint.constant = safeAreaWidth/2
+
+            graffitiImageViewHeightConstraint.constant = 0
+
         }
     }
 }

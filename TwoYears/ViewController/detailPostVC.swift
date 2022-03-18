@@ -27,6 +27,7 @@ class detailPostVC:UIViewController {
     var userImage: String?
     var userFrontId: String?
     var originImage : UIImage?
+    var backHexColor : String?
     var backTapCount = 0
 
     
@@ -113,6 +114,7 @@ class detailPostVC:UIViewController {
         ReMemoPostVC.userImage = self.userImage
         ReMemoPostVC.hexColor = self.postHexColor
         ReMemoPostVC.fontName = self.postTextFontName
+        ReMemoPostVC.backHexColor = self.backHexColor
 
         self.present(ReMemoPostVC, animated: true, completion: nil)
         
@@ -246,6 +248,7 @@ class detailPostVC:UIViewController {
         setSwipeBack()
         
         backGroundView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
+        backHexColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162).toHexString()
         userFrontIdLabel.textColor = .lightGray
         userFrontIdLabel.font = UIFont.italicSystemFont(ofSize: safeAreaWidth/20)
         
@@ -400,18 +403,30 @@ class detailPostVC:UIViewController {
         case 1:
             backGroundView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8974241918)
             userFrontIdLabel.textColor = .darkGray
+            backHexColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.8974241918).toHexString()
+
+            
         case 2 :
             backGroundView.backgroundColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 0.8966493152)
             userFrontIdLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            backHexColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 0.8966493152).toHexString()
+
         case 3 :
             backGroundView.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.9457381246, blue: 0.7684240747, alpha: 0.9)
             userFrontIdLabel.textColor = .white
+            backHexColor = #colorLiteral(red: 0.9764705896, green: 0.9457381246, blue: 0.7684240747, alpha: 0.9).toHexString()
+
         case 4 :
             backGroundView.backgroundColor = .clear
             userFrontIdLabel.textColor = .white
+            backHexColor = UIColor.clear.toHexString()
+
         default:
             backGroundView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
             userFrontIdLabel.textColor = .lightGray
+            backHexColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162).toHexString()
+            
+
         }
         
     }
