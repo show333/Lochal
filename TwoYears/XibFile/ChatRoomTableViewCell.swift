@@ -45,6 +45,7 @@ class ChatRoomTableViewCell: UITableViewCell, TTTAttributedLabelDelegate{
         }
     }
     
+
     @IBOutlet weak var Imageheight: NSLayoutConstraint!
     @IBOutlet weak var sendImageView: UIImageView!
     @IBOutlet weak var imageRightConstraint: NSLayoutConstraint!

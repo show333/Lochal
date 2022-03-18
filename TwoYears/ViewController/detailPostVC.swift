@@ -111,6 +111,8 @@ class detailPostVC:UIViewController {
         ReMemoPostVC.userFrontId = self.userFrontId
         ReMemoPostVC.userName = self.userName
         ReMemoPostVC.userImage = self.userImage
+        ReMemoPostVC.hexColor = self.postHexColor
+        ReMemoPostVC.fontName = self.postTextFontName
 
         self.present(ReMemoPostVC, animated: true, completion: nil)
         
@@ -345,28 +347,16 @@ class detailPostVC:UIViewController {
             UIPasteboard.general.setItems(items as! [[String : Any]], options: [:])
             UIApplication.shared.open(url!, options: [:], completionHandler: nil)
         } else {
-            // xxxアプリがインストールされていない
-            // ボタンを押下した時にアラートを表示するメソッド
-
-                // ① UIAlertControllerクラスのインスタンスを生成
-                // タイトル, メッセージ, Alertのスタイルを指定する
-                // 第3引数のpreferredStyleでアラートの表示スタイルを指定する
+  
             let alert: UIAlertController = UIAlertController(title: "Instagram", message: "をインストールしてください", preferredStyle:  UIAlertController.Style.alert)
 
-                // ② Actionの設定
-                // Action初期化時にタイトル, スタイル, 押された時に実行されるハンドラを指定する
-                // 第3引数のUIAlertActionStyleでボタンのスタイルを指定する
-                // OKボタン
             let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
-                    // ボタンが押された時の処理を書く（クロージャ実装）
                     (action: UIAlertAction!) -> Void in
                     print("OK")
                 })
 
-                // ③ UIAlertControllerにActionを追加
                 alert.addAction(defaultAction)
 
-                // ④ Alertを表示
             present(alert, animated: true, completion: nil)
             }
     }

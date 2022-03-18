@@ -425,6 +425,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(flagButtonEvemt), for: UIControl.Event.touchUpInside)
         
+        cell.shareButton.tag = indexPath.row
+        cell.shareButton.addTarget(self, action: #selector(shareStickerImage), for: UIControl.Event.touchUpInside)
+        cell.shareButton.alpha = 0
+        
         cell.userImageView.image = nil
         
         //↓tableviewのunit表示
@@ -538,54 +542,82 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //                print("Document does not exist")
 //            }
 //        }
-//    }
-    
-    
-    @objc func flagButtonEvemt(_ sender: UIButton){
-        //アラート生成
-        //UIAlertControllerのスタイルがactionSheet
-        let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+    //    }
+    @objc func shareStickerImage(_ sender: UIButton){
+                if UIApplication.shared.canOpenURL(URL(string: "instagram-stories://share")!) {
         
-        let uid = Auth.auth().currentUser?.uid
-        let report = [
-            "reporter": uid,
-            "documentId": outMemo[sender.tag].documentId,
-            "問題のコメント": outMemo[sender.tag].message,
-            "問題と思われるユーザー": outMemo[sender.tag].userId,
-            "createdAt": FieldValue.serverTimestamp(),
-        ] as [String: Any]
+        let indexPath = IndexPath(row:sender.tag , section: 0)
+        let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
+        let image = cell.storyBackView.asImage()
         
+        let backGroundImage:UIImage = UIImage(url:UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d")
+        let url = URL(string: "instagram-stories://share")
+        let items: NSArray = [["com.instagram.sharedSticker.stickerImage": image,
+                               "com.instagram.sharedSticker.backgroundImage": backGroundImage,
+                               "com.instagram.sharedSticker.backgroundTopColor": "#00ffdf",
+                               "com.instagram.sharedSticker.backgroundBottomColor": "#ff00ff"]]
+        UIPasteboard.general.setItems(items as! [[String : Any]], options: [:])
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+    } else {
         
-        // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
-        let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
-            (action: UIAlertAction!) in
-            //実際の処理
-            let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
-               // 選択肢(ボタン)を2つ(OKとCancel)追加します
-               //   titleには、選択肢として表示される文字列を指定します
-               //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
-               dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
-                   
-                   if UserDefaults.standard.object(forKey: "blocked") == nil{
-                       let XXX = ["XX" : true]
-                       UserDefaults.standard.set(XXX, forKey: "blocked")
-                   }
-                   var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
-                   
-                   print("あいえいえいいえいえ",outMemo[sender.tag].userId)
-                   blockDic[outMemo[sender.tag].userId] = true
-                   UserDefaults.standard.set(blockDic, forKey: "blocked")
-   //                let uid = Auth.auth().currentUser?.uid
-                   
-                   print("tapped: \([sender.tag])番目のcell")
-                   
-                   
+        let alert: UIAlertController = UIAlertController(title: "Instagram", message: "をインストールしてください", preferredStyle:  UIAlertController.Style.alert)
+        
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+            (action: UIAlertAction!) -> Void in
+            print("OK")
+        })
+        
+        alert.addAction(defaultAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+}
 
-                   self.outMemo.remove(at: sender.tag)
-                   self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
-                   self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
-                   self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
-               }))
+@objc func flagButtonEvemt(_ sender: UIButton){
+    //アラート生成
+    //UIAlertControllerのスタイルがactionSheet
+    let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+    
+    let uid = Auth.auth().currentUser?.uid
+    let report = [
+        "reporter": uid,
+        "documentId": outMemo[sender.tag].documentId,
+        "問題のコメント": outMemo[sender.tag].message,
+        "問題と思われるユーザー": outMemo[sender.tag].userId,
+        "createdAt": FieldValue.serverTimestamp(),
+    ] as [String: Any]
+    
+    
+    // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
+    let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
+        (action: UIAlertAction!) in
+        //実際の処理
+        let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
+        // 選択肢(ボタン)を2つ(OKとCancel)追加します
+        //   titleには、選択肢として表示される文字列を指定します
+        //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
+        dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
+            
+            if UserDefaults.standard.object(forKey: "blocked") == nil{
+                let XXX = ["XX" : true]
+                UserDefaults.standard.set(XXX, forKey: "blocked")
+            }
+            var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
+            
+            print("あいえいえいいえいえ",outMemo[sender.tag].userId)
+            blockDic[outMemo[sender.tag].userId] = true
+            UserDefaults.standard.set(blockDic, forKey: "blocked")
+            //                let uid = Auth.auth().currentUser?.uid
+            
+            print("tapped: \([sender.tag])番目のcell")
+            
+            
+            
+            self.outMemo.remove(at: sender.tag)
+            self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
+            self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
+            self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
+        }))
                dialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                // 生成したダイアログを実際に表示します
                self.present(dialog, animated: true, completion: nil)

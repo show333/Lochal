@@ -142,6 +142,11 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kTh-pt-zYW">
+                                <rect key="frame" x="285.5" y="0.0" width="67" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -154,7 +159,9 @@
                             <constraint firstItem="gon-bN-2gl" firstAttribute="leading" secondItem="d5v-Ae-2Gy" secondAttribute="trailing" constant="10" id="FHq-UU-fO5"/>
                             <constraint firstItem="wjY-NW-an1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fwo-6A-PV4" secondAttribute="trailing" constant="10" id="KLo-Hf-Tdh"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sWo-uG-4Zf" secondAttribute="trailing" constant="25" id="LUs-td-JWF"/>
+                            <constraint firstItem="kTh-pt-zYW" firstAttribute="top" secondItem="Mlo-xR-Nve" secondAttribute="top" id="MC5-XL-ZXv"/>
                             <constraint firstItem="lBn-7A-AmF" firstAttribute="leading" secondItem="Mlo-xR-Nve" secondAttribute="leading" id="RAs-dh-cvt"/>
+                            <constraint firstItem="kTh-pt-zYW" firstAttribute="centerX" secondItem="Mlo-xR-Nve" secondAttribute="centerX" id="SnR-Wd-729"/>
                             <constraint firstItem="fwo-6A-PV4" firstAttribute="leading" secondItem="d5v-Ae-2Gy" secondAttribute="trailing" constant="5" id="TOz-pc-i6I"/>
                             <constraint firstItem="d5v-Ae-2Gy" firstAttribute="top" secondItem="Mlo-xR-Nve" secondAttribute="top" constant="15" id="Thh-MK-jy0"/>
                             <constraint firstItem="h4u-0T-e8x" firstAttribute="leading" secondItem="wjY-NW-an1" secondAttribute="trailing" constant="5" id="iLO-s1-0tb"/>
@@ -203,6 +210,8 @@
                 <outlet property="messageBottomConstraint" destination="2ab-Mz-YFO" id="9Q7-ZU-qWv"/>
                 <outlet property="messageLabel" destination="sWo-uG-4Zf" id="3MO-z3-fil"/>
                 <outlet property="shadowLayer" destination="wzH-sz-3v6" id="zr0-Gb-xBh"/>
+                <outlet property="shareButton" destination="kTh-pt-zYW" id="fid-LF-Asb"/>
+                <outlet property="storyBackView" destination="kCy-zL-2cc" id="IIv-FK-fGY"/>
                 <outlet property="teamCollectionView" destination="gon-bN-2gl" id="hoR-sT-v3d"/>
                 <outlet property="textMaskLabel" destination="5c3-B3-LvT" id="VHs-p8-gqe"/>
                 <outlet property="userFrontIdLabel" destination="fwo-6A-PV4" id="cTO-c5-9b7"/>

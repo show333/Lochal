@@ -48,7 +48,10 @@ class OutmMemoCellVC: UITableViewCell {
         messageLabel.backgroundColor = .clear
     }
     
+    @IBOutlet weak var shareButton: UIButton!
     
+
+    @IBOutlet weak var storyBackView: UIView!
     
     @IBOutlet weak var userFrontIdLabel: UILabel!
     @IBOutlet weak var backBack: UIView!
@@ -269,6 +272,7 @@ class OutmMemoCellVC: UITableViewCell {
         formatter.locale = Locale(identifier: "ja_JP")
         return formatter.string(from: date)
     }
+   
 }
 
 extension OutmMemoCellVC :UICollectionViewDataSource,UICollectionViewDelegate {

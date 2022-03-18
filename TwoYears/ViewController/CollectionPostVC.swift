@@ -51,7 +51,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     @IBOutlet weak var fontBackLabel: UILabel!
     @IBOutlet weak var fontButton: UIButton!
     @IBAction func fontTappedButton(_ sender: Any) {
-        
         let storyboard = UIStoryboard.init(name: "FontCollection", bundle: nil)
         let FontCollectionVC = storyboard.instantiateViewController(withIdentifier: "FontCollectionVC") as! FontCollectionVC
         self.present(FontCollectionVC, animated: true, completion: nil)

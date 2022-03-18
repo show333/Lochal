@@ -18,6 +18,8 @@ class ReMemoPostVC:UIViewController {
     var userName: String?
     var userImage: String?
     var userFrontId: String?
+    var hexColor:String?
+    var fontName:String?
     
     
     
@@ -82,6 +84,8 @@ class ReMemoPostVC:UIViewController {
         guard let graffitiUserFrontId = userFrontId else {return}
         guard let graffitiContentsImage = postInfoImage else {return}
         guard let graffitiTitle = postInfoTitle else {return}
+        
+        let hexColorString = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1).toHexString()
 
         
         let db = Firestore.firestore()
@@ -102,6 +106,8 @@ class ReMemoPostVC:UIViewController {
             "graffitiUserImage":graffitiUserImage,
             "graffitiTitle":graffitiTitle,
             "graffitiContentsImage":graffitiContentsImage,
+            "hexColor": hexColor ?? hexColorString,
+            "textFontName":fontName ?? "",
             "readLog": false,
             "anonymous":false,
             "admin": false,
@@ -125,6 +131,8 @@ class ReMemoPostVC:UIViewController {
             "graffitiUserImage":graffitiUserImage,
             "graffitiTitle":graffitiTitle,
             "graffitiContentsImage":graffitiContentsImage,
+            "hexColor": hexColor ?? hexColorString,
+            "textFontName":fontName ?? "",
             "anonymous":false,
             "admin": false,
             "delete": false,
