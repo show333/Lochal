@@ -71,7 +71,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     @IBAction func sendTappedButton(_ sender: Any) {
         
         print("aaa")
-        
         if imageString != nil {
             sendImage()
         } else {
@@ -512,6 +511,20 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
             setNotification(userId: uid, postImage: "",docString:docString,imageString: "")
         }
         
+        
+        guard let tabcon = presentingViewController as? TabbarController else {
+            print("Could not find tabbar Controller")
+            return
+        }
+        guard let navigation = tabcon.selectedViewController as? UINavigationController else {
+            print("Could not find avigation nController")
+            return
+        }
+        guard let prevView = navigation.topViewController as? ProfileVC else {
+              print("Could not find previous viewController")
+              return
+        }
+        prevView.dismissBool = true        
         self.dismiss(animated: true, completion: nil)
         
     }
@@ -658,3 +671,12 @@ extension CollectionPostVC: UITextViewDelegate {
 }
 
 
+extension CollectionPostVC {
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+        guard let presentationController = presentationController else {
+            return
+        }
+        presentationController.delegate?.presentationControllerDidDismiss?(presentationController)
+    }
+}

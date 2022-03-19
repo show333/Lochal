@@ -28,4 +28,6 @@ target 'TOTALGOOD' do
     pod 'Instructions', '~> 2.0.1'
     pod 'ImageViewer'
     pod 'CropViewController'
+    pod 'Firebase/DynamicLinks'
+
 end

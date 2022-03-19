@@ -15,7 +15,7 @@ extension String {
     
     // 半角数字の判定
     func isAlphanumericAll() -> Bool {
-        return !isEmpty && range(of: "[^a-zA-Z0-9_!?.,~()&#$%'/ 　]", options: .regularExpression) == nil
+        return !isEmpty && range(of: "[^a-zA-Z0-9_!?.,~()&#$%'/ 　’\n]", options: .regularExpression) == nil
     }
     
 }

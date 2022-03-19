@@ -29,6 +29,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var userName: String? =  UserDefaults.standard.string(forKey: "userName")
     var userImage: String? = UserDefaults.standard.string(forKey: "userImage")
     var userFrontId: String? = UserDefaults.standard.string(forKey: "userFrontId")
+    var dismissBool: Bool = false
     
     var cellImageTap : Bool = false
     
@@ -47,6 +48,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
     private let headerMoveHeight: CGFloat = 7
     
+    
+    @IBOutlet weak var postCompleteLabel: UILabel!
+    @IBOutlet weak var secondPostCompleteLabel: UILabel!
     @IBOutlet weak var backGroundImageView: UIImageView!
     @IBOutlet weak var settingsLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
@@ -95,7 +99,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBAction func postTappedButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "CollectionPost", bundle: nil)
         let CollectionPostVC = storyboard.instantiateViewController(withIdentifier: "CollectionPostVC") as! CollectionPostVC
-
+        CollectionPostVC.presentationController?.delegate = self
         CollectionPostVC.postDocString = userId
         self.present(CollectionPostVC, animated: true, completion: nil)
                 
@@ -354,6 +358,12 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         super.viewDidLoad()
         
 //        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+        let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
+
         
         connectLabel.font = UIFont(name:"03SmartFontUI", size:12)
         settingsLabel.font = UIFont(name:"03SmartFontUI", size:12)
@@ -372,7 +382,13 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         postCollectionView.alpha = 1
         
         
+        postCompleteLabel.alpha = 0
+        postCompleteLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/20)
+        postCompleteLabel.text = "ラクがきを送信しました！"
         
+        secondPostCompleteLabel.alpha = 0
+        secondPostCompleteLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/25)
+        secondPostCompleteLabel.text = "相手の許可を得た後,公開されます"
 
         
         self.coachMarksController.dataSource = self
@@ -394,17 +410,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         } else {
             postBackImageView.image = nil
         }
-        
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
+                
         
 //        chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
         
-        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
-        
-        
-        let safeAreaWidth = UIScreen.main.bounds.size.width
-        let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
         
 
         followButton.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -1446,5 +1455,32 @@ class postCollectionViewCell: UICollectionViewCell {
 
         // cellを丸くする
         self.layer.cornerRadius = safeAreaWidth/18
+    }
+}
+extension ProfileVC: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        
+        if dismissBool != false {
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+
+            
+            UIView.animate(withDuration: 0.5, delay: 0.3, animations: {
+                self.postCompleteLabel.alpha = 1
+                self.secondPostCompleteLabel.alpha = 1
+                let ConstraintCGfloat:CGFloat = 85
+                self.postCompleteLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
+                self.secondPostCompleteLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
+            }) { bool in
+                // ②アイコンを大きくする
+                UIView.animate(withDuration: 0.5, delay: 2.5, animations: {
+                    self.postCompleteLabel.alpha = 0
+                    self.secondPostCompleteLabel.alpha = 0
+                    let ConstraintCGfloat:CGFloat = 85
+                    self.postCompleteLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
+                    self.secondPostCompleteLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
+                })
+            }
+        }
     }
 }
