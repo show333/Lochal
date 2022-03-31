@@ -52,6 +52,7 @@ class Reaction {
         self.dataType = dic["dataType"] as? String ?? ""
 
         self.hexColor = dic["hexColor"] as? String ?? ""
+
         self.textFontName = dic["textFontName"]as? String ?? ""
         self.postImage = dic["postImage"]as? String ?? ""
 

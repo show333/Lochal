@@ -45,6 +45,10 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>写真にアクセスしてもよろしいでしょうか？</string>
+    <key>FirebaseDynamicLinksCustomDomains</key>
+    <array>
+        <string>https://ubatge.com</string>
+    </array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>yasasisa.ttf</string>

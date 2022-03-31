@@ -421,11 +421,12 @@ class detailPostVC:UIViewController {
             userFrontIdLabel.textColor = .white
             backHexColor = UIColor.clear.toHexString()
 
+
         default:
             backGroundView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162)
             userFrontIdLabel.textColor = .lightGray
-            backHexColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.900812162).toHexString()
-            
+            backHexColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.7973026613).toHexString()
+
 
         }
         

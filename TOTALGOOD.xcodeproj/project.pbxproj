@@ -309,6 +309,7 @@
 		CF4C5A01261D185400342675 /* TOTALGOOD.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TOTALGOOD.entitlements; sourceTree = "<group>"; };
 		CF4C5A30261E3A4900342675 /* quiz.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = quiz.csv; sourceTree = "<group>"; };
 		CF4C5A43261FA3F300342675 /* packmanload.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = packmanload.json; sourceTree = "<group>"; };
+		CF562E3427E7073000AD806F /* TOTALGOODRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TOTALGOODRelease.entitlements; sourceTree = "<group>"; };
 		CF6846CC2797C0BA004B80C5 /* UserIdSet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserIdSet.storyboard; sourceTree = "<group>"; };
 		CF6846CE2797C0C4004B80C5 /* UserNameSet.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserNameSet.storyboard; sourceTree = "<group>"; };
 		CF6846D22797C0E9004B80C5 /* UserIdSetVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserIdSetVC.swift; sourceTree = "<group>"; };
@@ -468,6 +469,7 @@
 		CF2A222725C3FC7000C5BFC1 = {
 			isa = PBXGroup;
 			children = (
+				CF562E3427E7073000AD806F /* TOTALGOODRelease.entitlements */,
 				CF4C5A01261D185400342675 /* TOTALGOOD.entitlements */,
 				CF2A223225C3FC7000C5BFC1 /* TwoYears */,
 				93BFDC66D9C7F02DEDC2F7E5 /* Pods */,
@@ -1140,7 +1142,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = TOTALGOOD.entitlements;
+				CODE_SIGN_ENTITLEMENTS = TOTALGOODRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5FSBHB8CT4;

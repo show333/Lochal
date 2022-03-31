@@ -15,6 +15,7 @@ class NotificationVC: UIViewController {
     
     var reaction : [Reaction] = []
     var outMemo: OutMemo?
+    var reactionSelected: Reaction?
     var notificationTab:Bool = false
     var userId : String?
     var cellDocumentId : String?
@@ -25,6 +26,26 @@ class NotificationVC: UIViewController {
     private let cellId = "cellId"
     
     let db = Firestore.firestore()
+    let textMask : Array = [
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth1.001.png?alt=media&token=bae3c928-485e-464f-ac00-35a97e03d681",//1
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth2.001.png?alt=media&token=8dab1e72-f1d7-4636-b203-37085b6a1a02",//2
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth3.001.png?alt=media&token=453af75e-4578-4fbd-abe7-cc0686a694ee",//3
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth4.001.png?alt=media&token=ffe5efc4-af99-423f-85e9-943c7ed00674",//4
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth5.001.png?alt=media&token=79a71066-96fb-42d0-a6b9-88a9edaea762",//5
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth6.001.png?alt=media&token=0a7254d8-01fd-4db0-82dd-573caecd3be7",//6
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth7.001.png?alt=media&token=6ec61c57-c5f2-4182-b81f-1c94e5830c01",//7
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth8.001.png?alt=media&token=894a2dc4-c3c8-4fe3-94c9-632a76921ad4",//8
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth10.001.png?alt=media&token=bc4d5271-11b0-499b-ad1e-88788329d417",//10
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth12.001.png?alt=media&token=5dd3e8a6-d265-4b1c-92ca-7de64c549de4",//12
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth13.001.png?alt=media&token=a875740c-c522-4087-8b7e-1e4d03ee392c",//13
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth14.001.png?alt=media&token=b73e6cb2-63f7-419a-bca9-4e79255c8cdf",//14
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth15.001.png?alt=media&token=46d8f2b2-feaa-4c38-ad5b-cd7924cf88f7",//15
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth16.001.png?alt=media&token=c5a3ea4a-59aa-41b4-9726-5453e19eca59",//16
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth17.001.png?alt=media&token=486ad9c8-f4ac-441f-ab70-b43feff85d99",//17
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth18.001.png?alt=media&token=b4a4525b-38ee-4842-a191-3fb49ec3b8e0",//18
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth20.001.png?alt=media&token=e0693059-4e99-4378-a5cf-1b19854f30e0",//20
+    ]
+    
     @IBOutlet weak var postBackView: UIView!
     
     @IBOutlet weak var postView: UIView!
@@ -54,18 +75,14 @@ class NotificationVC: UIViewController {
         
         if releaseBool == false {
             release(uid:uid)
+            sendMemoFireStore(uid:uid)
             reaction.removeAll()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 self.fetchReaction(userId:uid)
             }
-            
         } else {
-            
         }
-        
-        
-        
     }
     
     @IBOutlet weak var requestLabel: UILabel!
@@ -95,7 +112,6 @@ class NotificationVC: UIViewController {
         acceptedImageView.alpha = 0
         acceptingBackButton.alpha = 0
         requestLabel.alpha = 0
-
     }
     @IBOutlet weak var acceptingButton: UIButton!
     
@@ -112,13 +128,11 @@ class NotificationVC: UIViewController {
             self.fetchReaction(userId:uid)
 
         }
-        
         acceptingButton.alpha = 0
         acceptImageView.alpha = 0
         acceptedImageView.alpha = 0
         acceptingBackButton.alpha = 0
         requestLabel.alpha = 0
-        
     }
     
     func followSet(uid:String){
@@ -254,10 +268,91 @@ class NotificationVC: UIViewController {
                 print("Document does not exist")
             }
         }
-        
-        
+    }
+    
+    
 
+    func sendMemoFireStore(uid:String) {
 
+        func randomString(length: Int) -> String {
+            let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            return String((0..<length).map{ _ in characters.randomElement()! })
+        }
+        let db = Firestore.firestore()
+        let memoId = randomString(length: 20)
+
+        let memoInfoDic = [
+            "message" : "\(reactionSelected?.userName ?? "unKnown")さんから投稿を受けました",
+            "sendImageURL": "",
+            "documentId": memoId,
+            "createdAt": FieldValue.serverTimestamp(),
+            "textMask":textMask.randomElement() ?? "",
+            "userId":uid,
+            "readLog": false,
+            "anonymous":false,
+            "admin": false,
+            "delete": false,
+            
+            "graffitiUserId":reactionSelected?.userId ?? "",
+            "graffitiUserFrontId":reactionSelected?.userFrontId ?? "",
+            "graffitiUserName":reactionSelected?.userName ?? "unKnown",
+            "graffitiUserImage":reactionSelected?.userImage ?? "",
+            "graffitiTitle":reactionSelected?.titleComment ?? "",
+            "graffitiContentsImage":reactionSelected?.postImage ?? "",
+            "hexColor": reactionSelected?.hexColor ?? "",
+            "backHexColor": #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.7973026613).toHexString(),
+            "textFontName":reactionSelected?.textFontName ?? "",
+            
+        ] as [String: Any]
+        
+        let myPost = [
+            "message" : "\(reactionSelected?.userName ?? "unKnown")さんから投稿を受けました",
+            "sendImageURL": "",
+            "documentId": memoId,
+            "createdAt": FieldValue.serverTimestamp(),
+            "textMask":textMask.randomElement() ?? "",
+            "userName":userName ?? "",
+            "userImage":userImage ?? "",
+            "userFrontId":userFrontId ?? "",
+            
+            "userId":uid,
+            
+            "graffitiUserId":reactionSelected?.userId ?? "",
+            "graffitiUserFrontId":reactionSelected?.userFrontId ?? "",
+            "graffitiUserName":reactionSelected?.userName ?? "unKnown",
+            "graffitiUserImage":reactionSelected?.userImage ?? "",
+            "graffitiTitle":reactionSelected?.titleComment ?? "",
+            "graffitiContentsImage":reactionSelected?.postImage ?? "",
+            "hexColor": reactionSelected?.hexColor ?? "",
+            "textFontName":reactionSelected?.textFontName ?? "",
+            "backHexColor": #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.7973026613).toHexString(),
+
+            "anonymous":false,
+            "admin": false,
+            "delete": false,
+        ] as [String: Any]
+        
+        db.collection("users").document(uid).collection("Connections").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+
+                if querySnapshot?.documents.count ?? 0 >= 1{
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let userId = document.data()["userId"] as? String ?? ""
+                        db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+
+                    }
+                }
+            }
+        }
+
+        db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
+//
+        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
+//
+        db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
     }
     
     func randomString(length: Int) -> String {
@@ -283,6 +378,7 @@ class NotificationVC: UIViewController {
           completionHandler: { _, _ in }
         )
         
+        self.navigationController?.navigationBar.backgroundColor = .clear
         
         onMessageLabel.font = UIFont(name:"03SmartFontUI", size:19)
         
@@ -367,25 +463,20 @@ class NotificationVC: UIViewController {
 
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-
-        if notificationTab == true {
-            self.tabBarController?.tabBar.isHidden = false
-            self.navigationController?.navigationBar.isHidden = false
-        } else {
-            self.tabBarController?.tabBar.isHidden = false
-            self.navigationController?.navigationBar.isHidden = true
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = nil
+        
     }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         guard let uid = Auth.auth().currentUser?.uid else { return }
         db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
         UIApplication.shared.applicationIconBadgeNumber = 0
-        self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = nil
+        self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = nil
     }
     func fetchReaction(userId:String) {
         db.collection("users").document(userId).collection("Notification").addSnapshotListener{ [self] ( snapshots, err) in
@@ -427,6 +518,30 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
         let cell = reactionTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! reactionTableViewCell
         
         cell.reaction = reaction[indexPath.row]
+        let dataType = reaction[indexPath.row].dataType
+        let releaseBool = reaction[indexPath.row].releaseBool
+        let acceptBool = reaction[indexPath.row].acceptBool
+        
+        cell.backgroundColor = .clear
+
+        switch dataType {
+        case "acceptingConnect":
+            if acceptBool == true {
+                cell.backgroundColor  = .clear
+            } else if acceptBool == false {
+                cell.backgroundColor  = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 0.2)
+            }
+            
+            
+        case "ConnectersPost":
+            if releaseBool == true {
+                cell.backgroundColor = .clear
+            } else if releaseBool == false {
+                cell.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 0.2)
+            }
+        default :
+            cell.backgroundColor = .clear
+        }
         
         cell.messageLabel.text = reaction[indexPath.row].reactionMessage
         
@@ -446,12 +561,18 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+
         let storyboard = UIStoryboard.init(name: "FontCollection", bundle: nil)
         let FontCollectionVC = storyboard.instantiateViewController(withIdentifier: "FontCollectionVC") as! FontCollectionVC
         let safeAreaWidth = UIScreen.main.bounds.size.width
         cellDocumentId = reaction[indexPath.row].documentId
         userId = reaction[indexPath.row].userId
+        
+        reactionSelected = reaction[indexPath.row]
+        
+
+        
 
         let dataType = reaction[indexPath.row].dataType
         switch dataType {

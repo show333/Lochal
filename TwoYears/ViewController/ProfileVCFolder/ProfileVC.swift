@@ -8,7 +8,9 @@
 import UIKit
 import Firebase
 import GuillotineMenu
+import FirebaseAuth
 import FirebaseFirestore
+
 import SwiftMoment
 import Nuke
 import DZNEmptyDataSet
@@ -850,7 +852,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 print(notificationNum)
                 
                 if notificationNum >= 1 {
-                    self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = String(notificationNum)
+                    self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = String(notificationNum)
                 } else {
                 }
 //                notificationNumber.text =
@@ -1084,7 +1086,7 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
             if indexPath.row % 2 == 1 {
                 return cellSize/1.5
             } else {
-                return cellSize
+                return cellSize/1.2
             }
         }
             

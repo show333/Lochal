@@ -254,6 +254,7 @@ class OutmMemoCellVC: UITableViewCell {
         detailPostVC.userImage = outMemo?.graffitiUserImage
         detailPostVC.userFrontId = outMemo?.graffitiUserFrontId
         detailPostVC.postInfoTitle = outMemo?.graffitiTitle
+        detailPostVC.postTextFontName = outMemo?.textFontName
         detailPostVC.postInfoDoc = outMemo?.documentId
         detailPostVC.postInfoImage = outMemo?.graffitiContentsImage
         detailPostVC.profileUserId = uid

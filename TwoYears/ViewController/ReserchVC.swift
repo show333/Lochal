@@ -323,7 +323,7 @@ class ReserchVC:UIViewController{
                 print(notificationNum)
                 
                 if notificationNum >= 1 {
-                    self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = String(notificationNum)
+                    self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = String(notificationNum)
                 } else {
                 }
 //                notificationNumber.text =

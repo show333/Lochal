@@ -255,7 +255,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                 if notificationNum >= 1 {
                     notificationNumber.alpha = 1
                     notificationNumber.text = String(notificationNum)
-                    self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = String(notificationNum)
+                    self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = String(notificationNum)
                 } else {
                     notificationNumber.alpha = 0
                 }
