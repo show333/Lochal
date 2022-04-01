@@ -168,7 +168,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vxg-Qg-rNy">
-                                <rect key="frame" x="334" y="723" width="60" height="60"/>
+                                <rect key="frame" x="334" y="733" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="60" id="8s1-GA-QXy"/>
@@ -183,7 +183,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eVS-nb-jPe">
-                                <rect key="frame" x="369" y="763" width="25" height="25"/>
+                                <rect key="frame" x="369" y="773" width="25" height="25"/>
                                 <color key="backgroundColor" systemColor="systemRedColor"/>
                                 <color key="tintColor" systemColor="labelColor"/>
                                 <constraints>
@@ -208,9 +208,9 @@
                             <constraint firstItem="w8y-ow-RRY" firstAttribute="top" secondItem="shi-qI-DuU" secondAttribute="bottom" id="N5B-9S-wNQ"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Vxg-Qg-rNy" secondAttribute="trailing" constant="20" id="Oir-z9-qxr"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="eVS-nb-jPe" secondAttribute="trailing" constant="20" id="OrG-8P-ZZr"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Vxg-Qg-rNy" secondAttribute="bottom" constant="30" id="T3a-qG-xlb"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Vxg-Qg-rNy" secondAttribute="bottom" constant="20" id="T3a-qG-xlb"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="shi-qI-DuU" secondAttribute="trailing" id="Uc8-ud-8DU"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="eVS-nb-jPe" secondAttribute="bottom" constant="25" id="ayx-l3-8Jp"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="eVS-nb-jPe" secondAttribute="bottom" constant="15" id="ayx-l3-8Jp"/>
                             <constraint firstAttribute="bottom" secondItem="9ZT-HK-rRf" secondAttribute="bottom" id="blT-rL-yA4"/>
                             <constraint firstItem="shi-qI-DuU" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="bt1-m7-hSr"/>
                             <constraint firstItem="k7G-Nw-sc1" firstAttribute="top" secondItem="shi-qI-DuU" secondAttribute="bottom" constant="100" id="ce7-Ej-pS5"/>

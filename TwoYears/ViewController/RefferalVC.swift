@@ -13,10 +13,12 @@ import Nuke
 class RefferalVC : UIViewController {
     
     let db = Firestore.firestore()
+    var referralCount = 0
     
     
     @IBOutlet weak var codeLabel: CopyUILabel!
     
+    @IBOutlet weak var countLabel: UILabel!
     @IBOutlet weak var explainLabel: UILabel!
     @IBOutlet weak var backGroundView: UIView!
     
@@ -28,9 +30,13 @@ class RefferalVC : UIViewController {
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
         
+        let referralNum = referralCount-1
+        
         makeReferralId()
         labelAnimation()
         
+        countLabel.text = "残り招待コード\(String(referralNum))"
+
         
     }
     
@@ -90,6 +96,8 @@ class RefferalVC : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        countLabel.text = "残り招待コード\(String(referralCount))"
         setSwipeBack()
         
         backImageView.layer.cornerRadius = 20

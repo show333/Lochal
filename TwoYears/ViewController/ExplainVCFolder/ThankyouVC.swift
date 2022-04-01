@@ -23,6 +23,7 @@ class ThankyouVC:UIViewController {
     @IBAction func nextTappedButton(_ sender: Any) {
         let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
         let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
+        TabbarController.selectedIndex = 1
         TabbarController.modalPresentationStyle = .fullScreen
         self.present(TabbarController, animated: true, completion: nil)
     }
@@ -35,13 +36,15 @@ class ThankyouVC:UIViewController {
         super.viewDidLoad()
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let userId = UserDefaults.standard.string(forKey: "referralUserlId") ?? "unKnown"
-
+        
+        print("あなた",uid)
+        print("えいえいえ",userId)
 
         
         firstSetUpData(uid:uid)
-        firstChain(uid:uid,userId: userId)
-        PostGet(uid:uid,userId: userId)
-        PostGet(uid:userId,userId: uid)
+        firstChain(uid:uid,userId:userId)
+        PostGet(uid:uid,userId:userId)
+        PostGet(uid:userId,userId:uid)
 
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.012.png?alt=media&token=54f5aabc-1273-4e35-9fd5-f644e7bad865") {
             Nuke.loadImage(with: url, into:  backGroundImageView)
@@ -98,7 +101,7 @@ class ThankyouVC:UIViewController {
             "anonymous":false,
             "admin": false,
         ] as [String: Any]
-
+        
         db.collection("users").document(uid).collection("Notification").document(documentId).setData(notificationDoc)
         db.collection("users").document(uid).collection("TimeLine").document(documentId).setData(timeLineDoc)
         db.collection("users").document(uid).collection("SendedPost").document(documentId).setData(sendedPostDoc)
@@ -128,8 +131,6 @@ class ThankyouVC:UIViewController {
                 let userImage = document["userImage"] as? String ?? ""
                 let userFrontId = document["userFrontId"] as? String ?? ""
                 let notificationNum = document["userFrontId"] as? Int ?? 0
-                
-                
                 
                 let refferalUserProfile = [
                     "createdAt": FieldValue.serverTimestamp(),
@@ -173,7 +174,6 @@ class ThankyouVC:UIViewController {
                 db.collection("users").document(uid).collection("Connections").document(userId).setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId,"status":"accept"], merge: true)
                 db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
                 db.collection("users").document(uid).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
-                db.collection("")
                 
             } else {
                 print("Document does not exist")

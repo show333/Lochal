@@ -17,10 +17,10 @@ class ReserchVC:UIViewController{
     
     var selectBool:Bool = false
     var userInfo: [UserInfo] = []
+    var referralNum = 0
     private let cellId = "cellId"
     let db = Firestore.firestore()
     let coachMarksController = CoachMarksController()
-
     
     @IBOutlet weak var explainLabel: UILabel!
     @IBOutlet weak var noExistLabel: UILabel!
@@ -65,16 +65,12 @@ class ReserchVC:UIViewController{
         
         let storyboard = UIStoryboard.init(name: "Refferal", bundle: nil)
         let RefferalVC = storyboard.instantiateViewController(withIdentifier: "RefferalVC") as! RefferalVC
+        RefferalVC.referralCount = referralNum
         navigationController?.pushViewController(RefferalVC, animated: true)
         
     }
     
     @IBOutlet weak var refferalCountLabel: UILabel!
-    
-    
-    
-    
-    
     
     func getAccount(keyString:String,reserchString: String){
         
@@ -179,7 +175,6 @@ class ReserchVC:UIViewController{
     
     func refferalCount(uid:String){
         
-        
         db.collection("users").document(uid).getDocument { [self](document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -189,8 +184,9 @@ class ReserchVC:UIViewController{
                 
                 if referralCount != 0 {
                     refferalCountLabel.alpha = 1
-                    refferalButton.alpha = 1
+                    refferalButton.alpha = 0.85
                     refferalCountLabel.text = String(referralCount)
+                    referralNum = referralCount
                 } else {
                     refferalCountLabel.alpha = 0
                     refferalButton.alpha = 0
@@ -233,29 +229,29 @@ class ReserchVC:UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+//
         guard let uid = Auth.auth().currentUser?.uid else { return }
         getUserList(userId:uid)
-        
+
         let downSwipe = UISwipeGestureRecognizer(
             target: self,
             action: #selector(didSwipe(_:))
         )
         downSwipe.direction = .down
         self.view.addGestureRecognizer(downSwipe)
-        
-        
+
+
             let tapGesture = UITapGestureRecognizer(
             target: self,
             action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
-
-        
-
-        
+//
+//
+//
+//
         self.coachMarksController.dataSource = self
-        
-        
+//
+//
         refferalButton.layer.cornerRadius = 30
         refferalButton.clipsToBounds = true
         refferalButton.layer.masksToBounds = false
@@ -263,13 +259,13 @@ class ReserchVC:UIViewController{
         refferalButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         refferalButton.layer.shadowOpacity = 1
         refferalButton.layer.shadowRadius = 5
-        
+
         refferalCountLabel.clipsToBounds = true
         refferalCountLabel.layer.cornerRadius = 12.5
 
         tapGesture.cancelsTouchesInView = false
-        
-        
+
+
         explainLabel.text = "←タップで条件変更"
         noExistLabel.alpha = 0
         noExistLabel.text = "該当するユーザーが\nいませんでした"
@@ -285,7 +281,7 @@ class ReserchVC:UIViewController{
 
         }
 
-        
+
         selectButton.clipsToBounds = true
         selectButton.layer.masksToBounds = false
         selectButton.layer.cornerRadius = 6
@@ -293,10 +289,10 @@ class ReserchVC:UIViewController{
         selectButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         selectButton.layer.shadowOpacity = 0.2
         selectButton.layer.shadowRadius = 5
-        
+//
         reserchTableView.dataSource = self
         reserchTableView.delegate = self
-        
+//
         fetchNotification(userId:uid)
 
     }

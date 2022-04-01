@@ -99,11 +99,17 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var postOtherLabel: UILabel!
     
     @IBAction func postTappedButton(_ sender: Any) {
+        
+        if statusChain == "accept" {
         let storyboard = UIStoryboard.init(name: "CollectionPost", bundle: nil)
         let CollectionPostVC = storyboard.instantiateViewController(withIdentifier: "CollectionPostVC") as! CollectionPostVC
         CollectionPostVC.presentationController?.delegate = self
         CollectionPostVC.postDocString = userId
         self.present(CollectionPostVC, animated: true, completion: nil)
+            
+        } else {
+            postAlert()
+        }
                 
     }
     
@@ -185,6 +191,32 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         let storyboard = UIStoryboard.init(name: "Settings", bundle: nil)
         let SettingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
         navigationController?.pushViewController(SettingsVC, animated: true)
+    }
+    
+    func postAlert() {
+        
+        // ① UIAlertControllerクラスのインスタンスを生成
+        // タイトル, メッセージ, Alertのスタイルを指定する
+        // 第3引数のpreferredStyleでアラートの表示スタイルを指定する
+        let alert: UIAlertController = UIAlertController(title: "コネクトしてください", message: "コネクト(相互フォロー)後に\nラクガキ投稿が可能になります", preferredStyle: .alert)
+
+        // ② Actionの設定
+        // Action初期化時にタイトル, スタイル, 押された時に実行されるハンドラを指定する
+        // 第3引数のUIAlertActionStyleでボタンのスタイルを指定する
+        // OKボタン
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: .default, handler:{
+            // ボタンが押された時の処理を書く（クロージャ実装）
+            (action: UIAlertAction!) -> Void in
+            print("OK")
+        })
+        // キャンセルボタン
+
+
+        // ③ UIAlertControllerにActionを追加
+        alert.addAction(defaultAction)
+
+        // ④ Alertを表示
+        self.present(alert, animated: true, completion: nil)
     }
     
     
@@ -403,6 +435,14 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         postBackGroundView.layer.shadowOffset = CGSize(width: 0, height: 3)
         postBackGroundView.layer.shadowOpacity = 0.7
         postBackGroundView.layer.shadowRadius = 5
+        
+        postButton.layer.cornerRadius = 30
+        postButton.clipsToBounds = true
+        postButton.layer.masksToBounds = false
+        postButton.layer.shadowColor = UIColor.black.cgColor
+        postButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        postButton.layer.shadowOpacity = 1
+        postButton.layer.shadowRadius = 5
         
         
         postBackImageView.clipsToBounds = true

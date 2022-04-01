@@ -145,9 +145,6 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="120" height="60"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                <connections>
-                                                    <action selector="postTappedButton:" destination="zCO-tO-D7A" eventType="touchUpInside" id="yqQ-nl-GaS"/>
-                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ラクがき投稿" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XvW-Tk-RCc">
                                                 <rect key="frame" x="0.0" y="17.5" width="120" height="25"/>
@@ -307,6 +304,20 @@
                                 <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sKl-Oz-EAL">
+                                <rect key="frame" x="334" y="733" width="60" height="60"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="J7y-nq-OuS"/>
+                                    <constraint firstAttribute="height" constant="60" id="dLP-vx-JcM"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="pencil.tip.crop.circle.badge.plus" catalog="system"/>
+                                <connections>
+                                    <action selector="postTappedButton:" destination="zCO-tO-D7A" eventType="touchUpInside" id="flJ-1i-adS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="HUd-p6-Clx"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
@@ -319,6 +330,7 @@
                             <constraint firstItem="23S-Vf-tcR" firstAttribute="top" secondItem="twN-TZ-w3V" secondAttribute="top" id="XLy-xZ-3pD"/>
                             <constraint firstItem="HUd-p6-Clx" firstAttribute="trailing" secondItem="6pJ-0X-mLD" secondAttribute="trailing" id="Y0v-C6-EH1"/>
                             <constraint firstItem="23S-Vf-tcR" firstAttribute="trailing" secondItem="HUd-p6-Clx" secondAttribute="trailing" id="YPy-I8-MbZ"/>
+                            <constraint firstItem="HUd-p6-Clx" firstAttribute="bottom" secondItem="sKl-Oz-EAL" secondAttribute="bottom" constant="20" id="bEV-3x-qYi"/>
                             <constraint firstItem="HUd-p6-Clx" firstAttribute="trailing" secondItem="L0G-gd-PAF" secondAttribute="trailing" id="egf-tf-F6E"/>
                             <constraint firstItem="HUd-p6-Clx" firstAttribute="trailing" secondItem="EaP-tP-IZY" secondAttribute="trailing" constant="3" id="fCN-2l-QCU"/>
                             <constraint firstItem="L0G-gd-PAF" firstAttribute="top" secondItem="HUd-p6-Clx" secondAttribute="top" id="iKB-pN-XFu"/>
@@ -327,6 +339,7 @@
                             <constraint firstItem="L0G-gd-PAF" firstAttribute="leading" secondItem="HUd-p6-Clx" secondAttribute="leading" id="mFo-8v-ARe"/>
                             <constraint firstItem="HUd-p6-Clx" firstAttribute="trailing" secondItem="sIL-nE-1qA" secondAttribute="trailing" id="mkh-HN-yoY"/>
                             <constraint firstItem="6pJ-0X-mLD" firstAttribute="leading" secondItem="HUd-p6-Clx" secondAttribute="leading" id="ngq-YI-Kt4"/>
+                            <constraint firstAttribute="trailing" secondItem="sKl-Oz-EAL" secondAttribute="trailing" constant="20" id="r5w-na-whI"/>
                             <constraint firstItem="23S-Vf-tcR" firstAttribute="leading" secondItem="HUd-p6-Clx" secondAttribute="leading" id="sF3-h8-dVk"/>
                             <constraint firstItem="sIL-nE-1qA" firstAttribute="centerX" secondItem="twN-TZ-w3V" secondAttribute="centerX" id="ty9-vK-LZ9"/>
                             <constraint firstItem="sIL-nE-1qA" firstAttribute="top" secondItem="6pJ-0X-mLD" secondAttribute="bottom" id="wLg-Ae-435"/>
@@ -367,7 +380,7 @@
                         <outlet property="postBackGroundView" destination="ZMj-lr-yiM" id="ece-JS-rrx"/>
                         <outlet property="postBackGroundWidthConstraint" destination="a7W-Px-6JS" id="MAp-Xr-sXH"/>
                         <outlet property="postBackImageView" destination="mXK-xd-yAy" id="ZEH-Hb-jmd"/>
-                        <outlet property="postButton" destination="hVn-HS-d3z" id="SE9-X5-IVK"/>
+                        <outlet property="postButton" destination="sKl-Oz-EAL" id="GIT-1u-UbX"/>
                         <outlet property="postCollectionView" destination="EaP-tP-IZY" id="YFu-qh-kfX"/>
                         <outlet property="postCompleteLabel" destination="6pJ-0X-mLD" id="Zqc-jX-cWJ"/>
                         <outlet property="postOtherLabel" destination="YHi-5f-YxV" id="j5A-cb-6Qm"/>
@@ -394,6 +407,7 @@
     <resources>
         <image name="gearshape" catalog="system" width="128" height="121"/>
         <image name="info.circle" catalog="system" width="128" height="121"/>
+        <image name="pencil.tip.crop.circle.badge.plus" catalog="system" width="128" height="113"/>
         <image name="person" catalog="system" width="128" height="117"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

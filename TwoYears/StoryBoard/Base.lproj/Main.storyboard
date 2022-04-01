@@ -25,15 +25,15 @@
                                 <rect key="frame" x="0.0" y="148" width="390" height="613"/>
                                 <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
                             </tableView>
-                            <button opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OQR-JM-wvK">
-                                <rect key="frame" x="300" y="661" width="60" height="60"/>
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OQR-JM-wvK">
+                                <rect key="frame" x="310" y="681" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="VYy-Rs-9zJ"/>
                                     <constraint firstAttribute="width" constant="60" id="cne-z8-Xp1"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                <color key="tintColor" systemColor="tertiarySystemBackgroundColor"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" image="pencil.slash" catalog="system">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -90,12 +90,12 @@
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="0Pp-UX-JJ1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0Ga-OF-zaa"/>
-                            <constraint firstItem="OQR-JM-wvK" firstAttribute="top" secondItem="0Pp-UX-JJ1" secondAttribute="bottom" constant="-100" id="4dB-TL-WQ0"/>
                             <constraint firstItem="0Pp-UX-JJ1" firstAttribute="top" secondItem="Ur0-Qe-7PK" secondAttribute="bottom" id="72o-bP-v7P"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Ur0-Qe-7PK" secondAttribute="trailing" id="9al-lf-YSV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0Pp-UX-JJ1" secondAttribute="trailing" id="FWf-fu-QTG"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="OQR-JM-wvK" secondAttribute="trailing" constant="30" id="IzZ-tV-Ysr"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="OQR-JM-wvK" secondAttribute="trailing" constant="20" id="IzZ-tV-Ysr"/>
                             <constraint firstAttribute="bottom" secondItem="fhs-7q-gWO" secondAttribute="bottom" id="JW7-zH-Ku0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="OQR-JM-wvK" secondAttribute="bottom" constant="20" id="V3o-t8-hyv"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="0Pp-UX-JJ1" secondAttribute="bottom" id="aNl-Ik-PCt"/>
                             <constraint firstItem="fhs-7q-gWO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ceb-vF-VtR"/>
                             <constraint firstItem="Ur0-Qe-7PK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="hDv-MT-0h6"/>

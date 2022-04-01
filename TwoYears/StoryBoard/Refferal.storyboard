@@ -42,12 +42,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="招待したユーザーとは自動でコネクトされます" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zCk-lk-xKv">
-                                <rect key="frame" x="20" y="350" width="280" height="16"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" systemColor="secondaryLabelColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g6K-Mm-Y8y">
                                 <rect key="frame" x="40" y="180" width="240" height="120"/>
                                 <subviews>
@@ -96,20 +90,34 @@
                                 <color key="textColor" systemColor="secondaryLabelColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X15-m9-P8v">
+                                <rect key="frame" x="139" y="330" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="招待したユーザーとは自動でコネクトされます" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zCk-lk-xKv">
+                                <rect key="frame" x="20" y="391" width="280" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="zCk-lk-xKv" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="8dC-6X-Ntd"/>
+                            <constraint firstItem="X15-m9-P8v" firstAttribute="top" secondItem="g6K-Mm-Y8y" secondAttribute="bottom" constant="30" id="9qE-Tq-wQB"/>
                             <constraint firstItem="wrz-fY-BHY" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="EkM-oI-IGJ"/>
                             <constraint firstItem="g6K-Mm-Y8y" firstAttribute="top" secondItem="wrz-fY-BHY" secondAttribute="bottom" constant="30" id="H60-Z7-qri"/>
                             <constraint firstItem="g6K-Mm-Y8y" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="S57-aE-WOe"/>
-                            <constraint firstItem="zCk-lk-xKv" firstAttribute="top" secondItem="g6K-Mm-Y8y" secondAttribute="bottom" constant="50" id="SK2-ow-ff3"/>
                             <constraint firstItem="zCk-lk-xKv" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="Tcy-5U-aPk"/>
                             <constraint firstItem="pRF-f1-iAj" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="U8X-Gt-bl6"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="zCk-lk-xKv" secondAttribute="trailing" constant="20" id="WLP-8e-1zj"/>
                             <constraint firstItem="wrz-fY-BHY" firstAttribute="leading" secondItem="5EZ-qb-Rvc" secondAttribute="leading" constant="5" id="hdF-du-0dw"/>
                             <constraint firstItem="g6K-Mm-Y8y" firstAttribute="top" secondItem="pRF-f1-iAj" secondAttribute="bottom" constant="70" id="ivF-DY-vNk"/>
+                            <constraint firstItem="X15-m9-P8v" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="mtS-8p-rk4"/>
+                            <constraint firstItem="zCk-lk-xKv" firstAttribute="top" secondItem="X15-m9-P8v" secondAttribute="bottom" constant="40" id="nbm-fr-4b2"/>
                             <constraint firstAttribute="trailing" secondItem="wrz-fY-BHY" secondAttribute="trailing" constant="5" id="qLI-6L-6lU"/>
                             <constraint firstItem="g6K-Mm-Y8y" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="zrX-Ib-UkZ"/>
                         </constraints>
@@ -119,6 +127,7 @@
                         <outlet property="backGroundView" destination="g6K-Mm-Y8y" id="T4D-QU-Ofd"/>
                         <outlet property="backImageView" destination="Lnw-Z3-YqZ" id="udc-ad-vGE"/>
                         <outlet property="codeLabel" destination="pRF-f1-iAj" id="vQ5-xR-AFC"/>
+                        <outlet property="countLabel" destination="X15-m9-P8v" id="P8S-vs-FuS"/>
                         <outlet property="createRefferalButton" destination="QgY-zM-3RD" id="kEX-sj-1pT"/>
                         <outlet property="explainLabel" destination="wrz-fY-BHY" id="DdN-Qc-aQ5"/>
                         <outlet property="hakkoLabel" destination="6UJ-A7-fDg" id="lsP-Tj-urt"/>
