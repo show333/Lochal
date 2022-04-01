@@ -135,7 +135,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         let safeAreaWidth = UIScreen.main.bounds.size.width
         let safeAreaHeight = UIScreen.main.bounds.size.height-statusBarHeight-navigationBarHeight
         
-
         if keyBoardBool == true {
 
             UIView.animate(withDuration: 0, delay: 0, animations: {
@@ -592,10 +591,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
                 print("Document does not exist")
             }
         }
-        
-        
-        
-        
     }
     
 }

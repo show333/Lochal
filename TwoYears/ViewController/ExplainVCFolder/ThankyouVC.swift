@@ -40,11 +40,16 @@ class ThankyouVC:UIViewController {
         print("あなた",uid)
         print("えいえいえ",userId)
 
-        
-        firstSetUpData(uid:uid)
+        let documentId = randomString(length: 20)
+
+        firstSetUpData(uid:uid,documentId: documentId)
         firstChain(uid:uid,userId:userId)
         PostGet(uid:uid,userId:userId)
         PostGet(uid:userId,userId:uid)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            self.setNotification(userId: uid, documentId: documentId)
+        }
 
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FexplainImagesConnect.012.png?alt=media&token=54f5aabc-1273-4e35-9fd5-f644e7bad865") {
             Nuke.loadImage(with: url, into:  backGroundImageView)
@@ -61,8 +66,7 @@ class ThankyouVC:UIViewController {
         return String((0..<length).map{ _ in characters.randomElement()! })
     }
     
-    func firstSetUpData(uid:String) {        
-        let documentId = randomString(length: 20)
+    func firstSetUpData(uid:String,documentId:String) {
         
         let sendedPostDoc = [
             "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",
@@ -70,13 +74,14 @@ class ThankyouVC:UIViewController {
             "documentId":documentId,
             "titleComment":"Thanks for installing this app!",
             "createdAt": FieldValue.serverTimestamp(),
-            "admin":false
+            "admin":false,
+            "releaseBool":false
         ] as [String: Any]
 //
         let timeLineDoc = [
             "message" : "Thanks for installing! \n2行目以降はマスクされるよ！\n enjoy!",
             "sendImageURL": "",
-            "documentId": documentId,
+            "documentId": "firstSetUpNotificationDoc",
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth13.001.png?alt=media&token=a875740c-c522-4087-8b7e-1e4d03ee392c",
             "userId":"gBD75KJjTSPcfZ6TvbapBgTqpd92",
@@ -92,7 +97,7 @@ class ThankyouVC:UIViewController {
             "userName":"Ubatge",
             "userImage":"https://firebasestorage.googleapis.com:443/v0/b/totalgood-7b3a3.appspot.com/o/User_Image%2F51115339-DA49-4BE0-B9E6-A45FC8198FE0?alt=media&token=dac0b228-8381-430d-bb07-71ef20d80f4d",
             "userFrontId":"ubatge",
-            "documentId" : documentId,
+            "documentId" : "firstSetUpNotificationDoc",
             "reactionImage": "",
             "reactionMessage":"Welcome!",
             "theMessage":"",
@@ -102,8 +107,8 @@ class ThankyouVC:UIViewController {
             "admin": false,
         ] as [String: Any]
         
-        db.collection("users").document(uid).collection("Notification").document(documentId).setData(notificationDoc)
-        db.collection("users").document(uid).collection("TimeLine").document(documentId).setData(timeLineDoc)
+        db.collection("users").document(uid).collection("Notification").document("firstSetUpNotificationDoc").setData(notificationDoc)
+        db.collection("users").document(uid).collection("TimeLine").document("firstSetUpNotificationDoc").setData(timeLineDoc)
         db.collection("users").document(uid).collection("SendedPost").document(documentId).setData(sendedPostDoc)
         
         let userToken = UserDefaults.standard.string(forKey: "FCM_TOKEN")
@@ -199,7 +204,6 @@ class ThankyouVC:UIViewController {
                 }
             }
         }
-        
     }
     
     func PostSet(userId:String,outMemo:OutMemo){
@@ -223,6 +227,49 @@ class ThankyouVC:UIViewController {
         db.collection("users").document(userId).collection("TimeLine").document(outMemo.documentId).setData(memoInfoDic,merge: true)
 //        let userId = document.data()["userId"] as! String
 //                        getUserInfo(userId: userId)
+    }
+    
+    func setNotification(userId: String,documentId:String) {
+        
+        db.collection("users").document(userId).getDocument { [self] (document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let notificationNum = document["notificationNum"] as? Int ?? 0
+                
+                let hexColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1).toHexString()
+                
+                let sendedNotification = [
+                    "createdAt": FieldValue.serverTimestamp(),
+                    "userId": "gBD75KJjTSPcfZ6TvbapBgTqpd92",
+                    "userName":"Ubatge",
+                    "userImage":"https://firebasestorage.googleapis.com:443/v0/b/totalgood-7b3a3.appspot.com/o/User_Image%2F51115339-DA49-4BE0-B9E6-A45FC8198FE0?alt=media&token=dac0b228-8381-430d-bb07-71ef20d80f4d",
+                    "userFrontId":"ubatge",
+                    "documentId" : documentId,
+                    "reactionImage": "",
+                    "hexColor":hexColor,
+                    "textFontName":"Julies",
+                    "reactionMessage":"さんから投稿を受けました",
+                    "postImage":"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FfirstsendImage.001.png?alt=media&token=0eda6b67-cdeb-424c-997c-9bc42256c88e",
+                    "imageAddress":"",
+                    "titleComment":"Thanks for installing this app!",
+                    "theMessage":"",
+                    "dataType": "ConnectersPost",
+                    "notificationNum": notificationNum+1,
+                    "releaseBool":false,
+                    "acceptBool":false,
+                    "anonymous":false,
+                    "admin": false,
+                ] as [String: Any]
+                db.collection("users").document(userId).collection("Notification").document(documentId).setData(sendedNotification)
+
+                db.collection("users").document(userId).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
+                
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
     
     

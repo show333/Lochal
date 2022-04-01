@@ -397,11 +397,16 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         let safeAreaWidth = UIScreen.main.bounds.size.width
         let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
-
+        
+        if uid == userId {
+            postButton.alpha = 0
+        } else {
+            postButton.alpha = 0.8
+        }
         
         connectLabel.font = UIFont(name:"03SmartFontUI", size:12)
         settingsLabel.font = UIFont(name:"03SmartFontUI", size:12)
-        postOtherLabel.font = UIFont(name:"03SmartFontUI", size:12)
+        postOtherLabel.font = UIFont(name:"03SmartFontUI", size:14)
         rakugakiLabel.font = UIFont(name:"03SmartFontUI", size:17)
         
         
@@ -435,6 +440,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         postBackGroundView.layer.shadowOffset = CGSize(width: 0, height: 3)
         postBackGroundView.layer.shadowOpacity = 0.7
         postBackGroundView.layer.shadowRadius = 5
+        
         
         postButton.layer.cornerRadius = 30
         postButton.clipsToBounds = true
@@ -631,6 +637,14 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
 //        coachMarksController.start(in: .currentWindow(of: self))
         
+        self.postInfo.removeAll()
+        self.postCollectionView.reloadData()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            // 0.5秒後に実行したい処理
+            self.fetchPostInfo(userId: self.userId ?? "unKnown")
+        }
+        
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             if UserDefaults.standard.bool(forKey: "ProfileTransition") != true{
@@ -734,6 +748,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 let acceptBool = acceptArray?.contains(userId)
                 
                 
+                
+
                 if sendBool == true {
                     statusChain = "sendRequest"
                     followButton.backgroundColor = .darkGray
@@ -741,13 +757,16 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     followButton.setTitleColor(UIColor.white, for: .normal)
                     postOtherLabel.alpha = 1
                     postBackGroundView.alpha = 0
+                    postOtherLabel.text = "相手のコネクト待ちです\n少々お待ちください"
+
                     
                 } else if gotBool == true {
                     statusChain = "gotRequest"
                     followButton.backgroundColor = .darkGray
                     followButton.setTitle("コネクトする", for: .normal)
                     followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
-                    postOtherLabel.alpha = 0
+                    postOtherLabel.text = "申請を受けています\n←タップでコネクトをします"
+
                     if uid == userId {
                         postOtherLabel.alpha = 0
                     } else {
@@ -755,19 +774,24 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     }
                     
                     
+                    
                 } else if acceptBool == true {
                     statusChain = "accept"
                     followButton.backgroundColor = .darkGray
                     followButton.setTitle("コネクト中", for: .normal)
                     followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
-                    postOtherLabel.alpha = 0
-                    postBackGroundView.alpha = 1
+                    postOtherLabel.alpha = 1
+                    postBackGroundView.alpha = 0
                     
+                    postOtherLabel.text = "画面右下のボタンから\nラクがき投稿ができます"
+
                 }else {
                     followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
                     followButton.setTitle("コネクトする", for: .normal)
                     followButton.setTitleColor(UIColor.darkGray, for: .normal)
                     postBackGroundView.alpha = 0
+                    postOtherLabel.text = "←のボタンから\nコネクトを申請します"
+
                     if uid == userId {
                         postOtherLabel.alpha = 0
                     } else {
@@ -780,17 +804,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
         
     }
-    
-    
-    
-    //Pull to Refresh
-//    @objc private func onRefresh(_ sender: AnyObject) {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-//            self?.chatListTableView.reloadData()
-//            self?.chatListTableView.refreshControl?.endRefreshing()
-//
-//        }
-//    }
     
     
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {

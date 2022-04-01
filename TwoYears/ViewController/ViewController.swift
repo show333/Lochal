@@ -95,24 +95,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             })
         }
     }
-    
-    
-    @IBOutlet weak var notificationNumber: UILabel!
-    @IBOutlet weak var notificationButton: UIButton!
-    
-    @IBAction func TappedNotificationButton(_ sender: Any) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let storyboard: UIStoryboard = UIStoryboard(name: "Notification", bundle: nil)//遷移先のStoryboardを設定
-        let NotificationVC = storyboard.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC//遷移先のViewControllerを設定
-        db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
-        NotificationVC.notificationTab = true
-        self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = nil
 
-//        NotificationVC.tabBarController?.tabBar.isHidden = true
-//        ViewController().navigationController?.navigationBar.isHidden = false
-        self.navigationController?.pushViewController(NotificationVC, animated: true)//遷移する
-    }
-    
     @IBOutlet weak var bubuButton: UIButton!
     @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet var backView: UIView!
@@ -167,15 +150,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         self.coachMarksController.dataSource = self
-        
-        
-        
-        
-        notificationNumber.alpha = 0
-        notificationButton.tintColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-        notificationNumber.clipsToBounds = true
-        notificationNumber.layer.cornerRadius = 10
-        
         
         
         
@@ -253,11 +227,9 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                 print(notificationNum)
                 
                 if notificationNum >= 1 {
-                    notificationNumber.alpha = 1
-                    notificationNumber.text = String(notificationNum)
+
                     self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = String(notificationNum)
                 } else {
-                    notificationNumber.alpha = 0
                 }
 //                notificationNumber.text =
 //                self.teamInfo.removeAll()
@@ -816,12 +788,12 @@ extension ViewController: UIViewControllerTransitioningDelegate {
 
 extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
     func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
-        return 2
+        return 1
     }
     func coachMarksController(_ coachMarksController: CoachMarksController,
                               coachMarkAt index: Int) -> CoachMark {
         
-        let highlightViews: Array<UIView> = [notificationButton, bubuButton]
+        let highlightViews: Array<UIView> = [bubuButton]
         //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
         
         //チュートリアルで使うビューの中からindexで何ステップ目かを指定
@@ -841,11 +813,8 @@ extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDe
 
         //index(ステップ)によって表示内容を分岐させます
         switch index {
-        case 0:    //hogeLabel
-            coachViews.bodyView.hintLabel.text = "ここにリアクションやコネクトの\n通知が届きます"
-            coachViews.bodyView.nextLabel.text = "タップ"
         
-        case 1:    //fugaButton
+        case 0:    //fugaButton
         coachViews.bodyView.hintLabel.text = "ここから新しい投稿を行います!"
             coachViews.bodyView.nextLabel.text = "OK"
         

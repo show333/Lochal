@@ -50,38 +50,11 @@
                                         <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="fill" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8GF-7E-Zge">
-                                        <rect key="frame" x="352" y="18" width="28" height="28"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="28" id="SKe-yd-AM6"/>
-                                            <constraint firstAttribute="height" constant="28" id="qO2-FS-74C"/>
-                                        </constraints>
-                                        <state key="normal" image="bell" catalog="system"/>
-                                        <connections>
-                                            <action selector="TappedNotificationButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fPh-Yq-VxH"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCp-zR-Ulu">
-                                        <rect key="frame" x="365" y="10" width="20" height="20"/>
-                                        <color key="backgroundColor" systemColor="systemRedColor"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="20" id="Aui-Jy-j5b"/>
-                                            <constraint firstAttribute="width" constant="20" id="flB-4U-pwe"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstItem="8GF-7E-Zge" firstAttribute="centerY" secondItem="Ur0-Qe-7PK" secondAttribute="centerY" constant="2" id="7PK-8V-85h"/>
                                     <constraint firstItem="Hka-zE-9Rs" firstAttribute="centerX" secondItem="Ur0-Qe-7PK" secondAttribute="centerX" id="8AG-yk-0to"/>
-                                    <constraint firstItem="hCp-zR-Ulu" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Hka-zE-9Rs" secondAttribute="trailing" constant="8" symbolic="YES" id="Veh-bE-uGw"/>
-                                    <constraint firstItem="hCp-zR-Ulu" firstAttribute="top" secondItem="Ur0-Qe-7PK" secondAttribute="top" constant="10" id="YYB-kz-0GM"/>
                                     <constraint firstAttribute="height" constant="60" id="ZkB-wZ-RKM"/>
-                                    <constraint firstAttribute="trailing" secondItem="8GF-7E-Zge" secondAttribute="trailing" constant="10" id="dtW-9L-Q75"/>
-                                    <constraint firstAttribute="trailing" secondItem="hCp-zR-Ulu" secondAttribute="trailing" constant="5" id="lUf-1h-eWP"/>
                                     <constraint firstItem="Hka-zE-9Rs" firstAttribute="centerY" secondItem="Ur0-Qe-7PK" secondAttribute="centerY" id="mb1-qp-Bnh"/>
                                 </constraints>
                             </view>
@@ -117,8 +90,6 @@
                         <outlet property="headerView" destination="Ur0-Qe-7PK" id="IRT-4Q-dii"/>
                         <outlet property="headerhightConstraint" destination="ZkB-wZ-RKM" id="Tvj-Iw-OzU"/>
                         <outlet property="headertopConstraint" destination="mkx-gL-sjR" id="9eM-Xf-Byr"/>
-                        <outlet property="notificationButton" destination="8GF-7E-Zge" id="sHO-nE-GLa"/>
-                        <outlet property="notificationNumber" destination="hCp-zR-Ulu" id="OLk-eP-oG5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -149,14 +120,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="bell" catalog="system" width="128" height="124"/>
         <image name="pencil" catalog="system" width="128" height="113"/>
         <image name="pencil.slash" catalog="system" width="128" height="113"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tertiarySystemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
