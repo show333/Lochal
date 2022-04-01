@@ -222,7 +222,21 @@ class NotificationVC: UIViewController {
     
     func release(uid:String) {
         guard let userId = userId else {return}
-        db.collection("users").document(uid).collection("SendedPost").document(cellDocumentId ?? "").setData(["releaseBool":true], merge: true)
+        
+        let postDoc = [
+            "userId":reactionSelected?.userId,
+            "postImage":reactionSelected?.postImage,
+            "documentId":reactionSelected?.documentId,
+            "titleComment":reactionSelected?.titleComment,
+            "imageAddress":reactionSelected?.imageAddress,
+            "hexColor":reactionSelected?.hexColor,
+            "textFontName":reactionSelected?.textFontName,
+            "releaseBool": true,
+            "createdAt": reactionSelected?.createdAt,
+            "admin":false
+        ] as [String:Any]
+        
+        db.collection("users").document(uid).collection("SendedPost").document(cellDocumentId ?? "").setData(postDoc,merge: true)
         
         db.collection("users").document(uid).collection("Notification").document(cellDocumentId ?? "").setData(["releaseBool":true,"reactionMessage":"さんからの投稿を公開しました"], merge: true)
  
