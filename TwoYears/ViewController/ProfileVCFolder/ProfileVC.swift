@@ -1118,9 +1118,7 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
         
         let cellSize : CGFloat = self.view.bounds.width / 3 * 2 - 12
                 
-        //        if postImage != "" {
-        //            return cellSize
-        //        } else {
+
         if postImage == "" {
             if titleCount < 6 {
                 return cellSize/3
@@ -1142,24 +1140,6 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
                 return cellSize/1.2
             }
         }
-            
-            //        if titleCount < 10 {
-            //            return 100
-        //        } else if titleCount < 20 {
-        //            return 150
-        //        } else {
-//            return 200
-//        }
-    
-    
-    //        if indexPath.row % 4 == 0 {
-    //            return 200
-    //        } else if indexPath.row % 3 == 0 {
-    //            return 300
-    //        } else {
-    //            return 150
-    //        }
-    
         
     }
     
