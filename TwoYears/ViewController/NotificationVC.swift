@@ -178,7 +178,7 @@ class NotificationVC: UIViewController {
     }
     
     func MyPostGet(uid:String){
-        db.collection("users").document(uid).collection("MyPost").getDocuments() { [self] (querySnapshot, err) in
+        db.collection("users").document(uid).collection("MyPost").whereField("anonymous", isEqualTo: false).getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {

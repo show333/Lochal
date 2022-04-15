@@ -20,6 +20,11 @@ class InChatRoomVC:UIViewController {
     var ChatRoomInfo = [ChatsInfo]()
     var userInfo : [UserInfo] = []
     var userId : String?
+    var userFrontId : String?
+    var userName : String?
+    var userImage : String?
+    var messageNum = 0
+    var messageCount = 0
 //    var galleyItem: GalleryItem!
     let db = Firestore.firestore()
 
@@ -47,6 +52,12 @@ class InChatRoomVC:UIViewController {
         return view
     }()
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        self.navigationController?.navigationBar.isHidden = true
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        getMessageNum(uid:uid)
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -56,6 +67,9 @@ class InChatRoomVC:UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 //        self.tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.isHidden = false
+        navigationItem.title = userFrontId
+
     }
     
     
@@ -66,6 +80,10 @@ class InChatRoomVC:UIViewController {
         
         setSwipeBack()
         setupNotification()
+        
+        UserDefaults.standard.set(userId, forKey: "chatRoomUserId")
+
+        
         
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2Fsplashbackground.jpeg?alt=media&token=4c2fd869-a146-4182-83aa-47dd396f1ad6") {
             Nuke.loadImage(with: url, into: backGroundImageView)
@@ -85,6 +103,28 @@ class InChatRoomVC:UIViewController {
         
     }
     
+    func getMessageNum(uid:String) {
+        db.collection("users").document(uid).collection("Connections").document(userId ?? "").getDocument { [self](document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                messageCount = document["messageCount"] as? Int ?? 0
+                if messageCount != 0 {
+                    let calculationResults = messageNum-messageCount
+                    db.collection("users").document(uid).collection("Connections").document(userId ?? "").setData(["messageCount":0]as[String:Any], merge: true)
+                    db.collection("users").document(uid).setData(["messageNum":calculationResults]as[String:Any], merge: true)
+                    if calculationResults != 0 {
+                    self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = String(calculationResults)
+                    } else {
+                        self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = nil
+
+                    }
+
+                }
+            }
+        }
+    }
+    
     private func fetchFireStore(uid:String) {
         db.collection("users").document(uid).collection("ChatRoom").document(userId ?? "").collection("Messages").addSnapshotListener{ [self] ( snapshots, err) in
             if let err = err {
@@ -97,18 +137,6 @@ class InChatRoomVC:UIViewController {
                     let dic = Naruto.document.data()
                     let chatsInfo = ChatsInfo(dic: dic)
 
-//                    let date: Date = rarabai.zikokudosei.dateValue()
-//                    let momentType = moment(date)
-
-//                    if blockList[rarabai.userId] == true {
-//
-//                    } else {
-//                        if momentType >= moment() - 14.days {
-//                            if rarabai.admin == true {
-//                            }
-//                            self.animals.append(rarabai)
-//                        }
-//                    }
 
                     self.ChatRoomInfo.append(chatsInfo)
                     print("dイックs",chatsInfo)
@@ -235,7 +263,13 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
         
         let uid = Auth.auth().currentUser?.uid
         
-        userGetInfo(userId: ChatRoomInfo[indexPath.row].userId,cell: cell)
+//        userGetInfo(userId: ChatRoomInfo[indexPath.row].userId,cell: cell)
+        cell.userNameLabel.text = userName
+        if let url = URL(string:userImage ?? "") {
+            Nuke.loadImage(with: url, into: cell.userImage)
+        } else {
+            cell.userImage.image = nil
+        }
         
         
         if ChatRoomInfo[indexPath.row].userId != uid{

@@ -83,16 +83,35 @@
                                     <action selector="closeTappedButton:" destination="F9u-Ni-v7t" eventType="touchUpInside" id="8a9-a9-9si"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gP9-wK-QKJ">
+                                <rect key="frame" x="233" y="429" width="67" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="anonymousTappedButton:" destination="F9u-Ni-v7t" eventType="touchUpInside" id="V2T-KY-deH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sFc-nJ-Dix">
+                                <rect key="frame" x="20" y="429" width="67" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="privateTappedButton:" destination="F9u-Ni-v7t" eventType="touchUpInside" id="YFV-kp-69x"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="lQt-Ir-bEx"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="XYs-i2-Ri8" firstAttribute="top" secondItem="lQt-Ir-bEx" secondAttribute="top" constant="50" id="4A0-6u-rTX"/>
                             <constraint firstItem="DeS-Ag-Jsv" firstAttribute="top" secondItem="lQt-Ir-bEx" secondAttribute="top" constant="20" id="8sb-Pc-irG"/>
+                            <constraint firstItem="lQt-Ir-bEx" firstAttribute="bottom" secondItem="sFc-nJ-Dix" secondAttribute="bottom" constant="20" id="AV8-pW-MGX"/>
                             <constraint firstItem="7wl-lC-VlY" firstAttribute="centerX" secondItem="vgc-Xj-l5l" secondAttribute="centerX" id="E7v-uJ-acw"/>
                             <constraint firstItem="mPr-Ja-t73" firstAttribute="bottom" secondItem="BK3-vt-W27" secondAttribute="bottom" constant="-30" id="F7i-7y-LMB"/>
+                            <constraint firstItem="lQt-Ir-bEx" firstAttribute="trailing" secondItem="gP9-wK-QKJ" secondAttribute="trailing" constant="20" id="Hjl-rj-iFg"/>
                             <constraint firstItem="7wl-lC-VlY" firstAttribute="leading" secondItem="lQt-Ir-bEx" secondAttribute="leading" constant="20" id="L7m-9d-PwO"/>
                             <constraint firstItem="fLF-IJ-uQ6" firstAttribute="top" secondItem="lQt-Ir-bEx" secondAttribute="top" constant="30" id="Q4f-Uz-wNi"/>
+                            <constraint firstItem="lQt-Ir-bEx" firstAttribute="bottom" secondItem="gP9-wK-QKJ" secondAttribute="bottom" constant="20" id="S2I-xT-GLQ"/>
                             <constraint firstItem="BK3-vt-W27" firstAttribute="centerX" secondItem="vgc-Xj-l5l" secondAttribute="centerX" id="TOF-eG-hK7"/>
                             <constraint firstItem="XYs-i2-Ri8" firstAttribute="centerX" secondItem="vgc-Xj-l5l" secondAttribute="centerX" id="YcT-JG-KLH"/>
                             <constraint firstItem="mPr-Ja-t73" firstAttribute="top" secondItem="7wl-lC-VlY" secondAttribute="bottom" constant="30" id="bh0-Gr-3hP"/>
@@ -100,15 +119,18 @@
                             <constraint firstItem="lQt-Ir-bEx" firstAttribute="trailing" secondItem="mPr-Ja-t73" secondAttribute="trailing" constant="20" id="iXS-7W-fnt"/>
                             <constraint firstItem="DeS-Ag-Jsv" firstAttribute="leading" secondItem="lQt-Ir-bEx" secondAttribute="leading" constant="10" id="mEZ-4s-Yke"/>
                             <constraint firstItem="mPr-Ja-t73" firstAttribute="leading" secondItem="lQt-Ir-bEx" secondAttribute="leading" constant="20" id="r7S-47-pWe"/>
+                            <constraint firstItem="sFc-nJ-Dix" firstAttribute="leading" secondItem="lQt-Ir-bEx" secondAttribute="leading" constant="20" id="tGY-nz-XvG"/>
                             <constraint firstItem="lQt-Ir-bEx" firstAttribute="trailing" secondItem="7wl-lC-VlY" secondAttribute="trailing" constant="20" id="uyc-gz-6ua"/>
                             <constraint firstItem="mPr-Ja-t73" firstAttribute="top" secondItem="XYs-i2-Ri8" secondAttribute="bottom" constant="90" id="zDt-B5-tva"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="VRi-Gg-c1z"/>
                     <connections>
+                        <outlet property="anonymousButton" destination="gP9-wK-QKJ" id="cd0-yl-5Co"/>
                         <outlet property="closeButton" destination="DeS-Ag-Jsv" id="9yt-mF-8Xt"/>
                         <outlet property="companyView" destination="fLF-IJ-uQ6" id="6Bk-F8-uJs"/>
                         <outlet property="ongakuLabel" destination="7wl-lC-VlY" id="k56-Kl-WmB"/>
+                        <outlet property="privateButton" destination="sFc-nJ-Dix" id="Tf3-D7-0Iz"/>
                         <outlet property="sinkiButton" destination="XYs-i2-Ri8" id="HPZ-6T-kd3"/>
                         <outlet property="textView" destination="mPr-Ja-t73" id="1fj-Gv-jzq"/>
                         <outlet property="wordCountLabel" destination="BK3-vt-W27" id="0ih-F5-I7w"/>

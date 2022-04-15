@@ -50,6 +50,8 @@ class imagetoukouViewController: UIViewController {
     }
     
     private func addMessageToFirestore(urlString: String) {
+        let userId = UserDefaults.standard.string(forKey: "chatRoomUserId")
+
 
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -58,18 +60,25 @@ class imagetoukouViewController: UIViewController {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             return String((0..<length).map{ _ in characters.randomElement()! })
         }
-        let commentId = randomString(length: 20)
+        let documentId = randomString(length: 20)
                     let docData = [
                         "createdAt": FieldValue.serverTimestamp(),
                         "message": "",
                         "userId": uid,
-//                        "teamId": teamId,
-                        "comentId" : commentId,
+                        "documentId" : documentId,
                         "admin": false,
                         "sendImageURL": urlString,
                     ] as [String: Any]
         
-        db.collection("Team").document("teamId").collection("ChatRoom").document(commentId).setData(docData)
+        let upDateDoc = [
+            "chatLatestedAt": FieldValue.serverTimestamp(),
+            "messageCount": FieldValue.increment(1.0),
+        ] as [String: Any]
+        
+        db.collection("users").document(uid).collection("ChatRoom").document(userId ?? "").collection("Messages").document(documentId).setData(docData)
+        db.collection("users").document(userId ?? "").collection("ChatRoom").document(uid).collection("Messages").document(documentId).setData(docData)
+        db.collection("users").document(userId ?? "").collection("Connections").document(uid).setData(upDateDoc, merge: true)
+        db.collection("users").document(userId ?? "").setData(["messageNum": FieldValue.increment(1.0)], merge: true)
         dismiss(animated: true, completion: nil)
 
     }

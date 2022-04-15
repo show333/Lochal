@@ -8,7 +8,7 @@
 import UIKit
 
 
-protocol ChatInputAccessoryViewDelegate: class {
+protocol ChatInputAccessoryViewDelegate: AnyObject {
     func tappedSendButton(text: String)
 }
 

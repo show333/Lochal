@@ -248,7 +248,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     
     
     private func fetchFireStore(userId:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("TimeLine").whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
                 
                 print("メッセージの取得に失敗、\(err)")
@@ -259,17 +259,25 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                 case .added:
                     let dic = Naruto.document.data()
                     let rarabai = OutMemo(dic: dic)
-                    
                     let date: Date = rarabai.createdAt.dateValue()
                     let momentType = moment(date)
+                    let docUserId = rarabai.userId
                     
-                    if blockList[rarabai.userId] == true {
+                    if blockList[rarabai.userId] == true && rarabai.anonymous == true {
                     } else {
                         if rarabai.delete == true {
-                        } else{
-                            if momentType >= moment() - 7.days {
+                        } else {
+                            
+                            
+                            if docUserId == userId {
                                 self.outMemo.append(rarabai)
+                            } else {
+                                if momentType >= moment() - 7.days {
+                                    self.outMemo.append(rarabai)
+                                }
                             }
+                            
+                            
                         }
                     }
                     self.outMemo.sort { (m1, m2) -> Bool in
@@ -301,7 +309,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
-        
         
         let safeAreaWidth = UIScreen.main.bounds.size.width
 
@@ -391,17 +398,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         cell.graffitiImageViewHeightConstraint.constant = 0
                         cell.graffitiTitleLabel.alpha = 0
                         cell.graffitiLabel.alpha = 1
-
                     }
-                    
-                    
                     cell.graffitiBackGroundConstraint.constant = 700
                     cell.graffitiBackGroundView.alpha = 1
                     cell.graffitiUserFrontIdLabel.alpha = 1
                     
                     cell.graffitiUserImageView.alpha = 1
                     cell.graffitiContentsImageView.alpha = 1
-                    
                 }
                 
                 
@@ -687,7 +690,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 //            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
                 self.getUserTeamInfo(userId: userId, cell: cell)
 //            }
-//        }
+        //        }
     }
     
     func fetchMypostData(userId:String,cell:OutmMemoCellVC,documentId:String) {
@@ -712,29 +715,50 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         } else {
                             cell.userImageView?.image = nil
                         }
+                    } else {
+                        
+                        cell.userFrontIdLabel.text = userFrontId
+                        
+                        
+                        if let url = URL(string:userImage ?? "") {
+                            Nuke.loadImage(with: url, into: cell.userImageView)
+                        } else {
+                            cell.userImageView?.image = nil
+                        }
+                    }
+                    return
+                }
+                
+                let anoymousBool = document["anonymous"] as? Bool ?? false
+                
+                if anoymousBool == true {
+                    let userImage = "https://firebasestorage.googleapis.com:443/v0/b/totalgood-7b3a3.appspot.com/o/User_Image%2F51115339-DA49-4BE0-B9E6-A45FC8198FE0?alt=media&token=dac0b228-8381-430d-bb07-71ef20d80f4d"
+                    
+                    let userFrontId = "anoymous"
+                    cell.userFrontIdLabel.text = userFrontId
+                    
+                    if let url = URL(string:userImage) {
+                        Nuke.loadImage(with: url, into: cell.userImageView)
+                    } else {
+                        cell.userImageView?.image = nil
                     }
                     
+                } else {
                     
-                    return
+                    let userImage = document["userImage"] as? String ?? ""
+                    let userFrontId = document["userFrontId"] as? String ?? ""
+                    
+                    cell.userFrontIdLabel.text = userFrontId
+                    if let url = URL(string:userImage) {
+                        Nuke.loadImage(with: url, into: cell.userImageView)
+                    } else {
+                        cell.userImageView?.image = nil
+                    }
                 }
                 //                print("Current data: \(data)")
                 //                let userId = document["userId"] as? String ?? "unKnown"
                 //                userName = document["userName"] as? String ?? "unKnown"
-                
-                let userImage = document["userImage"] as? String ?? ""
-                let userFrontId = document["userFrontId"] as? String ?? ""
-                
-                cell.userFrontIdLabel.text = userFrontId
-                
-                if let url = URL(string:userImage) {
-                    Nuke.loadImage(with: url, into: cell.userImageView)
-                } else {
-                    cell.userImageView?.image = nil
-                }
-                
-                
                 let delete = document["delete"] as? Bool ?? false
-                
                 
                 if delete == true {
                     cell.messageLabel.text = "この投稿は削除されました"
@@ -748,8 +772,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 //                cell.nameLabel.text = userName
                 //                getUserTeamInfo(userId: userId, cell: cell)
-                
             }
+        
     }
     
     func getUserTeamInfo(userId:String,cell:OutmMemoCellVC){
@@ -765,7 +789,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 case .added:
                     let dic = Naruto.document.data()
                     let teamInfoDic = Team(dic: dic)
-//                    let teamId = Naruto.document.data()["teamId"] as? String ?? ""
+                    //                    let teamId = Naruto.document.data()["teamId"] as? String ?? ""
                     cell.teamInfo.append(teamInfoDic)
 
 

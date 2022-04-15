@@ -18,6 +18,7 @@ class ReserchVC:UIViewController{
     var selectBool:Bool = false
     var userInfo: [UserInfo] = []
     var referralNum = 0
+    var messageNum = 0
     
     private let cellId = "cellId"
     let db = Firestore.firestore()
@@ -121,7 +122,7 @@ class ReserchVC:UIViewController{
                         let messageCount = documents.document.data()["messageCount"] as? Int ?? 0
                         let chatLatestedAt = documents.document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
                         print("aaaaa",messageCount)
-                        getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt)
+                        getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt,snapType: "added")
                         
                     case .modified, .removed:
                         print("noproblem")
@@ -129,15 +130,17 @@ class ReserchVC:UIViewController{
 //
 //                        let dic = documents.document.data()
 //                        let userInfoDic = UserInfo(dic: dic)
-                self.userInfo.remove(at: 0)
-                        print()
-
+                        
+        
+                        
+//                        self.userInfo.remove(at: 0)
+                        
                         let userId = documents.document.data()["userId"] as? String ?? ""
                         
                         let messageCount = documents.document.data()["messageCount"] as? Int ?? 0
                         let chatLatestedAt = documents.document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
                         print("aaaaa",messageCount)
-                        getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt)
+                        getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt,snapType: "modified")
                     }
                     
                 })
@@ -149,7 +152,7 @@ class ReserchVC:UIViewController{
     }
     
     
-    func getUserInfo(userId:String,messageCount:Int,chatLatestedAt:Timestamp){
+    func getUserInfo(userId:String,messageCount:Int,chatLatestedAt:Timestamp,snapType:String){
         db.collection("users").document(userId).collection("Profile").document("profile").getDocument { (document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -159,11 +162,16 @@ class ReserchVC:UIViewController{
                 
                 
                 self.userInfo.append(userInfoDic)
+                
+                if snapType == "modified" {
+                let aaa = self.userInfo.firstIndex(of: userInfoDic)
+                self.userInfo.remove(at: aaa ?? 0)
+                }
 
                 self.userInfo.sort { (m1, m2) -> Bool in
                     let m1Date = m1.chatLatestedAt.dateValue()
                     let m2Date = m2.chatLatestedAt.dateValue()
-                    return m1Date < m2Date
+                    return m1Date > m2Date
                 }
                 
                 
@@ -360,7 +368,9 @@ class ReserchVC:UIViewController{
             }
             print("Current data: \(data)")
             let notificationNum = data["notificationNum"] as? Int ?? 0
-            let messageNum = data["messageNum"] as? Int ?? 0
+            
+            
+            messageNum = data["messageNum"] as? Int ?? 0
             
             print(notificationNum)
             
@@ -399,6 +409,12 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = reserchTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ReserhTableViewCell
         
+        
+        cell.userImageView.isUserInteractionEnabled = true
+        cell.userImageView.tag = indexPath.row
+        cell.userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(userImageTapped(_:))))
+
+        
         let selectionView = UIView()
         selectionView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 0.2487988115)
         cell.selectedBackgroundView = selectionView
@@ -429,7 +445,13 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
-  
+        let cell = self.reserchTableView.cellForRow(at:indexPath) as! ReserhTableViewCell
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        let messageCount = userInfo[indexPath.row].messageCount
+        let selectedUserId = userInfo[indexPath.row].userId
+        countPush(userId: uid, messageCount: messageCount, selectedUserId: selectedUserId)
+        
 
 //        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
 //        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
@@ -440,10 +462,42 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         let storyboard = UIStoryboard.init(name: "InChatRoom", bundle: nil)
         let InChatRoomVC = storyboard.instantiateViewController(withIdentifier: "InChatRoomVC") as! InChatRoomVC
         InChatRoomVC.userId = userInfo[indexPath.row].userId
+        InChatRoomVC.userFrontId = userInfo[indexPath.row].userFrontId
+        InChatRoomVC.userImage = userInfo[indexPath.row].userImage
+        InChatRoomVC.userName = userInfo[indexPath.row].userName
+        InChatRoomVC.messageNum = messageNum
 //        ProfileVC.userId = userInfo[indexPath.row].userId
 //        ProfileVC.cellImageTap = true
         navigationController?.pushViewController(InChatRoomVC, animated: true)
 
+    }
+    
+    @objc func userImageTapped(_ sender: UITapGestureRecognizer) {
+        
+        guard let numbers = sender.view?.tag else { return }
+        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+
+        ProfileVC.userId = userInfo[numbers].userId
+        ProfileVC.cellImageTap = true
+        ProfileVC.tabBarController?.tabBar.isHidden = true
+        navigationController?.navigationBar.isHidden = false
+        navigationController?.pushViewController(ProfileVC, animated: true)
+        print("aiaiia")
+        
+    }
+    
+    func countPush(userId:String,messageCount:Int,selectedUserId:String) {
+        let calculationResults = messageNum-messageCount
+        
+        db.collection("users").document(userId).setData(["messageNum":calculationResults]as[String : Any], merge: true)
+        db.collection("users").document(userId).collection("Connections").document(selectedUserId).setData(["messageCount":0]as[String : Any], merge: true)
+        if calculationResults != 0 {
+        self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = String(calculationResults)
+        } else {
+            self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = nil
+
+        }
     }
 }
 
@@ -500,3 +554,5 @@ extension ReserchVC: CoachMarksControllerDataSource, CoachMarksControllerDelegat
         return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
 }
+
+
