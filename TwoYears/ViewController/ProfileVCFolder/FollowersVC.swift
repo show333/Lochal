@@ -71,8 +71,8 @@ class FollowersVC:UIViewController {
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
-                let userInfoDic = UserInfo(dic: document.data()!)
-                self.userInfo.append(userInfoDic)
+//                let userInfoDic = UserInfo(dic: document.data()!)
+//                self.userInfo.append(userInfoDic)
                 self.userListTableView.reloadData()
             } else {
                 print("Document does not exist")

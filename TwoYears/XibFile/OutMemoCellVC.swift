@@ -48,7 +48,10 @@ class OutmMemoCellVC: UITableViewCell {
         messageLabel.backgroundColor = .clear
     }
     
+    @IBOutlet weak var shareButton: UIButton!
     
+
+    @IBOutlet weak var storyBackView: UIView!
     
     @IBOutlet weak var userFrontIdLabel: UILabel!
     @IBOutlet weak var backBack: UIView!
@@ -75,6 +78,8 @@ class OutmMemoCellVC: UITableViewCell {
     
     @IBOutlet weak var graffitiBackGroundView: UIView!
     @IBOutlet weak var graffitiBackGroundConstraint: NSLayoutConstraint!
+    @IBOutlet weak var graffitiImageViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var graffitiImageViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var graffitiUserImageView: UIImageView!
     
     @IBOutlet weak var graffitiUserFrontIdLabel: UILabel!
@@ -83,6 +88,7 @@ class OutmMemoCellVC: UITableViewCell {
     
     @IBOutlet weak var graffitiTitleLabel: UILabel!
     
+    @IBOutlet weak var graffitiLabel: UILabel!
     
     
     override func awakeFromNib() {
@@ -248,9 +254,11 @@ class OutmMemoCellVC: UITableViewCell {
         detailPostVC.userImage = outMemo?.graffitiUserImage
         detailPostVC.userFrontId = outMemo?.graffitiUserFrontId
         detailPostVC.postInfoTitle = outMemo?.graffitiTitle
+        detailPostVC.postTextFontName = outMemo?.textFontName
         detailPostVC.postInfoDoc = outMemo?.documentId
         detailPostVC.postInfoImage = outMemo?.graffitiContentsImage
         detailPostVC.profileUserId = uid
+        detailPostVC.postHexColor = outMemo?.hexColor
         detailPostVC.tabBarController?.tabBar.isHidden = true
         ViewController()?.navigationController?.navigationBar.isHidden = false
         ViewController()?.navigationController?.pushViewController(detailPostVC, animated: true)
@@ -269,6 +277,7 @@ class OutmMemoCellVC: UITableViewCell {
         formatter.locale = Locale(identifier: "ja_JP")
         return formatter.string(from: date)
     }
+   
 }
 
 extension OutmMemoCellVC :UICollectionViewDataSource,UICollectionViewDelegate {

@@ -51,7 +51,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     @IBOutlet weak var fontBackLabel: UILabel!
     @IBOutlet weak var fontButton: UIButton!
     @IBAction func fontTappedButton(_ sender: Any) {
-        
         let storyboard = UIStoryboard.init(name: "FontCollection", bundle: nil)
         let FontCollectionVC = storyboard.instantiateViewController(withIdentifier: "FontCollectionVC") as! FontCollectionVC
         self.present(FontCollectionVC, animated: true, completion: nil)
@@ -72,7 +71,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     @IBAction func sendTappedButton(_ sender: Any) {
         
         print("aaa")
-        
         if imageString != nil {
             sendImage()
         } else {
@@ -137,7 +135,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         let safeAreaWidth = UIScreen.main.bounds.size.width
         let safeAreaHeight = UIScreen.main.bounds.size.height-statusBarHeight-navigationBarHeight
         
-
         if keyBoardBool == true {
 
             UIView.animate(withDuration: 0, delay: 0, animations: {
@@ -513,6 +510,20 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
             setNotification(userId: uid, postImage: "",docString:docString,imageString: "")
         }
         
+        
+        guard let tabcon = presentingViewController as? TabbarController else {
+            print("Could not find tabbar Controller")
+            return
+        }
+        guard let navigation = tabcon.selectedViewController as? UINavigationController else {
+            print("Could not find avigation nController")
+            return
+        }
+        guard let prevView = navigation.topViewController as? ProfileVC else {
+              print("Could not find previous viewController")
+              return
+        }
+        prevView.dismissBool = true        
         self.dismiss(animated: true, completion: nil)
         
     }
@@ -580,10 +591,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
                 print("Document does not exist")
             }
         }
-        
-        
-        
-        
     }
     
 }
@@ -659,3 +666,12 @@ extension CollectionPostVC: UITextViewDelegate {
 }
 
 
+extension CollectionPostVC {
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+        guard let presentationController = presentationController else {
+            return
+        }
+        presentationController.delegate?.presentationControllerDidDismiss?(presentationController)
+    }
+}

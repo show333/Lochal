@@ -50,7 +50,6 @@ class imagetoukouViewController: UIViewController {
     }
     
     private func addMessageToFirestore(urlString: String) {
-        let teamId : String =  UserDefaults.standard.string(forKey: "teamRoomId")!
 
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -64,13 +63,13 @@ class imagetoukouViewController: UIViewController {
                         "createdAt": FieldValue.serverTimestamp(),
                         "message": "",
                         "userId": uid,
-                        "teamId": teamId,
+//                        "teamId": teamId,
                         "comentId" : commentId,
                         "admin": false,
                         "sendImageURL": urlString,
                     ] as [String: Any]
         
-        db.collection("Team").document(teamId).collection("ChatRoom").document(commentId).setData(docData)
+        db.collection("Team").document("teamId").collection("ChatRoom").document(commentId).setData(docData)
         dismiss(animated: true, completion: nil)
 
     }

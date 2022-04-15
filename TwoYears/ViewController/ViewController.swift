@@ -95,24 +95,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             })
         }
     }
-    
-    
-    @IBOutlet weak var notificationNumber: UILabel!
-    @IBOutlet weak var notificationButton: UIButton!
-    
-    @IBAction func TappedNotificationButton(_ sender: Any) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let storyboard: UIStoryboard = UIStoryboard(name: "Notification", bundle: nil)//遷移先のStoryboardを設定
-        let NotificationVC = storyboard.instantiateViewController(withIdentifier: "NotificationVC") as! NotificationVC//遷移先のViewControllerを設定
-        db.collection("users").document(uid).setData(["notificationNum": 0],merge: true)
-        NotificationVC.notificationTab = true
-        self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = nil
 
-//        NotificationVC.tabBarController?.tabBar.isHidden = true
-//        ViewController().navigationController?.navigationBar.isHidden = false
-        self.navigationController?.pushViewController(NotificationVC, animated: true)//遷移する
-    }
-    
     @IBOutlet weak var bubuButton: UIButton!
     @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet var backView: UIView!
@@ -124,14 +107,16 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         self.navigationController?.navigationBar.isHidden = true
         
         
-        let backGroundString = UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
-        
-        
-        if let url = URL(string:backGroundString) {
-            Nuke.loadImage(with: url, into: backGroundImageView)
-        } else {
-            backGroundImageView.image = nil
-        }
+//        let backGroundString = UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
+//
+//        let backGroundString = "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
+//        
+//        
+//        if let url = URL(string:backGroundString) {
+//            Nuke.loadImage(with: url, into: backGroundImageView)
+//        } else {
+//            backGroundImageView.image = nil
+//        }
         
     }
     
@@ -166,15 +151,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         
         self.coachMarksController.dataSource = self
         
-        
-        
-        
-        notificationNumber.alpha = 0
-        notificationButton.tintColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-        notificationNumber.clipsToBounds = true
-        notificationNumber.layer.cornerRadius = 10
-
-
         
         
         
@@ -238,33 +214,38 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     func fetchNotification(userId:String){
         
         db.collection("users").document(userId).addSnapshotListener { [self] documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let notificationNum = data["notificationNum"] as? Int ?? 0
-                print(notificationNum)
-                
-                if notificationNum >= 1 {
-                    notificationNumber.alpha = 1
-                    notificationNumber.text = String(notificationNum)
-                    self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = String(notificationNum)
-                } else {
-                    notificationNumber.alpha = 0
-                }
-//                notificationNumber.text =
-//                self.teamInfo.removeAll()
-//                self.teamCollectionView.reloadData()
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
             }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            print("Current data: \(data)")
+            let notificationNum = data["notificationNum"] as? Int ?? 0
+            let messageNum = data["messageNum"] as? Int ?? 0
+            
+            print(notificationNum)
+            
+            if notificationNum >= 1 {
+                self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = String(notificationNum)
+            } else {
+            }
+            
+            if messageNum >= 1 {
+                self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = String(messageNum)
+
+            } else {
+            }
+            //                notificationNumber.text =
+            //                self.teamInfo.removeAll()
+            //                self.teamCollectionView.reloadData()
+        }
     }
     
     //        whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).
-
+    
     
     private func fetchFireStore(userId:String) {
         db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
@@ -320,6 +301,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.backBack.backgroundColor = .clear
         cell.backgroundColor = .clear
         tableView.backgroundColor = .clear
+        
+        
+        let safeAreaWidth = UIScreen.main.bounds.size.width
 
 
         cell.messageLabel.text = outMemo[indexPath.row].message
@@ -339,16 +323,21 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.graffitiContentsImageView.image = nil
         
-        if let url = URL(string:outMemo[indexPath.row].graffitiContentsImage) {
-            Nuke.loadImage(with: url, into: cell.graffitiContentsImageView)
-        } else {
-            cell.graffitiContentsImageView?.image = nil
-        }
+     
         
         cell.graffitiUserFrontIdLabel.text = outMemo[indexPath.row].graffitiUserFrontId
         
         cell.graffitiTitleLabel.text = outMemo[indexPath.row].graffitiTitle
+        cell.graffitiLabel.text = outMemo[indexPath.row].graffitiTitle
+        cell.graffitiLabel.font = UIFont(name:outMemo[indexPath.row].textFontName, size:safeAreaWidth/6)
         
+        cell.graffitiLabel.textColor = UIColor(hex: outMemo[indexPath.row].hexColor)
+        cell.graffitiTitleLabel.textColor = UIColor(hex: outMemo[indexPath.row].hexColor)
+        cell.graffitiBackGroundView.backgroundColor = UIColor(hex: outMemo[indexPath.row].backHexColor)
+        
+//        cell.userFrontIdLabel.textColor = .lightGray
+//        cell.userFrontIdLabel.font = UIFont.italicSystemFont(ofSize: safeAreaWidth/20)
+
         cell.graffitiBackGroundView.clipsToBounds = true
         cell.graffitiBackGroundView.layer.cornerRadius = 10
         
@@ -357,7 +346,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         cell.messageBottomConstraint.constant =  105
-
+        
+//        cell.graffitiImageViewWidthConstraint.constant = safeAreaWidth/1.5
+//        cell.graffitiImageViewHeightConstraint.constant = safeAreaWidth/1.5
+        
+        let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
+        cell.graffitiLabel.transform = transScale
+        
+        //        cell.graffitiImageView.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
+        
         if  outMemo[indexPath.row].readLog == true {
             cell.coverView.backgroundColor = .clear
             cell.coverViewConstraint.constant = 0
@@ -368,6 +365,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             if outMemo[indexPath.row].graffitiUserId != "" {
                 
+                
                 if outMemo[indexPath.row].delete == true {
                     cell.graffitiBackGroundConstraint.constant = 0
                     cell.graffitiBackGroundView.alpha = 0
@@ -376,13 +374,38 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.graffitiUserImageView.alpha = 0
                     cell.graffitiContentsImageView.alpha = 0
                 } else {
-                cell.graffitiBackGroundConstraint.constant = 700
-                cell.graffitiBackGroundView.alpha = 1
-                cell.graffitiUserFrontIdLabel.alpha = 1
-                cell.graffitiTitleLabel.alpha = 1
-                cell.graffitiUserImageView.alpha = 1
-                cell.graffitiContentsImageView.alpha = 1
+                    
+                    
+                    if let url = URL(string:outMemo[indexPath.row].graffitiContentsImage) {
+                        Nuke.loadImage(with: url, into: cell.graffitiContentsImageView)
+                        
+                        cell.graffitiImageViewWidthConstraint.constant = safeAreaWidth/1.5
+                        cell.graffitiImageViewHeightConstraint.constant = safeAreaWidth/1.5
+                        cell.graffitiTitleLabel.alpha = 1
+                        cell.graffitiLabel.alpha = 0
+
+                    } else {
+                        cell.graffitiContentsImageView?.image = nil
+                        
+                        cell.graffitiImageViewWidthConstraint.constant = 0
+                        cell.graffitiImageViewHeightConstraint.constant = 0
+                        cell.graffitiTitleLabel.alpha = 0
+                        cell.graffitiLabel.alpha = 1
+
+                    }
+                    
+                    
+                    cell.graffitiBackGroundConstraint.constant = 700
+                    cell.graffitiBackGroundView.alpha = 1
+                    cell.graffitiUserFrontIdLabel.alpha = 1
+                    
+                    cell.graffitiUserImageView.alpha = 1
+                    cell.graffitiContentsImageView.alpha = 1
+                    
                 }
+                
+                
+                
             } else {
                 cell.graffitiBackGroundConstraint.constant = 0
                 cell.graffitiBackGroundView.alpha = 0
@@ -390,7 +413,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.graffitiTitleLabel.alpha = 0
                 cell.graffitiUserImageView.alpha = 0
                 cell.graffitiContentsImageView.alpha = 0
-
             }
             
         } else {
@@ -422,6 +444,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
         cell.flagButton.tag = indexPath.row
         cell.flagButton.addTarget(self, action: #selector(flagButtonEvemt), for: UIControl.Event.touchUpInside)
+        
+        cell.shareButton.tag = indexPath.row
+        cell.shareButton.addTarget(self, action: #selector(shareStickerImage), for: UIControl.Event.touchUpInside)
+        cell.shareButton.alpha = 0
         
         cell.userImageView.image = nil
         
@@ -536,54 +562,82 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //                print("Document does not exist")
 //            }
 //        }
-//    }
-    
-    
-    @objc func flagButtonEvemt(_ sender: UIButton){
-        //アラート生成
-        //UIAlertControllerのスタイルがactionSheet
-        let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+    //    }
+    @objc func shareStickerImage(_ sender: UIButton){
+                if UIApplication.shared.canOpenURL(URL(string: "instagram-stories://share")!) {
         
-        let uid = Auth.auth().currentUser?.uid
-        let report = [
-            "reporter": uid,
-            "documentId": outMemo[sender.tag].documentId,
-            "問題のコメント": outMemo[sender.tag].message,
-            "問題と思われるユーザー": outMemo[sender.tag].userId,
-            "createdAt": FieldValue.serverTimestamp(),
-        ] as [String: Any]
+        let indexPath = IndexPath(row:sender.tag , section: 0)
+        let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
+        let image = cell.storyBackView.asImage()
         
+        let backGroundImage:UIImage = UIImage(url:UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d")
+        let url = URL(string: "instagram-stories://share")
+        let items: NSArray = [["com.instagram.sharedSticker.stickerImage": image,
+                               "com.instagram.sharedSticker.backgroundImage": backGroundImage,
+                               "com.instagram.sharedSticker.backgroundTopColor": "#00ffdf",
+                               "com.instagram.sharedSticker.backgroundBottomColor": "#ff00ff"]]
+        UIPasteboard.general.setItems(items as! [[String : Any]], options: [:])
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+    } else {
         
-        // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
-        let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
-            (action: UIAlertAction!) in
-            //実際の処理
-            let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
-               // 選択肢(ボタン)を2つ(OKとCancel)追加します
-               //   titleには、選択肢として表示される文字列を指定します
-               //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
-               dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
-                   
-                   if UserDefaults.standard.object(forKey: "blocked") == nil{
-                       let XXX = ["XX" : true]
-                       UserDefaults.standard.set(XXX, forKey: "blocked")
-                   }
-                   var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
-                   
-                   print("あいえいえいいえいえ",outMemo[sender.tag].userId)
-                   blockDic[outMemo[sender.tag].userId] = true
-                   UserDefaults.standard.set(blockDic, forKey: "blocked")
-   //                let uid = Auth.auth().currentUser?.uid
-                   
-                   print("tapped: \([sender.tag])番目のcell")
-                   
-                   
+        let alert: UIAlertController = UIAlertController(title: "Instagram", message: "をインストールしてください", preferredStyle:  UIAlertController.Style.alert)
+        
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+            (action: UIAlertAction!) -> Void in
+            print("OK")
+        })
+        
+        alert.addAction(defaultAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+}
 
-                   self.outMemo.remove(at: sender.tag)
-                   self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
-                   self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
-                   self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
-               }))
+@objc func flagButtonEvemt(_ sender: UIButton){
+    //アラート生成
+    //UIAlertControllerのスタイルがactionSheet
+    let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+    
+    let uid = Auth.auth().currentUser?.uid
+    let report = [
+        "reporter": uid,
+        "documentId": outMemo[sender.tag].documentId,
+        "問題のコメント": outMemo[sender.tag].message,
+        "問題と思われるユーザー": outMemo[sender.tag].userId,
+        "createdAt": FieldValue.serverTimestamp(),
+    ] as [String: Any]
+    
+    
+    // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
+    let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
+        (action: UIAlertAction!) in
+        //実際の処理
+        let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
+        // 選択肢(ボタン)を2つ(OKとCancel)追加します
+        //   titleには、選択肢として表示される文字列を指定します
+        //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
+        dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
+            
+            if UserDefaults.standard.object(forKey: "blocked") == nil{
+                let XXX = ["XX" : true]
+                UserDefaults.standard.set(XXX, forKey: "blocked")
+            }
+            var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
+            
+            print("あいえいえいいえいえ",outMemo[sender.tag].userId)
+            blockDic[outMemo[sender.tag].userId] = true
+            UserDefaults.standard.set(blockDic, forKey: "blocked")
+            //                let uid = Auth.auth().currentUser?.uid
+            
+            print("tapped: \([sender.tag])番目のcell")
+            
+            
+            
+            self.outMemo.remove(at: sender.tag)
+            self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
+            self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
+            self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
+        }))
                dialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                // 生成したダイアログを実際に表示します
                self.present(dialog, animated: true, completion: nil)
@@ -741,12 +795,12 @@ extension ViewController: UIViewControllerTransitioningDelegate {
 
 extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
     func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
-        return 2
+        return 1
     }
     func coachMarksController(_ coachMarksController: CoachMarksController,
                               coachMarkAt index: Int) -> CoachMark {
         
-        let highlightViews: Array<UIView> = [notificationButton, bubuButton]
+        let highlightViews: Array<UIView> = [bubuButton]
         //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
         
         //チュートリアルで使うビューの中からindexで何ステップ目かを指定
@@ -766,11 +820,8 @@ extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDe
 
         //index(ステップ)によって表示内容を分岐させます
         switch index {
-        case 0:    //hogeLabel
-            coachViews.bodyView.hintLabel.text = "ここにリアクションやコネクトの\n通知が届きます"
-            coachViews.bodyView.nextLabel.text = "タップ"
         
-        case 1:    //fugaButton
+        case 0:    //fugaButton
         coachViews.bodyView.hintLabel.text = "ここから新しい投稿を行います!"
             coachViews.bodyView.nextLabel.text = "OK"
         

@@ -173,7 +173,7 @@ class InChatVC:  UIViewController, UICollectionViewDataSource,UICollectionViewDe
         let storyboard = UIStoryboard.init(name: "InChatRoom", bundle: nil)
         let InChatRoomVC = storyboard.instantiateViewController(withIdentifier: "InChatRoomVC") as! InChatRoomVC
         
-        InChatRoomVC.teamRoomDic = teamInfo[indexPath.row]
+//        InChatRoomVC.teamRoomDic = teamInfo[indexPath.row]
         print(teamInfo[indexPath.row].teamId)
 
         navigationController?.pushViewController(InChatRoomVC, animated: true)

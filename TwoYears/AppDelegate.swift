@@ -11,6 +11,8 @@ import FirebaseMessaging
 import Firebase
 import GoogleMobileAds
 import FBSDKCoreKit
+import FirebaseDynamicLinks
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
@@ -23,7 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Override point for customization after application launch.
         FirebaseApp.configure()
         GADMobileAds.sharedInstance().start(completionHandler: nil)
-//        GADMobileAds.sharedInstance().start(completionHandler: nil)
+        
+        
         
         ApplicationDelegate.shared.application(
             application,
@@ -39,7 +42,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
           // For iOS 10 display notification (sent via APNS)
           UNUserNotificationCenter.current().delegate = self
             
-
 //          let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
 //          UNUserNotificationCenter.current().requestAuthorization(
 //            options: authOptions,
@@ -94,6 +96,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             annotation: options[UIApplication.OpenURLOptionsKey.annotation]
         )
     }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?,
+                     annotation: Any) -> Bool {
+      if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url) {
+        // Handle the deep link. For example, show the deep-linked content or
+        // apply a promotional offer to the user's account.
+        // ...
+        return true
+      }
+      return false
+    }
+    
 
     // MARK: - Core Data stack
 
@@ -215,8 +229,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
       completionHandler(UIBackgroundFetchResult.newData)
     }
+//
+//    func application(_ application: UIApplication,continue userActivity: NSUserActivity,restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+//        guard userActivity.activityType == NSUserActivityTypeBrowsingWeb,
+//        let url = userActivity.webpageURL else {
+//            return false
+//        }
+////        print("ユーアールエルルルルルルルルルルルルルルルルルルルルルル",url)
+//        let handled = DynamicLinks.dynamicLinks().handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
+//            // 取得したディープリンクをもとに遷移先をハンドリングしてください。
+//            // URLComponents型に変換するとpathやqueryを取得しやすくなります。
+//            guard let deepLink = dynamiclink?.url,
+//            let component = URLComponents(url: deepLink, resolvingAgainstBaseURL: true) else {
+//            return
+//        }
+//        print(component.path)
+//        }
+//        return handled
+//    }
 
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+      let handled = DynamicLinks.dynamicLinks()
+        .handleUniversalLink(userActivity.webpageURL!) { dynamiclink, error in
+          // ...
+        }
 
+      return handled
+    }
 
 }
 

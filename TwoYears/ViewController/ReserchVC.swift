@@ -17,10 +17,11 @@ class ReserchVC:UIViewController{
     
     var selectBool:Bool = false
     var userInfo: [UserInfo] = []
+    var referralNum = 0
+    
     private let cellId = "cellId"
     let db = Firestore.firestore()
     let coachMarksController = CoachMarksController()
-
     
     @IBOutlet weak var explainLabel: UILabel!
     @IBOutlet weak var noExistLabel: UILabel!
@@ -48,6 +49,7 @@ class ReserchVC:UIViewController{
         
 //        let smallStr = inputText.lowercased()// "abcdefg"
 //        print(smallStr)
+
         let inputText = inputTextField.text ?? ""
         let removeWhitesSpacesString = inputText.removeWhitespacesAndNewlines
 
@@ -65,16 +67,12 @@ class ReserchVC:UIViewController{
         
         let storyboard = UIStoryboard.init(name: "Refferal", bundle: nil)
         let RefferalVC = storyboard.instantiateViewController(withIdentifier: "RefferalVC") as! RefferalVC
+        RefferalVC.referralCount = referralNum
         navigationController?.pushViewController(RefferalVC, animated: true)
         
     }
     
     @IBOutlet weak var refferalCountLabel: UILabel!
-    
-    
-    
-    
-    
     
     func getAccount(keyString:String,reserchString: String){
         
@@ -92,8 +90,8 @@ class ReserchVC:UIViewController{
                         userInfo.removeAll()
                         for document in querySnapshot!.documents {
                             print("\(document.documentID) => \(document.data())")
-                            let userInfoDic = UserInfo(dic: document.data())
-                            self.userInfo.append(userInfoDic)
+//                            let userInfoDic = UserInfo(dic: document.data())
+//                            self.userInfo.append(userInfoDic)
                         }
                         reserchTableView.reloadData()
                     }
@@ -101,32 +99,74 @@ class ReserchVC:UIViewController{
             }
     }
     
-    func getUserList(userId:String){
+    func fetchUserList(userId:String){
         
-        self.db.collection("users").document(userId).collection("Connections").getDocuments() { [self] (querySnapshot, err) in
+        db.collection("users").document(userId).collection("Connections").addSnapshotListener { [self] ( snapshots, err) in
             if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
                 
-                if querySnapshot?.documents.count ?? 0 >= 1{
-                    for document in querySnapshot!.documents {
-                        print("\(document.documentID) => \(document.data())")
-                        let userId = document.data()["userId"] as? String ?? ""
-                        getUserInfo(userId: userId)
+                print("メッセージの取得に失敗、\(err)")
+                return
+            }
+            
+            if snapshots?.documents.count ?? 0 >= 1{
+                
+                snapshots?.documentChanges.forEach({ (documents) in
+                    switch documents.type {
+                    case .added:
+//                        userInfo.removeAll()
+                        
+                        print("ああいあいあい")
+//                        print("\(documents.document.documentID) => \(document.data())")
+                        let userId = documents.document.data()["userId"] as? String ?? ""
+                        let messageCount = documents.document.data()["messageCount"] as? Int ?? 0
+                        let chatLatestedAt = documents.document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
+                        print("aaaaa",messageCount)
+                        getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt)
+                        
+                    case .modified, .removed:
+                        print("noproblem")
+                        print("あいあい居合あ",userInfo)
+//
+//                        let dic = documents.document.data()
+//                        let userInfoDic = UserInfo(dic: dic)
+                self.userInfo.remove(at: 0)
+                        print()
+
+                        let userId = documents.document.data()["userId"] as? String ?? ""
+                        
+                        let messageCount = documents.document.data()["messageCount"] as? Int ?? 0
+                        let chatLatestedAt = documents.document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
+                        print("aaaaa",messageCount)
+                        getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt)
                     }
-                }
+                    
+                })
             }
         }
+        
+        
+        
     }
     
     
-    func getUserInfo(userId:String){
+    func getUserInfo(userId:String,messageCount:Int,chatLatestedAt:Timestamp){
         db.collection("users").document(userId).collection("Profile").document("profile").getDocument { (document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
-                let userInfoDic = UserInfo(dic: document.data()!)
+                let userInfoDic = UserInfo(dic: document.data()!,messageCount:messageCount,chatLatestedAt:chatLatestedAt)
+                
+                
+                
                 self.userInfo.append(userInfoDic)
+
+                self.userInfo.sort { (m1, m2) -> Bool in
+                    let m1Date = m1.chatLatestedAt.dateValue()
+                    let m2Date = m2.chatLatestedAt.dateValue()
+                    return m1Date < m2Date
+                }
+                
+                
                 self.reserchTableView.reloadData()
             } else {
                 print("Document does not exist")
@@ -179,7 +219,6 @@ class ReserchVC:UIViewController{
     
     func refferalCount(uid:String){
         
-        
         db.collection("users").document(uid).getDocument { [self](document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -189,8 +228,9 @@ class ReserchVC:UIViewController{
                 
                 if referralCount != 0 {
                     refferalCountLabel.alpha = 1
-                    refferalButton.alpha = 1
+                    refferalButton.alpha = 0.85
                     refferalCountLabel.text = String(referralCount)
+                    referralNum = referralCount
                 } else {
                     refferalCountLabel.alpha = 0
                     refferalButton.alpha = 0
@@ -225,37 +265,37 @@ class ReserchVC:UIViewController{
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if UserDefaults.standard.bool(forKey: "SerchInstruct") != true{
-            UserDefaults.standard.set(true, forKey: "SerchInstruct")
-            self.coachMarksController.start(in: .currentWindow(of: self))
-        }
+//        if UserDefaults.standard.bool(forKey: "SerchInstruct") != true{
+//            UserDefaults.standard.set(true, forKey: "SerchInstruct")
+//            self.coachMarksController.start(in: .currentWindow(of: self))
+//        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+//
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        getUserList(userId:uid)
-        
+        fetchUserList(userId:uid)
+
         let downSwipe = UISwipeGestureRecognizer(
             target: self,
             action: #selector(didSwipe(_:))
         )
         downSwipe.direction = .down
         self.view.addGestureRecognizer(downSwipe)
-        
-        
+
+
             let tapGesture = UITapGestureRecognizer(
             target: self,
             action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
-
-        
-
-        
+//
+//
+//
+//
         self.coachMarksController.dataSource = self
-        
-        
+//
+//
         refferalButton.layer.cornerRadius = 30
         refferalButton.clipsToBounds = true
         refferalButton.layer.masksToBounds = false
@@ -263,13 +303,13 @@ class ReserchVC:UIViewController{
         refferalButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         refferalButton.layer.shadowOpacity = 1
         refferalButton.layer.shadowRadius = 5
-        
+
         refferalCountLabel.clipsToBounds = true
         refferalCountLabel.layer.cornerRadius = 12.5
 
         tapGesture.cancelsTouchesInView = false
-        
-        
+
+
         explainLabel.text = "←タップで条件変更"
         noExistLabel.alpha = 0
         noExistLabel.text = "該当するユーザーが\nいませんでした"
@@ -285,7 +325,7 @@ class ReserchVC:UIViewController{
 
         }
 
-        
+
         selectButton.clipsToBounds = true
         selectButton.layer.masksToBounds = false
         selectButton.layer.cornerRadius = 6
@@ -293,10 +333,10 @@ class ReserchVC:UIViewController{
         selectButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         selectButton.layer.shadowOpacity = 0.2
         selectButton.layer.shadowRadius = 5
-        
+//
         reserchTableView.dataSource = self
         reserchTableView.delegate = self
-        
+//
         fetchNotification(userId:uid)
 
     }
@@ -310,26 +350,35 @@ class ReserchVC:UIViewController{
     func fetchNotification(userId:String){
         
         db.collection("users").document(userId).addSnapshotListener { [self] documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let notificationNum = data["notificationNum"] as? Int ?? 0
-                print(notificationNum)
-                
-                if notificationNum >= 1 {
-                    self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = String(notificationNum)
-                } else {
-                }
-//                notificationNumber.text =
-//                self.teamInfo.removeAll()
-//                self.teamCollectionView.reloadData()
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
             }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            print("Current data: \(data)")
+            let notificationNum = data["notificationNum"] as? Int ?? 0
+            let messageNum = data["messageNum"] as? Int ?? 0
+            
+            print(notificationNum)
+            
+            if notificationNum >= 1 {
+                self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = String(notificationNum)
+            } else {
+            }
+            
+            
+            if messageNum >= 1 {
+                self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = String(messageNum)
+                
+            } else {
+            }
+            //                notificationNumber.text =
+            //                self.teamInfo.removeAll()
+            //                self.teamCollectionView.reloadData()
+        }
     }
 }
 extension StringProtocol where Self: RangeReplaceableCollection {
@@ -353,21 +402,27 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         let selectionView = UIView()
         selectionView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 0.2487988115)
         cell.selectedBackgroundView = selectionView
-        
         cell.userImageView.image = nil
         cell.userNameLabel.text = userInfo[indexPath.row].userName
         cell.userFrontIdLabel.text = userInfo[indexPath.row].userFrontId
-        
         cell.userNameLabel.font = UIFont(name:"03SmartFontUI", size:19)
-        
         cell.userImageView.clipsToBounds = true
         cell.userImageView.layer.cornerRadius = 25
         
+        cell.messageCountLabel.text = String(userInfo[indexPath.row].messageCount)
+
+        if userInfo[indexPath.row].messageCount == 0 {
+            cell.messageCountLabel.alpha = 0
+        } else {
+            cell.messageCountLabel.alpha = 1
+        }
+
         if let url = URL(string:userInfo[indexPath.row].userImage) {
             Nuke.loadImage(with: url, into: cell.userImageView)
         } else {
             cell.userImageView?.image = nil
         }
+        
         
         return cell
 
@@ -376,11 +431,18 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
   
 
-        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        ProfileVC.userId = userInfo[indexPath.row].userId
-        ProfileVC.cellImageTap = true
-        navigationController?.pushViewController(ProfileVC, animated: true)
+//        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+//        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+//        ProfileVC.userId = userInfo[indexPath.row].userId
+//        ProfileVC.cellImageTap = true
+//        navigationController?.pushViewController(ProfileVC, animated: true)
+        
+        let storyboard = UIStoryboard.init(name: "InChatRoom", bundle: nil)
+        let InChatRoomVC = storyboard.instantiateViewController(withIdentifier: "InChatRoomVC") as! InChatRoomVC
+        InChatRoomVC.userId = userInfo[indexPath.row].userId
+//        ProfileVC.userId = userInfo[indexPath.row].userId
+//        ProfileVC.cellImageTap = true
+        navigationController?.pushViewController(InChatRoomVC, animated: true)
 
     }
 }
@@ -389,6 +451,7 @@ class ReserhTableViewCell:UITableViewCell{
     
     @IBOutlet weak var userImageView: UIImageView!
     
+    @IBOutlet weak var messageCountLabel: UILabel!
     @IBOutlet weak var userFrontIdLabel: UILabel!
     @IBOutlet weak var userNameLabel: UILabel!
     override func awakeFromNib() {
@@ -398,12 +461,12 @@ class ReserhTableViewCell:UITableViewCell{
 
 extension ReserchVC: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
     func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
-        return 2
+        return 1
     }
     func coachMarksController(_ coachMarksController: CoachMarksController,
                               coachMarkAt index: Int) -> CoachMark {
         
-        let highlightViews: Array<UIView> = [reserchButton,refferalButton]
+        let highlightViews: Array<UIView> = [refferalButton]
         //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
         
         //チュートリアルで使うビューの中からindexで何ステップ目かを指定
@@ -424,9 +487,6 @@ extension ReserchVC: CoachMarksControllerDataSource, CoachMarksControllerDelegat
         //index(ステップ)によって表示内容を分岐させます
         switch index {
         case 0:    //hogeLabel
-            coachViews.bodyView.hintLabel.text = "ここで新しいユーザーを\n探します"
-            coachViews.bodyView.nextLabel.text = "次へ"
-        case 1:    //hogeLabel
             coachViews.bodyView.hintLabel.text = "ここから招待IDを\n発行することができます"
             coachViews.bodyView.nextLabel.text = "OK"
         

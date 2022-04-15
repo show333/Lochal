@@ -361,6 +361,9 @@ PODS:
   - Firebase/Crashlytics (8.12.1):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 8.12.0)
+  - Firebase/DynamicLinks (8.12.1):
+    - Firebase/CoreOnly
+    - FirebaseDynamicLinks (~> 8.12.0)
   - Firebase/Firestore (8.12.1):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 8.12.1)
@@ -409,6 +412,8 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (~> 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
+  - FirebaseDynamicLinks (8.12.0):
+    - FirebaseCore (~> 8.0)
   - FirebaseFirestore (8.12.1):
     - abseil/algorithm (= 0.20200225.0)
     - abseil/base (= 0.20200225.0)
@@ -536,6 +541,7 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Crashlytics
+  - Firebase/DynamicLinks
   - Firebase/Firestore
   - Firebase/Messaging
   - Firebase/Storage
@@ -563,6 +569,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseCrashlytics
+    - FirebaseDynamicLinks
     - FirebaseFirestore
     - FirebaseInstallations
     - FirebaseMessaging
@@ -601,6 +608,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 8138de860a90ca7eec5e324da5788fb0ebf1d93c
   FirebaseCoreDiagnostics: 3b40dfadef5b90433a60ae01f01e90fe87aa76aa
   FirebaseCrashlytics: 7952ffd988006128325510664b99dc8ca5851dff
+  FirebaseDynamicLinks: 98a5f0fe542245a89ec55f646d2581298c29219d
   FirebaseFirestore: dfeb58916ee3ae0ef2453d4849a683672705920c
   FirebaseInstallations: 25764cf322e77f99449395870a65b2bef88e1545
   FirebaseMessaging: 23db8bf05585e929ada8af0f0968933c25252808
@@ -627,6 +635,6 @@ SPEC CHECKSUMS:
   TransitionButton: 36283346e17c64775a1b3bc3a7a72940a367de1f
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 2ab1b5634cbc98287424fe3f6dfffd00049de404
+PODFILE CHECKSUM: 3925f9cf1611aab33b873284d3642549f47a2e87
 
 COCOAPODS: 1.11.2

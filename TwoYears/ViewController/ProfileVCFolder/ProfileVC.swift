@@ -8,7 +8,9 @@
 import UIKit
 import Firebase
 import GuillotineMenu
+import FirebaseAuth
 import FirebaseFirestore
+
 import SwiftMoment
 import Nuke
 import DZNEmptyDataSet
@@ -29,6 +31,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var userName: String? =  UserDefaults.standard.string(forKey: "userName")
     var userImage: String? = UserDefaults.standard.string(forKey: "userImage")
     var userFrontId: String? = UserDefaults.standard.string(forKey: "userFrontId")
+    var dismissBool: Bool = false
     
     var cellImageTap : Bool = false
     
@@ -47,6 +50,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
     private let headerMoveHeight: CGFloat = 7
     
+    
+    @IBOutlet weak var postCompleteLabel: UILabel!
+    @IBOutlet weak var secondPostCompleteLabel: UILabel!
     @IBOutlet weak var backGroundImageView: UIImageView!
     @IBOutlet weak var settingsLabel: UILabel!
     @IBOutlet weak var userImageView: UIImageView!
@@ -93,11 +99,17 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var postOtherLabel: UILabel!
     
     @IBAction func postTappedButton(_ sender: Any) {
+        
+        if statusChain == "accept" {
         let storyboard = UIStoryboard.init(name: "CollectionPost", bundle: nil)
         let CollectionPostVC = storyboard.instantiateViewController(withIdentifier: "CollectionPostVC") as! CollectionPostVC
-
+        CollectionPostVC.presentationController?.delegate = self
         CollectionPostVC.postDocString = userId
         self.present(CollectionPostVC, animated: true, completion: nil)
+            
+        } else {
+            postAlert()
+        }
                 
     }
     
@@ -136,31 +148,24 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                       statusChain = ""
                       
                   } else if statusChain == "accept" {
-                      followButton.setTitle("コネクトする", for: .normal)
-                      followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-                      followButton.setTitleColor(UIColor.darkGray, for: .normal)
-                      unChain()
-                      db.collection("users").document(uid ?? "").setData(["ConnectionsCount": FieldValue.increment(-1.0)], merge: true)
-                      db.collection("users").document(userId ?? "").setData(["ConnectionsCount": FieldValue.increment(-1.0)], merge: true)
-                      statusChain = ""
+                      confirmationAlert()
                   } else if statusChain == "gotRequest" {
                       
                       followButton.backgroundColor = .darkGray
-                      followButton.setTitle("コネクト済み", for: .normal)
+                      followButton.setTitle("コネクト中", for: .normal)
                       followButton.setTitleColor(UIColor.white, for: .normal)
                       followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
                       doChain()
                       postBackGroundView.alpha = 1
                       postOtherLabel.alpha = 0
                       statusChain = "accept"
-                      
                   }
                   
               } else {
                   print("Document does not exist")
                   
                   followButton.backgroundColor = .darkGray
-                  followButton.setTitle("リクエスト中", for: .normal)
+                  followButton.setTitle("リクエスト済み", for: .normal)
                   followButton.setTitleColor(UIColor.white, for: .normal)
                   chainRequest()
                   statusChain = "sendRequest"
@@ -168,6 +173,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
               }
           }
     }
+    
+    
     
     
     
@@ -184,6 +191,58 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         let storyboard = UIStoryboard.init(name: "Settings", bundle: nil)
         let SettingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC
         navigationController?.pushViewController(SettingsVC, animated: true)
+    }
+    
+    func postAlert() {
+        
+        // ① UIAlertControllerクラスのインスタンスを生成
+        // タイトル, メッセージ, Alertのスタイルを指定する
+        // 第3引数のpreferredStyleでアラートの表示スタイルを指定する
+        let alert: UIAlertController = UIAlertController(title: "コネクトしてください", message: "コネクト(相互フォロー)後に\nラクガキ投稿が可能になります", preferredStyle: .alert)
+
+        // ② Actionの設定
+        // Action初期化時にタイトル, スタイル, 押された時に実行されるハンドラを指定する
+        // 第3引数のUIAlertActionStyleでボタンのスタイルを指定する
+        // OKボタン
+        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: .default, handler:{
+            // ボタンが押された時の処理を書く（クロージャ実装）
+            (action: UIAlertAction!) -> Void in
+            print("OK")
+        })
+        // キャンセルボタン
+
+
+        // ③ UIAlertControllerにActionを追加
+        alert.addAction(defaultAction)
+
+        // ④ Alertを表示
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    
+    func confirmationAlert() {
+        let alert = UIAlertController(title: "コネクト解除", message: "コネクトを解除してもよろしいですか？", preferredStyle: .alert)
+        
+        let delete = UIAlertAction(title: "解除", style: .default, handler: { [self] (action) -> Void in
+            print("Delete button tapped")
+            
+            followButton.setTitle("コネクトする", for: .normal)
+            followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            followButton.setTitleColor(UIColor.darkGray, for: .normal)
+            unChain()
+            db.collection("users").document(uid ?? "").setData(["ConnectionsCount": FieldValue.increment(-1.0)], merge: true)
+            db.collection("users").document(userId ?? "").setData(["ConnectionsCount": FieldValue.increment(-1.0)], merge: true)
+            statusChain = ""
+        })
+        
+        let cancel = UIAlertAction(title: "キャンセル", style: .cancel, handler: { (action) -> Void in
+            print("Cancel button tapped")
+        })
+        
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     func doChain(){
@@ -333,10 +392,21 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         super.viewDidLoad()
         
 //        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
+        let safeAreaWidth = UIScreen.main.bounds.size.width
+        let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
+        
+        if uid == userId {
+            postButton.alpha = 0
+        } else {
+            postButton.alpha = 0.8
+        }
         
         connectLabel.font = UIFont(name:"03SmartFontUI", size:12)
         settingsLabel.font = UIFont(name:"03SmartFontUI", size:12)
-        postOtherLabel.font = UIFont(name:"03SmartFontUI", size:12)
+        postOtherLabel.font = UIFont(name:"03SmartFontUI", size:14)
         rakugakiLabel.font = UIFont(name:"03SmartFontUI", size:17)
         
         
@@ -346,12 +416,18 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         followButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 17)
 
-        backGroundImageView.alpha = 0.3
+        backGroundImageView.alpha = 0.1
         headerView.alpha = 1
         postCollectionView.alpha = 1
         
         
+        postCompleteLabel.alpha = 0
+        postCompleteLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/20)
+        postCompleteLabel.text = "ラクがきを送信しました！"
         
+        secondPostCompleteLabel.alpha = 0
+        secondPostCompleteLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/25)
+        secondPostCompleteLabel.text = "相手の許可を得た後,公開されます"
 
         
         self.coachMarksController.dataSource = self
@@ -366,6 +442,15 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         postBackGroundView.layer.shadowRadius = 5
         
         
+        postButton.layer.cornerRadius = 30
+        postButton.clipsToBounds = true
+        postButton.layer.masksToBounds = false
+        postButton.layer.shadowColor = UIColor.black.cgColor
+        postButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        postButton.layer.shadowOpacity = 1
+        postButton.layer.shadowRadius = 5
+        
+        
         postBackImageView.clipsToBounds = true
         postBackImageView.layer.cornerRadius = 10
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FfollowsPostImages.png?alt=media&token=bb9320cc-e79e-4f28-a23a-5573da02b5f3") {
@@ -373,17 +458,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         } else {
             postBackImageView.image = nil
         }
-        
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
+                
         
 //        chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
         
-        let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
-        
-        
-        let safeAreaWidth = UIScreen.main.bounds.size.width
-        let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
         
 
         followButton.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -489,7 +567,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //        chatListTableView.emptyDataSetSource = self
 //        chatListTableView.separatorStyle = .none
 //        chatListTableView.backgroundColor = .clear
-        
 //        fetchFireStore(userId: userId ?? "unKnown",uid: uid)
         fetchNotification(userId:uid)
         fetchUserProfile(userId: userId ?? "unKnown")
@@ -559,26 +636,33 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
 //        coachMarksController.start(in: .currentWindow(of: self))
         
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            if UserDefaults.standard.bool(forKey: "ProfileTransition") != true{
-                UserDefaults.standard.set(true, forKey: "ProfileTransition")
-                let userId = UserDefaults.standard.string(forKey: "referralUserlId") ?? "unKnown"
+        self.postInfo.removeAll()
+        self.postCollectionView.reloadData()
 
-                let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-                let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-                ProfileVC.userId = userId
-                ProfileVC.cellImageTap = false
-                self.present(ProfileVC, animated: true, completion: nil)
-            } else {
-                if UserDefaults.standard.bool(forKey: "ProfileInstruct") != true{
-                    UserDefaults.standard.set(true, forKey: "ProfileInstruct")
-                    self.coachMarksController.start(in: .currentWindow(of: self))
-                }
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            // 0.5秒後に実行したい処理
+            self.fetchPostInfo(userId: self.userId ?? "unKnown")
         }
- 
+//
         
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            if UserDefaults.standard.bool(forKey: "ProfileTransition") != true{
+//                UserDefaults.standard.set(true, forKey: "ProfileTransition")
+//                let userId = UserDefaults.standard.string(forKey: "referralUserlId") ?? "unKnown"
+//
+//                let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+//                let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+//                ProfileVC.userId = userId
+//                ProfileVC.cellImageTap = false
+//                self.present(ProfileVC, animated: true, completion: nil)
+//            } else {
+//                if UserDefaults.standard.bool(forKey: "ProfileInstruct") != true{
+//                    UserDefaults.standard.set(true, forKey: "ProfileInstruct")
+//                    self.coachMarksController.start(in: .currentWindow(of: self))
+//                }
+//            }
+//        }
+
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
@@ -589,6 +673,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             settingsButton.alpha = 1
             settingsLabel.alpha = 1
         } else {
+            
+//            self.coachMarksController.start(in: .currentWindow(of: self))
+
             self.tabBarController?.tabBar.isHidden = false
 //            self.navigationController?.navigationBar.isHidden = true
             followButton.alpha = 1
@@ -616,9 +703,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     } else {
 
                     }
-
-
-                    
                     
                     self.postInfo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
@@ -662,20 +746,25 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 let acceptBool = acceptArray?.contains(userId)
                 
                 
+                
+
                 if sendBool == true {
                     statusChain = "sendRequest"
                     followButton.backgroundColor = .darkGray
-                    followButton.setTitle("リクエスト中", for: .normal)
+                    followButton.setTitle("リクエスト済み", for: .normal)
                     followButton.setTitleColor(UIColor.white, for: .normal)
                     postOtherLabel.alpha = 1
                     postBackGroundView.alpha = 0
+                    postOtherLabel.text = "相手のコネクト待ちです\n少々お待ちください"
+
                     
                 } else if gotBool == true {
                     statusChain = "gotRequest"
                     followButton.backgroundColor = .darkGray
                     followButton.setTitle("コネクトする", for: .normal)
                     followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
-                    postOtherLabel.alpha = 0
+                    postOtherLabel.text = "申請を受けています\n←タップでコネクトをします"
+
                     if uid == userId {
                         postOtherLabel.alpha = 0
                     } else {
@@ -683,19 +772,24 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     }
                     
                     
+                    
                 } else if acceptBool == true {
                     statusChain = "accept"
                     followButton.backgroundColor = .darkGray
-                    followButton.setTitle("コネクト済み", for: .normal)
+                    followButton.setTitle("コネクト中", for: .normal)
                     followButton.setTitleColor(UIColor{_ in return #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)}, for: .normal)
-                    postOtherLabel.alpha = 0
-                    postBackGroundView.alpha = 1
+                    postOtherLabel.alpha = 1
+                    postBackGroundView.alpha = 0
                     
+                    postOtherLabel.text = "画面右下のボタンから\nラクがき投稿ができます"
+
                 }else {
                     followButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
                     followButton.setTitle("コネクトする", for: .normal)
                     followButton.setTitleColor(UIColor.darkGray, for: .normal)
                     postBackGroundView.alpha = 0
+                    postOtherLabel.text = "←のボタンから\nコネクトを申請します"
+
                     if uid == userId {
                         postOtherLabel.alpha = 0
                     } else {
@@ -708,17 +802,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
         
     }
-    
-    
-    
-    //Pull to Refresh
-//    @objc private func onRefresh(_ sender: AnyObject) {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-//            self?.chatListTableView.reloadData()
-//            self?.chatListTableView.refreshControl?.endRefreshing()
-//
-//        }
-//    }
     
     
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
@@ -800,33 +883,42 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             })
             self.teamCollectionView.reloadData()
             postCollectionView.reloadData()
-
+            
         }
     }
     
     func fetchNotification(userId:String){
         
         db.collection("users").document(userId).addSnapshotListener { [self] documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let notificationNum = data["notificationNum"] as? Int ?? 0
-                print(notificationNum)
-                
-                if notificationNum >= 1 {
-                    self.tabBarController?.viewControllers?[0].tabBarItem.badgeValue = String(notificationNum)
-                } else {
-                }
-//                notificationNumber.text =
-//                self.teamInfo.removeAll()
-//                self.teamCollectionView.reloadData()
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
             }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            print("Current data: \(data)")
+            let notificationNum = data["notificationNum"] as? Int ?? 0
+            let messageNum = data["messageNum"] as? Int ?? 0
+            
+            print(notificationNum)
+            
+            if notificationNum >= 1 {
+                self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = String(notificationNum)
+            } else {
+            }
+            
+            
+            if messageNum >= 1 {
+                self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = String(messageNum)
+                
+            } else {
+            }
+            //                notificationNumber.text =
+            //                self.teamInfo.removeAll()
+            //                self.teamCollectionView.reloadData()
+        }
     }
     
     
@@ -1033,9 +1125,7 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
         
         let cellSize : CGFloat = self.view.bounds.width / 3 * 2 - 12
                 
-        //        if postImage != "" {
-        //            return cellSize
-        //        } else {
+
         if postImage == "" {
             if titleCount < 6 {
                 return cellSize/3
@@ -1054,27 +1144,9 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
             if indexPath.row % 2 == 1 {
                 return cellSize/1.5
             } else {
-                return cellSize
+                return cellSize/1.2
             }
         }
-            
-            //        if titleCount < 10 {
-            //            return 100
-        //        } else if titleCount < 20 {
-        //            return 150
-        //        } else {
-//            return 200
-//        }
-    
-    
-    //        if indexPath.row % 4 == 0 {
-    //            return 200
-    //        } else if indexPath.row % 3 == 0 {
-    //            return 300
-    //        } else {
-    //            return 150
-    //        }
-    
         
     }
     
@@ -1089,7 +1161,7 @@ extension ProfileVC: CoachMarksControllerDataSource, CoachMarksControllerDelegat
     func coachMarksController(_ coachMarksController: CoachMarksController,
                               coachMarkAt index: Int) -> CoachMark {
         
-        let highlightViews: Array<UIView> = [postBackGroundView,transitionChainButton]
+        let highlightViews: Array<UIView> = [postButton,transitionChainButton]
         //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
         
         //チュートリアルで使うビューの中からindexで何ステップ目かを指定
@@ -1425,5 +1497,32 @@ class postCollectionViewCell: UICollectionViewCell {
 
         // cellを丸くする
         self.layer.cornerRadius = safeAreaWidth/18
+    }
+}
+extension ProfileVC: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        
+        if dismissBool != false {
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+
+            
+            UIView.animate(withDuration: 0.5, delay: 0.3, animations: {
+                self.postCompleteLabel.alpha = 1
+                self.secondPostCompleteLabel.alpha = 1
+                let ConstraintCGfloat:CGFloat = 85
+                self.postCompleteLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
+                self.secondPostCompleteLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
+            }) { bool in
+                // ②アイコンを大きくする
+                UIView.animate(withDuration: 0.5, delay: 2.5, animations: {
+                    self.postCompleteLabel.alpha = 0
+                    self.secondPostCompleteLabel.alpha = 0
+                    let ConstraintCGfloat:CGFloat = 85
+                    self.postCompleteLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
+                    self.secondPostCompleteLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
+                })
+            }
+        }
     }
 }
