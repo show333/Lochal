@@ -17,6 +17,7 @@ class SplashViewController: UIViewController {
     
     private var teamId: [String] = []
     let db = Firestore.firestore()
+    var userId:[String] = []
     
     @IBOutlet weak var titleLeftLabel: UILabel!
     @IBOutlet weak var leftLabelConstraint: NSLayoutConstraint!
@@ -51,30 +52,58 @@ class SplashViewController: UIViewController {
                 let userImage = document["userImage"] as? String ?? ""
                 let userFrontId = document["userFrontId"] as? String ?? ""
                 let UEnterdBool = document["UEnterdBool"] as? Bool ?? false
-
+                
                 
                 print("あいあいあい",userName)
                 print("あいあい",userImage)
                 print("あいあいあ",userId)
                 
                 if UEnterdBool == true {
+                    
+                    
                     if userName != "" && userImage != "" && userFrontId != "" {
+                        
                         presentTabbar(userId: userId)
+                        getConnection(uid:userId)
                         UserDefaults.standard.set(userId, forKey: "userId")
                         UserDefaults.standard.set(userName, forKey: "userName")
                         UserDefaults.standard.set(userImage, forKey: "userImage")
                         UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
-                        
                     } else {
                         presentExplain()
                     }
+                    
+                    
                 } else {
                     presentSignInVC()
                 }
+                
+                
+                
             } else {
                 print("Document does not exist")
                 
                 presentSignInVC()
+            }
+        }
+    }
+    
+    func getConnection(uid:String) {
+        db.collection("users").document(uid).collection("Connections").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                
+                if querySnapshot?.documents.count ?? 0 >= 1{
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let userId = document.data()["userId"] as? String ?? ""
+                        self.userId.append(userId)
+
+                    }
+                    print("usseserser",self.userId)
+//                    UserDefaults.standard.set(self.userId, forKey: "connectingUserId")
+                }
             }
         }
     }

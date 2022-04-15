@@ -416,7 +416,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
         followButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 17)
 
-        backGroundImageView.alpha = 0.3
+        backGroundImageView.alpha = 0.1
         headerView.alpha = 1
         postCollectionView.alpha = 1
         
@@ -567,7 +567,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //        chatListTableView.emptyDataSetSource = self
 //        chatListTableView.separatorStyle = .none
 //        chatListTableView.backgroundColor = .clear
-        
 //        fetchFireStore(userId: userId ?? "unKnown",uid: uid)
         fetchNotification(userId:uid)
         fetchUserProfile(userId: userId ?? "unKnown")
@@ -646,25 +645,24 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
 //
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            if UserDefaults.standard.bool(forKey: "ProfileTransition") != true{
-                UserDefaults.standard.set(true, forKey: "ProfileTransition")
-                let userId = UserDefaults.standard.string(forKey: "referralUserlId") ?? "unKnown"
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//            if UserDefaults.standard.bool(forKey: "ProfileTransition") != true{
+//                UserDefaults.standard.set(true, forKey: "ProfileTransition")
+//                let userId = UserDefaults.standard.string(forKey: "referralUserlId") ?? "unKnown"
+//
+//                let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+//                let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+//                ProfileVC.userId = userId
+//                ProfileVC.cellImageTap = false
+//                self.present(ProfileVC, animated: true, completion: nil)
+//            } else {
+//                if UserDefaults.standard.bool(forKey: "ProfileInstruct") != true{
+//                    UserDefaults.standard.set(true, forKey: "ProfileInstruct")
+//                    self.coachMarksController.start(in: .currentWindow(of: self))
+//                }
+//            }
+//        }
 
-                let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-                let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-                ProfileVC.userId = userId
-                ProfileVC.cellImageTap = false
-                self.present(ProfileVC, animated: true, completion: nil)
-            } else {
-                if UserDefaults.standard.bool(forKey: "ProfileInstruct") != true{
-                    UserDefaults.standard.set(true, forKey: "ProfileInstruct")
-                    self.coachMarksController.start(in: .currentWindow(of: self))
-                }
-            }
-        }
- 
-        
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
@@ -675,6 +673,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             settingsButton.alpha = 1
             settingsLabel.alpha = 1
         } else {
+            
+//            self.coachMarksController.start(in: .currentWindow(of: self))
+
             self.tabBarController?.tabBar.isHidden = false
 //            self.navigationController?.navigationBar.isHidden = true
             followButton.alpha = 1
@@ -702,9 +703,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     } else {
 
                     }
-
-
-                    
                     
                     self.postInfo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
@@ -885,33 +883,42 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             })
             self.teamCollectionView.reloadData()
             postCollectionView.reloadData()
-
+            
         }
     }
     
     func fetchNotification(userId:String){
         
         db.collection("users").document(userId).addSnapshotListener { [self] documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let notificationNum = data["notificationNum"] as? Int ?? 0
-                print(notificationNum)
-                
-                if notificationNum >= 1 {
-                    self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = String(notificationNum)
-                } else {
-                }
-//                notificationNumber.text =
-//                self.teamInfo.removeAll()
-//                self.teamCollectionView.reloadData()
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
             }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            print("Current data: \(data)")
+            let notificationNum = data["notificationNum"] as? Int ?? 0
+            let messageNum = data["messageNum"] as? Int ?? 0
+            
+            print(notificationNum)
+            
+            if notificationNum >= 1 {
+                self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = String(notificationNum)
+            } else {
+            }
+            
+            
+            if messageNum >= 1 {
+                self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = String(messageNum)
+                
+            } else {
+            }
+            //                notificationNumber.text =
+            //                self.teamInfo.removeAll()
+            //                self.teamCollectionView.reloadData()
+        }
     }
     
     
@@ -1154,7 +1161,7 @@ extension ProfileVC: CoachMarksControllerDataSource, CoachMarksControllerDelegat
     func coachMarksController(_ coachMarksController: CoachMarksController,
                               coachMarkAt index: Int) -> CoachMark {
         
-        let highlightViews: Array<UIView> = [postBackGroundView,transitionChainButton]
+        let highlightViews: Array<UIView> = [postButton,transitionChainButton]
         //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
         
         //チュートリアルで使うビューの中からindexで何ステップ目かを指定

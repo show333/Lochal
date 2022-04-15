@@ -17,7 +17,7 @@ class ConnectionVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
     private let cellId = "cellId"
 
     let db = Firestore.firestore()
-    var userInfo : [UserInfo] = []
+    var usersDic : [Users] = []
     var userId: String?
 
     
@@ -70,8 +70,8 @@ class ConnectionVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
-                let userInfoDic = UserInfo(dic: document.data()!)
-                self.userInfo.append(userInfoDic)
+                let userInfoDic = Users(dic: document.data()!)
+                self.usersDic.append(userInfoDic)
                 self.userListTableView.reloadData()
             } else {
                 print("Document does not exist")
@@ -87,19 +87,19 @@ extension ConnectionVC :UITableViewDataSource,UITableViewDelegate {
         return 60
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return userInfo.count
+        return usersDic.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = userListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ConnectionTableViewCell
         
-        cell.userNameLabel.text = userInfo[indexPath.row].userName
-        cell.userFrontIdLabel.text = userInfo[indexPath.row].userFrontId
+        cell.userNameLabel.text = usersDic[indexPath.row].userName
+        cell.userFrontIdLabel.text = usersDic[indexPath.row].userFrontId
         
         cell.userImageView.clipsToBounds = true
         cell.userImageView.layer.cornerRadius = 25
         //
         cell.userImageView.image = nil
-        if let url = URL(string:userInfo[indexPath.row].userImage) {
+        if let url = URL(string:usersDic[indexPath.row].userImage) {
             Nuke.loadImage(with: url, into: cell.userImageView)
         } else {
             cell.userImageView?.image = nil
@@ -110,10 +110,9 @@ extension ConnectionVC :UITableViewDataSource,UITableViewDelegate {
         
         let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
         let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        ProfileVC.userId = userInfo[indexPath.row].userId
+        ProfileVC.userId = usersDic[indexPath.row].userId
         ProfileVC.cellImageTap = true
         navigationController?.pushViewController(ProfileVC, animated: true)
-
     }
     
     

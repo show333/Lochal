@@ -17,9 +17,9 @@ import ImageViewer
 
 class InChatRoomVC:UIViewController {
     
-    var teamRoomDic : Team?
     var ChatRoomInfo = [ChatsInfo]()
     var userInfo : [UserInfo] = []
+    var userId : String?
 //    var galleyItem: GalleryItem!
     let db = Firestore.firestore()
 
@@ -50,17 +50,19 @@ class InChatRoomVC:UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-//        self.tabBarController?.tabBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.tabBarController?.tabBar.isHidden = false
+//        self.tabBarController?.tabBar.isHidden = false
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         
         setSwipeBack()
         setupNotification()
@@ -79,56 +81,12 @@ class InChatRoomVC:UIViewController {
         inChatTableView.keyboardDismissMode = .interactive
         inChatTableView.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: -1, tx: 0, ty: 0)
         
-        fetchFireStore()
+        fetchFireStore(uid:uid)
         
     }
     
-    
-    func fetchUserInfo(){
-        guard let teamId = teamRoomDic?.teamId else { return }
-        db.collection("Team").document(teamId).collection("MembersId").document("membersId")
-            .addSnapshotListener { documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let userIdArray = data["userId"] as! Array<String>
-                print("ドドド",self.userInfo)
-                print("アイア背負fじゃせ",userIdArray)
-                
-                self.userInfo.removeAll()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    
-                    userIdArray.forEach{
-                        self.getUserProfile(userId: $0)
-                    }
-                }
-            }
-    }
-    func getUserProfile(userId:String){
-        db.collection("users").document(userId).collection("Profile").document("profile").getDocument { (document, error) in
-            if let document = document, document.exists {
-                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-                print("Document data: \(dataDescription)")
-                let userInfoDic = UserInfo(dic: document.data()!)
-                self.userInfo.append(userInfoDic)
-                
-            } else {
-                print("Document does not exist")
-            }
-        }
-    }
-    
-    
-    
-    private func fetchFireStore() {
-        guard let teamId = teamRoomDic?.teamId else { return }
-        db.collection("Team").document(teamId).collection("ChatRoom").addSnapshotListener{ [self] ( snapshots, err) in
+    private func fetchFireStore(uid:String) {
+        db.collection("users").document(uid).collection("ChatRoom").document(userId ?? "").collection("Messages").addSnapshotListener{ [self] ( snapshots, err) in
             if let err = err {
                 print("メッセージの取得に失敗、\(err)")
                 return
@@ -409,12 +367,11 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
 
               print("Current data: \(data)")
             }
-
-//        db.collection("users").document()
         
         
     }
 }
+
 extension InChatRoomVC: ChatInputAccessoryViewDelegate{
     func tappedSendButton(text: String) {
         addMessageToFirestore(text: text)
@@ -423,24 +380,30 @@ extension InChatRoomVC: ChatInputAccessoryViewDelegate{
         chatInputAccessoryView.removeText()
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let teamId = teamRoomDic?.teamId else { return }
         
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             return String((0..<length).map{ _ in characters.randomElement()! })
         }
         let documentId = randomString(length: 20)
-                    let docData = [
-                        "createdAt": FieldValue.serverTimestamp(),
-                        "message": text,
-                        "userId": uid,
-                        "teamId": teamRoomDic?.teamId as Any,
-                        "documentId" : documentId,
-                        "admin": false,
-                        "sendImageURL": "",
-                    ] as [String: Any]
+        let docData = [
+            "createdAt": FieldValue.serverTimestamp(),
+            "message": text,
+            "userId": uid,
+            "documentId" : documentId,
+            "admin": false,
+            "sendImageURL": "",
+        ] as [String: Any]
         
-        db.collection("Team").document(teamId).collection("ChatRoom").document(documentId).setData(docData)
+        let upDateDoc = [
+            "chatLatestedAt": FieldValue.serverTimestamp(),
+            "messageCount": FieldValue.increment(1.0),
+        ] as [String: Any]
+        
+        db.collection("users").document(uid).collection("ChatRoom").document(userId ?? "").collection("Messages").document(documentId).setData(docData)
+        db.collection("users").document(userId ?? "").collection("ChatRoom").document(uid).collection("Messages").document(documentId).setData(docData)
+        db.collection("users").document(userId ?? "").collection("Connections").document(uid).setData(upDateDoc, merge: true)
+        db.collection("users").document(userId ?? "").setData(["messageNum": FieldValue.increment(1.0)], merge: true)
         
     }
 }

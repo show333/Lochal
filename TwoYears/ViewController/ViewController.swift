@@ -109,14 +109,14 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         
 //        let backGroundString = UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
 //
-        let backGroundString = "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
-        
-        
-        if let url = URL(string:backGroundString) {
-            Nuke.loadImage(with: url, into: backGroundImageView)
-        } else {
-            backGroundImageView.image = nil
-        }
+//        let backGroundString = "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
+//        
+//        
+//        if let url = URL(string:backGroundString) {
+//            Nuke.loadImage(with: url, into: backGroundImageView)
+//        } else {
+//            backGroundImageView.image = nil
+//        }
         
     }
     
@@ -214,31 +214,38 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     func fetchNotification(userId:String){
         
         db.collection("users").document(userId).addSnapshotListener { [self] documentSnapshot, error in
-                guard let document = documentSnapshot else {
-                    print("Error fetching document: \(error!)")
-                    return
-                }
-                guard let data = document.data() else {
-                    print("Document data was empty.")
-                    return
-                }
-                print("Current data: \(data)")
-                let notificationNum = data["notificationNum"] as? Int ?? 0
-                print(notificationNum)
-                
-                if notificationNum >= 1 {
-
-                    self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = String(notificationNum)
-                } else {
-                }
-//                notificationNumber.text =
-//                self.teamInfo.removeAll()
-//                self.teamCollectionView.reloadData()
+            guard let document = documentSnapshot else {
+                print("Error fetching document: \(error!)")
+                return
             }
+            guard let data = document.data() else {
+                print("Document data was empty.")
+                return
+            }
+            print("Current data: \(data)")
+            let notificationNum = data["notificationNum"] as? Int ?? 0
+            let messageNum = data["messageNum"] as? Int ?? 0
+            
+            print(notificationNum)
+            
+            if notificationNum >= 1 {
+                self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = String(notificationNum)
+            } else {
+            }
+            
+            if messageNum >= 1 {
+                self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = String(messageNum)
+
+            } else {
+            }
+            //                notificationNumber.text =
+            //                self.teamInfo.removeAll()
+            //                self.teamCollectionView.reloadData()
+        }
     }
     
     //        whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).
-
+    
     
     private func fetchFireStore(userId:String) {
         db.collection("users").document(userId).collection("TimeLine").whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in

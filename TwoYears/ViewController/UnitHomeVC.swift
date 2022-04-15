@@ -169,8 +169,8 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
                 switch Naruto.type {
                 case .added:
                     let dic = Naruto.document.data()
-                    let userInfoDic = UserInfo(dic: dic)
-                    self.userInfo.append(userInfoDic)
+//                    let userInfoDic = UserInfo(dic: dic)
+//                    self.userInfo.append(userInfoDic)
                     
                     self.userInfo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
