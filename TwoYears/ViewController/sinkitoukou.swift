@@ -16,7 +16,6 @@ import Nuke
 class sinkitoukou: UIViewController {
     let uid = UserDefaults.standard.string(forKey: "userId")
     let db = Firestore.firestore()
-    var company1Id : String?
     var followerId : [String] = []
     
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
@@ -47,17 +46,20 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var ongakuLabel: UILabel!
     @IBOutlet weak var sinkiButton: UIButton!
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var companyView: UIImageView!
+    
+    @IBOutlet weak var newPostImageView: UIImageView!
     @IBAction func tappedSinkiButton(_ sender: Any) {
         sendMemoFireStore()
         dismiss(animated: true, completion: nil)
     }
     
+    @IBOutlet weak var annoymousImageView: UIImageView!
     @IBOutlet weak var anonymousButton: UIButton!
     @IBAction func anonymousTappedButton(_ sender: Any) {
         anoymousSendMemo()
     }
     
+    @IBOutlet weak var privateImageView: UIImageView!
     @IBOutlet weak var privateButton: UIButton!
     
     @IBAction func privateTappedButton(_ sender: Any) {
@@ -96,7 +98,6 @@ class sinkitoukou: UIViewController {
             "anonymous":false,
             "admin": false,
             "delete": false,
-            
         ] as [String: Any]
         
         let myPost = [
@@ -125,7 +126,6 @@ class sinkitoukou: UIViewController {
                         print("\(document.documentID) => \(document.data())")
                         let userId = document.data()["userId"] as? String ?? ""
                         db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
-
                     }
                 }
             }
@@ -187,7 +187,6 @@ class sinkitoukou: UIViewController {
         ] as [String: Any]
         db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
         
-        
         let myPost = [
             "message" : thisisMessage as Any,
             "sendImageURL": "",
@@ -223,9 +222,6 @@ class sinkitoukou: UIViewController {
 //        }
         
         db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
-
-
-        
     }
     
     
@@ -241,6 +237,27 @@ class sinkitoukou: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //ポスト
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_02398_icon_023989_256.png?alt=media&token=e88ea22e-0d00-47f3-bce1-bcb9c41cfbb9") {
+            Nuke.loadImage(with: url, into: newPostImageView)
+        } else {
+            newPostImageView?.image = nil
+        }
+
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_03868_icon_0386810_256.png?alt=media&token=3bbd52c2-115d-481e-bb4a-e5a5b3da5723") {
+            Nuke.loadImage(with: url, into: annoymousImageView)
+        } else {
+            annoymousImageView?.image = nil
+        }
+        
+     
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_05350_icon_053504_256.png?alt=media&token=e0a2936c-2e75-47b5-a6d2-1c944954828e") {
+            Nuke.loadImage(with: url, into: privateImageView)
+        } else {
+            privateImageView?.image = nil
+        }
+
+        
         if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
             view.alpha = 1
             ongakuLabel.text = "初めての投稿をしてみましょう！\n投稿はコネクトをしたユーザーに\n公開されます"
@@ -253,7 +270,7 @@ class sinkitoukou: UIViewController {
         
         self.textView.delegate = self
         sinkiButton.isEnabled = false
-        sinkiButton.backgroundColor = .gray
+        sinkiButton.backgroundColor = .clear
         textView.textColor = .gray
         textView.text = placeholder
         textView.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.862745098, alpha: 1)
