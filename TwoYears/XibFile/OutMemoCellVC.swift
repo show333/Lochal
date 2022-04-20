@@ -59,6 +59,8 @@ class OutmMemoCellVC: UITableViewCell {
     @IBOutlet weak var mainBackground: UIView!
     @IBOutlet weak var shadowLayer: UIView!
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var sendImageView: UIImageView!
+    @IBOutlet weak var sendImageConstraintHeight: NSLayoutConstraint!
     @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var coverView: UIView!

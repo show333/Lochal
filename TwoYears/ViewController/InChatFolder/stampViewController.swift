@@ -14,7 +14,7 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     @IBOutlet weak var laLabel: UILabel!
     
-    
+    var transitionNewPostBool : Bool?
     var stampUrls : String?
     var imageUrls = [String]()
     let db = Firestore.firestore()
@@ -34,8 +34,18 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
     @IBAction func tappedImageView(_ sender: Any) {
         print("aaaa")
         print(stampUrls!)
-        addMessageToFirestore(urlString: stampUrls!)
-        dismiss(animated: true, completion: nil)
+        
+        if transitionNewPostBool == true {
+            print("aaaa")
+            let vc = self.presentingViewController as! sinkitoukou
+            vc.imageString = stampUrls
+            vc.assetsType = "stamp"
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            addMessageToFirestore(urlString: stampUrls!)
+            dismiss(animated: true, completion: nil)
+        }
+        
     }
     
 
@@ -88,6 +98,8 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
             Nuke.loadImage(with: url, into: imageView)
         }
     }
+    
+    
     
     
     private func addMessageToFirestore(urlString: String) {
@@ -265,3 +277,12 @@ class CollectionViewCell: UICollectionViewCell {
     }
 }
 
+extension stampViewController {
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+        guard let presentationController = presentationController else {
+            return
+        }
+        presentationController.delegate?.presentationControllerDidDismiss?(presentationController)
+    }
+}

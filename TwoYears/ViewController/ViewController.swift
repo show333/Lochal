@@ -41,6 +41,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
         let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou")
+        sinkitoukou.modalPresentationStyle = .fullScreen
         self.present(sinkitoukou, animated: true, completion: nil)
         db.collection("users").document(uid).setData(["currentTime": FieldValue.serverTimestamp()], merge: true)
         //        try? Auth.auth().signOut()
@@ -272,7 +273,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                             if docUserId == userId {
                                 self.outMemo.append(rarabai)
                             } else {
-                                if momentType >= moment() - 7.days {
+                                if momentType >= moment() - 30.days && rarabai.readLog != true {
                                     self.outMemo.append(rarabai)
                                 }
                             }
@@ -285,6 +286,8 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                         let m2Date = m2.createdAt.dateValue()
                         return m1Date > m2Date
                     }
+                    
+                    print("あいあいあいいあ",rarabai.message)
                 case .modified, .removed:
                     print("noproblem")
                 }
@@ -329,8 +332,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.graffitiContentsImageView.layer.cornerRadius = 10
         
         cell.graffitiContentsImageView.image = nil
+        cell.sendImageView.image = nil
         
-     
         
         cell.graffitiUserFrontIdLabel.text = outMemo[indexPath.row].graffitiUserFrontId
         
@@ -369,9 +372,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 0
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
+            cell.sendImageConstraintHeight.constant = 100
+
+            if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
+                Nuke.loadImage(with: url, into: cell.sendImageView)
+                cell.sendImageConstraintHeight.constant = 100
+                cell.sendImageView.alpha = 1
+
+            } else {
+                cell.sendImageView?.image = nil
+                cell.sendImageView.alpha = 0
+                cell.sendImageConstraintHeight.constant = 0
+            }
+
             
             if outMemo[indexPath.row].graffitiUserId != "" {
-                
+                cell.sendImageConstraintHeight.constant = 700
+
                 
                 if outMemo[indexPath.row].delete == true {
                     cell.graffitiBackGroundConstraint.constant = 0
@@ -380,8 +397,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.graffitiTitleLabel.alpha = 0
                     cell.graffitiUserImageView.alpha = 0
                     cell.graffitiContentsImageView.alpha = 0
+//                    cell.sendImageConstraintHeight.constant = 0
                 } else {
-                    
                     
                     if let url = URL(string:outMemo[indexPath.row].graffitiContentsImage) {
                         Nuke.loadImage(with: url, into: cell.graffitiContentsImageView)
@@ -390,15 +407,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         cell.graffitiImageViewHeightConstraint.constant = safeAreaWidth/1.5
                         cell.graffitiTitleLabel.alpha = 1
                         cell.graffitiLabel.alpha = 0
-
                     } else {
                         cell.graffitiContentsImageView?.image = nil
-                        
                         cell.graffitiImageViewWidthConstraint.constant = 0
                         cell.graffitiImageViewHeightConstraint.constant = 0
                         cell.graffitiTitleLabel.alpha = 0
                         cell.graffitiLabel.alpha = 1
                     }
+                    
                     cell.graffitiBackGroundConstraint.constant = 700
                     cell.graffitiBackGroundView.alpha = 1
                     cell.graffitiUserFrontIdLabel.alpha = 1
@@ -408,8 +424,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 
-                
             } else {
+//                cell.sendImageConstraintHeight.constant = 0
                 cell.graffitiBackGroundConstraint.constant = 0
                 cell.graffitiBackGroundView.alpha = 0
                 cell.graffitiUserFrontIdLabel.alpha = 0
@@ -426,6 +442,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageView.alpha = 0.8
             cell.textMaskLabel.alpha = 1
             
+            cell.sendImageConstraintHeight.constant = 0
             cell.graffitiBackGroundConstraint.constant = 0
             cell.graffitiBackGroundView.alpha = 0
             cell.graffitiUserFrontIdLabel.alpha = 0
@@ -521,8 +538,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.textMaskLabel.alpha = 0
             cell.messageLabel.numberOfLines = 0
             
-            let indexPath = IndexPath(row: indexPath.row, section: 0)
-            tableView.reloadRows(at: [indexPath], with: .fade)
+//            let indexPath = IndexPath(row: indexPath.row, section: 0)
+//            tableView.reloadRows(at: [indexPath], with: .fade)
+            chatListTableView.reloadData()
+
         }
     }
     
@@ -719,7 +738,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         
                         cell.userFrontIdLabel.text = userFrontId
                         
-                        
                         if let url = URL(string:userImage ?? "") {
                             Nuke.loadImage(with: url, into: cell.userImageView)
                         } else {
@@ -730,9 +748,25 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 let anoymousBool = document["anonymous"] as? Bool ?? false
+                let messageString = document["message"] as? String ?? ""
+                let stringCount = messageString.count
+                let countRemainder = stringCount % 7
+                
+                let skipImageArray = [
+                    "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_blue.png?alt=media&token=c45c9978-6c0e-481c-98f3-2493ac67d5fe",
+                    "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_graypng.png?alt=media&token=3b5c4178-d1f5-4c48-aa1a-fb33730342e0",
+                    "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_green.png?alt=media&token=c1e66255-6c0b-4156-86e0-d95f2acb4d75",
+                    "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_purple.png?alt=media&token=929a9404-a62e-4e2a-a804-3daa193d41c1",
+                    "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_redr.png?alt=media&token=2b84aa67-abb3-4de2-9eb5-263ee8380e03",
+                    "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_td3r.png?alt=media&token=f2ea21ef-f532-4029-92d7-62c02a975431",
+                    "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_yellowr.png?alt=media&token=f74d54f3-a7e6-4f5c-8170-b991d1d72555"
+                ]
+                
                 
                 if anoymousBool == true {
-                    let userImage = "https://firebasestorage.googleapis.com:443/v0/b/totalgood-7b3a3.appspot.com/o/User_Image%2F51115339-DA49-4BE0-B9E6-A45FC8198FE0?alt=media&token=dac0b228-8381-430d-bb07-71ef20d80f4d"
+                    
+                    
+                    let userImage = skipImageArray[countRemainder]
                     
                     let userFrontId = "anoymous"
                     cell.userFrontIdLabel.text = userFrontId

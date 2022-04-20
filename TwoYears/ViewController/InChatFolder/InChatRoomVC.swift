@@ -84,7 +84,6 @@ class InChatRoomVC:UIViewController {
         UserDefaults.standard.set(userId, forKey: "chatRoomUserId")
 
         
-        
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2Fsplashbackground.jpeg?alt=media&token=4c2fd869-a146-4182-83aa-47dd396f1ad6") {
             Nuke.loadImage(with: url, into: backGroundImageView)
         } else {
