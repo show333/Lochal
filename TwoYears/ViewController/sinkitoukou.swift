@@ -52,7 +52,10 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var newPostButton: UIButton!
     @IBOutlet weak var textView: UITextView!
     
+    @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var setImageView: UIImageView!
+    
+    @IBOutlet weak var setImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var imageSelectButton: UIButton!
     
     @IBAction func imageSelectTappedButton(_ sender: Any) {
@@ -79,7 +82,6 @@ class sinkitoukou: UIViewController {
         
 
         sendFirestore(tapButton: "newPost")
-
         dismiss(animated: true, completion: nil)
     }
     
@@ -95,7 +97,6 @@ class sinkitoukou: UIViewController {
             print("aaaa")
             self.coachMarksController.start(in: .currentWindow(of: self))
         }
-
     }
     @IBOutlet weak var privateBackView: UIView!
     @IBOutlet weak var privateWidthConstraint: NSLayoutConstraint!
@@ -113,7 +114,6 @@ class sinkitoukou: UIViewController {
     @IBAction func closeTappedButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
@@ -352,7 +352,12 @@ class sinkitoukou: UIViewController {
         super.viewDidLoad()
         
         self.coachMarksController.dataSource = self
-
+        
+        let statusBarHeight = self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+       // ナビゲーションバーの高さを取得
+        let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+        
+        let height = UIScreen.main.bounds.size.height - navigationBarHeight - statusBarHeight
         let width = UIScreen.main.bounds.size.width
         let widthConstraint = width/3 - 10
         
@@ -361,6 +366,17 @@ class sinkitoukou: UIViewController {
         newPostWidthConstraint.constant = widthConstraint
         
 //        setImageView = scalea
+        
+        // newPostViewHeight = 60 + 10
+        // close 25 + 30
+        // explain label 20 + 20
+        // count 20 + 20
+        
+        let editHeight = height - 215
+        
+        textViewHeightConstraint.constant = editHeight/4
+        setImageViewHeightConstraint.constant = editHeight/4
+        
 
 
         

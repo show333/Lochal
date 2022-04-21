@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
 
 class selectAreaVC:UIViewController {
     
@@ -76,14 +78,25 @@ extension selectAreaVC:UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if areaName == nil {
+//            let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+//            let selectAreaVC = storyboard.instantiateViewController(withIdentifier: "selectAreaVC") as! selectAreaVC
+////            selectAreaVC.modalPresentationStyle = .fullScreen
+//            selectAreaVC.areaName = areaNameJaArray[indexPath.row]
+//            self.present(selectAreaVC, animated: true, completion: nil)
+            
             let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
             let selectAreaVC = storyboard.instantiateViewController(withIdentifier: "selectAreaVC") as! selectAreaVC
-//            selectAreaVC.modalPresentationStyle = .fullScreen
             selectAreaVC.areaName = areaNameJaArray[indexPath.row]
-            self.present(selectAreaVC, animated: true, completion: nil)
+            navigationController?.pushViewController(selectAreaVC, animated: true)
+            
+      
+            
         } else {
-            print("aaa")
-        }
+            let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
+            let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
+            TabbarController.selectedIndex = 1
+            TabbarController.modalPresentationStyle = .fullScreen
+            self.present(TabbarController, animated: true, completion: nil)        }
         
     }
  
