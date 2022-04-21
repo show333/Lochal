@@ -56,9 +56,6 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! CollectionViewCell
         cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//        cell.stampImageView.backgroundColor = .purple
-        
-        
 
         if let url = URL(string:imageUrls[indexPath.row]) {
             Nuke.loadImage(with: url, into: cell.stampImageView!)

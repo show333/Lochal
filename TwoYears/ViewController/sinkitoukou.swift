@@ -359,6 +359,8 @@ class sinkitoukou: UIViewController {
         privateWidthConstraint.constant = widthConstraint
         anonymousWidthConstraint.constant = widthConstraint
         newPostWidthConstraint.constant = widthConstraint
+        
+//        setImageView = scalea
 
 
         

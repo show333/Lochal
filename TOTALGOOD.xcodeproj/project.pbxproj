@@ -70,6 +70,8 @@
 		CF0C14BF25CA04C5006A7C86 /* ChatInputAccessoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF0C14BE25CA04C5006A7C86 /* ChatInputAccessoryView.xib */; };
 		CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C14C125CA067C006A7C86 /* ChatInputAccessoryView.swift */; };
 		CF0C14CA25CC26C6006A7C86 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C14C925CC26C6006A7C86 /* Message.swift */; };
+		CF0D401B2810E8AE0038A82D /* selectArea.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF0D401A2810E8AE0038A82D /* selectArea.storyboard */; };
+		CF0D401D2810EBDA0038A82D /* selectAreaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D401C2810EBDA0038A82D /* selectAreaVC.swift */; };
 		CF15444F26110E2700400D87 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF15444E26110E2700400D87 /* GoogleService-Info.plist */; };
 		CF1BAC37266FB2380025A660 /* MyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BAC36266FB2380025A660 /* MyAccountViewController.swift */; };
 		CF1E420D262AF05C00CEF85A /* CopyUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E420C262AF05700CEF85A /* CopyUILabel.swift */; };
@@ -233,6 +235,8 @@
 		CF0C14BE25CA04C5006A7C86 /* ChatInputAccessoryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatInputAccessoryView.xib; sourceTree = "<group>"; };
 		CF0C14C125CA067C006A7C86 /* ChatInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputAccessoryView.swift; sourceTree = "<group>"; };
 		CF0C14C925CC26C6006A7C86 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		CF0D401A2810E8AE0038A82D /* selectArea.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = selectArea.storyboard; sourceTree = "<group>"; };
+		CF0D401C2810EBDA0038A82D /* selectAreaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = selectAreaVC.swift; sourceTree = "<group>"; };
 		CF15444E26110E2700400D87 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CF1BAC36266FB2380025A660 /* MyAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccountViewController.swift; sourceTree = "<group>"; };
 		CF1E420C262AF05700CEF85A /* CopyUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyUILabel.swift; sourceTree = "<group>"; };
@@ -562,6 +566,7 @@
 				CF83D9B727BFA82800DF9C76 /* RefferalVC.swift */,
 				A33473F927C8ADF500FB4A6C /* ReMemoPostVC.swift */,
 				CF2BF5CC27D891ED00F7D1CB /* FontCollectionVC.swift */,
+				CF0D401C2810EBDA0038A82D /* selectAreaVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -605,6 +610,7 @@
 				A392221027B013C900FFC936 /* detailPost.storyboard */,
 				CF83D9B527BFA80E00DF9C76 /* Refferal.storyboard */,
 				A33473F727C8ADCB00FB4A6C /* ReMemoPost.storyboard */,
+				CF0D401A2810E8AE0038A82D /* selectArea.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -781,6 +787,7 @@
 				A3EAFB3D27604C6F00942C97 /* InChatRoom.storyboard in Resources */,
 				CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */,
 				CF2BF5B927D8613D00F7D1CB /* REIS-Regular.otf in Resources */,
+				CF0D401B2810E8AE0038A82D /* selectArea.storyboard in Resources */,
 				CF0C14B525C9F36A006A7C86 /* ChatRoomTableViewCell.xib in Resources */,
 				CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */,
 				CF0C14AF25C9F003006A7C86 /* ChatRoom.storyboard in Resources */,
@@ -910,6 +917,7 @@
 				CF24EF7925D7AAD6009FE517 /* SplashViewController.swift in Sources */,
 				CF39F28526567D960006716A /* stampViewController.swift in Sources */,
 				CF1BAC37266FB2380025A660 /* MyAccountViewController.swift in Sources */,
+				CF0D401D2810EBDA0038A82D /* selectAreaVC.swift in Sources */,
 				CF6846D32797C0E9004B80C5 /* UserIdSetVC.swift in Sources */,
 				CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */,
 				CFAB80B427CA5097007DECA0 /* backGroundSettingsVC.swift in Sources */,

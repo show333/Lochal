@@ -30,14 +30,18 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        let uid = Auth.auth().currentUser?.uid
-        
-        
-        if uid != nil {
-            profileGet(userId:uid ?? "")
-        } else {
-            presentSignInVC() 
-        }
+//        let uid = Auth.auth().currentUser?.uid
+//
+//
+//        if uid != nil {
+//            profileGet(userId:uid ?? "")
+//        } else {
+//            presentSignInVC()
+//        }
+        let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+        let selectAreaVC = storyboard.instantiateViewController(withIdentifier: "selectAreaVC") as! selectAreaVC
+        selectAreaVC.modalPresentationStyle = .fullScreen
+        self.present(selectAreaVC, animated: true, completion: nil)
     }
 
 
