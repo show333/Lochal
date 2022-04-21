@@ -31,13 +31,18 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         
         let uid = Auth.auth().currentUser?.uid
-        
-        
+
+
         if uid != nil {
             profileGet(userId:uid ?? "")
         } else {
-            presentSignInVC() 
+            presentSignInVC()
         }
+//        let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+//        let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
+//        let nav = UINavigationController(rootViewController: vc)
+//        nav.modalPresentationStyle = .fullScreen
+//        self.present(nav, animated: true, completion: nil)
     }
 
 
@@ -168,9 +173,7 @@ class SplashViewController: UIViewController {
     
     func presentTabbar(userId:String){
         let userToken = UserDefaults.standard.string(forKey: "FCM_TOKEN")
-
         db.collection("users").document(userId).setData(["currentTime":FieldValue.serverTimestamp(),"fcmToken":userToken ?? ""]as[String:Any], merge:true)
-
         
         UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
             
@@ -220,7 +223,7 @@ class SplashViewController: UIViewController {
                     })
                     let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
                     let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
-                    TabbarController.selectedIndex = 1
+                    TabbarController.selectedIndex = 0
                     TabbarController.modalPresentationStyle = .fullScreen
                     self.present(TabbarController, animated: true, completion: nil)
                 }

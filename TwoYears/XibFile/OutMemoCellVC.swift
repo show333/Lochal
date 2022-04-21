@@ -59,6 +59,8 @@ class OutmMemoCellVC: UITableViewCell {
     @IBOutlet weak var mainBackground: UIView!
     @IBOutlet weak var shadowLayer: UIView!
     @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var sendImageView: UIImageView!
+    @IBOutlet weak var sendImageConstraintHeight: NSLayoutConstraint!
     @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var coverView: UIView!
@@ -96,6 +98,8 @@ class OutmMemoCellVC: UITableViewCell {
         
         messageLabel.font = UIFont(name:"03SmartFontUI", size:19)
         graffitiTitleLabel.font = UIFont(name:"03SmartFontUI", size:16)
+        
+        print("愛絵愛フォイアジョイsj絵おいファj添えfじゃおふぇいj",outMemo?.anonymous)
         
         userImageView.isUserInteractionEnabled = true
         userImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(userImageTapped(_:))))
@@ -222,11 +226,14 @@ class OutmMemoCellVC: UITableViewCell {
     @objc func userImageTapped(_ sender: UITapGestureRecognizer) {
         let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
         let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        
+        if outMemo?.anonymous == false {
         ProfileVC.userId = outMemo?.userId
         ProfileVC.cellImageTap = true
         ProfileVC.tabBarController?.tabBar.isHidden = true
         ViewController()?.navigationController?.navigationBar.isHidden = false
         ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
+        }
     }
     
     @objc func graffitiUserimageTapped(_ sender: UITapGestureRecognizer) {
@@ -292,8 +299,6 @@ extension OutmMemoCellVC :UICollectionViewDataSource,UICollectionViewDelegate {
         
         cell.teamImageView.image = nil
         
-        print("ここに受けてたつ")
-
         
         if let url = URL(string: teamInfo[indexPath.row].teamImage) {
             Nuke.loadImage(with: url, into: cell.teamImageView)

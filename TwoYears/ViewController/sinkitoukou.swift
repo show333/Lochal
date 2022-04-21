@@ -11,18 +11,22 @@ import FirebaseFirestore
 import FirebaseAuth
 import SwiftMoment
 import Nuke
-
+import Instructions
 
 class sinkitoukou: UIViewController {
     let uid = UserDefaults.standard.string(forKey: "userId")
     let db = Firestore.firestore()
-    var company1Id : String?
     var followerId : [String] = []
+    var assetsType : String?
     
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
     var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     
+    var imageString: String?
+    
+    let coachMarksController = CoachMarksController()
+
     let textMask : Array = [
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth1.001.png?alt=media&token=bae3c928-485e-464f-ac00-35a97e03d681",//1
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth2.001.png?alt=media&token=8dab1e72-f1d7-4636-b203-37085b6a1a02",//2
@@ -45,11 +49,63 @@ class sinkitoukou: UIViewController {
     
     @IBOutlet weak var wordCountLabel: UILabel!
     @IBOutlet weak var ongakuLabel: UILabel!
-    @IBOutlet weak var sinkiButton: UIButton!
+    @IBOutlet weak var newPostButton: UIButton!
     @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var companyView: UIImageView!
+    
+    @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var setImageView: UIImageView!
+    
+    @IBOutlet weak var setImageViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var imageSelectButton: UIButton!
+    
+    @IBAction func imageSelectTappedButton(_ sender: Any) {
+        let imagePickerController = UIImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.allowsEditing = false
+        
+        self.present(imagePickerController, animated: true, completion: nil)
+    }
+    @IBOutlet weak var stampButton: UIButton!
+    
+    @IBAction func stampTappedButton(_ sender: Any) {
+        
+        let storyboard = UIStoryboard.init(name: "stampCollection", bundle: nil)
+        let stampViewController = storyboard.instantiateViewController(withIdentifier: "stampViewController") as! stampViewController
+        stampViewController.presentationController?.delegate = self
+        stampViewController.transitionNewPostBool = true
+        self.present(stampViewController, animated: true, completion: nil)
+    }
+    @IBOutlet weak var newPostBackView: UIView!
+    @IBOutlet weak var newPostWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var newPostImageView: UIImageView!
     @IBAction func tappedSinkiButton(_ sender: Any) {
-        sendMemoFireStore()
+        
+
+        sendFirestore(tapButton: "newPost")
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBOutlet weak var anonymousBackView: UIView!
+    @IBOutlet weak var anonymousWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var annoymousImageView: UIImageView!
+    @IBOutlet weak var anonymousButton: UIButton!
+    @IBAction func anonymousTappedButton(_ sender: Any) {
+        if assetsType != nil {
+            sendFirestore(tapButton: "anonymous")
+        dismiss(animated: true, completion: nil)
+        } else {
+            print("aaaa")
+            self.coachMarksController.start(in: .currentWindow(of: self))
+        }
+    }
+    @IBOutlet weak var privateBackView: UIView!
+    @IBOutlet weak var privateWidthConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var privateImageView: UIImageView!
+    @IBOutlet weak var privateButton: UIButton!
+    
+    @IBAction func privateTappedButton(_ sender: Any) {
+        sendFirestore(tapButton: "private")
         dismiss(animated: true, completion: nil)
     }
     
@@ -59,12 +115,74 @@ class sinkitoukou: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    private func sendMemoFireStore() {
+    
+    func sendFirestore(tapButton:String) {
+        if assetsType == "image" {
+            
+            guard let image = setImageView?.image  else { return }
+            guard let uploadImage = image.jpegData(compressionQuality: 0.2) else { return }
+            
+            let fileName = NSUUID().uuidString
+            let storageRef = Storage.storage().reference().child("OutMemo_Post_Image").child(fileName)
+            
+            storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
+                if let err = err {
+                    print("firestrageへの情報の保存に失敗、、\(err)")
+                    return
+                }
+                print("storageへの保存に成功!!")
+                storageRef.downloadURL { [self] (url, err) in
+                    if let err = err {
+                        print("firestorageからのダウンロードに失敗\(err)")
+                        return
+                    }
+                    
+                    guard let urlString = url?.absoluteString else { return }
+                    print("urlString:", urlString)
+                    switch tapButton {
+                    case "newPost" :
+                        sendMemoFireStore(imageAddress: urlString)
+                        print("newPost")
+                        
+                    case "private":
+                        privateSendMemo(imageAddress: urlString)
+                        print("private")
+                        
+                    case "anonymous":
+                        anonymousSendMemo(imageAddress: urlString)
+                        print("anonymous")
+                    default :
+                        print("a")
+                        
+                    }
+                    
+                }
+            }
+        } else {
+            switch tapButton {
+            case "newPost" :
+                sendMemoFireStore(imageAddress:"")
+                print("newPost")
 
+            case "private":
+                privateSendMemo(imageAddress:"")
+                print("private")
+
+            case "anonymous":
+                anonymousSendMemo(imageAddress:"")
+                print("anonymous")
+
+            default :
+                print("a")
+                
+            }
+        }
+    }
+    private func sendMemoFireStore(imageAddress:String) {
+        
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             return String((0..<length).map{ _ in characters.randomElement()! })
@@ -76,21 +194,22 @@ class sinkitoukou: UIViewController {
         
         let memoInfoDic = [
             "message" : thisisMessage as Any,
-            "sendImageURL": "",
+            "sendImageURL": imageString ?? "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
             "userId":uid,
+            "imageAddress":imageAddress,
+            "assetsType": assetsType ?? "",
             "readLog": false,
             "anonymous":false,
             "admin": false,
             "delete": false,
-            
         ] as [String: Any]
         
         let myPost = [
             "message" : thisisMessage as Any,
-            "sendImageURL": "",
+            "sendImageURL": imageString ?? "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
@@ -98,6 +217,8 @@ class sinkitoukou: UIViewController {
             "userImage":userImage ?? "",
             "userFrontId":userFrontId ?? "",
             "userId":uid,
+            "imageAddress":imageAddress,
+            "assetsType": assetsType ?? "",
             "anonymous":false,
             "admin": false,
             "delete": false,
@@ -114,17 +235,107 @@ class sinkitoukou: UIViewController {
                         print("\(document.documentID) => \(document.data())")
                         let userId = document.data()["userId"] as? String ?? ""
                         db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
-
                     }
                 }
             }
         }
         
         db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
-//
         db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
-//
         db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
+    }
+    
+    private func privateSendMemo(imageAddress:String) {
+        
+        func randomString(length: Int) -> String {
+            let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            return String((0..<length).map{ _ in characters.randomElement()! })
+        }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let db = Firestore.firestore()
+        let memoId = randomString(length: 20)
+        let thisisMessage = self.textView.text.trimmingCharacters(in: .newlines)
+        let memoInfoDic = [
+            "message" : thisisMessage as Any,
+            "sendImageURL": imageString ?? "",
+            "documentId": memoId,
+            "createdAt": FieldValue.serverTimestamp(),
+            "textMask":textMask.randomElement() ?? "",
+            "userId":uid,
+            "imageAddress":imageAddress,
+            "assetsType": assetsType ?? "",
+            "private":true,
+            "readLog": false,
+            "anonymous":false,
+            "admin": false,
+            "delete": false,
+        ] as [String: Any]
+        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
+    }
+    
+    private func anonymousSendMemo(imageAddress:String) {
+        
+        func randomString(length: Int) -> String {
+            let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            return String((0..<length).map{ _ in characters.randomElement()! })
+        }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let db = Firestore.firestore()
+        let memoId = randomString(length: 20)
+        let thisisMessage = self.textView.text.trimmingCharacters(in: .newlines)
+        let memoInfoDic = [
+            "message" : thisisMessage as Any,
+            "sendImageURL": imageString ?? "",
+            "documentId": memoId,
+            "createdAt": FieldValue.serverTimestamp(),
+            "textMask":textMask.randomElement() ?? "",
+            "userId":uid,
+            "imageAddress":imageAddress,
+            "assetsType": assetsType ?? "",
+            "readLog": false,
+            "anonymous":true,
+            "admin": false,
+            "delete": false,
+        ] as [String: Any]
+        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
+        
+        let myPost = [
+            "message" : thisisMessage as Any,
+            "sendImageURL": imageString ?? "",
+            "documentId": memoId,
+            "createdAt": FieldValue.serverTimestamp(),
+            "textMask":textMask.randomElement() ?? "",
+            "userName":userName ?? "",
+            "userImage":userImage ?? "",
+            "userFrontId":userFrontId ?? "",
+            "userId":uid,
+            "imageAddress":imageAddress,
+            "assetsType": assetsType ?? "",
+            "anonymous":true,
+            "admin": false,
+            "delete": false,
+        ] as [String: Any]
+        
+        db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
+        
+        
+//        db.collection("users").document(uid).collection("Connections").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
+//            if let err = err {
+//                print("Error getting documents: \(err)")
+//            } else {
+//
+//                if querySnapshot?.documents.count ?? 0 >= 1{
+//                    for document in querySnapshot!.documents {
+//                        print("\(document.documentID) => \(document.data())")
+//                        let userId = document.data()["userId"] as? String ?? ""
+//                        db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+//
+//                    }
+//                }
+//            }
+//        }
+        
+        db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
     }
     
     
@@ -140,26 +351,109 @@ class sinkitoukou: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.coachMarksController.dataSource = self
+        
+        let statusBarHeight = self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+       // ナビゲーションバーの高さを取得
+        let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+        
+        let height = UIScreen.main.bounds.size.height - navigationBarHeight - statusBarHeight
+        let width = UIScreen.main.bounds.size.width
+        let widthConstraint = width/3 - 10
+        
+        privateWidthConstraint.constant = widthConstraint
+        anonymousWidthConstraint.constant = widthConstraint
+        newPostWidthConstraint.constant = widthConstraint
+        
+//        setImageView = scalea
+        
+        // newPostViewHeight = 60 + 10
+        // close 25 + 30
+        // explain label 20 + 20
+        // count 20 + 20
+        
+        let editHeight = height - 215
+        
+        textViewHeightConstraint.constant = editHeight/4
+        setImageViewHeightConstraint.constant = editHeight/4
+        
+
+
+        
+        newPostBackView.backgroundColor = .gray
+        newPostBackView.clipsToBounds = true
+        newPostBackView.layer.cornerRadius = 10
+        newPostBackView.layer.masksToBounds = false
+        newPostBackView.layer.shadowColor = UIColor.clear.cgColor
+        newPostBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        newPostBackView.layer.shadowOpacity = 0.7
+        newPostBackView.layer.shadowRadius = 5
+
+        
+        anonymousBackView.backgroundColor = .gray
+        anonymousBackView.clipsToBounds = true
+        anonymousBackView.layer.cornerRadius = 10
+        anonymousBackView.layer.masksToBounds = false
+        anonymousBackView.layer.shadowColor = UIColor.clear.cgColor
+        anonymousBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        anonymousBackView.layer.shadowOpacity = 0.7
+        anonymousBackView.layer.shadowRadius = 5
+
+        privateBackView.backgroundColor = .gray
+        privateBackView.clipsToBounds = true
+        privateBackView.layer.cornerRadius = 10
+        privateBackView.layer.masksToBounds = false
+        privateBackView.layer.shadowColor = UIColor.clear.cgColor
+        privateBackView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        privateBackView.layer.shadowOpacity = 0.7
+        privateBackView.layer.shadowRadius = 5
+
+        
+        
+        
+        
+        print("oooo",imageString)
+        
+        //ポスト
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_02398_icon_023989_256.png?alt=media&token=e88ea22e-0d00-47f3-bce1-bcb9c41cfbb9") {
+            Nuke.loadImage(with: url, into: newPostImageView)
+        } else {
+            newPostImageView?.image = nil
+        }
+
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_03868_icon_0386810_256.png?alt=media&token=3bbd52c2-115d-481e-bb4a-e5a5b3da5723") {
+            Nuke.loadImage(with: url, into: annoymousImageView)
+        } else {
+            annoymousImageView?.image = nil
+        }
+        
+        if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_05350_icon_053504_256.png?alt=media&token=e0a2936c-2e75-47b5-a6d2-1c944954828e") {
+            Nuke.loadImage(with: url, into: privateImageView)
+        } else {
+            privateImageView?.image = nil
+        }
+
+        
         if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
-            view.alpha = 1
             ongakuLabel.text = "初めての投稿をしてみましょう！\n投稿はコネクトをしたユーザーに\n公開されます"
 
 
         } else {
-            view.alpha = 0.9
             ongakuLabel.text = "投稿は一週間で消えます"
         }
         
         self.textView.delegate = self
-        sinkiButton.isEnabled = false
-        sinkiButton.backgroundColor = .gray
+        newPostButton.isEnabled = false
+        anonymousButton.isEnabled = false
+        privateButton.isEnabled = false
+        newPostButton.backgroundColor = .clear
         textView.textColor = .gray
         textView.text = placeholder
         textView.backgroundColor = #colorLiteral(red: 0.862745098, green: 0.862745098, blue: 0.862745098, alpha: 1)
         textView.clipsToBounds = true
         textView.layer.cornerRadius = 8
-        sinkiButton.clipsToBounds = true
-        sinkiButton.layer.cornerRadius = 5
+        newPostButton.clipsToBounds = true
+        newPostButton.layer.cornerRadius = 5
         wordCountLabel.text = "300文字まで"
     }
 }
@@ -174,11 +468,42 @@ extension sinkitoukou: UITextViewDelegate {
         let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
         let textwhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)//空白、改行のみを防ぐ
         if textwhite.isEmpty {
-            sinkiButton.isEnabled = false
-            sinkiButton.backgroundColor = .gray
+            newPostBackView.backgroundColor = .gray
+            newPostButton.isEnabled = false
+            newPostBackView.layer.shadowColor = UIColor.clear.cgColor
+            
+            anonymousBackView.backgroundColor = .gray
+            anonymousButton.isEnabled = false
+            anonymousBackView.layer.shadowColor = UIColor.clear.cgColor
+            
+            privateBackView.backgroundColor = .gray
+            privateButton.isEnabled = false
+            privateBackView.layer.shadowColor = UIColor.clear.cgColor
+
+
+            
         } else {
-            sinkiButton.isEnabled = true
-            sinkiButton.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            newPostButton.isEnabled = true
+            newPostBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+
+            newPostBackView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+ 
+            
+            anonymousButton.isEnabled = true
+            anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+            anonymousBackView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+     
+            
+            privateButton.isEnabled = true
+            privateBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+            privateBackView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+            
+            
+            if imageString != nil {
+                anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+            } else {
+                anonymousBackView.backgroundColor = .gray
+            }
         }
         if existingLines.count <= 30 {
             self.wordCountLabel.text = "残り\(maxWordCount - textView.text.count)文字"
@@ -196,4 +521,103 @@ extension sinkitoukou: UITextViewDelegate {
             textView.text = placeholder
         }
     }
+}
+
+
+extension sinkitoukou: UIAdaptivePresentationControllerDelegate {
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        print(imageString)
+        anonymousBackView.backgroundColor = .gray
+        
+        print(textView.text)
+
+        let textwhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)//空白、改行のみを防ぐ
+        if textwhite == "" || textwhite == "ポテチ食べたい\nコンビニの新作アイスめっちゃ美味い\nうちの猫めっちゃ可愛い\n授業,会社だるい\n布団から出られない\nなど" {
+            anonymousBackView.backgroundColor = .gray
+        } else {
+            anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+
+        }
+        
+        if let url = URL(string:imageString ?? "") {
+            Nuke.loadImage(with: url, into: setImageView)
+        } else {
+            setImageView?.image = nil
+        }
+    }
+}
+
+extension sinkitoukou: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let originalImage = info[.originalImage] as? UIImage {
+//            setImageView.setImage(originalImage, for: .normal)
+//            imageButton.imageView?.contentMode = .scaleAspectFit
+            
+            setImageView.image = originalImage
+            assetsType = "image"
+            
+//            if let url = URL(string:imageString ?? "") {
+//                Nuke.loadImage(with: url, into: setImageView)
+//            } else {
+//                setImageView?.image = nil
+//            }
+            print(originalImage)
+            
+            print("aaa")
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+//MARK: Instructions
+extension sinkitoukou: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
+
+    
+    func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
+        //基本的にはチュートリアルの対象にしたいボタンやビューをチュートリアルの順にArrayに入れ、indexで指定する形がいいかなと思います(もっといい方法があったら教えてください)
+        let highlightViews: Array<UIView> = [stampButton]
+        //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
+
+        //チュートリアルで使うビューの中からindexで何ステップ目かを指定
+        return coachMarksController.helper.makeCoachMark(for: highlightViews[index])
+    }
+    
+    //ここにはあとで色々追加していく
+    func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+        /// 自分の設定したいステップ数に合わせて変更してください
+        return 1
+    }
+    
+    func coachMarksController(
+        _ coachMarksController: CoachMarksController,
+        coachMarkViewsAt index: Int,
+        madeFrom coachMark: CoachMark
+    ) -> (bodyView: UIView & CoachMarkBodyView, arrowView: (UIView & CoachMarkArrowView)?) {
+
+        //吹き出しのビューを作成します
+        let coachViews = coachMarksController.helper.makeDefaultCoachViews(
+            withArrow: true,    //三角の矢印をつけるか
+            arrowOrientation: coachMark.arrowOrientation    //矢印の向き(吹き出しの位置)
+        )
+
+        //index(ステップ)によって表示内容を分岐させます
+        switch index {
+        case 0:    //hogeLabel
+            coachViews.bodyView.hintLabel.text = "匿名投稿にはスタンプも\n一緒に投稿してください!"
+            coachViews.bodyView.nextLabel.text = "OK!"
+        
+
+        
+        default:
+            break
+        
+        }
+        
+        //その他の設定が終わったら吹き出しを返します
+        return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
+    }
+
 }

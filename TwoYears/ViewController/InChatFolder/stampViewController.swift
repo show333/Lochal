@@ -14,7 +14,7 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     @IBOutlet weak var laLabel: UILabel!
     
-    
+    var transitionNewPostBool : Bool?
     var stampUrls : String?
     var imageUrls = [String]()
     let db = Firestore.firestore()
@@ -34,8 +34,18 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
     @IBAction func tappedImageView(_ sender: Any) {
         print("aaaa")
         print(stampUrls!)
-        addMessageToFirestore(urlString: stampUrls!)
-        dismiss(animated: true, completion: nil)
+        
+        if transitionNewPostBool == true {
+            print("aaaa")
+            let vc = self.presentingViewController as! sinkitoukou
+            vc.imageString = stampUrls
+            vc.assetsType = "stamp"
+            self.dismiss(animated: true, completion: nil)
+        } else {
+            addMessageToFirestore(urlString: stampUrls!)
+            dismiss(animated: true, completion: nil)
+        }
+        
     }
     
 
@@ -46,9 +56,6 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! CollectionViewCell
         cell.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//        cell.stampImageView.backgroundColor = .purple
-        
-        
 
         if let url = URL(string:imageUrls[indexPath.row]) {
             Nuke.loadImage(with: url, into: cell.stampImageView!)
@@ -90,30 +97,37 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
     }
     
     
+    
+    
     private func addMessageToFirestore(urlString: String) {
-        let teamId : String =  UserDefaults.standard.string(forKey: "teamRoomId")!
-
         
+        let userId = UserDefaults.standard.string(forKey: "chatRoomUserId")
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             return String((0..<length).map{ _ in characters.randomElement()! })
         }
-        let commentId = randomString(length: 20)
+        let documentId = randomString(length: 20)
                     let docData = [
                         "createdAt": FieldValue.serverTimestamp(),
                         "message": "",
                         "userId": uid,
-                        "teamId": teamId,
-                        "comentId" : commentId,
+                        "documentId" : documentId,
                         "admin": false,
                         "sendImageURL": urlString,
                     ] as [String: Any]
         
-        db.collection("Team").document(teamId).collection("ChatRoom").document(commentId).setData(docData)
+        let upDateDoc = [
+            "chatLatestedAt": FieldValue.serverTimestamp(),
+            "messageCount": FieldValue.increment(1.0),
+        ] as [String: Any]
+        
+        db.collection("users").document(uid).collection("ChatRoom").document(userId ?? "").collection("Messages").document(documentId).setData(docData)
+        db.collection("users").document(userId ?? "").collection("ChatRoom").document(uid).collection("Messages").document(documentId).setData(docData)
+        db.collection("users").document(userId ?? "").collection("Connections").document(uid).setData(upDateDoc, merge: true)
+        db.collection("users").document(userId ?? "").setData(["messageNum": FieldValue.increment(1.0)], merge: true)
         dismiss(animated: true, completion: nil)
-
     }
     
     
@@ -260,3 +274,12 @@ class CollectionViewCell: UICollectionViewCell {
     }
 }
 
+extension stampViewController {
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+        guard let presentationController = presentationController else {
+            return
+        }
+        presentationController.delegate?.presentationControllerDidDismiss?(presentationController)
+    }
+}

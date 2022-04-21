@@ -10,7 +10,10 @@ import Firebase
 import FirebaseFirestore
 import SwiftMoment
 
-class UserInfo {
+class UserInfo : Equatable{
+    static func == (lhs: UserInfo, rhs: UserInfo) -> Bool {
+        return lhs.userId == rhs.userId
+    }
     
     var userId: String
     var userName: String

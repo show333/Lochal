@@ -344,7 +344,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     
     func PostGet(uid:String,userId:String){
-        db.collection("users").document(uid).collection("MyPost").getDocuments() { [self] (querySnapshot, err) in
+        db.collection("users").document(uid).collection("MyPost").whereField("anonymous", isEqualTo: false).getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
@@ -355,7 +355,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                         print("\(document.documentID) => \(document.data())")
                         let dic = document.data()
                         let outMemoDic = OutMemo(dic: dic)
-                        
                         PostSet(userId:userId ,outMemo: outMemoDic)
                     }
                 }
