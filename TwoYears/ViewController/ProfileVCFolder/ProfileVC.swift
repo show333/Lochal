@@ -635,14 +635,15 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         
 //        coachMarksController.start(in: .currentWindow(of: self))
         
-        self.postInfo.removeAll()
-        self.postCollectionView.reloadData()
+//        if UserDefaults{
+//        self.postInfo.removeAll()
+//        self.postCollectionView.reloadData()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//            // 0.5秒後に実行したい処理
+//            self.fetchPostInfo(userId: self.userId ?? "unKnown")
+//        }
+//        }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            // 0.5秒後に実行したい処理
-            self.fetchPostInfo(userId: self.userId ?? "unKnown")
-        }
-//
         
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 //            if UserDefaults.standard.bool(forKey: "ProfileTransition") != true{

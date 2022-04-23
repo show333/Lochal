@@ -141,18 +141,19 @@ class sinkitoukou: UIViewController {
                     }
                     
                     guard let urlString = url?.absoluteString else { return }
+                    imageString = urlString
                     print("urlString:", urlString)
                     switch tapButton {
                     case "newPost" :
-                        sendMemoFireStore(imageAddress: urlString)
+                        sendMemoFireStore(imageAddress: fileName)
                         print("newPost")
                         
                     case "private":
-                        privateSendMemo(imageAddress: urlString)
+                        privateSendMemo(imageAddress: fileName)
                         print("private")
                         
                     case "anonymous":
-                        anonymousSendMemo(imageAddress: urlString)
+                        anonymousSendMemo(imageAddress: fileName)
                         print("anonymous")
                     default :
                         print("a")
@@ -374,8 +375,8 @@ class sinkitoukou: UIViewController {
         
         let editHeight = height - 215
         
-        textViewHeightConstraint.constant = editHeight/4
-        setImageViewHeightConstraint.constant = editHeight/4
+        textViewHeightConstraint.constant = editHeight/3.5
+        setImageViewHeightConstraint.constant = editHeight/3
         
 
 

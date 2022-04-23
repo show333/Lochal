@@ -72,6 +72,9 @@
 		CF0C14CA25CC26C6006A7C86 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0C14C925CC26C6006A7C86 /* Message.swift */; };
 		CF0D401B2810E8AE0038A82D /* selectArea.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF0D401A2810E8AE0038A82D /* selectArea.storyboard */; };
 		CF0D401D2810EBDA0038A82D /* selectAreaVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D401C2810EBDA0038A82D /* selectAreaVC.swift */; };
+		CF0D401F2812320D0038A82D /* AreaRanking.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF0D401E2812320D0038A82D /* AreaRanking.storyboard */; };
+		CF0D4021281232880038A82D /* AreaRankingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D4020281232880038A82D /* AreaRankingVC.swift */; };
+		CF0D4023281250990038A82D /* Area.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0D4022281250990038A82D /* Area.swift */; };
 		CF15444F26110E2700400D87 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF15444E26110E2700400D87 /* GoogleService-Info.plist */; };
 		CF1BAC37266FB2380025A660 /* MyAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1BAC36266FB2380025A660 /* MyAccountViewController.swift */; };
 		CF1E420D262AF05C00CEF85A /* CopyUILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF1E420C262AF05700CEF85A /* CopyUILabel.swift */; };
@@ -237,6 +240,9 @@
 		CF0C14C925CC26C6006A7C86 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		CF0D401A2810E8AE0038A82D /* selectArea.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = selectArea.storyboard; sourceTree = "<group>"; };
 		CF0D401C2810EBDA0038A82D /* selectAreaVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = selectAreaVC.swift; sourceTree = "<group>"; };
+		CF0D401E2812320D0038A82D /* AreaRanking.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AreaRanking.storyboard; sourceTree = "<group>"; };
+		CF0D4020281232880038A82D /* AreaRankingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaRankingVC.swift; sourceTree = "<group>"; };
+		CF0D4022281250990038A82D /* Area.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Area.swift; sourceTree = "<group>"; };
 		CF15444E26110E2700400D87 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CF1BAC36266FB2380025A660 /* MyAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAccountViewController.swift; sourceTree = "<group>"; };
 		CF1E420C262AF05700CEF85A /* CopyUILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyUILabel.swift; sourceTree = "<group>"; };
@@ -536,6 +542,7 @@
 				CF3B82A327868DEF00B4A257 /* ReadLog.swift */,
 				CF3B82A62786C90900B4A257 /* UserInfo.swift */,
 				A392220E27B0101500FFC936 /* PostInfo.swift */,
+				CF0D4022281250990038A82D /* Area.swift */,
 			);
 			path = inisyaraiz;
 			sourceTree = "<group>";
@@ -567,6 +574,7 @@
 				A33473F927C8ADF500FB4A6C /* ReMemoPostVC.swift */,
 				CF2BF5CC27D891ED00F7D1CB /* FontCollectionVC.swift */,
 				CF0D401C2810EBDA0038A82D /* selectAreaVC.swift */,
+				CF0D4020281232880038A82D /* AreaRankingVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -611,6 +619,7 @@
 				CF83D9B527BFA80E00DF9C76 /* Refferal.storyboard */,
 				A33473F727C8ADCB00FB4A6C /* ReMemoPost.storyboard */,
 				CF0D401A2810E8AE0038A82D /* selectArea.storyboard */,
+				CF0D401E2812320D0038A82D /* AreaRanking.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -800,6 +809,7 @@
 				A392221127B013C900FFC936 /* detailPost.storyboard in Resources */,
 				CF2BF5B127D8613D00F7D1CB /* SweetPineapple.otf in Resources */,
 				CF2BF5B227D8613D00F7D1CB /* LUNABAR_.TTF in Resources */,
+				CF0D401F2812320D0038A82D /* AreaRanking.storyboard in Resources */,
 				A35984092799A88C003CB00B /* UnitHome.storyboard in Resources */,
 				CF4C5A44261FA3F300342675 /* packmanload.json in Resources */,
 				CF15444F26110E2700400D87 /* GoogleService-Info.plist in Resources */,
@@ -922,6 +932,7 @@
 				CF3DDC0525C4597E0016AB0F /* sinkitoukou.swift in Sources */,
 				CFAB80B427CA5097007DECA0 /* backGroundSettingsVC.swift in Sources */,
 				A3D13E2E276FC4B1002599B9 /* Users.swift in Sources */,
+				CF0D4023281250990038A82D /* Area.swift in Sources */,
 				A3EAFB3F27604D0900942C97 /* InChatRoomVC.swift in Sources */,
 				CF3B82B02786F70400B4A257 /* NotificationVC.swift in Sources */,
 				CF0C14C225CA067C006A7C86 /* ChatInputAccessoryView.swift in Sources */,
@@ -947,6 +958,7 @@
 				CF97017427D4D79400FB87EB /* PinterestLayout.swift in Sources */,
 				CF38CAD326655F2D00615D23 /* CountAnimationLabel.swift in Sources */,
 				CF0C14BC25C9F494006A7C86 /* ChatRoomTableViewCell.swift in Sources */,
+				CF0D4021281232880038A82D /* AreaRankingVC.swift in Sources */,
 				CF3DDC1B25C73C580016AB0F /* Animal.swift in Sources */,
 				CF8F13AD263FD9F0007A0677 /* imagetoukouViewController.swift in Sources */,
 				CF954A6D27E1A87C002E8AC8 /* StringAlphabet.swift in Sources */,

@@ -30,19 +30,24 @@ class SplashViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         
-        let uid = Auth.auth().currentUser?.uid
-
-
-        if uid != nil {
-            profileGet(userId:uid ?? "")
-        } else {
-            presentSignInVC()
-        }
-//        let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
-//        let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
-//        let nav = UINavigationController(rootViewController: vc)
-//        nav.modalPresentationStyle = .fullScreen
-//        self.present(nav, animated: true, completion: nil)
+//        let uid = Auth.auth().currentUser?.uid
+//
+//
+//        if uid != nil {
+//            profileGet(userId:uid ?? "")
+//        } else {
+//            presentSignInVC()
+//        }
+        let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
+//        let storyboard = UIStoryboard.init(name: "AreaRanking", bundle: nil)
+//        let vc = storyboard.instantiateViewController(identifier: "AreaRankingVC") as! AreaRankingVC
+//        vc.modalPresentationStyle = .fullScreen
+//
+//        self.present(vc, animated: true, completion: nil)
     }
 
 
@@ -57,6 +62,10 @@ class SplashViewController: UIViewController {
                 let userImage = document["userImage"] as? String ?? ""
                 let userFrontId = document["userFrontId"] as? String ?? ""
                 let UEnterdBool = document["UEnterdBool"] as? Bool ?? false
+                let areaNameEn = document["areaNameEn"] as? String ?? "tokyo"
+                let areaNameJa = document["areaNameJa"] as? String ?? "東京"
+
+
                 
                 
                 print("あいあいあい",userName)
@@ -74,6 +83,9 @@ class SplashViewController: UIViewController {
                         UserDefaults.standard.set(userName, forKey: "userName")
                         UserDefaults.standard.set(userImage, forKey: "userImage")
                         UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
+                        
+                        UserDefaults.standard.set(areaNameEn, forKey: "areaNameEn")
+                        UserDefaults.standard.set(areaNameJa, forKey: "areaNameJa")
                     } else {
                         presentExplain()
                     }

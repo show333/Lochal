@@ -79,9 +79,27 @@
                             </collectionView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LDE-1i-hhJ">
                                 <rect key="frame" x="0.0" y="88" width="414" height="100"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CIJ-da-Za0">
+                                        <rect key="frame" x="207" y="50" width="0.0" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fG1-6X-4ZA">
+                                        <rect key="frame" x="207" y="50" width="0.0" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstItem="fG1-6X-4ZA" firstAttribute="centerX" secondItem="LDE-1i-hhJ" secondAttribute="centerX" id="cJ0-Bn-HVb"/>
+                                    <constraint firstItem="CIJ-da-Za0" firstAttribute="centerX" secondItem="LDE-1i-hhJ" secondAttribute="centerX" id="io3-K6-4PK"/>
+                                    <constraint firstItem="fG1-6X-4ZA" firstAttribute="top" secondItem="CIJ-da-Za0" secondAttribute="bottom" id="mue-ad-xZm"/>
                                     <constraint firstAttribute="height" constant="100" id="p09-6w-g9D"/>
+                                    <constraint firstItem="CIJ-da-Za0" firstAttribute="centerY" secondItem="LDE-1i-hhJ" secondAttribute="centerY" id="y2S-3b-xnh"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -104,6 +122,10 @@
                     <navigationItem key="navigationItem" id="cOJ-nR-DFI"/>
                     <connections>
                         <outlet property="areaNameCollectionView" destination="rdn-ir-qyj" id="i1p-Wb-TxI"/>
+                        <outlet property="backImageView" destination="fQ2-Jw-E9s" id="89g-pZ-bf8"/>
+                        <outlet property="headerSubTitleLabel" destination="fG1-6X-4ZA" id="WdR-HT-MxZ"/>
+                        <outlet property="headerTitleLabel" destination="CIJ-da-Za0" id="jXc-Rx-mAA"/>
+                        <outlet property="headerView" destination="LDE-1i-hhJ" id="Fst-wC-8v7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -112,6 +134,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

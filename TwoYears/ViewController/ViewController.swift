@@ -107,18 +107,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
 //        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
         
-        
-//        let backGroundString = UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
-//
-//        let backGroundString = "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
-//        
-//        
-//        if let url = URL(string:backGroundString) {
-//            Nuke.loadImage(with: url, into: backGroundImageView)
-//        } else {
-//            backGroundImageView.image = nil
-//        }
-        
     }
     
     
@@ -139,6 +127,17 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
                 UserDefaults.standard.set(true, forKey: "OutMemoInstract")
                 self.coachMarksController.start(in: .currentWindow(of: self))
+            } else {
+                let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
+                
+                if areaName == nil {
+                
+                let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+                let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
+                }
             }
 //        }
     }
@@ -372,13 +371,32 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 0
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
-            cell.sendImageConstraintHeight.constant = 100
+            cell.sendImageConstraintHeight.constant = 150
+
+//            let assetsType = outMemo[indexPath.row].assetsType
+//
+//            switch assetsType {
+//            case "image":
+//                cell.sendImageConstraintHeight.constant = 400
+//            case "stamp":
+//                cell.sendImageConstraintHeight.constant = 150
+//            default:
+//                cell.sendImageConstraintHeight.constant = 0
+//            }
 
             if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
                 Nuke.loadImage(with: url, into: cell.sendImageView)
-                cell.sendImageConstraintHeight.constant = 100
-                cell.sendImageView.alpha = 1
+//                switch assetsType {
+//                case "image":
+//                    cell.sendImageConstraintHeight.constant = 400
+//                case "stamp":
+//                    cell.sendImageConstraintHeight.constant = 150
+//                default:
+//                    cell.sendImageConstraintHeight.constant = 0
+//                }
+                cell.sendImageConstraintHeight.constant = 150
 
+                cell.sendImageView.alpha = 1
             } else {
                 cell.sendImageView?.image = nil
                 cell.sendImageView.alpha = 0
