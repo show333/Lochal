@@ -128,16 +128,16 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                 UserDefaults.standard.set(true, forKey: "OutMemoInstract")
                 self.coachMarksController.start(in: .currentWindow(of: self))
             } else {
-                let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
-                
-                if areaName == nil {
-                
-                let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
-                let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
-                let nav = UINavigationController(rootViewController: vc)
-                nav.modalPresentationStyle = .fullScreen
-                self.present(nav, animated: true, completion: nil)
-                }
+//                let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
+//
+//                if areaName == nil {
+//
+//                let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+//                let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
+//                let nav = UINavigationController(rootViewController: vc)
+//                nav.modalPresentationStyle = .fullScreen
+//                self.present(nav, animated: true, completion: nil)
+//                }
             }
 //        }
     }

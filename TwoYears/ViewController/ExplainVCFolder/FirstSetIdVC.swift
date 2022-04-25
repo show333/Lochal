@@ -88,10 +88,14 @@ class FirstSetIdVC:UIViewController,UITextFieldDelegate{
                         setIdAccount(userId: userId, userFrontId: userFrontId)
                         fetchMyPost(userId: userId, userFrontId: userFrontId)
                         
-                        let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
-                        let selectAreaVC = storyboard.instantiateViewController(withIdentifier: "selectAreaVC") as! selectAreaVC
-                        selectAreaVC.firstBool = true
-                        navigationController?.pushViewController(selectAreaVC, animated: true)
+                        let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
+                        let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
+                        navigationController?.pushViewController(ThankyouVC, animated: true)
+                        
+//                        let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+//                        let selectAreaVC = storyboard.instantiateViewController(withIdentifier: "selectAreaVC") as! selectAreaVC
+//                        selectAreaVC.firstBool = true
+//                        navigationController?.pushViewController(selectAreaVC, animated: true)
                         
                     } else {
                         warningLabel.text = "このアカウントはすでに使用されています"
