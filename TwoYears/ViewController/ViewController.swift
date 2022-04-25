@@ -272,9 +272,12 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                             if docUserId == userId {
                                 self.outMemo.append(rarabai)
                             } else {
-                                if momentType >= moment() - 30.days && rarabai.readLog != true {
+//                                if momentType >= moment() - 30.days && rarabai.readLog != true {
+//                                    self.outMemo.append(rarabai)
+//                                }
+                                if momentType >= moment() - 30.days {
                                     self.outMemo.append(rarabai)
-                                } 
+                                }
                             }
                         }
                     }

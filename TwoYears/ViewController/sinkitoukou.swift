@@ -545,7 +545,7 @@ class sinkitoukou: UIViewController {
 
 
         } else {
-            ongakuLabel.text = "投稿は一週間で消えます"
+            ongakuLabel.text = "だらけてるほど良き"
         }
         
         self.textView.delegate = self
