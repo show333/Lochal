@@ -48,16 +48,16 @@ class ReserchVC:UIViewController{
     @IBOutlet weak var reserchButton: UIButton!
     @IBAction func reserchTappedButton(_ sender: Any) {
         
-//        let smallStr = inputText.lowercased()// "abcdefg"
-//        print(smallStr)
-
+        //        let smallStr = inputText.lowercased()// "abcdefg"
+        //        print(smallStr)
+        
         let inputText = inputTextField.text ?? ""
         let removeWhitesSpacesString = inputText.removeWhitespacesAndNewlines
-
+        
         if selectBool == false {
-            getAccount(keyString:"userName",reserchString: removeWhitesSpacesString)
+            getUserId(keyString:"userName",reserchString: removeWhitesSpacesString)
         } else {
-            getAccount(keyString:"userFrontId",reserchString: removeWhitesSpacesString)
+            getUserId(keyString:"userFrontId",reserchString: removeWhitesSpacesString)
         }
     }
     
@@ -75,7 +75,7 @@ class ReserchVC:UIViewController{
     
     @IBOutlet weak var refferalCountLabel: UILabel!
     
-    func getAccount(keyString:String,reserchString: String){
+    func getUserId(keyString:String,reserchString: String){
         
         db.collection("users").whereField(keyString, isEqualTo: reserchString)
             .getDocuments() { [self] (querySnapshot, err) in
@@ -91,8 +91,38 @@ class ReserchVC:UIViewController{
                         userInfo.removeAll()
                         for document in querySnapshot!.documents {
                             print("\(document.documentID) => \(document.data())")
-//                            let userInfoDic = UserInfo(dic: document.data())
-//                            self.userInfo.append(userInfoDic)
+                            let messageCount = document.data()["messageCount"] as? Int ?? 0
+                            let chatLatestedAt = document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
+                            
+                            let userInfoDic = UserInfo(dic: document.data(),messageCount:messageCount,chatLatestedAt:chatLatestedAt)
+                            print("a",userInfoDic)
+                            self.userInfo.append(userInfoDic)
+                        }
+                        reserchTableView.reloadData()
+                    }
+                }
+            }
+    }
+    
+    func getUserAccount(userId:String,userInfo:UserInfo) {
+        guard  let uid = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(uid).collection("Connections").whereField("userId", isEqualTo: userId)
+            .getDocuments() { [self] (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    print(querySnapshot!.documents.count)
+                    let userCount:Int = querySnapshot!.documents.count
+                    if userCount == 0 {
+                        
+                    } else {
+                        for document in querySnapshot!.documents {
+                            print("\(document.documentID) => \(document.data())")
+                            let messageCount = document.data()["messageCount"] as? Int ?? 0
+                            let chatLatestedAt = document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
+                            let userInfoDic = UserInfo(dic: document.data(),messageCount:messageCount,chatLatestedAt:chatLatestedAt)
+                            print("a",userInfoDic)
+                            self.userInfo.append(userInfoDic)
                         }
                         reserchTableView.reloadData()
                     }
@@ -102,53 +132,52 @@ class ReserchVC:UIViewController{
     
     func fetchUserList(userId:String){
         
-        db.collection("users").document(userId).collection("Connections").addSnapshotListener { [self] ( snapshots, err) in
-            if let err = err {
-                
-                print("メッセージの取得に失敗、\(err)")
-                return
-            }
-            
-            if snapshots?.documents.count ?? 0 >= 1{
-                
-                snapshots?.documentChanges.forEach({ (documents) in
-                    switch documents.type {
-                    case .added:
-//                        userInfo.removeAll()
-                        
-                        print("ああいあいあい")
-//                        print("\(documents.document.documentID) => \(document.data())")
-                        let userId = documents.document.data()["userId"] as? String ?? ""
-                        let messageCount = documents.document.data()["messageCount"] as? Int ?? 0
-                        let chatLatestedAt = documents.document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
-                        print("aaaaa",messageCount)
-                        getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt,snapType: "added")
-                        
-                    case .modified, .removed:
-                        print("noproblem")
-                        print("あいあい居合あ",userInfo)
-//
-//                        let dic = documents.document.data()
-//                        let userInfoDic = UserInfo(dic: dic)
-                        
+        let textFieldString = inputTextField.text
         
-                        
-//                        self.userInfo.remove(at: 0)
-                        
-                        let userId = documents.document.data()["userId"] as? String ?? ""
-                        
-                        let messageCount = documents.document.data()["messageCount"] as? Int ?? 0
-                        let chatLatestedAt = documents.document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
-                        print("aaaaa",messageCount)
-                        getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt,snapType: "modified")
-                    }
+        print("押しfj教えjf",textFieldString)
+        
+        if textFieldString == "" {
+            print("じゃ教えjふぉい")
+            
+            db.collection("users").document(userId).collection("Connections").addSnapshotListener { [self] ( snapshots, err) in
+                if let err = err {
                     
-                })
+                    print("メッセージの取得に失敗、\(err)")
+                    return
+                }
+                
+                if snapshots?.documents.count ?? 0 >= 1{
+                    
+                    snapshots?.documentChanges.forEach({ (documents) in
+                        switch documents.type {
+                        case .added:
+                            //                        userInfo.removeAll()
+                            
+                            print("ああいあいあい")
+                            //                        print("\(documents.document.documentID) => \(document.data())")
+                            let userId = documents.document.data()["userId"] as? String ?? ""
+                            let messageCount = documents.document.data()["messageCount"] as? Int ?? 0
+                            let chatLatestedAt = documents.document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
+                            
+                            print("aaaaa",messageCount)
+                            getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt,snapType: "added")
+                            
+                        case .modified, .removed:
+                            print("noproblem")
+                            print("あいあい居合あ",userInfo)
+                            
+                            let userId = documents.document.data()["userId"] as? String ?? ""
+                            
+                            let messageCount = documents.document.data()["messageCount"] as? Int ?? 0
+                            let chatLatestedAt = documents.document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
+                            print("aaaaa",messageCount)
+                            getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt,snapType: "modified")
+                        }
+                        
+                    })
+                }
             }
         }
-        
-        
-        
     }
     
     
@@ -281,6 +310,8 @@ class ReserchVC:UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("saoife",inputTextField.text)
 //
         guard let uid = Auth.auth().currentUser?.uid else { return }
         fetchUserList(userId:uid)
@@ -445,31 +476,44 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath as IndexPath, animated: true)
+        
         let cell = self.reserchTableView.cellForRow(at:indexPath) as! ReserhTableViewCell
         guard let uid = Auth.auth().currentUser?.uid else { return }
-
+        
         let messageCount = userInfo[indexPath.row].messageCount
         let selectedUserId = userInfo[indexPath.row].userId
-        countPush(userId: uid, messageCount: messageCount, selectedUserId: selectedUserId)
         
-
-//        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-//        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-//        ProfileVC.userId = userInfo[indexPath.row].userId
-//        ProfileVC.cellImageTap = true
-//        navigationController?.pushViewController(ProfileVC, animated: true)
+        userIdConnectionCheck(userId: selectedUserId, uid: uid, indexPath: indexPath, messageCount: messageCount)
+       
         
-        let storyboard = UIStoryboard.init(name: "InChatRoom", bundle: nil)
-        let InChatRoomVC = storyboard.instantiateViewController(withIdentifier: "InChatRoomVC") as! InChatRoomVC
-        InChatRoomVC.userId = userInfo[indexPath.row].userId
-        InChatRoomVC.userFrontId = userInfo[indexPath.row].userFrontId
-        InChatRoomVC.userImage = userInfo[indexPath.row].userImage
-        InChatRoomVC.userName = userInfo[indexPath.row].userName
-        InChatRoomVC.messageNum = messageNum
-//        ProfileVC.userId = userInfo[indexPath.row].userId
-//        ProfileVC.cellImageTap = true
-        navigationController?.pushViewController(InChatRoomVC, animated: true)
-
+        
+        
+        
+    }
+    
+    func userIdConnectionCheck(userId:String,uid:String,indexPath:IndexPath,messageCount:Int) {
+        db.collection("users").document(uid).collection("Connections").whereField("userId", isEqualTo: userId)
+            .getDocuments() { [self] (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting documents: \(err)")
+                } else {
+                    print(querySnapshot!.documents.count)
+                    let userCount:Int = querySnapshot!.documents.count
+                    if userCount == 0 {
+                        print("あおいsjえf")
+                    } else {
+                        countPush(uid: uid, messageCount: messageCount, userId: userId)
+                        let storyboard = UIStoryboard.init(name: "InChatRoom", bundle: nil)
+                        let InChatRoomVC = storyboard.instantiateViewController(withIdentifier: "InChatRoomVC") as! InChatRoomVC
+                        InChatRoomVC.userId = userInfo[indexPath.row].userId
+                        InChatRoomVC.userFrontId = userInfo[indexPath.row].userFrontId
+                        InChatRoomVC.userImage = userInfo[indexPath.row].userImage
+                        InChatRoomVC.userName = userInfo[indexPath.row].userName
+                        InChatRoomVC.messageNum = messageNum
+                        navigationController?.pushViewController(InChatRoomVC, animated: true)
+                    }
+                }
+            }
     }
     
     @objc func userImageTapped(_ sender: UITapGestureRecognizer) {
@@ -487,11 +531,11 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         
     }
     
-    func countPush(userId:String,messageCount:Int,selectedUserId:String) {
+    func countPush(uid:String,messageCount:Int,userId:String) {
         let calculationResults = messageNum-messageCount
         
-        db.collection("users").document(userId).setData(["messageNum":calculationResults]as[String : Any], merge: true)
-        db.collection("users").document(userId).collection("Connections").document(selectedUserId).setData(["messageCount":0]as[String : Any], merge: true)
+        db.collection("users").document(uid).setData(["messageNum":calculationResults]as[String : Any], merge: true)
+        db.collection("users").document(uid).collection("Connections").document(userId).setData(["messageCount":0]as[String : Any], merge: true)
         if calculationResults != 0 {
         self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = String(calculationResults)
         } else {

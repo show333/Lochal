@@ -337,9 +337,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     func unChain(){
-        db.collection("users").document(uid ?? "").collection("Connections").document(userId ?? "").delete()
-        db.collection("users").document(userId ?? "").collection("Connections").document(uid ?? "").delete()
-        db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").delete()
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(uid).collection("Connections").document(userId ?? "").delete()
+        db.collection("users").document(userId ?? "").collection("Connections").document(uid).delete()
+        db.collection("users").document(userId ?? "").collection("Notification").document("Connecting"+uid).delete()
     }
     
     

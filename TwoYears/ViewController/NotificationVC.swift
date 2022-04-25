@@ -61,6 +61,14 @@ class NotificationVC: UIViewController {
     
     @IBOutlet weak var postExplainLabel: UILabel!
     @IBOutlet weak var closeLabel: UILabel!
+    
+    @IBOutlet weak var notificationExButton: UIButton!
+    
+    @IBAction func notificationExTappedButton(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "NotificationEx", bundle: nil)
+        let NotificationExVC = storyboard.instantiateViewController(withIdentifier: "NotificationExVC") as! NotificationExVC        
+        self.present(NotificationExVC, animated: true, completion: nil)
+    }
     @IBOutlet weak var postBackButton: UIButton!
     
     @IBAction func postBackTappedButton(_ sender: Any) {
@@ -170,8 +178,13 @@ class NotificationVC: UIViewController {
         }
         
         db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(["reactionMessage":"さんとコネクトしました","acceptBool":true], merge: true)
-        db.collection("users").document(userId).collection("Connections").document(uid).setData(["status":"accept"], merge: true)
-        db.collection("users").document(uid).collection("Connections").document(userId).setData(["status":"accept"], merge: true)
+        
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        guard let userId = userId else {return}
+
+        db.collection("users").document(uid).collection("Connections").document(userId).setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId,"status":"accept"], merge: true)
+        
+        db.collection("users").document(userId).collection("Connections").document(uid).setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid ,"status":"accept"], merge: true)
         db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
         db.collection("users").document(uid).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
         
@@ -386,6 +399,8 @@ class NotificationVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
           options: authOptions,
@@ -484,6 +499,14 @@ class NotificationVC: UIViewController {
         UIApplication.shared.applicationIconBadgeNumber = 0
         self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = nil
         
+        if UserDefaults.standard.bool(forKey: "NotificationEx") != true{
+            UserDefaults.standard.set(true, forKey: "NotificationEx")
+            
+            let storyboard = UIStoryboard.init(name: "NotificationEx", bundle: nil)
+            let NotificationExVC = storyboard.instantiateViewController(withIdentifier: "NotificationExVC") as! NotificationExVC
+            self.present(NotificationExVC, animated: true, completion: nil)        }
+
+        
     }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -512,7 +535,18 @@ class NotificationVC: UIViewController {
                         return m1Date > m2Date
                     }
                     self.reactionTableView.reloadData()
-                case .modified, .removed:
+                case .removed:
+                    
+                    let dic = Naruto.document.data()
+                    let reactionDic = Reaction(dic: dic)
+                    let aaa = self.reaction.firstIndex(of: reactionDic)
+                    print("faoiあasef",aaa)
+                    self.reaction.remove(at: aaa ?? 0)
+                    self.reactionTableView.reloadData()
+                    
+                case .modified:
+                    
+                    
                     print("noproblem")
                 }
             })

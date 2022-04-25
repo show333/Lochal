@@ -15,7 +15,6 @@ class ThankyouVC:UIViewController {
     let db = Firestore.firestore()
     
     var outMemo: OutMemo?
-
     
     @IBOutlet weak var backGroundImageView: UIImageView!
     @IBOutlet weak var nextButton: UIButton!
@@ -198,7 +197,9 @@ class ThankyouVC:UIViewController {
                         print("\(document.documentID) => \(document.data())")
                         let dic = document.data()
                         let outMemoDic = OutMemo(dic: dic)
-                        
+                        print("あせfs")
+                        print(outMemoDic)
+                        print(userId)
                         PostSet(userId:userId ,outMemo: outMemoDic)
                     }
                 }
@@ -208,25 +209,26 @@ class ThankyouVC:UIViewController {
     
     func PostSet(userId:String,outMemo:OutMemo){
         
-        let memoInfoDic = [
-            "message" : outMemo.message,
-            "sendImageURL": outMemo.sendImageURL,
-            "documentId": outMemo.documentId,
-            "createdAt": outMemo.createdAt,
-            "textMask":outMemo.textMask,
-            "userId":outMemo.userId,
-            "userName":outMemo.userName,
-            "userFrontId":outMemo.userFrontId,
-            "readLog": false,
-            "anonymous":outMemo.anonymous,
-            "admin": outMemo.admin,
-            "delete": outMemo.delete,
-            
-        ] as [String: Any]
+        let documentId = outMemo.documentId
         
-        db.collection("users").document(userId).collection("TimeLine").document(outMemo.documentId).setData(memoInfoDic,merge: true)
-//        let userId = document.data()["userId"] as! String
-//                        getUserInfo(userId: userId)
+        if documentId != "" && outMemo.anonymous != true{
+            let memoInfoDic = [
+                "message" : outMemo.message,
+                "sendImageURL": outMemo.sendImageURL,
+                "documentId": outMemo.documentId,
+                "createdAt": outMemo.createdAt,
+                "textMask":outMemo.textMask,
+                "userId":outMemo.userId,
+                "userName":outMemo.userName,
+                "userFrontId":outMemo.userFrontId,
+                "readLog": false,
+                "anonymous":outMemo.anonymous,
+                "admin": outMemo.admin,
+                "delete": outMemo.delete,
+            ] as [String: Any]
+            db.collection("users").document(userId).collection("TimeLine").document(documentId).setData(memoInfoDic, merge:true)
+        }
+        
     }
     
     func setNotification(userId: String,documentId:String) {

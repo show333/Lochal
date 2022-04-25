@@ -118,6 +118,8 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var newPostBackView: UIView!
     @IBOutlet weak var newPostWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var newPostImageView: UIImageView!
+    
+    @IBOutlet weak var newPostLabel: UILabel!
     @IBAction func tappedSinkiButton(_ sender: Any) {
         
         postType = "newPost"
@@ -127,6 +129,9 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var anonymousBackView: UIView!
     @IBOutlet weak var anonymousWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var annoymousImageView: UIImageView!
+    
+    @IBOutlet weak var anonymousLabel: UILabel!
+    
     @IBOutlet weak var anonymousButton: UIButton!
     @IBAction func anonymousTappedButton(_ sender: Any) {
         if assetsType != nil {
@@ -138,9 +143,11 @@ class sinkitoukou: UIViewController {
             self.coachMarksController.start(in: .currentWindow(of: self))
         }
     }
+    
     @IBOutlet weak var privateBackView: UIView!
     @IBOutlet weak var privateWidthConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var privateLabel: UILabel!
     @IBOutlet weak var privateImageView: UIImageView!
     @IBOutlet weak var privateButton: UIButton!
     
@@ -432,6 +439,10 @@ class sinkitoukou: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        newPostLabel.font = UIFont(name: "03SmartFontUI", size: 14)
+        anonymousLabel.font = UIFont(name: "03SmartFontUI", size: 14)
+        privateLabel.font = UIFont(name: "03SmartFontUI", size: 14)
+
         
         confirmBackView.alpha = 0
 

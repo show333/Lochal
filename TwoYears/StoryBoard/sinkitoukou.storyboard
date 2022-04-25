@@ -332,6 +332,7 @@
                         <outlet property="annoymousImageView" destination="Rnk-Rc-qrU" id="FEv-oO-sC9"/>
                         <outlet property="anonymousBackView" destination="nVy-iT-ZTX" id="Gxe-9G-DTB"/>
                         <outlet property="anonymousButton" destination="gP9-wK-QKJ" id="cd0-yl-5Co"/>
+                        <outlet property="anonymousLabel" destination="Vnq-Qw-v1p" id="4eh-Lz-hux"/>
                         <outlet property="anonymousWidthConstraint" destination="Sk4-Jw-Ls3" id="kRT-RX-Tuv"/>
                         <outlet property="closeButton" destination="DeS-Ag-Jsv" id="9yt-mF-8Xt"/>
                         <outlet property="confirmBackButton" destination="Dsb-JE-0Ly" id="XB2-nV-hHX"/>
@@ -347,11 +348,13 @@
                         <outlet property="newPostBackView" destination="ljO-Yj-3eR" id="Dim-ps-M0i"/>
                         <outlet property="newPostButton" destination="aWm-if-nfG" id="jjh-99-b6X"/>
                         <outlet property="newPostImageView" destination="eq0-eA-mJc" id="KgZ-ee-Vni"/>
+                        <outlet property="newPostLabel" destination="05c-16-CLq" id="Ux9-5n-yED"/>
                         <outlet property="newPostWidthConstraint" destination="gXY-TN-vV9" id="Pzf-dc-cgN"/>
                         <outlet property="ongakuLabel" destination="7wl-lC-VlY" id="k56-Kl-WmB"/>
                         <outlet property="privateBackView" destination="uSM-7r-8CX" id="PYj-aL-UG0"/>
                         <outlet property="privateButton" destination="sFc-nJ-Dix" id="Tf3-D7-0Iz"/>
                         <outlet property="privateImageView" destination="bRP-dG-Rai" id="HxC-Pc-lPT"/>
+                        <outlet property="privateLabel" destination="b7w-Mm-O9g" id="Pgy-VM-kkE"/>
                         <outlet property="privateWidthConstraint" destination="bcq-0e-jSb" id="GVn-so-Kge"/>
                         <outlet property="setImageView" destination="aA2-B8-4sT" id="oda-kj-wIe"/>
                         <outlet property="setImageViewHeightConstraint" destination="WCB-Zc-im9" id="szm-f5-fGy"/>

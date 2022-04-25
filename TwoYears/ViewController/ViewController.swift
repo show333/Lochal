@@ -274,10 +274,8 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                             } else {
                                 if momentType >= moment() - 30.days && rarabai.readLog != true {
                                     self.outMemo.append(rarabai)
-                                }
+                                } 
                             }
-                            
-                            
                         }
                     }
                     self.outMemo.sort { (m1, m2) -> Bool in
