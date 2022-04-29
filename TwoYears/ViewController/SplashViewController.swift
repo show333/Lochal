@@ -106,10 +106,11 @@ class SplashViewController: UIViewController {
                         print("\(document.documentID) => \(document.data())")
                         let userId = document.data()["userId"] as? String ?? ""
                         self.userId.append(userId)
-
                     }
                     print("usseserser",self.userId)
-//                    UserDefaults.standard.set(self.userId, forKey: "connectingUserId")
+                    self.db.collection("users").document(uid).setData(["connectingUserId":self.userId] as [String : Any], merge: true)
+                    UserDefaults.standard.set(self.userId, forKey: "connectingUserId")
+                    print("青市へフィオアセjフォイアジェヲイfjアセおいfじゃ教えjfおいあせjfおいあせじぇf",UserDefaults.standard.object(forKey: "connectingUserId") ?? "") 
                 }
             }
         }

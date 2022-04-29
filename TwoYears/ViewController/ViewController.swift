@@ -128,10 +128,10 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                 UserDefaults.standard.set(true, forKey: "OutMemoInstract")
                 self.coachMarksController.start(in: .currentWindow(of: self))
             } else {
-//                let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
-//
+                let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
+
 //                if areaName == nil {
-//
+
 //                let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
 //                let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
 //                let nav = UINavigationController(rootViewController: vc)
@@ -263,24 +263,43 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                     let momentType = moment(date)
                     let docUserId = rarabai.userId
                     
-                    if blockList[rarabai.userId] == true && rarabai.anonymous == true {
-                    } else {
-                        if rarabai.delete == true {
+                    switch rarabai.anonymous {
+                    case true:
+                        let anonymousId = rarabai.userId + "anonymous"
+                        if blockList[anonymousId] == true {
                         } else {
-                            
-                            
-                            if docUserId == userId {
-                                self.outMemo.append(rarabai)
+                            if rarabai.delete == true {
                             } else {
-//                                if momentType >= moment() - 30.days && rarabai.readLog != true {
-//                                    self.outMemo.append(rarabai)
-//                                }
-                                if momentType >= moment() - 30.days {
+                                if docUserId == userId {
                                     self.outMemo.append(rarabai)
+                                } else {
+                                    if momentType >= moment() - 30.days {
+                                        self.outMemo.append(rarabai)
+                                    }
+                                }
+                            }
+                        }
+                    default :
+                        if blockList[rarabai.userId] == true {
+                            
+                        } else {
+                            if rarabai.delete == true {
+                            } else {
+                                
+                                
+                                if docUserId == userId {
+                                    self.outMemo.append(rarabai)
+                                } else {
+
+                                    if momentType >= moment() - 30.days {
+                                        self.outMemo.append(rarabai)
+                                    }
                                 }
                             }
                         }
                     }
+                    
+                    
                     self.outMemo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
                         let m2Date = m2.createdAt.dateValue()
@@ -666,14 +685,22 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
             
             print("あいえいえいいえいえ",outMemo[sender.tag].userId)
+            let anonymousId = outMemo[sender.tag].userId + "anonymous"
+            
+            if outMemo[sender.tag].anonymous == true {
+                blockDic[anonymousId] = true
+            } else {
             blockDic[outMemo[sender.tag].userId] = true
+            }
+            
+            print("亜ジョイsfjイオ",blockDic)
             UserDefaults.standard.set(blockDic, forKey: "blocked")
-            //                let uid = Auth.auth().currentUser?.uid
+                            let uid = Auth.auth().currentUser?.uid
             
             print("tapped: \([sender.tag])番目のcell")
-            
-            
-            
+
+
+
             self.outMemo.remove(at: sender.tag)
             self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
             self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
@@ -787,7 +814,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     let userImage = skipImageArray[countRemainder]
                     
-                    let userFrontId = "anoymous"
+                    let userFrontId = "anonymous"
                     cell.userFrontIdLabel.text = userFrontId
                     
                     if let url = URL(string:userImage) {

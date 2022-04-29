@@ -31,10 +31,9 @@ class selectAreaVC:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        headerTitleLabel.text = "出身地を選択してください！"
+        headerTitleLabel.text = "今住んでる都道府県はどこですか？"
         headerTitleLabel.font = UIFont(name:"03SmartFontUI", size:20)
-        headerSubTitleLabel.text =
-        "一番盛り上がっている県はどこの県でしょうか！\n都道府県対抗別で投稿数がランキングされます"
+        headerSubTitleLabel.text = "投稿時にそのエリアを中心に届きます！"
         headerSubTitleLabel.font = UIFont(name:"03SmartFontUI", size:14)
         let layout = UICollectionViewFlowLayout()
 //          layout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
