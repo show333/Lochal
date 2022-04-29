@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dY2-9o-Lqt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="dY2-9o-Lqt">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -355,7 +355,20 @@
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Notification" image="bell" catalog="system" id="IuR-4W-29F"/>
-                    <navigationItem key="navigationItem" title="通知" id="5M9-ca-cHt"/>
+                    <navigationItem key="navigationItem" title="通知" id="5M9-ca-cHt">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="1w9-f3-tKK">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LqO-2Y-dzg">
+                                <rect key="frame" x="288" y="5" width="20" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="info.circle" catalog="system"/>
+                                <connections>
+                                    <action selector="notificationExTappedButton:" destination="RZy-lS-iDw" eventType="touchUpInside" id="T8e-nO-3TO"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="acceptButtonConstraint" destination="BFH-QJ-AJV" id="NdW-g9-gaR"/>
@@ -371,6 +384,7 @@
                         <outlet property="graffitiImageWidthConstraint" destination="8cF-7h-WXY" id="5Md-Mo-rIe"/>
                         <outlet property="graffitiLabel" destination="4i0-AH-r2i" id="Zib-o2-Zkg"/>
                         <outlet property="graffitiTitleLabel" destination="NnD-3f-qIJ" id="mam-Ql-CNo"/>
+                        <outlet property="notificationExButton" destination="LqO-2Y-dzg" id="HvS-BW-Xtc"/>
                         <outlet property="onBackViewConstraint" destination="qb8-74-m2W" id="WH6-hA-u89"/>
                         <outlet property="onCloseLabel" destination="3rI-1f-oTU" id="tcu-ee-QPx"/>
                         <outlet property="onMessageBackView" destination="9xd-jm-zf4" id="hvq-Sv-aL0"/>
@@ -397,6 +411,7 @@
     </scenes>
     <resources>
         <image name="bell" catalog="system" width="128" height="124"/>
+        <image name="info.circle" catalog="system" width="128" height="121"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

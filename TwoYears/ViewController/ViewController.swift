@@ -107,18 +107,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
 //        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
         
-        
-//        let backGroundString = UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
-//
-//        let backGroundString = "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d"
-//        
-//        
-//        if let url = URL(string:backGroundString) {
-//            Nuke.loadImage(with: url, into: backGroundImageView)
-//        } else {
-//            backGroundImageView.image = nil
-//        }
-        
     }
     
     
@@ -139,6 +127,17 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
                 UserDefaults.standard.set(true, forKey: "OutMemoInstract")
                 self.coachMarksController.start(in: .currentWindow(of: self))
+            } else {
+                let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
+
+//                if areaName == nil {
+
+//                let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+//                let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
+//                let nav = UINavigationController(rootViewController: vc)
+//                nav.modalPresentationStyle = .fullScreen
+//                self.present(nav, animated: true, completion: nil)
+//                }
             }
 //        }
     }
@@ -264,23 +263,43 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                     let momentType = moment(date)
                     let docUserId = rarabai.userId
                     
-                    if blockList[rarabai.userId] == true && rarabai.anonymous == true {
-                    } else {
-                        if rarabai.delete == true {
+                    switch rarabai.anonymous {
+                    case true:
+                        let anonymousId = rarabai.userId + "anonymous"
+                        if blockList[anonymousId] == true {
                         } else {
-                            
-                            
-                            if docUserId == userId {
-                                self.outMemo.append(rarabai)
+                            if rarabai.delete == true {
                             } else {
-                                if momentType >= moment() - 30.days && rarabai.readLog != true {
+                                if docUserId == userId {
                                     self.outMemo.append(rarabai)
+                                } else {
+                                    if momentType >= moment() - 30.days {
+                                        self.outMemo.append(rarabai)
+                                    }
                                 }
                             }
+                        }
+                    default :
+                        if blockList[rarabai.userId] == true {
                             
-                            
+                        } else {
+                            if rarabai.delete == true {
+                            } else {
+                                
+                                
+                                if docUserId == userId {
+                                    self.outMemo.append(rarabai)
+                                } else {
+
+                                    if momentType >= moment() - 30.days {
+                                        self.outMemo.append(rarabai)
+                                    }
+                                }
+                            }
                         }
                     }
+                    
+                    
                     self.outMemo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
                         let m2Date = m2.createdAt.dateValue()
@@ -372,13 +391,32 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 0
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
-            cell.sendImageConstraintHeight.constant = 100
+            cell.sendImageConstraintHeight.constant = 150
+
+//            let assetsType = outMemo[indexPath.row].assetsType
+//
+//            switch assetsType {
+//            case "image":
+//                cell.sendImageConstraintHeight.constant = 400
+//            case "stamp":
+//                cell.sendImageConstraintHeight.constant = 150
+//            default:
+//                cell.sendImageConstraintHeight.constant = 0
+//            }
 
             if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
                 Nuke.loadImage(with: url, into: cell.sendImageView)
-                cell.sendImageConstraintHeight.constant = 100
-                cell.sendImageView.alpha = 1
+//                switch assetsType {
+//                case "image":
+//                    cell.sendImageConstraintHeight.constant = 400
+//                case "stamp":
+//                    cell.sendImageConstraintHeight.constant = 150
+//                default:
+//                    cell.sendImageConstraintHeight.constant = 0
+//                }
+                cell.sendImageConstraintHeight.constant = 150
 
+                cell.sendImageView.alpha = 1
             } else {
                 cell.sendImageView?.image = nil
                 cell.sendImageView.alpha = 0
@@ -647,14 +685,22 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
             
             print("あいえいえいいえいえ",outMemo[sender.tag].userId)
+            let anonymousId = outMemo[sender.tag].userId + "anonymous"
+            
+            if outMemo[sender.tag].anonymous == true {
+                blockDic[anonymousId] = true
+            } else {
             blockDic[outMemo[sender.tag].userId] = true
+            }
+            
+            print("亜ジョイsfjイオ",blockDic)
             UserDefaults.standard.set(blockDic, forKey: "blocked")
-            //                let uid = Auth.auth().currentUser?.uid
+                            let uid = Auth.auth().currentUser?.uid
             
             print("tapped: \([sender.tag])番目のcell")
-            
-            
-            
+
+
+
             self.outMemo.remove(at: sender.tag)
             self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
             self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
@@ -768,7 +814,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     let userImage = skipImageArray[countRemainder]
                     
-                    let userFrontId = "anoymous"
+                    let userFrontId = "anonymous"
                     cell.userFrontIdLabel.text = userFrontId
                     
                     if let url = URL(string:userImage) {

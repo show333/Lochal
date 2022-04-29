@@ -11,7 +11,12 @@ import Firebase
 import FirebaseFirestore
 import SwiftMoment
 
-class Reaction {
+class Reaction : Equatable{
+    static func == (lhs: Reaction, rhs: Reaction) -> Bool {
+        return lhs.documentId == rhs.documentId
+
+    }
+    
     
     var userId: String
     var userName: String

@@ -15,9 +15,13 @@ import Instructions
 
 class sinkitoukou: UIViewController {
     let uid = UserDefaults.standard.string(forKey: "userId")
+    
+    let usersAreaEn:String? = UserDefaults.standard.object(forKey: "areaNameEn") as? String
+    let usersAreaJa:String? = UserDefaults.standard.object(forKey: "areaNameJa") as? String
     let db = Firestore.firestore()
     var followerId : [String] = []
     var assetsType : String?
+    var postType : String?
     
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
@@ -46,6 +50,42 @@ class sinkitoukou: UIViewController {
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth18.001.png?alt=media&token=b4a4525b-38ee-4842-a191-3fb49ec3b8e0",//18
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/TextMask%2Fmouth20.001.png?alt=media&token=e0693059-4e99-4378-a5cf-1b19854f30e0",//20
     ]
+    
+    @IBOutlet weak var confirmBackView: UIView!
+    
+    @IBOutlet weak var confirmBackButton: UIButton!
+    
+    @IBAction func confirmBackTappedButton(_ sender: Any) {
+        confirmBackView.alpha = 0
+    }
+    
+    @IBOutlet weak var confirmFrontView: UIView!
+    
+    @IBOutlet weak var confirmFrontViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var confirmFrontImageView: UIImageView!
+    
+    @IBOutlet weak var confirmFrontButton: UIButton!
+    
+    @IBAction func confirmFrontTappedButton(_ sender: Any) {
+        switch postType {
+        case "newPost":
+            sendFirestore(tapButton: "newPost")
+            dismiss(animated: true, completion: nil)
+        case "anonymous" :
+            sendFirestore(tapButton: "anonymous")
+            dismiss(animated: true, completion: nil)
+        case "private" :
+            sendFirestore(tapButton: "private")
+            dismiss(animated: true, completion: nil)
+        default :
+            confirmBackView.alpha = 0
+        }
+    }
+    @IBOutlet weak var confirmNameLabel: UILabel!
+    
+    @IBOutlet weak var confirmExplainLabel: UILabel!
+    
+    @IBOutlet weak var confirmPromoteLabel: UILabel!
     
     @IBOutlet weak var wordCountLabel: UILabel!
     @IBOutlet weak var ongakuLabel: UILabel!
@@ -78,35 +118,42 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var newPostBackView: UIView!
     @IBOutlet weak var newPostWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var newPostImageView: UIImageView!
+    
+    @IBOutlet weak var newPostLabel: UILabel!
     @IBAction func tappedSinkiButton(_ sender: Any) {
         
-
-        sendFirestore(tapButton: "newPost")
-        dismiss(animated: true, completion: nil)
+        postType = "newPost"
+        confirmStatus()
     }
     
     @IBOutlet weak var anonymousBackView: UIView!
     @IBOutlet weak var anonymousWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var annoymousImageView: UIImageView!
+    
+    @IBOutlet weak var anonymousLabel: UILabel!
+    
     @IBOutlet weak var anonymousButton: UIButton!
     @IBAction func anonymousTappedButton(_ sender: Any) {
         if assetsType != nil {
-            sendFirestore(tapButton: "anonymous")
-        dismiss(animated: true, completion: nil)
+            postType = "anonymous"
+            confirmStatus()
+
         } else {
             print("aaaa")
             self.coachMarksController.start(in: .currentWindow(of: self))
         }
     }
+    
     @IBOutlet weak var privateBackView: UIView!
     @IBOutlet weak var privateWidthConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var privateLabel: UILabel!
     @IBOutlet weak var privateImageView: UIImageView!
     @IBOutlet weak var privateButton: UIButton!
     
     @IBAction func privateTappedButton(_ sender: Any) {
-        sendFirestore(tapButton: "private")
-        dismiss(animated: true, completion: nil)
+        postType = "private"
+        confirmStatus()
     }
     
     @IBOutlet weak var closeButton: UIButton!
@@ -117,6 +164,48 @@ class sinkitoukou: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    func confirmStatus() {
+        confirmBackView.alpha = 0.95
+        switch postType {
+        case "newPost":
+            confirmNameLabel.text = "newPost"
+            confirmExplainLabel.text = "コネクトしているユーザーに投稿します"
+            confirmPromoteLabel.text = "↑タップで投稿"
+            
+            if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_02398_icon_023989_256.png?alt=media&token=e88ea22e-0d00-47f3-bce1-bcb9c41cfbb9") {
+                Nuke.loadImage(with: url, into: confirmFrontImageView)
+            } else {
+                confirmFrontImageView?.image = nil
+            }
+
+        case "anonymous" :
+            confirmNameLabel.text = "anonymous"
+            confirmExplainLabel.text = "コネクトしているユーザーを優先して投稿します"
+            confirmPromoteLabel.text = "↑タップで投稿"
+            
+            if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_03868_icon_0386810_256.png?alt=media&token=3bbd52c2-115d-481e-bb4a-e5a5b3da5723") {
+                Nuke.loadImage(with: url, into: confirmFrontImageView)
+            } else {
+                confirmFrontImageView?.image = nil
+            }
+            
+            
+        case "private" :
+            confirmNameLabel.text = "private"
+            confirmExplainLabel.text = "他のユーザーには閲覧されません"
+            confirmPromoteLabel.text = "↑タップで投稿"
+            
+            if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_05350_icon_053504_256.png?alt=media&token=e0a2936c-2e75-47b5-a6d2-1c944954828e") {
+                Nuke.loadImage(with: url, into: confirmFrontImageView)
+            } else {
+                confirmFrontImageView?.image = nil
+            }
+            
+        default :
+            confirmBackView.alpha = 0
+        }
     }
     
     func sendFirestore(tapButton:String) {
@@ -141,18 +230,19 @@ class sinkitoukou: UIViewController {
                     }
                     
                     guard let urlString = url?.absoluteString else { return }
+                    imageString = urlString
                     print("urlString:", urlString)
                     switch tapButton {
                     case "newPost" :
-                        sendMemoFireStore(imageAddress: urlString)
+                        sendMemoFireStore(imageAddress: fileName)
                         print("newPost")
                         
                     case "private":
-                        privateSendMemo(imageAddress: urlString)
+                        privateSendMemo(imageAddress: fileName)
                         print("private")
                         
                     case "anonymous":
-                        anonymousSendMemo(imageAddress: urlString)
+                        anonymousSendMemo(imageAddress: fileName)
                         print("anonymous")
                     default :
                         print("a")
@@ -318,23 +408,21 @@ class sinkitoukou: UIViewController {
         
         db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
         
-        
-//        db.collection("users").document(uid).collection("Connections").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
-//            if let err = err {
-//                print("Error getting documents: \(err)")
-//            } else {
-//
-//                if querySnapshot?.documents.count ?? 0 >= 1{
-//                    for document in querySnapshot!.documents {
-//                        print("\(document.documentID) => \(document.data())")
-//                        let userId = document.data()["userId"] as? String ?? ""
-//                        db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
-//
-//                    }
-//                }
-//            }
-//        }
-        
+        db.collection("users").whereField("UEnterdBool", isEqualTo: true).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+
+                if querySnapshot?.documents.count ?? 0 >= 1{
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let userId = document.data()["userId"] as? String ?? ""
+                        db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+
+                    }
+                }
+            }
+        }
         db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
     }
     
@@ -351,6 +439,13 @@ class sinkitoukou: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        newPostLabel.font = UIFont(name: "03SmartFontUI", size: 14)
+        anonymousLabel.font = UIFont(name: "03SmartFontUI", size: 14)
+        privateLabel.font = UIFont(name: "03SmartFontUI", size: 14)
+
+        
+        confirmBackView.alpha = 0
+
         self.coachMarksController.dataSource = self
         
         let statusBarHeight = self.view.window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
@@ -365,6 +460,19 @@ class sinkitoukou: UIViewController {
         anonymousWidthConstraint.constant = widthConstraint
         newPostWidthConstraint.constant = widthConstraint
         
+        confirmFrontViewWidthConstraint.constant = width/3
+        confirmFrontView.clipsToBounds = true
+        confirmFrontView.layer.cornerRadius = width/24
+        
+//        confirmFrontView.backgroundColor = .gray
+           confirmFrontView.clipsToBounds = true
+//           confirmFrontView.layer.cornerRadius = 10
+           confirmFrontView.layer.masksToBounds = false
+           confirmFrontView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+           confirmFrontView.layer.shadowOffset = CGSize(width: 0, height: 3)
+           confirmFrontView.layer.shadowOpacity = 0.7
+           confirmFrontView.layer.shadowRadius = 5
+        
 //        setImageView = scalea
         
         // newPostViewHeight = 60 + 10
@@ -374,8 +482,8 @@ class sinkitoukou: UIViewController {
         
         let editHeight = height - 215
         
-        textViewHeightConstraint.constant = editHeight/4
-        setImageViewHeightConstraint.constant = editHeight/4
+        textViewHeightConstraint.constant = editHeight/3.5
+        setImageViewHeightConstraint.constant = editHeight/3
         
 
 
@@ -409,11 +517,9 @@ class sinkitoukou: UIViewController {
         privateBackView.layer.shadowRadius = 5
 
         
+//        confirmNameLabel.font
         
-        
-        
-        print("oooo",imageString)
-        
+                
         //ポスト
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_02398_icon_023989_256.png?alt=media&token=e88ea22e-0d00-47f3-bce1-bcb9c41cfbb9") {
             Nuke.loadImage(with: url, into: newPostImageView)
@@ -439,7 +545,7 @@ class sinkitoukou: UIViewController {
 
 
         } else {
-            ongakuLabel.text = "投稿は一週間で消えます"
+            ongakuLabel.text = "だらけてるほど良き"
         }
         
         self.textView.delegate = self
@@ -535,8 +641,10 @@ extension sinkitoukou: UIAdaptivePresentationControllerDelegate {
         if textwhite == "" || textwhite == "ポテチ食べたい\nコンビニの新作アイスめっちゃ美味い\nうちの猫めっちゃ可愛い\n授業,会社だるい\n布団から出られない\nなど" {
             anonymousBackView.backgroundColor = .gray
         } else {
+            if imageString != nil {
             anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
-
+            }
+            
         }
         
         if let url = URL(string:imageString ?? "") {

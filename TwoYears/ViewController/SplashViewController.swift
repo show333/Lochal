@@ -38,11 +38,6 @@ class SplashViewController: UIViewController {
         } else {
             presentSignInVC()
         }
-//        let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
-//        let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
-//        let nav = UINavigationController(rootViewController: vc)
-//        nav.modalPresentationStyle = .fullScreen
-//        self.present(nav, animated: true, completion: nil)
     }
 
 
@@ -57,6 +52,10 @@ class SplashViewController: UIViewController {
                 let userImage = document["userImage"] as? String ?? ""
                 let userFrontId = document["userFrontId"] as? String ?? ""
                 let UEnterdBool = document["UEnterdBool"] as? Bool ?? false
+                let areaNameEn = document["areaNameEn"] as? String ?? "tokyo"
+                let areaNameJa = document["areaNameJa"] as? String ?? "東京"
+
+
                 
                 
                 print("あいあいあい",userName)
@@ -74,6 +73,9 @@ class SplashViewController: UIViewController {
                         UserDefaults.standard.set(userName, forKey: "userName")
                         UserDefaults.standard.set(userImage, forKey: "userImage")
                         UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
+                        
+                        UserDefaults.standard.set(areaNameEn, forKey: "areaNameEn")
+                        UserDefaults.standard.set(areaNameJa, forKey: "areaNameJa")
                     } else {
                         presentExplain()
                     }
@@ -104,10 +106,11 @@ class SplashViewController: UIViewController {
                         print("\(document.documentID) => \(document.data())")
                         let userId = document.data()["userId"] as? String ?? ""
                         self.userId.append(userId)
-
                     }
                     print("usseserser",self.userId)
-//                    UserDefaults.standard.set(self.userId, forKey: "connectingUserId")
+                    self.db.collection("users").document(uid).setData(["connectingUserId":self.userId] as [String : Any], merge: true)
+                    UserDefaults.standard.set(self.userId, forKey: "connectingUserId")
+                    print("青市へフィオアセjフォイアジェヲイfjアセおいfじゃ教えjfおいあせjfおいあせじぇf",UserDefaults.standard.object(forKey: "connectingUserId") ?? "") 
                 }
             }
         }

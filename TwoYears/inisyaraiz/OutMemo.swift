@@ -21,6 +21,7 @@ class OutMemo {
     var createdAt: Timestamp
     var textMask: String
     var documentId : String
+    var assetsType : String
     
     var graffitiUserId : String
     var graffitiUserFrontId: String
@@ -51,6 +52,8 @@ class OutMemo {
         self.textMask = dic["textMask"] as? String ?? ""
         self.documentId = dic["documentId"] as? String ?? ""
         
+        self.assetsType = dic["assetsType"] as? String ?? ""
+
         self.graffitiUserId = dic["graffitiUserId"] as? String ?? ""
         self.graffitiUserFrontId = dic["graffitiUserFrontId"] as? String ?? ""
         self.graffitiUserName = dic["graffitiUserName"] as? String ?? ""

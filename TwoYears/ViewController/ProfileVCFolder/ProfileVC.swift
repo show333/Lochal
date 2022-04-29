@@ -32,6 +32,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var userImage: String? = UserDefaults.standard.string(forKey: "userImage")
     var userFrontId: String? = UserDefaults.standard.string(forKey: "userFrontId")
     var dismissBool: Bool = false
+    var matchUserId:[String] = []
+    
     
     var cellImageTap : Bool = false
     
@@ -279,14 +281,11 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
         
         
-        
         db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(["reactionMessage":"さんとコネクトしました","acceptBool":true], merge: true)
         db.collection("users").document(userId).collection("Connections").document(uid).setData(["status":"accept"], merge: true)
         db.collection("users").document(uid).collection("Connections").document(userId).setData(["status":"accept"], merge: true)
         db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
         db.collection("users").document(uid).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
-        
-        
         PostGet(uid:uid,userId:userId)
         PostGet(uid:userId,userId:uid)
 
@@ -337,9 +336,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     }
     
     func unChain(){
-        db.collection("users").document(uid ?? "").collection("Connections").document(userId ?? "").delete()
-        db.collection("users").document(userId ?? "").collection("Connections").document(uid ?? "").delete()
-        db.collection("users").document(userId ?? "").collection("Notification").document(uid ?? "").delete()
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        db.collection("users").document(uid).collection("Connections").document(userId ?? "").delete()
+        db.collection("users").document(userId ?? "").collection("Connections").document(uid).delete()
+        db.collection("users").document(userId ?? "").collection("Notification").document("Connecting"+uid).delete()
     }
     
     
@@ -389,49 +389,49 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
 //        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         let safeAreaWidth = UIScreen.main.bounds.size.width
         let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
-        
+
         if uid == userId {
             postButton.alpha = 0
         } else {
             postButton.alpha = 0.8
         }
-        
+
         connectLabel.font = UIFont(name:"03SmartFontUI", size:12)
         settingsLabel.font = UIFont(name:"03SmartFontUI", size:12)
         postOtherLabel.font = UIFont(name:"03SmartFontUI", size:14)
         rakugakiLabel.font = UIFont(name:"03SmartFontUI", size:17)
-        
-        
+
+
 //        followButton.setTitle("コネクトする", for: .normal)
 //        followButton.setTitleColor(UIColor.darkGray, for: .normal)
 //        followButton.font.fontName = UIFont(name:"03SmartFontUI", size: 14)
-        
+
         followButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 17)
 
         backGroundImageView.alpha = 0.1
         headerView.alpha = 1
         postCollectionView.alpha = 1
-        
-        
+
+
         postCompleteLabel.alpha = 0
         postCompleteLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/20)
         postCompleteLabel.text = "ラクがきを送信しました！"
-        
+
         secondPostCompleteLabel.alpha = 0
         secondPostCompleteLabel.font =  UIFont(name:"03SmartFontUI", size:safeAreaWidth/25)
         secondPostCompleteLabel.text = "相手の許可を得た後,公開されます"
 
-        
+
         self.coachMarksController.dataSource = self
         self.coachMarksControllerSecond.dataSource = self
-        
+
         postBackGroundView.clipsToBounds = true
         postBackGroundView.layer.cornerRadius = 10
         postBackGroundView.layer.masksToBounds = false
@@ -439,8 +439,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         postBackGroundView.layer.shadowOffset = CGSize(width: 0, height: 3)
         postBackGroundView.layer.shadowOpacity = 0.7
         postBackGroundView.layer.shadowRadius = 5
-        
-        
+
+
         postButton.layer.cornerRadius = 30
         postButton.clipsToBounds = true
         postButton.layer.masksToBounds = false
@@ -448,8 +448,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         postButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         postButton.layer.shadowOpacity = 1
         postButton.layer.shadowRadius = 5
-        
-        
+
+
         postBackImageView.clipsToBounds = true
         postBackImageView.layer.cornerRadius = 10
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FfollowsPostImages.png?alt=media&token=bb9320cc-e79e-4f28-a23a-5573da02b5f3") {
@@ -457,57 +457,57 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         } else {
             postBackImageView.image = nil
         }
-                
-        
+
+
 //        chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
-        
-        
+
+
 
         followButton.titleLabel?.adjustsFontSizeToFitWidth = true
         followButton.clipsToBounds = true
         followButton.layer.cornerRadius = safeAreaWidth/24
-        
+
 //        followingButton.titleLabel?.numberOfLines = 2
 //        followingButton.titleLabel?.textAlignment = NSTextAlignment.center
 //        followingButton.titleLabel?.baselineAdjustment = .alignCenters
 //        followingButton.titleLabel?.adjustsFontSizeToFitWidth = true
 //        followingButton.setTitle("1111", for: .normal)
-        
+
         if let layout = postCollectionView.collectionViewLayout as? PinterestLayout {
             layout.delegate = self
         }
-        
+
         headerHigh = safeAreaHeight/3.5
-        
-        
+
+
         userImageView.isUserInteractionEnabled = true
-        
-        
+
+
         userNameLabelTopConstraint.constant = headerHigh/5 - 15
         userImagehighConstraint.constant = headerHigh/2.5
         userImageTopConstraint.constant = headerHigh/20
         userImageLeftConstraint.constant = headerHigh/18
-        
-        
+
+
         userImageView.clipsToBounds = true
         userImageView.layer.cornerRadius = headerHigh/5
-        
+
         collectionHighConstraint.constant = headerHigh/4
         collectionBottom.constant = headerHigh/20
         collectionLeft.constant = headerHigh/20
         collectionRight.constant = headerHigh/20
-        
+
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                
-        
+
+
 //        self.chatListTableView.estimatedRowHeight = 40
 //        self.chatListTableView.rowHeight = UITableView.automaticDimension
-        
+
         //        navigationbarのやつ
         //        let navBar = self.navigationController?.navigationBar
         //        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
-        
-        
+
+
         // セルの詳細なレイアウトを設定する
         let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         // セルのサイズ
@@ -521,8 +521,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         self.teamCollectionView.collectionViewLayout = flowLayout
         // 背景色を設定
         self.teamCollectionView.backgroundColor = .clear
-        
-        
+
+
 //        let postLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
 //        postLayout.itemSize = CGSize(width: safeAreaWidth/3-6, height: safeAreaWidth/3/9*16)
 //        postLayout.minimumLineSpacing = 6
@@ -531,32 +531,33 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //
 //
 //        self.postCollectionView.collectionViewLayout = postLayout
-        
+
 //        let layout = UICollectionViewFlowLayout()
 //          layout.sectionInset = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
 //          postCollectionView.collectionViewLayout = layout
-        
+
         let customLayout = PinterestLayout()
         customLayout.delegate = self
         postCollectionView.collectionViewLayout = customLayout
-        
+
         if let pinterestLayout = postCollectionView.collectionViewLayout as? PinterestLayout {
             pinterestLayout.delegate = self
         }
-        
+
         //Pull To Refresh
         postCollectionView.refreshControl = UIRefreshControl()
         postCollectionView.refreshControl?.addTarget(self, action: #selector(onRefresh(_:)), for: .valueChanged)
-        
+
+//        ここを変える
         postCollectionView.dataSource = self
         postCollectionView.delegate = self
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
-        
-        
+
+
 //        let imageLayout = postCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
 //        imageLayout.estimatedItemSize = .zero
-                
+
 //        chatListTableView.refreshControl = UIRefreshControl()
 //        chatListTableView.refreshControl?.addTarget(self, action: #selector(onRefresh(_:)), for: .valueChanged)
 //
@@ -633,34 +634,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-//        coachMarksController.start(in: .currentWindow(of: self))
         
-        self.postInfo.removeAll()
-        self.postCollectionView.reloadData()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            // 0.5秒後に実行したい処理
-            self.fetchPostInfo(userId: self.userId ?? "unKnown")
-        }
-//
-        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//            if UserDefaults.standard.bool(forKey: "ProfileTransition") != true{
-//                UserDefaults.standard.set(true, forKey: "ProfileTransition")
-//                let userId = UserDefaults.standard.string(forKey: "referralUserlId") ?? "unKnown"
-//
-//                let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
-//                let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-//                ProfileVC.userId = userId
-//                ProfileVC.cellImageTap = false
-//                self.present(ProfileVC, animated: true, completion: nil)
-//            } else {
-//                if UserDefaults.standard.bool(forKey: "ProfileInstruct") != true{
-//                    UserDefaults.standard.set(true, forKey: "ProfileInstruct")
-//                    self.coachMarksController.start(in: .currentWindow(of: self))
-//                }
-//            }
-//        }
 
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -940,12 +914,40 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             let userImage = document["userImage"] as? String ?? "unKnown"
             let userFrontId = document["userFrontId"] as? String ?? "unKnown"
             let userBackGround = document["userBackGround"] as? String ?? backGroundString
-
+            
+            let connectingUserId = document["connectingUserId"] as? [String] ?? []
+            
+            print("アイosジェフィosじゃ",connectingUserId)
+            
+            let selfConnectingUserId:[String] = UserDefaults.standard.array(forKey: "connectingUserId") as? [String] ?? [""]
+            
+                
+                let myUsersCount = selfConnectingUserId.count
+                let friendUsersCount = connectingUserId.count
+                
+                if friendUsersCount <= myUsersCount {
+                    selfConnectingUserId.forEach{
+                        print("せfせ",$0)
+                        if connectingUserId.contains($0) == true {
+                            print("いえいえいえいえ",$0)
+                            matchUserId.append($0)
+                        }
+                    }
+                } else {
+                    connectingUserId.forEach{
+                        print("英家シエ生えしs",$0)
+                        if selfConnectingUserId.contains($0) == true {
+                            print("いえいえいえいえ",$0)
+                            matchUserId.append($0)
+                        }
+                    }
+                }
+                
+            
+            
 
             let ConnectionsCount = document["ConnectionsCount"] as? Int ?? 0
-            
             chainCountLabel.text = String(ConnectionsCount)
-
             
             let image:UIImage = UIImage(url: userImage)
                  galleyItem = GalleryItem.image{ $0(image) }
@@ -1121,6 +1123,8 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
         
         let postImage = postInfo[indexPath.row].postImage
         let titleCount = postInfo[indexPath.row].titleComment.count
+        
+        
         
         let cellSize : CGFloat = self.view.bounds.width / 3 * 2 - 12
                 

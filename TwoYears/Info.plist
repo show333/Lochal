@@ -35,8 +35,14 @@
 	<string>29a1aa2e8bc7d70898ef95904a931458</string>
 	<key>FacebookDisplayName</key>
 	<string>Ubatge</string>
+	<key>FirebaseDynamicLinksCustomDomains</key>
+	<array>
+		<string>https://ubatge.com</string>
+	</array>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9686355783426956~1327454889</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>instagram-stories</string>
@@ -45,10 +51,6 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>写真にアクセスしてもよろしいでしょうか？</string>
-    <key>FirebaseDynamicLinksCustomDomains</key>
-    <array>
-        <string>https://ubatge.com</string>
-    </array>
 	<key>UIAppFonts</key>
 	<array>
 		<string>yasasisa.ttf</string>
@@ -126,8 +128,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIUserInterfaceStyle</key>
-	<string>Dark</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 </dict>
