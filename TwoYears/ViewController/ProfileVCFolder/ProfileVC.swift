@@ -906,7 +906,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     
     func fetchUserProfile(userId:String){
-
+        
         self.db.collection("users").document(userId).addSnapshotListener { [self] documentSnapshot, error in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
@@ -917,9 +917,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 return
             }
             print("Current data: \(data)")
-
+            
             let backGroundString = "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2Fsplashbackground.jpeg?alt=media&token=4c2fd869-a146-4182-83aa-47dd396f1ad6"
-
+            
             let userName = document["userName"] as? String ?? "unKnown"
             let userImage = document["userImage"] as? String ?? "unKnown"
             let userFrontId = document["userFrontId"] as? String ?? "unKnown"
@@ -937,6 +937,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             
             matchUserId.removeAll()
             
+            
             if friendUsersCount <= myUsersCount {
                 selfConnectingUserId.forEach{
                     print("せfせ",$0)
@@ -944,12 +945,15 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                         print("いえいえいえいえ",$0)
                         matchUserId.append($0)
                     }
-                    if matchUserId.count > 0 {
-                        matchUserLabel.isUserInteractionEnabled = true
-                        matchUserLabel.text = String(matchUserId.count) + "人の共通の友達がいます"
-                    } else {
-                        matchUserLabel.isUserInteractionEnabled = false
-                        matchUserLabel.text = ""
+                    if userId != uid {
+                        
+                        if matchUserId.count > 0 {
+                            matchUserLabel.isUserInteractionEnabled = true
+                            matchUserLabel.text = String(matchUserId.count) + "人の共通の友達がいます"
+                        } else {
+                            matchUserLabel.isUserInteractionEnabled = false
+                            matchUserLabel.text = ""
+                        }
                     }
                 }
                 
@@ -960,17 +964,21 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                         print("いえいえいえいえ",$0)
                         matchUserId.append($0)
                     }
-                    if matchUserId.count > 0 {
-                        matchUserLabel.isUserInteractionEnabled = true
-                        matchUserLabel.text = String(matchUserId.count) + "人の共通の友達がいます"
-                    } else {
-                        matchUserLabel.isUserInteractionEnabled = false
-                        matchUserLabel.text = ""
+                    if userId != uid {
+                        
+                        if matchUserId.count > 0 {
+                            matchUserLabel.isUserInteractionEnabled = true
+                            matchUserLabel.text = String(matchUserId.count) + "人の共通の友達がいます"
+                        } else {
+                            matchUserLabel.isUserInteractionEnabled = false
+                            matchUserLabel.text = ""
+                        }
                     }
                 }
             }
-        
-                
+            
+            
+            
             
             
 

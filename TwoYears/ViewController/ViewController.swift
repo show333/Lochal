@@ -352,7 +352,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.graffitiContentsImageView.image = nil
         cell.sendImageView.image = nil
-        
+                
         
         cell.graffitiUserFrontIdLabel.text = outMemo[indexPath.row].graffitiUserFrontId
         
@@ -383,6 +383,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.graffitiLabel.transform = transScale
         
         //        cell.graffitiImageView.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
+        
         
         if  outMemo[indexPath.row].readLog == true {
             cell.coverView.backgroundColor = .clear
@@ -425,7 +426,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
             
             if outMemo[indexPath.row].graffitiUserId != "" {
-                cell.sendImageConstraintHeight.constant = 700
+                let titleLabelHeight = cell.graffitiTitleLabel.intrinsicContentSize.height
+                let imageHeight = safeAreaWidth/1.5
+                let graffitiBackSendHeight = imageHeight + 70 + 70 + titleLabelHeight
+                cell.sendImageConstraintHeight.constant = graffitiBackSendHeight
+                cell.sendImageView.image = nil
 
                 
                 if outMemo[indexPath.row].delete == true {
@@ -481,7 +486,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.textMaskLabel.alpha = 1
             
             cell.sendImageView.image = nil
-            
+            cell.sendImageView.alpha = 0
+            cell.sendImageConstraintHeight.constant = 0
+
             cell.sendImageConstraintHeight.constant = 0
             cell.graffitiBackGroundConstraint.constant = 0
             cell.graffitiBackGroundView.alpha = 0
