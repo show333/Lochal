@@ -47,6 +47,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     private var prevContentOffset: CGPoint = .init(x: 0, y: 0)
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
     
+    
     fileprivate let cellHeight: CGFloat = 210
     fileprivate let cellSpacing: CGFloat = 20
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
@@ -65,6 +66,15 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     @IBOutlet weak var userNameLabelTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var selfIntroductionLabel: UILabel!
+    
+    @IBOutlet weak var matchUserLabel: UILabel!
+    
+    @IBAction func matchUserTapGesture(_ sender: Any) {
+        let storyboard = UIStoryboard.init(name: "Connection", bundle: nil)
+        let ConnectionVC = storyboard.instantiateViewController(withIdentifier: "ConnectionVC") as! ConnectionVC
+        ConnectionVC.matchUserId = self.matchUserId
+        navigationController?.pushViewController(ConnectionVC, animated: true)
+    }
     
     //    @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet weak var postButton: UIButton!
@@ -921,27 +931,45 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             
             let selfConnectingUserId:[String] = UserDefaults.standard.array(forKey: "connectingUserId") as? [String] ?? [""]
             
-                
-                let myUsersCount = selfConnectingUserId.count
-                let friendUsersCount = connectingUserId.count
-                
-                if friendUsersCount <= myUsersCount {
-                    selfConnectingUserId.forEach{
-                        print("せfせ",$0)
-                        if connectingUserId.contains($0) == true {
-                            print("いえいえいえいえ",$0)
-                            matchUserId.append($0)
-                        }
+            
+            let myUsersCount = selfConnectingUserId.count
+            let friendUsersCount = connectingUserId.count
+            
+            matchUserId.removeAll()
+            
+            if friendUsersCount <= myUsersCount {
+                selfConnectingUserId.forEach{
+                    print("せfせ",$0)
+                    if connectingUserId.contains($0) == true {
+                        print("いえいえいえいえ",$0)
+                        matchUserId.append($0)
                     }
-                } else {
-                    connectingUserId.forEach{
-                        print("英家シエ生えしs",$0)
-                        if selfConnectingUserId.contains($0) == true {
-                            print("いえいえいえいえ",$0)
-                            matchUserId.append($0)
-                        }
+                    if matchUserId.count > 0 {
+                        matchUserLabel.isUserInteractionEnabled = true
+                        matchUserLabel.text = String(matchUserId.count) + "人の共通の友達がいます"
+                    } else {
+                        matchUserLabel.isUserInteractionEnabled = false
+                        matchUserLabel.text = ""
                     }
                 }
+                
+            } else {
+                connectingUserId.forEach{
+                    print("英家シエ生えしs",$0)
+                    if selfConnectingUserId.contains($0) == true {
+                        print("いえいえいえいえ",$0)
+                        matchUserId.append($0)
+                    }
+                    if matchUserId.count > 0 {
+                        matchUserLabel.isUserInteractionEnabled = true
+                        matchUserLabel.text = String(matchUserId.count) + "人の共通の友達がいます"
+                    } else {
+                        matchUserLabel.isUserInteractionEnabled = false
+                        matchUserLabel.text = ""
+                    }
+                }
+            }
+        
                 
             
             

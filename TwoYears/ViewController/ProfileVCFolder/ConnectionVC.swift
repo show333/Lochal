@@ -19,6 +19,7 @@ class ConnectionVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
     let db = Firestore.firestore()
     var usersDic : [Users] = []
     var userId: String?
+    var matchUserId: [String] = [""]
 
     
     @IBOutlet weak var userListTableView: UITableView!
@@ -37,7 +38,14 @@ class ConnectionVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
         userListTableView.delegate = self
         userListTableView.emptyDataSetDelegate = self
         userListTableView.emptyDataSetSource = self
-        fetchUserInfo(userId: userId ?? "")
+        if matchUserId == [""] {
+            fetchUserInfo(userId: userId ?? "")
+        } else {
+            matchUserId.forEach{
+                getUserInfo(userId: $0)
+            }
+        }
+        print("青性fじょ",matchUserId)
     }
     
 //     blankword for tableview
