@@ -480,6 +480,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageView.alpha = 0.8
             cell.textMaskLabel.alpha = 1
             
+            cell.sendImageView.image = nil
+            
             cell.sendImageConstraintHeight.constant = 0
             cell.graffitiBackGroundConstraint.constant = 0
             cell.graffitiBackGroundView.alpha = 0
