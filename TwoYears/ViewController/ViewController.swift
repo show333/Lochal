@@ -426,12 +426,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
             
             if outMemo[indexPath.row].graffitiUserId != "" {
-                let titleLabelHeight = cell.graffitiTitleLabel.intrinsicContentSize.height
-                let imageHeight = safeAreaWidth/1.5
-                let graffitiBackSendHeight = imageHeight + 70 + 70 + titleLabelHeight
-                cell.sendImageConstraintHeight.constant = graffitiBackSendHeight
-                cell.sendImageView.image = nil
-
                 
                 if outMemo[indexPath.row].delete == true {
                     cell.graffitiBackGroundConstraint.constant = 0
@@ -450,12 +444,24 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         cell.graffitiImageViewHeightConstraint.constant = safeAreaWidth/1.5
                         cell.graffitiTitleLabel.alpha = 1
                         cell.graffitiLabel.alpha = 0
+                        
+                        let titleLabelHeight = cell.graffitiTitleLabel.intrinsicContentSize.height
+                        let imageHeight = safeAreaWidth/1.5
+                        let graffitiBackSendHeight = imageHeight + 70 + 70 + titleLabelHeight
+                        cell.sendImageConstraintHeight.constant = graffitiBackSendHeight
+                        cell.sendImageView.image = nil
+                        
                     } else {
                         cell.graffitiContentsImageView?.image = nil
                         cell.graffitiImageViewWidthConstraint.constant = 0
                         cell.graffitiImageViewHeightConstraint.constant = 0
                         cell.graffitiTitleLabel.alpha = 0
                         cell.graffitiLabel.alpha = 1
+                        
+                        let titleLabelHeight = cell.graffitiLabel.intrinsicContentSize.height
+                        let graffitiBackSendHeight = 70 + 20 + titleLabelHeight
+                        cell.sendImageConstraintHeight.constant = graffitiBackSendHeight
+                        cell.sendImageView.image = nil
                     }
                     
                     cell.graffitiBackGroundConstraint.constant = 700
