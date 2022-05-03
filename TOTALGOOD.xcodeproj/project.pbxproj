@@ -166,6 +166,11 @@
 		CF96B98728167A3B00523247 /* NotificationEx.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF96B98628167A3B00523247 /* NotificationEx.storyboard */; };
 		CF96B98928167A4900523247 /* NotificationExVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF96B98828167A4900523247 /* NotificationExVC.swift */; };
 		CF97017427D4D79400FB87EB /* PinterestLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF97017327D4D79400FB87EB /* PinterestLayout.swift */; };
+		CF9E00262820134000674C3C /* anonymousArea.json in Resources */ = {isa = PBXBuildFile; fileRef = CF9E00252820134000674C3C /* anonymousArea.json */; };
+		CF9E00282820148900674C3C /* sendAreaAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = CF9E00272820148900674C3C /* sendAreaAnimation.json */; };
+		CF9E002A2820159000674C3C /* pinkPinArea.json in Resources */ = {isa = PBXBuildFile; fileRef = CF9E00292820159000674C3C /* pinkPinArea.json */; };
+		CF9E002C28201BAC00674C3C /* mapSplash.json in Resources */ = {isa = PBXBuildFile; fileRef = CF9E002B28201BAC00674C3C /* mapSplash.json */; };
+		CF9E002E28201FB400674C3C /* mapAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = CF9E002D28201FB400674C3C /* mapAnimation.json */; };
 		CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC12794454000D4C472 /* Reserch.storyboard */; };
 		CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC32794456000D4C472 /* ReserchVC.swift */; };
 		CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC5279453CD00D4C472 /* ad.storyboard */; };
@@ -344,6 +349,11 @@
 		CF96B98628167A3B00523247 /* NotificationEx.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NotificationEx.storyboard; sourceTree = "<group>"; };
 		CF96B98828167A4900523247 /* NotificationExVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExVC.swift; sourceTree = "<group>"; };
 		CF97017327D4D79400FB87EB /* PinterestLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinterestLayout.swift; sourceTree = "<group>"; };
+		CF9E00252820134000674C3C /* anonymousArea.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = anonymousArea.json; sourceTree = "<group>"; };
+		CF9E00272820148900674C3C /* sendAreaAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sendAreaAnimation.json; sourceTree = "<group>"; };
+		CF9E00292820159000674C3C /* pinkPinArea.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pinkPinArea.json; sourceTree = "<group>"; };
+		CF9E002B28201BAC00674C3C /* mapSplash.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mapSplash.json; sourceTree = "<group>"; };
+		CF9E002D28201FB400674C3C /* mapAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mapAnimation.json; sourceTree = "<group>"; };
 		CFA19DC12794454000D4C472 /* Reserch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reserch.storyboard; sourceTree = "<group>"; };
 		CFA19DC32794456000D4C472 /* ReserchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserchVC.swift; sourceTree = "<group>"; };
 		CFA19DC5279453CD00D4C472 /* ad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ad.storyboard; sourceTree = "<group>"; };
@@ -674,6 +684,11 @@
 			isa = PBXGroup;
 			children = (
 				CF8B45052665698500CA6DE1 /* red_yellow.json */,
+				CF9E002B28201BAC00674C3C /* mapSplash.json */,
+				CF9E00252820134000674C3C /* anonymousArea.json */,
+				CF9E002D28201FB400674C3C /* mapAnimation.json */,
+				CF9E00292820159000674C3C /* pinkPinArea.json */,
+				CF9E00272820148900674C3C /* sendAreaAnimation.json */,
 				CF40D36C26296C6E00F62858 /* goodloadingcolor.json */,
 				CF4C5A43261FA3F300342675 /* packmanload.json */,
 			);
@@ -765,6 +780,7 @@
 				CF2BF5AE27D8613D00F7D1CB /* Bear & loupe bold.otf in Resources */,
 				CF4C5A31261E3A4900342675 /* quiz.csv in Resources */,
 				CFF8192E25D344C600524B81 /* Splash.storyboard in Resources */,
+				CF9E002C28201BAC00674C3C /* mapSplash.json in Resources */,
 				CF4BF17F260FAB4D00942E6F /* YasashisaGothic.otf in Resources */,
 				CF2BF5C527D8613D00F7D1CB /* DoodlePen_Limited.ttf in Resources */,
 				CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */,
@@ -794,6 +810,7 @@
 				A3D13E3227737184002599B9 /* CreateTeam.storyboard in Resources */,
 				CF3DDC0225C458DE0016AB0F /* sinkitoukou.storyboard in Resources */,
 				A359840D279A9A87003CB00B /* forexample.storyboard in Resources */,
+				CF9E00282820148900674C3C /* sendAreaAnimation.json in Resources */,
 				CF3D0C1A267BD327006021FB /* UserImageSet.storyboard in Resources */,
 				CF6846CF2797C0C4004B80C5 /* UserNameSet.storyboard in Resources */,
 				A33F0665279C26550008B29A /* FirstSetName.storyboard in Resources */,
@@ -808,6 +825,7 @@
 				CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */,
 				CF0C14AF25C9F003006A7C86 /* ChatRoom.storyboard in Resources */,
 				CF2BF5BF27D8613D00F7D1CB /* julies.ttf in Resources */,
+				CF9E002A2820159000674C3C /* pinkPinArea.json in Resources */,
 				CF39377C260492BA0020BE97 /* Profile.storyboard in Resources */,
 				CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */,
 				CF83D9B027AD4F7100DF9C76 /* CollectionPost.storyboard in Resources */,
@@ -823,12 +841,14 @@
 				CF2BF5BE27D8613D00F7D1CB /* CamdenRegular-1jAZ.ttf in Resources */,
 				CF2BF5AF27D8613D00F7D1CB /* Kbcurioussoul-m3W9.ttf in Resources */,
 				CF2BF5C427D8613D00F7D1CB /* LoveYaLikeASister.ttf in Resources */,
+				CF9E002E28201FB400674C3C /* mapAnimation.json in Resources */,
 				CF4366102678966E00DABD78 /* NewCreateTeam.storyboard in Resources */,
 				CF2BF5B827D8613D00F7D1CB /* GrutchShaded.ttf in Resources */,
 				CFA1AD3727E0610600F36A79 /* PAULSON_.TTF in Resources */,
 				A33F0669279C26B70008B29A /* FirstSetId.storyboard in Resources */,
 				CF2BF5BD27D8613D00F7D1CB /* Journal.otf in Resources */,
 				A33F0667279C26890008B29A /* FirstSetImage.storyboard in Resources */,
+				CF9E00262820134000674C3C /* anonymousArea.json in Resources */,
 				A33F068B279D20110008B29A /* TeamExplain.storyboard in Resources */,
 				CF2BF5BA27D8613D00F7D1CB /* Southpaw.ttf in Resources */,
 				CF3107F826018BB200746480 /* ShoutaiHakkou.storyboard in Resources */,

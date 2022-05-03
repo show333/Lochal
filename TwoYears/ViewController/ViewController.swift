@@ -15,6 +15,7 @@ import SwiftMoment
 import Nuke
 import DZNEmptyDataSet
 import Instructions
+import Lottie
 
 class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource{
     private let cellId = "cellId"
@@ -26,6 +27,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
     var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
+    var animationView = AnimationView()
     let db = Firestore.firestore()
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
     let uid = Auth.auth().currentUser?.uid
@@ -115,6 +117,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         
         self.tabBarController?.tabBar.isHidden = false
         
+        addAnimationView()
 //        if UserDefaults.standard.bool(forKey: "FirstPost") != true{
 //            guard let uid = Auth.auth().currentUser?.uid else { return }
 //            UserDefaults.standard.set(true, forKey: "FirstPost")
@@ -151,9 +154,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         
         self.coachMarksController.dataSource = self
         
-        
-        
-        
+                
 //        //        テスト ca-app-pub-3940256099942544/2934735716
 //        //        本番 ca-app-pub-9686355783426956/8797317880
 //        self.bannerView.adUnitID = "ca-app-pub-9686355783426956/8797317880"
@@ -188,7 +189,46 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         fetchFireStore(userId: uid)
         fetchNotification(userId: uid)
     }
+        
+    func addAnimationView() {
+        
 
+        //アニメーションファイルの指定
+        animationView = AnimationView(name: "mapAnimation") //ここに先ほどダウンロードしたファイル名を記述（拡張子は必要なし）
+        
+        
+       
+        
+        
+        //アニメーションの位置指定（画面中央）
+        animationView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+        
+        //アニメーションのアスペクト比を指定＆ループで開始
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .playOnce
+        animationView.play()
+        
+        //ViewControllerに配置
+        animationView.alpha = 0
+        
+        view.addSubview(animationView)
+        
+        UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
+            animationView.alpha = 1
+        })
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
+                self.animationView.alpha = 0
+            }){ bool in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.animationView.removeFromSuperview()
+                }
+            }
+            
+            
+        }
+    }
     //Pull to Refresh
     @objc func onRefresh(_ sender: AnyObject) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in

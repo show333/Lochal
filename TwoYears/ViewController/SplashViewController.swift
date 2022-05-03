@@ -31,8 +31,7 @@ class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         
         let uid = Auth.auth().currentUser?.uid
-
-
+        
         if uid != nil {
             profileGet(userId:uid ?? "")
         } else {
@@ -54,9 +53,6 @@ class SplashViewController: UIViewController {
                 let UEnterdBool = document["UEnterdBool"] as? Bool ?? false
                 let areaNameEn = document["areaNameEn"] as? String ?? "tokyo"
                 let areaNameJa = document["areaNameJa"] as? String ?? "東京"
-
-
-                
                 
                 print("あいあいあい",userName)
                 print("あいあい",userImage)
