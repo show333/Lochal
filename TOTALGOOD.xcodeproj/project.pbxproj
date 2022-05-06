@@ -181,6 +181,7 @@
 		CFE909152618F0AE001AFCFB /* EULA.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFE909142618F0AE001AFCFB /* EULA.storyboard */; };
 		CFE909182618F23E001AFCFB /* EULAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFE909172618F23E001AFCFB /* EULAViewController.swift */; };
 		CFF8192E25D344C600524B81 /* Splash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFF8192D25D344C600524B81 /* Splash.storyboard */; };
+		CFFCB5CE2823B38100F46729 /* AVAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFFCB5CD2823B38100F46729 /* AVAsset.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -364,6 +365,7 @@
 		CFE909142618F0AE001AFCFB /* EULA.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EULA.storyboard; sourceTree = "<group>"; };
 		CFE909172618F23E001AFCFB /* EULAViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EULAViewController.swift; sourceTree = "<group>"; };
 		CFF8192D25D344C600524B81 /* Splash.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Splash.storyboard; sourceTree = "<group>"; };
+		CFFCB5CD2823B38100F46729 /* AVAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVAsset.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -535,6 +537,7 @@
 				CF1E420C262AF05700CEF85A /* CopyUILabel.swift */,
 				CF954A6C27E1A86C002E8AC8 /* StringAlphabet.swift */,
 				CF6846D627981E7A004B80C5 /* removeString-extension.swift */,
+				CFFCB5CD2823B38100F46729 /* AVAsset.swift */,
 				CF4C5A30261E3A4900342675 /* quiz.csv */,
 				CF3E437D264333EC00CB0DA7 /* TOTALGOOD-Bridging-Header.h */,
 				CF449797264424A700A2F873 /* Bridging-Header.h */,
@@ -934,6 +937,7 @@
 				A3598411279B2169003CB00B /* ExplainVC.swift in Sources */,
 				CF0C14B225C9F028006A7C86 /* ChatRoomViewController.swift in Sources */,
 				CF3B82A12785185500B4A257 /* ReadLogVC.swift in Sources */,
+				CFFCB5CE2823B38100F46729 /* AVAsset.swift in Sources */,
 				CF83D9B827BFA82800DF9C76 /* RefferalVC.swift in Sources */,
 				A35984072798EDA5003CB00B /* ConnectionVC.swift in Sources */,
 				A3C0D9EA2774859C00AC64D3 /* ReactionVC.swift in Sources */,

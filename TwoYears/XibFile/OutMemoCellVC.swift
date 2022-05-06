@@ -10,6 +10,8 @@ import FirebaseAuth
 import FirebaseFirestore
 import Nuke
 import ImageViewer
+import AVKit
+import AVFoundation
 
 
 class ShadowView: UIView {
@@ -28,7 +30,6 @@ class ShadowView: UIView {
         self.layer.rasterizationScale = UIScreen.main.scale
         self.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         self.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
-        
     }
 }
 
@@ -60,7 +61,11 @@ class OutmMemoCellVC: UITableViewCell {
     @IBOutlet weak var shadowLayer: UIView!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var sendImageView: UIImageView!
+    
+    @IBOutlet weak var sendImageViewWidth: NSLayoutConstraint!
+    
     @IBOutlet weak var sendImageConstraintHeight: NSLayoutConstraint!
+    
     @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var coverView: UIView!
@@ -110,6 +115,8 @@ class OutmMemoCellVC: UITableViewCell {
         graffitiBackGroundView.isUserInteractionEnabled = true
         graffitiBackGroundView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(graffitiBackGroundTapped(_:))))
         
+        sendImageView.isUserInteractionEnabled = true
+        sendImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendImageViewTapped(_:))))
         
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
@@ -144,13 +151,10 @@ class OutmMemoCellVC: UITableViewCell {
         // 背景色を設定
         self.teamCollectionView.backgroundColor = .clear
         
-        
-        
         self.teamCollectionView.alpha = 1
         
         teamInfo.removeAll()
     }
-    
     
     func getUserTeamInfo(userId:String){
         
@@ -158,7 +162,6 @@ class OutmMemoCellVC: UITableViewCell {
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-
                 if querySnapshot?.documents.count ?? 0 >= 1{
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
@@ -197,7 +200,7 @@ class OutmMemoCellVC: UITableViewCell {
             })
         }
     }
-
+    
     func getTeamInfo(teamId:String){
         db.collection("Team").document(teamId).getDocument { (document, error) in
             if let document = document, document.exists {
@@ -208,7 +211,6 @@ class OutmMemoCellVC: UITableViewCell {
                 print("翼をください！",teamId)
                 print("翼をください！",document.data()!)
                 print("asefiosejof",teamDic)
-                
                 
                 self.teamInfo.sort { (m1, m2) -> Bool in
                     let m1Date = m1.createdAt.dateValue()
@@ -226,13 +228,49 @@ class OutmMemoCellVC: UITableViewCell {
     @objc func userImageTapped(_ sender: UITapGestureRecognizer) {
         let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
         let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        
         if outMemo?.anonymous == false {
         ProfileVC.userId = outMemo?.userId
         ProfileVC.cellImageTap = true
         ProfileVC.tabBarController?.tabBar.isHidden = true
         ViewController()?.navigationController?.navigationBar.isHidden = false
         ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
+        }
+    }
+    
+    @objc func sendImageViewTapped(_ sender: UITapGestureRecognizer) {
+        
+        if outMemo?.assetsType == "image" {
+        let viewController = GalleryViewController(
+            startIndex: 0,
+            itemsDataSource: self,
+            displacedViewsDataSource: self,
+            configuration: [
+                .deleteButtonMode(.none),
+                .thumbnailsButtonMode(.none)
+            ])
+        ViewController()?.presentImageGallery(viewController)
+        } else if outMemo?.assetsType == "movie" {
+            playMovieFromUrl(movieUrl: URL(string: outMemo!.sendImageURL))
+        }
+    }
+    func playMovieFromUrl(movieUrl: URL?) {
+        if let movieUrl = movieUrl {
+            let videoPlayer = AVPlayer(url: movieUrl)
+            let playerController = AVPlayerViewController()
+            playerController.player = videoPlayer
+            ViewController()?.present(playerController, animated: true, completion: {
+                videoPlayer.play()
+            })
+        } else {
+            print("cannot play")
+        }
+    }
+    
+    func playMovieFromPath(moviePath: String?) {
+        if let moviePath = moviePath {
+            self.playMovieFromUrl(movieUrl: URL(fileURLWithPath: moviePath))
+        } else {
+            print("no such file")
         }
     }
     
@@ -245,7 +283,6 @@ class OutmMemoCellVC: UITableViewCell {
         ViewController()?.navigationController?.navigationBar.isHidden = false
         ViewController()?.navigationController?.pushViewController(ProfileVC, animated: true)
     }
-    
     @objc func graffitiBackGroundTapped(_ sender: UITapGestureRecognizer) {
         let storyboard = UIStoryboard.init(name: "detailPost", bundle: nil)
         let detailPostVC = storyboard.instantiateViewController(withIdentifier: "detailPostVC") as! detailPostVC
@@ -270,9 +307,6 @@ class OutmMemoCellVC: UITableViewCell {
         ViewController()?.navigationController?.navigationBar.isHidden = false
         ViewController()?.navigationController?.pushViewController(detailPostVC, animated: true)
     }
-    
-
-    
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -310,14 +344,28 @@ extension OutmMemoCellVC :UICollectionViewDataSource,UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         
         let storyboard = UIStoryboard.init(name: "UnitHome", bundle: nil)
         let UnitHomeVC = storyboard.instantiateViewController(withIdentifier: "UnitHomeVC") as! UnitHomeVC
         UnitHomeVC.teamInfo = teamInfo[indexPath.row]
         
-        
         ViewController()?.navigationController?.pushViewController(UnitHomeVC, animated: true)
     }
     
+}
+extension OutmMemoCellVC: GalleryItemsDataSource {
+    func itemCount() -> Int {
+        return 1
+    }
+
+    func provideGalleryItem(_ index: Int) -> GalleryItem {
+        return GalleryItem.image { $0(self.sendImageView.image!) }
+    }
+}
+
+// MARK: GalleryDisplacedViewsDataSource
+extension OutmMemoCellVC: GalleryDisplacedViewsDataSource {
+    func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
+        return sendImageView
+    }
 }

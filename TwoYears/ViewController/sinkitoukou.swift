@@ -12,6 +12,9 @@ import FirebaseAuth
 import SwiftMoment
 import Nuke
 import Instructions
+import ImageViewer
+import AVFoundation
+import AVKit
 
 class sinkitoukou: UIViewController {
     let uid = UserDefaults.standard.string(forKey: "userId")
@@ -22,11 +25,14 @@ class sinkitoukou: UIViewController {
     var followerId : [String] = []
     var assetsType : String?
     var postType : String?
+    var mediaUrl: URL?
+    var durationTime:TimeInterval?
     
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
     var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     
+    var imagePC: UIImagePickerController! = UIImagePickerController()
     var imageString: String?
     
     let coachMarksController = CoachMarksController()
@@ -99,11 +105,18 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var imageSelectButton: UIButton!
     
     @IBAction func imageSelectTappedButton(_ sender: Any) {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.allowsEditing = false
+//        let imagePickerController = UIImagePickerController()
+//        imagePickerController.delegate = self
+//        imagePickerController.allowsEditing = false
+//
+//        self.present(imagePickerController, animated: true, completion: nil)
         
-        self.present(imagePickerController, animated: true, completion: nil)
+        
+        imagePC.sourceType = .photoLibrary
+        imagePC.delegate = self
+        imagePC.mediaTypes = ["public.image","public.movie"]
+        present(imagePC, animated: true, completion: nil)
+
     }
     @IBOutlet weak var stampButton: UIButton!
     
@@ -246,25 +259,53 @@ class sinkitoukou: UIViewController {
                         print("anonymous")
                     default :
                         print("a")
-                        
                     }
-                    
                 }
             }
-        } else {
+        } else if assetsType == "movie" {
+            let fileName = NSUUID().uuidString + ".mp4"
+            let storageReference = Storage.storage().reference().child("OutMemo_Post_Image").child(fileName)
+            
+            // Start the video storage process
+            storageReference.putFile(from: mediaUrl! as URL, metadata: nil, completion: { [self] (metadata, error) in
+                    if error == nil {
+                        print("Successful video upload")
+                        guard let urlString = mediaUrl?.absoluteString else { return }
+                        imageString = urlString
+                        switch tapButton {
+                        case "newPost" :
+                            sendMemoFireStore(imageAddress: fileName)
+                            print("newPost")
+                            
+                        case "private":
+                            privateSendMemo(imageAddress: fileName)
+                            print("private")
+                            
+                        case "anonymous":
+                            anonymousSendMemo(imageAddress: fileName)
+                            print("anonymous")
+                        default :
+                            print("a")
+                        }
+                    } else {
+                        print()
+                    }
+                }
+            )
+        }else {
             switch tapButton {
             case "newPost" :
                 sendMemoFireStore(imageAddress:"")
                 print("newPost")
-
+                
             case "private":
                 privateSendMemo(imageAddress:"")
                 print("private")
-
+                
             case "anonymous":
                 anonymousSendMemo(imageAddress:"")
                 print("anonymous")
-
+                
             default :
                 print("a")
                 
@@ -485,6 +526,9 @@ class sinkitoukou: UIViewController {
         textViewHeightConstraint.constant = editHeight/3.5
         setImageViewHeightConstraint.constant = editHeight/3
         
+        setImageView.isUserInteractionEnabled = true
+        setImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setImageViewTapped(_:))))
+        
 
 
         
@@ -516,9 +560,6 @@ class sinkitoukou: UIViewController {
         privateBackView.layer.shadowOpacity = 0.7
         privateBackView.layer.shadowRadius = 5
 
-        
-//        confirmNameLabel.font
-        
                 
         //ポスト
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_02398_icon_023989_256.png?alt=media&token=e88ea22e-0d00-47f3-bce1-bcb9c41cfbb9") {
@@ -562,6 +603,45 @@ class sinkitoukou: UIViewController {
         newPostButton.layer.cornerRadius = 5
         wordCountLabel.text = "300文字まで"
     }
+    
+    @objc func setImageViewTapped(_ sender: UITapGestureRecognizer) {
+        
+        if assetsType == "image" {
+        let viewController = GalleryViewController(
+            startIndex: 0,
+            itemsDataSource: self,
+            displacedViewsDataSource: self,
+            configuration: [
+                .deleteButtonMode(.none),
+                .thumbnailsButtonMode(.none)
+            ])
+            self.presentImageGallery(viewController)
+        } else if assetsType == "movie" {
+            
+            playMovieFromUrl(movieUrl: mediaUrl)
+        }
+    }
+    
+    func playMovieFromUrl(movieUrl: URL?) {
+        if let movieUrl = movieUrl {
+            let videoPlayer = AVPlayer(url: movieUrl)
+            let playerController = AVPlayerViewController()
+            playerController.player = videoPlayer
+            self.present(playerController, animated: true, completion: {
+                videoPlayer.play()
+            })
+        } else {
+            print("cannot play")
+        }
+    }
+    
+    func playMovieFromPath(moviePath: String?) {
+        if let moviePath = moviePath {
+            self.playMovieFromUrl(movieUrl: URL(fileURLWithPath: moviePath))
+        } else {
+            print("no such file")
+        }
+    }
 }
 extension sinkitoukou: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -585,8 +665,6 @@ extension sinkitoukou: UITextViewDelegate {
             privateBackView.backgroundColor = .gray
             privateButton.isEnabled = false
             privateBackView.layer.shadowColor = UIColor.clear.cgColor
-
-
             
         } else {
             newPostButton.isEnabled = true
@@ -632,11 +710,9 @@ extension sinkitoukou: UITextViewDelegate {
 
 extension sinkitoukou: UIAdaptivePresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        print(imageString)
         anonymousBackView.backgroundColor = .gray
+    
         
-        print(textView.text)
-
         let textwhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)//空白、改行のみを防ぐ
         if textwhite == "" || textwhite == "ポテチ食べたい\nコンビニの新作アイスめっちゃ美味い\nうちの猫めっちゃ可愛い\n授業,会社だるい\n布団から出られない\nなど" {
             anonymousBackView.backgroundColor = .gray
@@ -654,31 +730,62 @@ extension sinkitoukou: UIAdaptivePresentationControllerDelegate {
         }
     }
 }
-
+//            .scaleAspectFit
 extension sinkitoukou: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let originalImage = info[.originalImage] as? UIImage {
-//            setImageView.setImage(originalImage, for: .normal)
-//            imageButton.imageView?.contentMode = .scaleAspectFit
-            
-            setImageView.image = originalImage
+        
+        
+        if info[.mediaType] as! String == "public.image" {
             assetsType = "image"
+            let originalImage = info[.originalImage] as? UIImage
+            setImageView.image = originalImage
             
-//            if let url = URL(string:imageString ?? "") {
-//                Nuke.loadImage(with: url, into: setImageView)
-//            } else {
-//                setImageView?.image = nil
-//            }
-            print(originalImage)
+        } else if info[.mediaType] as! String == "public.movie" {
+            assetsType = "movie"
+            let mediaURL = info[.mediaURL] as? URL
+            self.mediaUrl = mediaURL
             
-            print("aaa")
+            let video = AVURLAsset(url: mediaURL!)
+            durationTime = TimeInterval(round(Float(video.duration.value) / Float(video.duration.timescale)))
+            print("お合いsjエフォイアジェsf",durationTime ?? 0)
+            thumnailImageForFileUrl(fileUrl:mediaURL!)
         }
-        self.dismiss(animated: true, completion: nil)
+        
+        let mediaURL = info[.mediaURL] as? URL
+        print(mediaURL ?? "")
+        
+        imagePC.dismiss(animated: true)
+    }
+    
+    func generateDuration(timeInterval: TimeInterval) -> String {
+        
+        let min = Int(timeInterval / 60)
+        let sec = Int(round(timeInterval.truncatingRemainder(dividingBy: 60)))
+        let duration = String(format: "%02d:%02d", min, sec)
+        return duration
+    }
+    
+    func thumnailImageForFileUrl(fileUrl: URL) -> UIImage? {
+        let asset = AVAsset(url: fileUrl)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        
+        do {
+            let thumnailCGImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1,timescale: 60), actualTime: nil)
+            print("サムネイルの切り取り成功！")
+            let uiImage = UIImage(cgImage: thumnailCGImage)
+            setImageView.image = uiImage
+            return UIImage(cgImage: thumnailCGImage, scale: 0, orientation: .right)
+        }catch let err{
+            print("エラー\(err)")
+        }
+        return nil
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }
+    
 }
 //MARK: Instructions
 extension sinkitoukou: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
@@ -728,4 +835,20 @@ extension sinkitoukou: CoachMarksControllerDataSource, CoachMarksControllerDeleg
         return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
 
+}
+extension sinkitoukou: GalleryItemsDataSource {
+    func itemCount() -> Int {
+        return 1
+    }
+
+    func provideGalleryItem(_ index: Int) -> GalleryItem {
+        return GalleryItem.image { $0(self.setImageView.image!) }
+    }
+}
+
+// MARK: GalleryDisplacedViewsDataSource
+extension sinkitoukou: GalleryDisplacedViewsDataSource {
+    func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
+        return setImageView
+    }
 }
