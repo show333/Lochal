@@ -402,7 +402,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.graffitiBackGroundView.clipsToBounds = true
         cell.graffitiBackGroundView.layer.cornerRadius = 10
         
-        
         //        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
@@ -427,43 +426,58 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
             let assetsType = outMemo[indexPath.row].assetsType
             cell.sendImageConstraintHeight.constant = 0
-            if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
-                Nuke.loadImage(with: url, into: cell.sendImageView)
-                switch assetsType {
-                case "image":
-                    //                    cell.sendImageView.
-                    cell.sendImageConstraintHeight.constant = safeAreaWidthPad
-                    cell.sendImageViewWidth.constant = safeAreaWidthPad
-                    cell.sendImageView.contentMode = .scaleAspectFill
+            
+            
+            switch assetsType {
+            case "image":
+                //                    cell.sendImageView.
+                cell.sendImageConstraintHeight.constant = safeAreaWidthPad
+                cell.sendImageViewWidth.constant = safeAreaWidthPad
+                cell.sendImageView.contentMode = .scaleAspectFill
+                if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
+                    Nuke.loadImage(with: url, into: cell.sendImageView)
                     
-                case "stamp":
-                    cell.sendImageConstraintHeight.constant = safeAreaWidthPad/2
-                    cell.sendImageViewWidth.constant = safeAreaWidthPad/2
-                    cell.sendImageView.contentMode = .scaleAspectFit
-                    
-                case "movie":
-                    cell.sendImageConstraintHeight.constant = safeAreaWidthPad
-                    cell.sendImageViewWidth.constant = safeAreaWidthPad
-                    cell.sendImageView.contentMode = .scaleAspectFill
-                    if let fileUrl:URL = URL(string: outMemo[indexPath.row].sendImageURL) {
-                        thumnailImageForFileUrl(fileUrl: fileUrl, cell: cell)
-                    } else {
-                        thumnailImageForFileUrl(fileUrl: URL(string:"notFound")!, cell: cell)
-
-                    }
-                    
-                    
-                    
-                default:
+                    cell.sendImageView.alpha = 1
+                } else {
+                    cell.sendImageView?.image = nil
+                    cell.sendImageView.alpha = 0
+                    cell.sendImageConstraintHeight.constant = 0
+                }
+            case "stamp":
+                cell.sendImageConstraintHeight.constant = safeAreaWidthPad/2
+                cell.sendImageViewWidth.constant = safeAreaWidthPad/2
+                cell.sendImageView.contentMode = .scaleAspectFit
+                if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
+                    Nuke.loadImage(with: url, into: cell.sendImageView)
+                    cell.sendImageView.alpha = 1
+                } else {
+                    cell.sendImageView?.image = nil
+                    cell.sendImageView.alpha = 0
                     cell.sendImageConstraintHeight.constant = 0
                 }
                 
+            case "movie":
+                cell.sendImageConstraintHeight.constant = safeAreaWidthPad
+                cell.sendImageViewWidth.constant = safeAreaWidthPad
+                cell.sendImageView.contentMode = .scaleAspectFill
                 cell.sendImageView.alpha = 1
-            } else {
-                cell.sendImageView?.image = nil
-                cell.sendImageView.alpha = 0
+                if let fileUrl:URL = URL(string: outMemo[indexPath.row].sendImageURL) {
+                    thumnailImageForFileUrl(fileUrl: fileUrl, cell: cell)
+                } else {
+                    if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2Fundraw_Page_not_found_re_e9o6.png?alt=media&token=01b412f1-c997-4a2e-b04e-a80beaddc459") {
+                        Nuke.loadImage(with: url, into: cell.sendImageView)
+                        cell.sendImageView.alpha = 1
+                    } else {
+                        cell.sendImageView?.image = nil
+                        cell.sendImageView.alpha = 0
+                        cell.sendImageConstraintHeight.constant = 0
+                    }
+                }
+            default:
                 cell.sendImageConstraintHeight.constant = 0
             }
+            
+
             
             
             if outMemo[indexPath.row].graffitiUserId != "" {
@@ -628,7 +642,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
             cell.messageLabel.numberOfLines = 0
-            
             //            let indexPath = IndexPath(row: indexPath.row, section: 0)
             //            tableView.reloadRows(at: [indexPath], with: .fade)
             chatListTableView.reloadData()
@@ -638,9 +651,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func thumnailImageForFileUrl(fileUrl: URL,cell:OutmMemoCellVC) -> UIImage? {
         let asset = AVAsset(url: fileUrl)
-        
         let imageGenerator = AVAssetImageGenerator(asset: asset)
-        
         do {
             let thumnailCGImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1,timescale: 60), actualTime: nil)
             print("サムネイルの切り取り成功！")

@@ -171,6 +171,8 @@
 		CF9E002A2820159000674C3C /* pinkPinArea.json in Resources */ = {isa = PBXBuildFile; fileRef = CF9E00292820159000674C3C /* pinkPinArea.json */; };
 		CF9E002C28201BAC00674C3C /* mapSplash.json in Resources */ = {isa = PBXBuildFile; fileRef = CF9E002B28201BAC00674C3C /* mapSplash.json */; };
 		CF9E002E28201FB400674C3C /* mapAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = CF9E002D28201FB400674C3C /* mapAnimation.json */; };
+		CF9FCB032828C048006194D3 /* MunicipalitiesSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF9FCB022828C048006194D3 /* MunicipalitiesSelect.storyboard */; };
+		CF9FCB052828C076006194D3 /* MunicipalitiesSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9FCB042828C076006194D3 /* MunicipalitiesSelectVC.swift */; };
 		CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC12794454000D4C472 /* Reserch.storyboard */; };
 		CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC32794456000D4C472 /* ReserchVC.swift */; };
 		CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC5279453CD00D4C472 /* ad.storyboard */; };
@@ -355,6 +357,8 @@
 		CF9E00292820159000674C3C /* pinkPinArea.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pinkPinArea.json; sourceTree = "<group>"; };
 		CF9E002B28201BAC00674C3C /* mapSplash.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mapSplash.json; sourceTree = "<group>"; };
 		CF9E002D28201FB400674C3C /* mapAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mapAnimation.json; sourceTree = "<group>"; };
+		CF9FCB022828C048006194D3 /* MunicipalitiesSelect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MunicipalitiesSelect.storyboard; sourceTree = "<group>"; };
+		CF9FCB042828C076006194D3 /* MunicipalitiesSelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MunicipalitiesSelectVC.swift; sourceTree = "<group>"; };
 		CFA19DC12794454000D4C472 /* Reserch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reserch.storyboard; sourceTree = "<group>"; };
 		CFA19DC32794456000D4C472 /* ReserchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserchVC.swift; sourceTree = "<group>"; };
 		CFA19DC5279453CD00D4C472 /* ad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ad.storyboard; sourceTree = "<group>"; };
@@ -593,6 +597,7 @@
 				CF0D401C2810EBDA0038A82D /* selectAreaVC.swift */,
 				CF0D4020281232880038A82D /* AreaRankingVC.swift */,
 				CF96B98828167A4900523247 /* NotificationExVC.swift */,
+				CF9FCB042828C076006194D3 /* MunicipalitiesSelectVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -638,6 +643,7 @@
 				A33473F727C8ADCB00FB4A6C /* ReMemoPost.storyboard */,
 				CF0D401A2810E8AE0038A82D /* selectArea.storyboard */,
 				CF0D401E2812320D0038A82D /* AreaRanking.storyboard */,
+				CF9FCB022828C048006194D3 /* MunicipalitiesSelect.storyboard */,
 				CF96B98628167A3B00523247 /* NotificationEx.storyboard */,
 			);
 			path = StoryBoard;
@@ -817,6 +823,7 @@
 				CF3D0C1A267BD327006021FB /* UserImageSet.storyboard in Resources */,
 				CF6846CF2797C0C4004B80C5 /* UserNameSet.storyboard in Resources */,
 				A33F0665279C26550008B29A /* FirstSetName.storyboard in Resources */,
+				CF9FCB032828C048006194D3 /* MunicipalitiesSelect.storyboard in Resources */,
 				CF2BF5C227D8613D00F7D1CB /* MadeWithB-DdDx.ttf in Resources */,
 				A3C0D9EC277488BD00AC64D3 /* Reaction.storyboard in Resources */,
 				CF2BF5B627D8613D00F7D1CB /* pastel crayon.ttf in Resources */,
@@ -1008,6 +1015,7 @@
 				A33F0685279C7E8E0008B29A /* TeamExplainVC.swift in Sources */,
 				A3B115D127971B48001820EC /* SettingsVC.swift in Sources */,
 				A36DC50627A430470083F76D /* MembersVC.swift in Sources */,
+				CF9FCB052828C076006194D3 /* MunicipalitiesSelectVC.swift in Sources */,
 				CF3B82A72786C90A00B4A257 /* UserInfo.swift in Sources */,
 				CF449799264424A700A2F873 /* Bridging-Header.m in Sources */,
 			);
