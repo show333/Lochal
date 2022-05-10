@@ -19,34 +19,45 @@ class SplashViewController: UIViewController {
     let db = Firestore.firestore()
     var userId:[String] = []
     
-    @IBOutlet weak var titleLeftLabel: UILabel!
-    @IBOutlet weak var leftLabelConstraint: NSLayoutConstraint!
-    @IBOutlet weak var titleCenterLabel: UILabel!
+    @IBOutlet weak var logoImageView: UIImageView!
     
-    @IBOutlet weak var titleRightLabel: UILabel!
-    @IBOutlet weak var rightLabelConstraint: NSLayoutConstraint!
-    @IBOutlet weak var subTitleLabel: UILabel!
     
     
     override func viewDidAppear(_ animated: Bool) {
         
-        let uid = Auth.auth().currentUser?.uid
+        
+        UIView.animate(withDuration: 0.3, delay: 0, animations: {
+            self.logoImageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            self.logoImageView.alpha = 1
+//
+//
+        }) { bool in
+        // ②アイコンを大きくする
+            UIView.animate(withDuration: 0, delay: 0, animations: { [self] in
+                let uid = Auth.auth().currentUser?.uid
+                if uid != nil {
+                    profileGet(userId:uid ?? "")
+                } else {
+                    presentSignInVC()
+                }
+        }) { bool in
+            // ②アイコンを大きくする
+            UIView.animate(withDuration: 0.1, delay: 0, animations: {
+                self.logoImageView.transform = CGAffineTransform(scaleX: 3, y: 3)
+                self.logoImageView.alpha = 0
 
-        if uid != nil {
-            profileGet(userId:uid ?? "")
-        } else {
-            presentSignInVC()
+            })
+            }
         }
         
-        
-//        let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
-//        let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
-//        let nav = UINavigationController(rootViewController: vc)
-//        nav.modalPresentationStyle = .fullScreen
-//        self.present(nav, animated: true, completion: nil)
+        //        let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+        //        let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
+        //        let nav = UINavigationController(rootViewController: vc)
+        //        nav.modalPresentationStyle = .fullScreen
+        //        self.present(nav, animated: true, completion: nil)
     }
-
-
+    
+    
     func profileGet(userId:String) {
         
         db.collection("users").document(userId).collection("Profile").document("profile").getDocument { [self](document, error) in
@@ -82,14 +93,9 @@ class SplashViewController: UIViewController {
                     } else {
                         presentExplain()
                     }
-                    
-                    
                 } else {
                     presentSignInVC()
                 }
-                
-                
-                
             } else {
                 print("Document does not exist")
                 
@@ -113,210 +119,47 @@ class SplashViewController: UIViewController {
                     print("usseserser",self.userId)
                     self.db.collection("users").document(uid).setData(["connectingUserId":self.userId] as [String : Any], merge: true)
                     UserDefaults.standard.set(self.userId, forKey: "connectingUserId")
-                    print("青市へフィオアセjフォイアジェヲイfjアセおいfじゃ教えjfおいあせjfおいあせじぇf",UserDefaults.standard.object(forKey: "connectingUserId") ?? "") 
+                    print("青市へフィオアセjフォイアジェヲイfjアセおいfじゃ教えjfおいあせjfおいあせじぇf",UserDefaults.standard.object(forKey: "connectingUserId") ?? "")
                 }
             }
         }
     }
     
     func presentSignInVC() {
-        
-        UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
-            
-            titleRightLabel.alpha = 1
-            titleLeftLabel.alpha = 1
-            let ConstraintCGfloat:CGFloat = 5.0
-            titleRightLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
-            titleLeftLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
-
-            let transScale = CGAffineTransform(rotationAngle: CGFloat.pi/180*15)
-            titleCenterLabel.transform = transScale
-            
-        }) { bool in
-            // ②アイコンを大きくする
-            UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
-                
-                let transScale = CGAffineTransform(rotationAngle: CGFloat.pi/180*200)
-                titleCenterLabel.transform = transScale
-                
-                let transScaleSeconds = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
-                titleCenterLabel.transform = transScaleSeconds
-                let transScaleThird = CGAffineTransform(rotationAngle: CGFloat.pi/180*350)
-                titleCenterLabel.transform = transScaleThird
-                
-                
-                let ConstraintCGfloat:CGFloat = 30
-                titleRightLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
-                titleLeftLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
-            }) { bool in
-                UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
-                    
-                    subTitleLabel.alpha = 1
-                    let transScaleSeconds = CGAffineTransform(rotationAngle: CGFloat.pi/180)
-                    titleCenterLabel.transform = transScaleSeconds
-                    
-                    
-                    let ConstraintCGfloat:CGFloat = 25
-                    titleRightLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
-                    titleLeftLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
-                    
-                }) { bool in
-                    UIView.animate(withDuration: 0.1, delay: 0, animations: { [self] in
-                        titleCenterLabel.alpha = 0
-                        titleLeftLabel.alpha = 0
-                        titleRightLabel.alpha = 0
-                        subTitleLabel.alpha = 0
-                    })
-                    let storyboard = UIStoryboard.init(name: "SignIn", bundle: nil)
-                    let SignInViewController = storyboard.instantiateViewController(withIdentifier: "SignInViewController") as! SignInViewController
-                    SignInViewController.modalPresentationStyle = .fullScreen
-                    self.present(SignInViewController, animated: true, completion: nil)
-                }
-            }
-        }
-
+        let storyboard = UIStoryboard.init(name: "SignIn", bundle: nil)
+        let SignInViewController = storyboard.instantiateViewController(withIdentifier: "SignInViewController") as! SignInViewController
+        SignInViewController.modalPresentationStyle = .fullScreen
+        self.present(SignInViewController, animated: true, completion: nil)
     }
     
     func presentTabbar(userId:String){
         let userToken = UserDefaults.standard.string(forKey: "FCM_TOKEN")
         db.collection("users").document(userId).setData(["currentTime":FieldValue.serverTimestamp(),"fcmToken":userToken ?? ""]as[String:Any], merge:true)
+        let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
+        let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
+        TabbarController.selectedIndex = 0
+        TabbarController.modalPresentationStyle = .fullScreen
+        self.present(TabbarController, animated: true, completion: nil)
         
-        UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
-            
-            titleRightLabel.alpha = 1
-            titleLeftLabel.alpha = 1
-            let ConstraintCGfloat:CGFloat = 5.0
-            titleRightLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
-            titleLeftLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
-
-            let transScale = CGAffineTransform(rotationAngle: CGFloat.pi/180*15)
-            titleCenterLabel.transform = transScale
-            
-        }) { bool in
-            // ②アイコンを大きくする
-            UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
-                
-                let transScale = CGAffineTransform(rotationAngle: CGFloat.pi/180*200)
-                titleCenterLabel.transform = transScale
-                
-                let transScaleSeconds = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
-                titleCenterLabel.transform = transScaleSeconds
-                let transScaleThird = CGAffineTransform(rotationAngle: CGFloat.pi/180*350)
-                titleCenterLabel.transform = transScaleThird
-                
-                
-                let ConstraintCGfloat:CGFloat = 30
-                titleRightLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
-                titleLeftLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
-            }) { bool in
-                UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
-                    
-                    subTitleLabel.alpha = 1
-                    let transScaleSeconds = CGAffineTransform(rotationAngle: CGFloat.pi/180)
-                    titleCenterLabel.transform = transScaleSeconds
-                    
-                    
-                    let ConstraintCGfloat:CGFloat = 25
-                    titleRightLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
-                    titleLeftLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
-                    
-                }) { bool in
-                    UIView.animate(withDuration: 0.1, delay: 0, animations: { [self] in
-                        titleCenterLabel.alpha = 0
-                        titleLeftLabel.alpha = 0
-                        titleRightLabel.alpha = 0
-                        subTitleLabel.alpha = 0
-                    })
-                    let storyboard = UIStoryboard(name: "Tabbar", bundle: nil)
-                    let TabbarController = storyboard.instantiateViewController(withIdentifier: "TabbarController") as! TabbarController
-                    TabbarController.selectedIndex = 0
-                    TabbarController.modalPresentationStyle = .fullScreen
-                    self.present(TabbarController, animated: true, completion: nil)
-                }
-            }
-        }
-    }
-
-    func presentExplain(){
-        
-        UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
-            
-            titleRightLabel.alpha = 1
-            titleLeftLabel.alpha = 1
-            let ConstraintCGfloat:CGFloat = 5.0
-            titleRightLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
-            titleLeftLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
-
-            let transScale = CGAffineTransform(rotationAngle: CGFloat.pi/180*15)
-            titleCenterLabel.transform = transScale
-            
-        }) { bool in
-            // ②アイコンを大きくする
-            UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
-                
-                let transScale = CGAffineTransform(rotationAngle: CGFloat.pi/180*200)
-                titleCenterLabel.transform = transScale
-                
-                let transScaleSeconds = CGAffineTransform(rotationAngle: CGFloat.pi/180*90)
-                titleCenterLabel.transform = transScaleSeconds
-                let transScaleThird = CGAffineTransform(rotationAngle: CGFloat.pi/180*350)
-                titleCenterLabel.transform = transScaleThird
-                
-                
-                let ConstraintCGfloat:CGFloat = 30
-                titleRightLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
-                titleLeftLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
-            }) { bool in
-                UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
-                    
-                    subTitleLabel.alpha = 1
-                    let transScaleSeconds = CGAffineTransform(rotationAngle: CGFloat.pi/180)
-                    titleCenterLabel.transform = transScaleSeconds
-                    
-                    
-                    let ConstraintCGfloat:CGFloat = 25
-                    titleRightLabel.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
-                    titleLeftLabel.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
-                    
-                }) { bool in
-                    UIView.animate(withDuration: 0.1, delay: 0, animations: { [self] in
-                        titleCenterLabel.alpha = 0
-                        titleLeftLabel.alpha = 0
-                        titleRightLabel.alpha = 0
-                        subTitleLabel.alpha = 0
-                    })
-                    let storyboard = UIStoryboard.init(name: "Explain", bundle: nil)
-                    let vc = storyboard.instantiateViewController(identifier: "ExplainVC") as! ExplainVC
-                    let nav = UINavigationController(rootViewController: vc)
-                    nav.modalPresentationStyle = .fullScreen
-                    self.present(nav, animated: true, completion: nil)
-                } 
-            }
-        }
     }
     
-
+    func presentExplain(){
+        let storyboard = UIStoryboard.init(name: "Explain", bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "ExplainVC") as! ExplainVC
+        let nav = UINavigationController(rootViewController: vc)
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
+    }
+    
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("スプラッシュ")
-
-
-//        let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
-//        titleWithFontLabel.transform = transScale
         
         
-        titleRightLabel.alpha = 0
-        titleLeftLabel.alpha = 0
-        
-        let ConstraintCGfloat:CGFloat = 25
-        rightLabelConstraint.constant = ConstraintCGfloat
-        
-        leftLabelConstraint.constant = -ConstraintCGfloat
-        
-        
-        subTitleLabel.alpha = 0
+        logoImageView.alpha = 0
         
         
         if UserDefaults.standard.object(forKey: "blocked") == nil{

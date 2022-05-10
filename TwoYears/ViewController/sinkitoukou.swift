@@ -67,6 +67,7 @@ class sinkitoukou: UIViewController {
         confirmBackView.alpha = 0
     }
     
+    @IBOutlet weak var recomendLabel: UILabel!
     @IBOutlet weak var confirmFrontView: UIView!
     
     @IBOutlet weak var confirmFrontViewWidthConstraint: NSLayoutConstraint!
@@ -84,7 +85,7 @@ class sinkitoukou: UIViewController {
             dismiss(animated: true, completion: nil)
         case "private" :
             sendFirestore(tapButton: "private")
-//            dismiss(animated: true, completion: nil)
+            dismiss(animated: true, completion: nil)
         default :
             confirmBackView.alpha = 0
         }
@@ -107,11 +108,6 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var imageSelectButton: UIButton!
     
     @IBAction func imageSelectTappedButton(_ sender: Any) {
-//        let imagePickerController = UIImagePickerController()
-//        imagePickerController.delegate = self
-//        imagePickerController.allowsEditing = false
-//
-//        self.present(imagePickerController, animated: true, completion: nil)
         
         
         imagePC.sourceType = .photoLibrary
@@ -186,7 +182,7 @@ class sinkitoukou: UIViewController {
         switch postType {
         case "newPost":
             confirmNameLabel.text = "newPost"
-            confirmExplainLabel.text = "コネクトしているユーザーに投稿します"
+            confirmExplainLabel.text = "コネクトまたは近くにいる人に投稿します"
             confirmPromoteLabel.text = "↑タップで投稿"
             
             if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_02398_icon_023989_256.png?alt=media&token=e88ea22e-0d00-47f3-bce1-bcb9c41cfbb9") {
@@ -209,7 +205,7 @@ class sinkitoukou: UIViewController {
             
         case "private" :
             confirmNameLabel.text = "private"
-            confirmExplainLabel.text = "他のユーザーには閲覧されません"
+            confirmExplainLabel.text = "コネクトしているユーザーに投稿します"
             confirmPromoteLabel.text = "↑タップで投稿"
             
             if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_05350_icon_053504_256.png?alt=media&token=e0a2936c-2e75-47b5-a6d2-1c944954828e") {
@@ -391,27 +387,27 @@ class sinkitoukou: UIViewController {
             "anonymous":false,
             "admin": false,
             "delete": false,
-            
         ] as [String: Any]
         
-        db.collection("users").document(uid).collection("Connections").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
+        
+        db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
+        
+        db.collection("users").whereField("UEnterdBool", isEqualTo: true).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                
+
                 if querySnapshot?.documents.count ?? 0 >= 1{
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
                         let userId = document.data()["userId"] as? String ?? ""
                         db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+
                     }
                 }
             }
         }
-        
         db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
-        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
-        db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
     }
     
     private func privateSendMemo(imageAddress:String,movieAddress:String) {
@@ -441,7 +437,49 @@ class sinkitoukou: UIViewController {
             "admin": false,
             "delete": false,
         ] as [String: Any]
+        
+        let myPost = [
+            "message" : thisisMessage as Any,
+            "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
+            "documentId": memoId,
+            "createdAt": FieldValue.serverTimestamp(),
+            "textMask":textMask.randomElement() ?? "",
+            "userName":userName ?? "",
+            "userImage":userImage ?? "",
+            "userFrontId":userFrontId ?? "",
+            "userId":uid,
+            "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
+            "assetsType": assetsType ?? "",
+            "private":true,
+            "anonymous":false,
+            "admin": false,
+            "delete": false,
+            
+        ] as [String: Any]
+        
         db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
+        
+        
+        db.collection("users").document(uid).collection("Connections").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                
+                if querySnapshot?.documents.count ?? 0 >= 1{
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let userId = document.data()["userId"] as? String ?? ""
+                        db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+                    }
+                }
+            }
+        }
+        
+        db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
+        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
+        db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
     }
     
     private func anonymousSendMemo(imageAddress:String,movieAddress:String) {
@@ -527,6 +565,7 @@ class sinkitoukou: UIViewController {
         newPostLabel.font = UIFont(name: "03SmartFontUI", size: 14)
         anonymousLabel.font = UIFont(name: "03SmartFontUI", size: 14)
         privateLabel.font = UIFont(name: "03SmartFontUI", size: 14)
+        recomendLabel.font = UIFont(name: "03SmartFontUI", size: 12)
 
         
         confirmBackView.alpha = 0
