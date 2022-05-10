@@ -12,6 +12,9 @@ import FirebaseAuth
 import SwiftMoment
 import Nuke
 import Instructions
+import ImageViewer
+import AVFoundation
+import AVKit
 
 class sinkitoukou: UIViewController {
     let uid = UserDefaults.standard.string(forKey: "userId")
@@ -22,12 +25,17 @@ class sinkitoukou: UIViewController {
     var followerId : [String] = []
     var assetsType : String?
     var postType : String?
+    var mediaUrl: URL?
+    var durationTime:TimeInterval?
+    var assetData: NSData?
     
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
     var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     
+    var imagePC: UIImagePickerController! = UIImagePickerController()
     var imageString: String?
+    var movieString: String?
     
     let coachMarksController = CoachMarksController()
 
@@ -59,6 +67,7 @@ class sinkitoukou: UIViewController {
         confirmBackView.alpha = 0
     }
     
+    @IBOutlet weak var recomendLabel: UILabel!
     @IBOutlet weak var confirmFrontView: UIView!
     
     @IBOutlet weak var confirmFrontViewWidthConstraint: NSLayoutConstraint!
@@ -99,11 +108,13 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var imageSelectButton: UIButton!
     
     @IBAction func imageSelectTappedButton(_ sender: Any) {
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.allowsEditing = false
         
-        self.present(imagePickerController, animated: true, completion: nil)
+        
+        imagePC.sourceType = .photoLibrary
+        imagePC.delegate = self
+        imagePC.mediaTypes = ["public.image","public.movie"]
+        present(imagePC, animated: true, completion: nil)
+
     }
     @IBOutlet weak var stampButton: UIButton!
     
@@ -171,7 +182,7 @@ class sinkitoukou: UIViewController {
         switch postType {
         case "newPost":
             confirmNameLabel.text = "newPost"
-            confirmExplainLabel.text = "コネクトしているユーザーに投稿します"
+            confirmExplainLabel.text = "コネクトまたは近くにいる人に投稿します"
             confirmPromoteLabel.text = "↑タップで投稿"
             
             if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_02398_icon_023989_256.png?alt=media&token=e88ea22e-0d00-47f3-bce1-bcb9c41cfbb9") {
@@ -194,7 +205,7 @@ class sinkitoukou: UIViewController {
             
         case "private" :
             confirmNameLabel.text = "private"
-            confirmExplainLabel.text = "他のユーザーには閲覧されません"
+            confirmExplainLabel.text = "コネクトしているユーザーに投稿します"
             confirmPromoteLabel.text = "↑タップで投稿"
             
             if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_05350_icon_053504_256.png?alt=media&token=e0a2936c-2e75-47b5-a6d2-1c944954828e") {
@@ -234,44 +245,104 @@ class sinkitoukou: UIViewController {
                     print("urlString:", urlString)
                     switch tapButton {
                     case "newPost" :
-                        sendMemoFireStore(imageAddress: fileName)
+                        sendMemoFireStore(imageAddress: fileName, movieAddress: "")
                         print("newPost")
                         
                     case "private":
-                        privateSendMemo(imageAddress: fileName)
+                        privateSendMemo(imageAddress: fileName, movieAddress: "")
                         print("private")
                         
                     case "anonymous":
-                        anonymousSendMemo(imageAddress: fileName)
+                        anonymousSendMemo(imageAddress: fileName, movieAddress: "")
                         print("anonymous")
                     default :
                         print("a")
-                        
                     }
-                    
                 }
             }
-        } else {
+        } else if assetsType == "movie" {
+            
+            guard let image = setImageView?.image  else { return }
+            guard let uploadImage = image.jpegData(compressionQuality: 0.2) else { return }
+            
+            let imageFileName = NSUUID().uuidString
+            let storageRef = Storage.storage().reference().child("OutMemo_Post_Image").child(imageFileName)
+            
+            storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
+                if let err = err {
+                    print("firestrageへの情報の保存に失敗、、\(err)")
+                    return
+                }
+                print("storageへの保存に成功!!")
+                storageRef.downloadURL { [self] (url, err) in
+                    if let err = err {
+                        print("firestorageからのダウンロードに失敗\(err)")
+                        return
+                    }
+                    guard let urlString = url?.absoluteString else { return }
+                    imageString = urlString
+                    
+                    let movieFileName = NSUUID().uuidString + ".mp4"
+                    let storageReference = Storage.storage().reference().child("OutMemo_Post_Image").child(movieFileName)
+                    
+                    
+                    storageReference.putData(assetData! as Data, metadata: nil) { ( matadata, err) in
+                        if let err = err {
+                            print("firestrageへの情報の保存に失敗、、\(err)")
+                            return
+                        }
+                        print("storageへの保存に成功!!")
+                        storageReference.downloadURL { [self] (url, err) in
+                            if let err = err {
+                                print("firestorageからのダウンロードに失敗\(err)")
+                                return
+                            }
+                            guard let urlString = url?.absoluteString else { return }
+                            movieString = urlString
+                            print("urlString:", urlString)
+                            switch tapButton {
+                            case "newPost" :
+                                sendMemoFireStore(imageAddress: imageFileName, movieAddress: movieFileName)
+                                print("newPost")
+                                
+                            case "private":
+                                privateSendMemo(imageAddress: imageFileName, movieAddress: movieFileName)
+                                print("private")
+                                
+                            case "anonymous":
+                                anonymousSendMemo(imageAddress: imageFileName, movieAddress: movieFileName)
+                                print("anonymous")
+                            default :
+                                print("a")
+                            }
+                        }
+                    }
+                }
+            }
+            
+            
+        }else {
             switch tapButton {
             case "newPost" :
-                sendMemoFireStore(imageAddress:"")
+                sendMemoFireStore(imageAddress:"", movieAddress: "")
                 print("newPost")
-
+                
             case "private":
-                privateSendMemo(imageAddress:"")
+                privateSendMemo(imageAddress:"", movieAddress: "")
                 print("private")
-
+                
             case "anonymous":
-                anonymousSendMemo(imageAddress:"")
+                anonymousSendMemo(imageAddress:"", movieAddress: "")
                 print("anonymous")
-
+                
             default :
                 print("a")
                 
             }
         }
     }
-    private func sendMemoFireStore(imageAddress:String) {
+
+    private func sendMemoFireStore(imageAddress:String,movieAddress:String) {
         
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -285,11 +356,13 @@ class sinkitoukou: UIViewController {
         let memoInfoDic = [
             "message" : thisisMessage as Any,
             "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
             "userId":uid,
             "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
             "readLog": false,
             "anonymous":false,
@@ -300,6 +373,7 @@ class sinkitoukou: UIViewController {
         let myPost = [
             "message" : thisisMessage as Any,
             "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
@@ -308,12 +382,85 @@ class sinkitoukou: UIViewController {
             "userFrontId":userFrontId ?? "",
             "userId":uid,
             "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
+            "anonymous":false,
+            "admin": false,
+            "delete": false,
+        ] as [String: Any]
+        
+        
+        db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
+        
+        db.collection("users").whereField("UEnterdBool", isEqualTo: true).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+
+                if querySnapshot?.documents.count ?? 0 >= 1{
+                    for document in querySnapshot!.documents {
+                        print("\(document.documentID) => \(document.data())")
+                        let userId = document.data()["userId"] as? String ?? ""
+                        db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+
+                    }
+                }
+            }
+        }
+        db.collection("AllOutMemo").document(memoId).setData(memoInfoDic)
+    }
+    
+    private func privateSendMemo(imageAddress:String,movieAddress:String) {
+        
+        func randomString(length: Int) -> String {
+            let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            return String((0..<length).map{ _ in characters.randomElement()! })
+        }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let db = Firestore.firestore()
+        let memoId = randomString(length: 20)
+        let thisisMessage = self.textView.text.trimmingCharacters(in: .newlines)
+        let memoInfoDic = [
+            "message" : thisisMessage as Any,
+            "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
+            "documentId": memoId,
+            "createdAt": FieldValue.serverTimestamp(),
+            "textMask":textMask.randomElement() ?? "",
+            "userId":uid,
+            "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
+            "assetsType": assetsType ?? "",
+            "private":true,
+            "readLog": false,
+            "anonymous":false,
+            "admin": false,
+            "delete": false,
+        ] as [String: Any]
+        
+        let myPost = [
+            "message" : thisisMessage as Any,
+            "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
+            "documentId": memoId,
+            "createdAt": FieldValue.serverTimestamp(),
+            "textMask":textMask.randomElement() ?? "",
+            "userName":userName ?? "",
+            "userImage":userImage ?? "",
+            "userFrontId":userFrontId ?? "",
+            "userId":uid,
+            "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
+            "assetsType": assetsType ?? "",
+            "private":true,
             "anonymous":false,
             "admin": false,
             "delete": false,
             
         ] as [String: Any]
+        
+        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
+        
         
         db.collection("users").document(uid).collection("Connections").whereField("status", isEqualTo: "accept").getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -335,7 +482,7 @@ class sinkitoukou: UIViewController {
         db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
     }
     
-    private func privateSendMemo(imageAddress:String) {
+    private func anonymousSendMemo(imageAddress:String,movieAddress:String) {
         
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -348,39 +495,13 @@ class sinkitoukou: UIViewController {
         let memoInfoDic = [
             "message" : thisisMessage as Any,
             "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
             "userId":uid,
             "imageAddress":imageAddress,
-            "assetsType": assetsType ?? "",
-            "private":true,
-            "readLog": false,
-            "anonymous":false,
-            "admin": false,
-            "delete": false,
-        ] as [String: Any]
-        db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
-    }
-    
-    private func anonymousSendMemo(imageAddress:String) {
-        
-        func randomString(length: Int) -> String {
-            let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-            return String((0..<length).map{ _ in characters.randomElement()! })
-        }
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let db = Firestore.firestore()
-        let memoId = randomString(length: 20)
-        let thisisMessage = self.textView.text.trimmingCharacters(in: .newlines)
-        let memoInfoDic = [
-            "message" : thisisMessage as Any,
-            "sendImageURL": imageString ?? "",
-            "documentId": memoId,
-            "createdAt": FieldValue.serverTimestamp(),
-            "textMask":textMask.randomElement() ?? "",
-            "userId":uid,
-            "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
             "readLog": false,
             "anonymous":true,
@@ -392,6 +513,7 @@ class sinkitoukou: UIViewController {
         let myPost = [
             "message" : thisisMessage as Any,
             "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
@@ -400,6 +522,7 @@ class sinkitoukou: UIViewController {
             "userFrontId":userFrontId ?? "",
             "userId":uid,
             "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
             "anonymous":true,
             "admin": false,
@@ -442,6 +565,7 @@ class sinkitoukou: UIViewController {
         newPostLabel.font = UIFont(name: "03SmartFontUI", size: 14)
         anonymousLabel.font = UIFont(name: "03SmartFontUI", size: 14)
         privateLabel.font = UIFont(name: "03SmartFontUI", size: 14)
+        recomendLabel.font = UIFont(name: "03SmartFontUI", size: 12)
 
         
         confirmBackView.alpha = 0
@@ -485,6 +609,9 @@ class sinkitoukou: UIViewController {
         textViewHeightConstraint.constant = editHeight/3.5
         setImageViewHeightConstraint.constant = editHeight/3
         
+        setImageView.isUserInteractionEnabled = true
+        setImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setImageViewTapped(_:))))
+        
 
 
         
@@ -516,9 +643,6 @@ class sinkitoukou: UIViewController {
         privateBackView.layer.shadowOpacity = 0.7
         privateBackView.layer.shadowRadius = 5
 
-        
-//        confirmNameLabel.font
-        
                 
         //ポスト
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2F_i_icon_02398_icon_023989_256.png?alt=media&token=e88ea22e-0d00-47f3-bce1-bcb9c41cfbb9") {
@@ -562,6 +686,45 @@ class sinkitoukou: UIViewController {
         newPostButton.layer.cornerRadius = 5
         wordCountLabel.text = "300文字まで"
     }
+    
+    @objc func setImageViewTapped(_ sender: UITapGestureRecognizer) {
+        
+        if assetsType == "image" {
+        let viewController = GalleryViewController(
+            startIndex: 0,
+            itemsDataSource: self,
+            displacedViewsDataSource: self,
+            configuration: [
+                .deleteButtonMode(.none),
+                .thumbnailsButtonMode(.none)
+            ])
+            self.presentImageGallery(viewController)
+        } else if assetsType == "movie" {
+            
+            playMovieFromUrl(movieUrl: mediaUrl)
+        }
+    }
+    
+    func playMovieFromUrl(movieUrl: URL?) {
+        if let movieUrl = movieUrl {
+            let videoPlayer = AVPlayer(url: movieUrl)
+            let playerController = AVPlayerViewController()
+            playerController.player = videoPlayer
+            self.present(playerController, animated: true, completion: {
+                videoPlayer.play()
+            })
+        } else {
+            print("cannot play")
+        }
+    }
+    
+    func playMovieFromPath(moviePath: String?) {
+        if let moviePath = moviePath {
+            self.playMovieFromUrl(movieUrl: URL(fileURLWithPath: moviePath))
+        } else {
+            print("no such file")
+        }
+    }
 }
 extension sinkitoukou: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -585,8 +748,6 @@ extension sinkitoukou: UITextViewDelegate {
             privateBackView.backgroundColor = .gray
             privateButton.isEnabled = false
             privateBackView.layer.shadowColor = UIColor.clear.cgColor
-
-
             
         } else {
             newPostButton.isEnabled = true
@@ -632,11 +793,9 @@ extension sinkitoukou: UITextViewDelegate {
 
 extension sinkitoukou: UIAdaptivePresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        print(imageString)
         anonymousBackView.backgroundColor = .gray
+    
         
-        print(textView.text)
-
         let textwhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)//空白、改行のみを防ぐ
         if textwhite == "" || textwhite == "ポテチ食べたい\nコンビニの新作アイスめっちゃ美味い\nうちの猫めっちゃ可愛い\n授業,会社だるい\n布団から出られない\nなど" {
             anonymousBackView.backgroundColor = .gray
@@ -654,31 +813,60 @@ extension sinkitoukou: UIAdaptivePresentationControllerDelegate {
         }
     }
 }
-
+//            .scaleAspectFit
 extension sinkitoukou: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let originalImage = info[.originalImage] as? UIImage {
-//            setImageView.setImage(originalImage, for: .normal)
-//            imageButton.imageView?.contentMode = .scaleAspectFit
-            
-            setImageView.image = originalImage
+        if info[.mediaType] as! String == "public.image" {
             assetsType = "image"
+            let originalImage = info[.originalImage] as? UIImage
+            setImageView.image = originalImage
+        } else if info[.mediaType] as! String == "public.movie" {
+            assetsType = "movie"
+            let mediaURL = info[.mediaURL] as? URL
+            self.mediaUrl = mediaURL
+            assetData = NSData(contentsOf: mediaURL!)
             
-//            if let url = URL(string:imageString ?? "") {
-//                Nuke.loadImage(with: url, into: setImageView)
-//            } else {
-//                setImageView?.image = nil
-//            }
-            print(originalImage)
-            
-            print("aaa")
+            let video = AVURLAsset(url: mediaURL!)
+            durationTime = TimeInterval(round(Float(video.duration.value) / Float(video.duration.timescale)))
+            print("お合いsjエフォイアジェsf",durationTime ?? 0)
+            thumnailImageForFileUrl(fileUrl:mediaURL!)
         }
-        self.dismiss(animated: true, completion: nil)
+        
+        let mediaURL = info[.mediaURL] as? URL
+        print(mediaURL ?? "")
+        
+        imagePC.dismiss(animated: true)
+    }
+    
+    func generateDuration(timeInterval: TimeInterval) -> String {
+        
+        let min = Int(timeInterval / 60)
+        let sec = Int(round(timeInterval.truncatingRemainder(dividingBy: 60)))
+        let duration = String(format: "%02d:%02d", min, sec)
+        return duration
+    }
+    
+    func thumnailImageForFileUrl(fileUrl: URL) -> UIImage? {
+        let asset = AVAsset(url: fileUrl)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+        
+        do {
+            let thumnailCGImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1,timescale: 60), actualTime: nil)
+            print("サムネイルの切り取り成功！")
+            let uiImage = UIImage(cgImage: thumnailCGImage)
+            setImageView.image = uiImage
+            return UIImage(cgImage: thumnailCGImage, scale: 0, orientation: .right)
+        }catch let err{
+            print("エラー\(err)")
+        }
+        return nil
     }
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         self.dismiss(animated: true, completion: nil)
     }
+    
 }
 //MARK: Instructions
 extension sinkitoukou: CoachMarksControllerDataSource, CoachMarksControllerDelegate {
@@ -728,4 +916,20 @@ extension sinkitoukou: CoachMarksControllerDataSource, CoachMarksControllerDeleg
         return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
 
+}
+extension sinkitoukou: GalleryItemsDataSource {
+    func itemCount() -> Int {
+        return 1
+    }
+
+    func provideGalleryItem(_ index: Int) -> GalleryItem {
+        return GalleryItem.image { $0(self.setImageView.image!) }
+    }
+}
+
+// MARK: GalleryDisplacedViewsDataSource
+extension sinkitoukou: GalleryDisplacedViewsDataSource {
+    func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
+        return setImageView
+    }
 }

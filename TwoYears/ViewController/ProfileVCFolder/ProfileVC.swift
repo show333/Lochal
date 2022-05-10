@@ -113,16 +113,22 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBAction func postTappedButton(_ sender: Any) {
         
         if statusChain == "accept" {
-        let storyboard = UIStoryboard.init(name: "CollectionPost", bundle: nil)
-        let CollectionPostVC = storyboard.instantiateViewController(withIdentifier: "CollectionPostVC") as! CollectionPostVC
-        CollectionPostVC.presentationController?.delegate = self
-        CollectionPostVC.postDocString = userId
-        self.present(CollectionPostVC, animated: true, completion: nil)
+            let storyboard = UIStoryboard.init(name: "CollectionPost", bundle: nil)
+            let CollectionPostVC = storyboard.instantiateViewController(withIdentifier: "CollectionPostVC") as! CollectionPostVC
+            CollectionPostVC.presentationController?.delegate = self
+            CollectionPostVC.postDocString = userId
+            self.present(CollectionPostVC, animated: true, completion: nil)
             
+        } else if uid == userId{
+            let storyboard = UIStoryboard.init(name: "CollectionPost", bundle: nil)
+            let CollectionPostVC = storyboard.instantiateViewController(withIdentifier: "CollectionPostVC") as! CollectionPostVC
+            CollectionPostVC.presentationController?.delegate = self
+            CollectionPostVC.postDocString = userId
+            self.present(CollectionPostVC, animated: true, completion: nil)
         } else {
             postAlert()
         }
-                
+        
     }
     
     @IBOutlet weak var rakugakiLabel: UILabel!
@@ -407,11 +413,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         let safeAreaWidth = UIScreen.main.bounds.size.width
         let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
 
-        if uid == userId {
-            postButton.alpha = 0
-        } else {
             postButton.alpha = 0.8
-        }
 
         connectLabel.font = UIFont(name:"03SmartFontUI", size:12)
         settingsLabel.font = UIFont(name:"03SmartFontUI", size:12)
@@ -546,21 +548,21 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //          layout.sectionInset = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
 //          postCollectionView.collectionViewLayout = layout
 
-        let customLayout = PinterestLayout()
-        customLayout.delegate = self
-        postCollectionView.collectionViewLayout = customLayout
-
-        if let pinterestLayout = postCollectionView.collectionViewLayout as? PinterestLayout {
-            pinterestLayout.delegate = self
-        }
-
+//        let customLayout = PinterestLayout()
+//        customLayout.delegate = self
+//        postCollectionView.collectionViewLayout = customLayout
+//
+//        if let pinterestLayout = postCollectionView.collectionViewLayout as? PinterestLayout {
+//            pinterestLayout.delegate = self
+//        }
+//
         //Pull To Refresh
         postCollectionView.refreshControl = UIRefreshControl()
         postCollectionView.refreshControl?.addTarget(self, action: #selector(onRefresh(_:)), for: .valueChanged)
-
-//        ここを変える
-        postCollectionView.dataSource = self
-        postCollectionView.delegate = self
+//
+////        ここを変える
+//        postCollectionView.dataSource = self
+//        postCollectionView.delegate = self
         teamCollectionView.dataSource = self
         teamCollectionView.delegate = self
 
@@ -608,6 +610,21 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 
         getFollowId(userId:userId ?? "",uid:uid)
         
+        let customLayout = PinterestLayout()
+        customLayout.delegate = self
+        postCollectionView.collectionViewLayout = customLayout
+
+        if let pinterestLayout = postCollectionView.collectionViewLayout as? PinterestLayout {
+            pinterestLayout.delegate = self
+        }
+
+
+//        ここを変える
+        postCollectionView.dataSource = self
+        postCollectionView.delegate = self
+        
+        
+        
         self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
@@ -644,9 +661,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        
-
-        
+                
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
         if userId == uid {
@@ -906,7 +921,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     
     func fetchUserProfile(userId:String){
-
+        
         self.db.collection("users").document(userId).addSnapshotListener { [self] documentSnapshot, error in
             guard let document = documentSnapshot else {
                 print("Error fetching document: \(error!)")
@@ -917,9 +932,9 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 return
             }
             print("Current data: \(data)")
-
+            
             let backGroundString = "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2Fsplashbackground.jpeg?alt=media&token=4c2fd869-a146-4182-83aa-47dd396f1ad6"
-
+            
             let userName = document["userName"] as? String ?? "unKnown"
             let userImage = document["userImage"] as? String ?? "unKnown"
             let userFrontId = document["userFrontId"] as? String ?? "unKnown"
@@ -937,6 +952,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             
             matchUserId.removeAll()
             
+            
             if friendUsersCount <= myUsersCount {
                 selfConnectingUserId.forEach{
                     print("せfせ",$0)
@@ -944,12 +960,15 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                         print("いえいえいえいえ",$0)
                         matchUserId.append($0)
                     }
-                    if matchUserId.count > 0 {
-                        matchUserLabel.isUserInteractionEnabled = true
-                        matchUserLabel.text = String(matchUserId.count) + "人の共通の友達がいます"
-                    } else {
-                        matchUserLabel.isUserInteractionEnabled = false
-                        matchUserLabel.text = ""
+                    if userId != uid {
+                        
+                        if matchUserId.count > 0 {
+                            matchUserLabel.isUserInteractionEnabled = true
+                            matchUserLabel.text = String(matchUserId.count) + "人の共通の友達がいます"
+                        } else {
+                            matchUserLabel.isUserInteractionEnabled = false
+                            matchUserLabel.text = ""
+                        }
                     }
                 }
                 
@@ -960,17 +979,21 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                         print("いえいえいえいえ",$0)
                         matchUserId.append($0)
                     }
-                    if matchUserId.count > 0 {
-                        matchUserLabel.isUserInteractionEnabled = true
-                        matchUserLabel.text = String(matchUserId.count) + "人の共通の友達がいます"
-                    } else {
-                        matchUserLabel.isUserInteractionEnabled = false
-                        matchUserLabel.text = ""
+                    if userId != uid {
+                        
+                        if matchUserId.count > 0 {
+                            matchUserLabel.isUserInteractionEnabled = true
+                            matchUserLabel.text = String(matchUserId.count) + "人の共通の友達がいます"
+                        } else {
+                            matchUserLabel.isUserInteractionEnabled = false
+                            matchUserLabel.text = ""
+                        }
                     }
                 }
             }
-        
-                
+            
+            
+            
             
             
 
@@ -1148,14 +1171,14 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-        
+
         let postImage = postInfo[indexPath.row].postImage
         let titleCount = postInfo[indexPath.row].titleComment.count
         
+
         
         
         let cellSize : CGFloat = self.view.bounds.width / 3 * 2 - 12
-                
 
         if postImage == "" {
             if titleCount < 6 {

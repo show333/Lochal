@@ -223,7 +223,7 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
             action: #selector(secondLabellongTap(_:))
         )
         fontedSecondLabel.addGestureRecognizer(secondLongTapGesture)
-
+//        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         self.fontedSecondLabel.alpha = 0
         fontedSecondLabel.text = ""
         fontedLabel.textColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
@@ -478,8 +478,7 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let docString = randomString(length: 20)
         
-        print("thanks")
-
+        
         if imageString != nil {
             print("あいえ",imageString)
             let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(imageString!)
@@ -500,14 +499,21 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
                     guard let urlString = url?.absoluteString else { return }
                     print("urlString:", urlString)
                     
-                    
-                    setImage(userId: uid, postImage: urlString, docString:docString, imageString:imageString!)
-                    setNotification(userId: uid, postImage: urlString,docString:docString,imageString: imageString!)
+                    if uid == postDocString {
+                        setImage(userId: uid, postImage: urlString, docString:docString, imageString:imageString!, releaseBool: true)
+                    } else {
+                        setImage(userId: uid, postImage: urlString, docString:docString, imageString:imageString!, releaseBool: false)
+                        setNotification(userId: uid, postImage: urlString,docString:docString,imageString: imageString!)
+                    }
                 }
             }
         } else {
-            setImage(userId: uid, postImage: "",docString:docString,imageString: "")
-            setNotification(userId: uid, postImage: "",docString:docString,imageString: "")
+            if uid == postDocString {
+                setImage(userId: uid, postImage: "",docString:docString,imageString: "", releaseBool: true)
+            } else {
+                setImage(userId: uid, postImage: "",docString:docString,imageString: "", releaseBool: false)
+                setNotification(userId: uid, postImage: "",docString:docString,imageString: "")
+            }
         }
         
         
@@ -523,11 +529,15 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
               print("Could not find previous viewController")
               return
         }
-        prevView.dismissBool = true        
+        if uid == postDocString {
+        } else {
+            prevView.dismissBool = true
+
+        }
         self.dismiss(animated: true, completion: nil)
         
     }
-    func setImage(userId:String,postImage:String,docString:String,imageString:String){
+    func setImage(userId:String,postImage:String,docString:String,imageString:String,releaseBool:Bool){
         
         let hexColor = graffitiColor.toHexString()
         let textFontName = graffitiFontName
@@ -540,7 +550,7 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
             "imageAddress":imageString,
             "hexColor":hexColor,
             "textFontName":textFontName,
-            "releaseBool": false,
+            "releaseBool": releaseBool,
             "createdAt": FieldValue.serverTimestamp(),
             "admin":false
         ] as [String:Any]

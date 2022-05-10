@@ -38,7 +38,10 @@ class ConnectionVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
         userListTableView.delegate = self
         userListTableView.emptyDataSetDelegate = self
         userListTableView.emptyDataSetSource = self
+
         if matchUserId == [""] {
+            print("阿蘇英fじゃs",userId ?? "")
+            
             fetchUserInfo(userId: userId ?? "")
         } else {
             matchUserId.forEach{

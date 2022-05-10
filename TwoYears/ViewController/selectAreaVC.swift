@@ -21,7 +21,6 @@ class selectAreaVC:UIViewController {
     var firstBool : Bool = false
     
     let db = Firestore.firestore()
-    
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var headerTitleLabel: UILabel!
     @IBOutlet weak var headerSubTitleLabel: UILabel!
@@ -53,6 +52,7 @@ class selectAreaVC:UIViewController {
         case "北海道・東北":
             areaNameJaArray = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県"]
             areaNameEnArray = ["hokkaido","aomori","iwate","miyagi","akita","yamagata","fukushima"]
+            
         case "関東":
             areaNameJaArray = ["茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県"]
             areaNameEnArray = ["ibaraki","tochigi","gunma","saitama","chiba","tokyo","kanagawa"]
@@ -70,7 +70,6 @@ class selectAreaVC:UIViewController {
             areaNameJaArray = ["鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県"]
             areaNameEnArray = ["tottori","shimane","okayama","hiroshima","yamaguchi","tokushima","kagawa","ehime","kochi"]
 
-            
         case "九州・沖縄":
             areaNameJaArray = ["福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
             areaNameEnArray = ["fukuoka","saga","nagasaki","kumamoto","oita","miyazaki","kagoshima","okinawa"]
@@ -109,35 +108,34 @@ extension selectAreaVC:UICollectionViewDataSource, UICollectionViewDelegate {
         return cell
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         if areaNameJaString == nil {
             
             let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
             let selectAreaVC = storyboard.instantiateViewController(withIdentifier: "selectAreaVC") as! selectAreaVC
             selectAreaVC.areaNameJaString = areaNameJaArray[indexPath.row]
             selectAreaVC.areaNameEnString = areaNameEnArray[indexPath.row]
-
             navigationController?.pushViewController(selectAreaVC, animated: true)
         } else {
-            
-//            let areaNameJa = areaNameJaArray[indexPath.row]
-//            let areaNameEn = areaNameEnArray[indexPath.row]
-//            setSelectedArea(areaNameJa: areaNameJa,areaNameEn: areaNameEn)
-//
-
-            if firstBool == true {
-                let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
-                let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
-                navigationController?.pushViewController(ThankyouVC, animated: true)
-                
+            //            let areaNameJa = areaNameJaArray[indexPath.row]
+                        let areaNameEn = areaNameEnArray[indexPath.row]
+            //            setSelectedArea(areaNameJa: areaNameJa,areaNameEn: areaNameEn)
+            let kantoArray =  ["saitama","chiba","tokyo","kanagawa"]
+            if kantoArray.contains(areaNameEn) == true {
+                let storyboard = UIStoryboard.init(name: "MunicipalitiesSelect", bundle: nil)
+                let MunicipalitiesSelectVC = storyboard.instantiateViewController(withIdentifier: "MunicipalitiesSelectVC") as! MunicipalitiesSelectVC
+                MunicipalitiesSelectVC.areaNameEn = areaNameEn
+                navigationController?.pushViewController(MunicipalitiesSelectVC, animated: true)
             } else {
-                dismiss(animated: true, completion: nil)
+                if firstBool == true {
+                    let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
+                    let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
+                    navigationController?.pushViewController(ThankyouVC, animated: true)
+                } else {
+                    dismiss(animated: true, completion: nil)
+                }
             }
-
         }
-        
     }
  
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

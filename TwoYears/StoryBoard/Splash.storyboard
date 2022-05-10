@@ -1,26 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iQi-O4-feT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iQi-O4-feT">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Bistrosketch-wyG9.ttf">
-            <string>BistroSketch</string>
-        </array>
-        <array key="Daniel-Bold.otf">
-            <string>Daniel-Bold</string>
-        </array>
-        <array key="MadeWithB-DdDx.ttf">
-            <string>MadeWithB</string>
-        </array>
-        <array key="Sketchica-MB4Y.ttf">
-            <string>Sketchica</string>
-        </array>
-    </customFonts>
     <scenes>
         <!--Navigation Controller-->
         <scene sceneID="jO3-ZN-TIH">
@@ -46,52 +32,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="i" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FOy-rC-A5C">
-                                <rect key="frame" x="197.5" y="405" width="19" height="96"/>
-                                <fontDescription key="fontDescription" name="Daniel-Bold" family="Daniel" pointSize="80"/>
-                                <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="i" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qiV-8b-CeU">
-                                <rect key="frame" x="175.5" y="414" width="22" height="68"/>
-                                <fontDescription key="fontDescription" name="BistroSketch" family="BistroSketch" pointSize="75"/>
-                                <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AndU" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2GA-9r-mg8">
-                                <rect key="frame" x="177.5" y="486" width="59" height="27"/>
-                                <fontDescription key="fontDescription" name="Sketchica" family="Sketchica" pointSize="27"/>
-                                <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="i" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LFF-PG-qkm">
-                                <rect key="frame" x="216.5" y="410.5" width="24" height="75"/>
-                                <fontDescription key="fontDescription" name="MadeWithB" family="Made With B" pointSize="75"/>
-                                <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="clearLogo.001" translatesAutoresizingMaskIntoConstraints="NO" id="vqy-fU-QGs">
+                                <rect key="frame" x="132" y="192" width="150" height="512"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="E55-S8-nf4"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Sc2-0m-2Rm"/>
                         <color key="backgroundColor" red="0.15823751350000001" green="0.17180978450000001" blue="0.1875128992" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="2GA-9r-mg8" firstAttribute="centerX" secondItem="4VC-QU-TmA" secondAttribute="centerX" id="B8i-LD-M5T"/>
-                            <constraint firstItem="FOy-rC-A5C" firstAttribute="leading" secondItem="qiV-8b-CeU" secondAttribute="trailing" id="P7i-qg-1pM"/>
-                            <constraint firstItem="qiV-8b-CeU" firstAttribute="centerY" secondItem="4VC-QU-TmA" secondAttribute="centerY" id="cdA-EA-SjO"/>
-                            <constraint firstItem="LFF-PG-qkm" firstAttribute="leading" secondItem="FOy-rC-A5C" secondAttribute="trailing" id="chH-Y5-XM9"/>
-                            <constraint firstItem="2GA-9r-mg8" firstAttribute="top" secondItem="FOy-rC-A5C" secondAttribute="bottom" constant="-15" id="d01-UO-KaT"/>
-                            <constraint firstItem="LFF-PG-qkm" firstAttribute="centerY" secondItem="4VC-QU-TmA" secondAttribute="centerY" id="nfw-On-ds4"/>
-                            <constraint firstItem="FOy-rC-A5C" firstAttribute="centerY" secondItem="4VC-QU-TmA" secondAttribute="centerY" constant="5" id="qTt-en-EQe"/>
-                            <constraint firstItem="FOy-rC-A5C" firstAttribute="centerX" secondItem="4VC-QU-TmA" secondAttribute="centerX" id="wou-9u-TaD"/>
+                            <constraint firstItem="vqy-fU-QGs" firstAttribute="centerX" secondItem="4VC-QU-TmA" secondAttribute="centerX" id="NUm-EJ-Bv5"/>
+                            <constraint firstItem="vqy-fU-QGs" firstAttribute="centerY" secondItem="4VC-QU-TmA" secondAttribute="centerY" id="eHb-jA-obq"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tPW-oO-DAW"/>
                     <connections>
-                        <outlet property="leftLabelConstraint" destination="cdA-EA-SjO" id="hNb-HN-nmC"/>
-                        <outlet property="rightLabelConstraint" destination="nfw-On-ds4" id="GkL-47-i2c"/>
-                        <outlet property="subTitleLabel" destination="2GA-9r-mg8" id="i1W-S8-AzW"/>
-                        <outlet property="titleCenterLabel" destination="FOy-rC-A5C" id="4cu-uJ-VWo"/>
-                        <outlet property="titleLeftLabel" destination="qiV-8b-CeU" id="QWJ-E9-fmm"/>
-                        <outlet property="titleRightLabel" destination="LFF-PG-qkm" id="hUf-RI-wwY"/>
+                        <outlet property="logoImageView" destination="vqy-fU-QGs" id="mLP-9o-v4Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ful-W2-Dnp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -99,4 +56,7 @@
             <point key="canvasLocation" x="47.826086956521742" y="120.53571428571428"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="clearLogo.001" width="512" height="512"/>
+    </resources>
 </document>

@@ -24,9 +24,10 @@ class ReactionVC: UIViewController {
     var imageUrls = [String]()
     var message: String?
     var userId: String?
+    var userImage: UIImage?
     
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
-    var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
+//    var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
     var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     
     let db = Firestore.firestore()
@@ -45,8 +46,11 @@ class ReactionVC: UIViewController {
         
         messageLabel.text = message
         
-        fetchUserProfile(userId: userId ?? "")
+//        fetchUserProfile(userId: userId ?? "")
         
+        userImageView.image = userImage
+        
+
         safeArea = UIScreen.main.bounds.size.width
         
         collectionViewConstraint.constant = safeArea

@@ -15,6 +15,10 @@ import SwiftMoment
 import Nuke
 import DZNEmptyDataSet
 import Instructions
+import ImageViewer
+import Lottie
+import AVKit
+import AVFoundation
 
 class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource{
     private let cellId = "cellId"
@@ -26,16 +30,16 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
     var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
+    var animationView = AnimationView()
     let db = Firestore.firestore()
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
     let uid = Auth.auth().currentUser?.uid
     let coachMarksController = CoachMarksController()
-
     
     fileprivate let cellHeight: CGFloat = 210
     fileprivate let cellSpacing: CGFloat = 20
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
-
+    
     
     @IBAction func tappedBubuButton(_ sender: Any) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -71,7 +75,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             headertopConstraint.constant += headerMoveHeight
             headerView.alpha += alphaRatio * headerMoveHeight
         }
-
+        
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
@@ -96,7 +100,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             })
         }
     }
-
+    
     @IBOutlet weak var bubuButton: UIButton!
     @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet var backView: UIView!
@@ -104,7 +108,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-//        self.tabBarController?.tabBar.isHidden = false
+        //        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
         
     }
@@ -115,31 +119,32 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         
         self.tabBarController?.tabBar.isHidden = false
         
-//        if UserDefaults.standard.bool(forKey: "FirstPost") != true{
-//            guard let uid = Auth.auth().currentUser?.uid else { return }
-//            UserDefaults.standard.set(true, forKey: "FirstPost")
-//            let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
-//            let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou") as! sinkitoukou
-//            sinkitoukou.modalPresentationStyle = .fullScreen
-//            self.present(sinkitoukou, animated: true, completion: nil)
-//            Firestore.firestore().collection("users").document(uid).setData(["currentTime": FieldValue.serverTimestamp()], merge: true)
-//        } else {
-            if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
-                UserDefaults.standard.set(true, forKey: "OutMemoInstract")
-                self.coachMarksController.start(in: .currentWindow(of: self))
-            } else {
-                let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
-
-//                if areaName == nil {
-
-//                let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
-//                let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
-//                let nav = UINavigationController(rootViewController: vc)
-//                nav.modalPresentationStyle = .fullScreen
-//                self.present(nav, animated: true, completion: nil)
-//                }
-            }
-//        }
+        addAnimationView()
+        //        if UserDefaults.standard.bool(forKey: "FirstPost") != true{
+        //            guard let uid = Auth.auth().currentUser?.uid else { return }
+        //            UserDefaults.standard.set(true, forKey: "FirstPost")
+        //            let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
+        //            let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou") as! sinkitoukou
+        //            sinkitoukou.modalPresentationStyle = .fullScreen
+        //            self.present(sinkitoukou, animated: true, completion: nil)
+        //            Firestore.firestore().collection("users").document(uid).setData(["currentTime": FieldValue.serverTimestamp()], merge: true)
+        //        } else {
+        if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
+            UserDefaults.standard.set(true, forKey: "OutMemoInstract")
+            self.coachMarksController.start(in: .currentWindow(of: self))
+        } else {
+            let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
+            
+            //                if areaName == nil {
+            
+            //                let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+            //                let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
+            //                let nav = UINavigationController(rootViewController: vc)
+            //                nav.modalPresentationStyle = .fullScreen
+            //                self.present(nav, animated: true, completion: nil)
+            //                }
+        }
+        //        }
     }
     
     
@@ -152,21 +157,19 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         self.coachMarksController.dataSource = self
         
         
-        
-        
-//        //        テスト ca-app-pub-3940256099942544/2934735716
-//        //        本番 ca-app-pub-9686355783426956/8797317880
-//        self.bannerView.adUnitID = "ca-app-pub-9686355783426956/8797317880"
-//        self.bannerView.rootViewController = self
-//        self.bannerView.load(GADRequest())
+        //        //        テスト ca-app-pub-3940256099942544/2934735716
+        //        //        本番 ca-app-pub-9686355783426956/8797317880
+        //        self.bannerView.adUnitID = "ca-app-pub-9686355783426956/8797317880"
+        //        self.bannerView.rootViewController = self
+        //        self.bannerView.load(GADRequest())
         
         //navigationbarのやつ
-//        let navBar = self.navigationController?.navigationBar
-//        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
+        //        let navBar = self.navigationController?.navigationBar
+        //        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
         
         chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
-
-//        self.chatListTableView.rowHeight = 100
+        
+        //        self.chatListTableView.rowHeight = 100
         self.chatListTableView.estimatedRowHeight = 40
         self.chatListTableView.rowHeight = UITableView.automaticDimension
         //Pull To Refresh
@@ -185,10 +188,46 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         bubuButton.layer.shadowOffset = CGSize(width: 0, height: 3)
         bubuButton.layer.shadowOpacity = 1
         bubuButton.layer.shadowRadius = 5
-        fetchFireStore(userId: uid)
+        //        fetchFireStore(userId: uid)
+        getFirestore(userId: uid)
         fetchNotification(userId: uid)
     }
-
+    
+    func addAnimationView() {
+        
+        
+        //アニメーションファイルの指定
+        animationView = AnimationView(name: "mapAnimation") //ここに先ほどダウンロードしたファイル名を記述（拡張子は必要なし）
+        
+        //アニメーションの位置指定（画面中央）
+        animationView.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height)
+        
+        //アニメーションのアスペクト比を指定＆ループで開始
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .playOnce
+        animationView.play()
+        
+        //ViewControllerに配置
+        animationView.alpha = 0
+        
+        view.addSubview(animationView)
+        
+        UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
+            animationView.alpha = 1
+        })
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
+                self.animationView.alpha = 0
+            }){ bool in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    self.animationView.removeFromSuperview()
+                }
+            }
+            
+            
+        }
+    }
     //Pull to Refresh
     @objc func onRefresh(_ sender: AnyObject) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
@@ -198,9 +237,9 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 // 0.5秒後に実行したい処理
                 guard let uid = Auth.auth().currentUser?.uid else { return }
-                self?.fetchFireStore(userId:uid)
+                self?.getFirestore(userId: uid)
             }
-     
+            
             self?.chatListTableView.refreshControl?.endRefreshing()
         }
     }
@@ -235,7 +274,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             
             if messageNum >= 1 {
                 self.tabBarController?.viewControllers?[1].tabBarItem.badgeValue = String(messageNum)
-
+                
             } else {
             }
             //                notificationNumber.text =
@@ -244,76 +283,68 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         }
     }
     
-    //        whereField("anonymous", isEqualTo: false).whereField("admin", isEqualTo: true).
-    
-    
-    private func fetchFireStore(userId:String) {
-        db.collection("users").document(userId).collection("TimeLine").whereField("admin", isEqualTo: false).addSnapshotListener { [self] ( snapshots, err) in
+    private func getFirestore(userId:String) {
+        db.collection("users").document(userId).collection("TimeLine").whereField("admin", isEqualTo: false).getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
-                
-                print("メッセージの取得に失敗、\(err)")
-                return
-            }
-            snapshots?.documentChanges.forEach({ (Naruto) in
-                switch Naruto.type {
-                case .added:
-                    let dic = Naruto.document.data()
+                print("Error getting documents: \(err)")
+            } else {
+                for document in querySnapshot!.documents {
+                    print("\(document.documentID) => \(document.data())")
+                    let dic = document.data()
                     let rarabai = OutMemo(dic: dic)
                     let date: Date = rarabai.createdAt.dateValue()
                     let momentType = moment(date)
                     let docUserId = rarabai.userId
                     
-                    switch rarabai.anonymous {
-                    case true:
-                        let anonymousId = rarabai.userId + "anonymous"
-                        if blockList[anonymousId] == true {
-                        } else {
-                            if rarabai.delete == true {
-                            } else {
-                                if docUserId == userId {
-                                    self.outMemo.append(rarabai)
-                                } else {
-                                    if momentType >= moment() - 30.days {
-                                        self.outMemo.append(rarabai)
-                                    }
-                                }
-                            }
-                        }
-                    default :
-                        if blockList[rarabai.userId] == true {
-                            
-                        } else {
-                            if rarabai.delete == true {
-                            } else {
-                                
-                                
-                                if docUserId == userId {
-                                    self.outMemo.append(rarabai)
-                                } else {
-
-                                    if momentType >= moment() - 30.days {
-                                        self.outMemo.append(rarabai)
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    self.outMemo.append(rarabai)
                     
-                    
+                    //                    switch rarabai.anonymous {
+                    //                    case true:
+                    //                        let anonymousId = rarabai.userId + "anonymous"
+                    //                        if blockList[anonymousId] == true {
+                    //                        } else {
+                    //                            if rarabai.delete == true {
+                    //                            } else {
+                    //                                if docUserId == userId {
+                    //                                    self.outMemo.append(rarabai)
+                    //                                } else {
+                    //                                    if momentType >= moment() - 30.days {
+                    //                                        self.outMemo.append(rarabai)
+                    //                                    }
+                    //                                }
+                    //                            }
+                    //                        }
+                    //                    default :
+                    //                        if blockList[rarabai.userId] == true {
+                    //
+                    //                        } else {
+                    //                            if rarabai.delete == true {
+                    //                            } else {
+                    //
+                    //
+                    //                                if docUserId == userId {
+                    //                                    self.outMemo.append(rarabai)
+                    //                                } else {
+                    //
+                    //                                    if momentType >= moment() - 30.days {
+                    //                                        self.outMemo.append(rarabai)
+                    //                                    }
+                    //                                }
+                    //                            }
+                    //                        }
+                    //                    }
                     self.outMemo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
                         let m2Date = m2.createdAt.dateValue()
                         return m1Date > m2Date
                     }
-                    
-                    print("あいあいあいいあ",rarabai.message)
-                case .modified, .removed:
-                    print("noproblem")
+                    self.chatListTableView.reloadData()
                 }
-                self.chatListTableView.reloadData()
-            })
+            }
         }
     }
+    
+    
 }
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -323,8 +354,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return outMemo.count
     }
-    
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
         
@@ -333,8 +362,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.backgroundColor = .clear
         
         let safeAreaWidth = UIScreen.main.bounds.size.width
-
-
+        var safeAreaWidthPad:CGFloat = 500
+        
+        if safeAreaWidth < 500 {
+            safeAreaWidthPad = safeAreaWidth
+        }
+        
         cell.messageLabel.text = outMemo[indexPath.row].message
         
         cell.graffitiUserImageView.image = nil
@@ -352,7 +385,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.graffitiContentsImageView.image = nil
         cell.sendImageView.image = nil
-        
+        cell.playCircleImageView.alpha = 0
+
         
         cell.graffitiUserFrontIdLabel.text = outMemo[indexPath.row].graffitiUserFrontId
         
@@ -364,25 +398,25 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.graffitiTitleLabel.textColor = UIColor(hex: outMemo[indexPath.row].hexColor)
         cell.graffitiBackGroundView.backgroundColor = UIColor(hex: outMemo[indexPath.row].backHexColor)
         
-//        cell.userFrontIdLabel.textColor = .lightGray
-//        cell.userFrontIdLabel.font = UIFont.italicSystemFont(ofSize: safeAreaWidth/20)
-
+        //        cell.userFrontIdLabel.textColor = .lightGray
+        //        cell.userFrontIdLabel.font = UIFont.italicSystemFont(ofSize: safeAreaWidth/20)
+        
         cell.graffitiBackGroundView.clipsToBounds = true
         cell.graffitiBackGroundView.layer.cornerRadius = 10
         
-        
-//        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
+        //        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         cell.messageBottomConstraint.constant =  105
         
-//        cell.graffitiImageViewWidthConstraint.constant = safeAreaWidth/1.5
-//        cell.graffitiImageViewHeightConstraint.constant = safeAreaWidth/1.5
+        //        cell.graffitiImageViewWidthConstraint.constant = safeAreaWidth/1.5
+        //        cell.graffitiImageViewHeightConstraint.constant = safeAreaWidth/1.5
         
         let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
         cell.graffitiLabel.transform = transScale
         
         //        cell.graffitiImageView.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
+        
         
         if  outMemo[indexPath.row].readLog == true {
             cell.coverView.backgroundColor = .clear
@@ -392,41 +426,65 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
             cell.sendImageConstraintHeight.constant = 150
+            
+            let assetsType = outMemo[indexPath.row].assetsType
+            cell.sendImageConstraintHeight.constant = 0
+            
+            switch assetsType {
+            case "image":
+                cell.sendImageConstraintHeight.constant = safeAreaWidthPad
+                cell.sendImageViewWidth.constant = safeAreaWidthPad
+                cell.sendImageView.contentMode = .scaleAspectFill
+                cell.playCircleImageView.alpha = 0
+                
+                if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
+                    Nuke.loadImage(with: url, into: cell.sendImageView)
+                    
+                    cell.sendImageView.alpha = 1
+                } else {
+                    cell.sendImageView?.image = nil
+                    cell.sendImageView.alpha = 0
+                    cell.sendImageConstraintHeight.constant = 0
+                }
+            case "stamp":
+                cell.sendImageConstraintHeight.constant = safeAreaWidthPad/2
+                cell.sendImageViewWidth.constant = safeAreaWidthPad/2
+                cell.sendImageView.contentMode = .scaleAspectFit
+                cell.playCircleImageView.alpha = 0
 
-//            let assetsType = outMemo[indexPath.row].assetsType
-//
-//            switch assetsType {
-//            case "image":
-//                cell.sendImageConstraintHeight.constant = 400
-//            case "stamp":
-//                cell.sendImageConstraintHeight.constant = 150
-//            default:
-//                cell.sendImageConstraintHeight.constant = 0
-//            }
-
-            if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
-                Nuke.loadImage(with: url, into: cell.sendImageView)
-//                switch assetsType {
-//                case "image":
-//                    cell.sendImageConstraintHeight.constant = 400
-//                case "stamp":
-//                    cell.sendImageConstraintHeight.constant = 150
-//                default:
-//                    cell.sendImageConstraintHeight.constant = 0
-//                }
-                cell.sendImageConstraintHeight.constant = 150
-
+                if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
+                    Nuke.loadImage(with: url, into: cell.sendImageView)
+                    cell.sendImageView.alpha = 1
+                } else {
+                    cell.sendImageView?.image = nil
+                    cell.sendImageView.alpha = 0
+                    cell.sendImageConstraintHeight.constant = 0
+                }
+            case "movie":
+                cell.sendImageConstraintHeight.constant = safeAreaWidthPad
+                cell.sendImageViewWidth.constant = safeAreaWidthPad
+                cell.sendImageView.contentMode = .scaleAspectFill
                 cell.sendImageView.alpha = 1
-            } else {
+                cell.playCircleImageView.alpha = 1
+                
+                if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
+                    Nuke.loadImage(with: url, into: cell.sendImageView)
+                    cell.sendImageView.alpha = 1
+                } else {
+                    cell.sendImageView?.image = nil
+                    cell.sendImageView.alpha = 0
+                    cell.sendImageConstraintHeight.constant = 0
+                }
+                
+            default:
+                cell.sendImageConstraintHeight.constant = 0
                 cell.sendImageView?.image = nil
                 cell.sendImageView.alpha = 0
-                cell.sendImageConstraintHeight.constant = 0
+                cell.playCircleImageView.alpha = 0
+                
             }
-
-            
+                        
             if outMemo[indexPath.row].graffitiUserId != "" {
-                cell.sendImageConstraintHeight.constant = 700
-
                 
                 if outMemo[indexPath.row].delete == true {
                     cell.graffitiBackGroundConstraint.constant = 0
@@ -435,7 +493,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.graffitiTitleLabel.alpha = 0
                     cell.graffitiUserImageView.alpha = 0
                     cell.graffitiContentsImageView.alpha = 0
-//                    cell.sendImageConstraintHeight.constant = 0
+                    //                    cell.sendImageConstraintHeight.constant = 0
                 } else {
                     
                     if let url = URL(string:outMemo[indexPath.row].graffitiContentsImage) {
@@ -445,12 +503,24 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         cell.graffitiImageViewHeightConstraint.constant = safeAreaWidth/1.5
                         cell.graffitiTitleLabel.alpha = 1
                         cell.graffitiLabel.alpha = 0
+                        
+                        let titleLabelHeight = cell.graffitiTitleLabel.intrinsicContentSize.height
+                        let imageHeight = safeAreaWidth/1.5
+                        let graffitiBackSendHeight = imageHeight + 70 + 70 + titleLabelHeight
+                        cell.sendImageConstraintHeight.constant = graffitiBackSendHeight
+                        cell.sendImageView.image = nil
+                        
                     } else {
                         cell.graffitiContentsImageView?.image = nil
                         cell.graffitiImageViewWidthConstraint.constant = 0
                         cell.graffitiImageViewHeightConstraint.constant = 0
                         cell.graffitiTitleLabel.alpha = 0
                         cell.graffitiLabel.alpha = 1
+                        
+                        let titleLabelHeight = cell.graffitiLabel.intrinsicContentSize.height
+                        let graffitiBackSendHeight = 70 + 20 + titleLabelHeight
+                        cell.sendImageConstraintHeight.constant = graffitiBackSendHeight
+                        cell.sendImageView.image = nil
                     }
                     
                     cell.graffitiBackGroundConstraint.constant = 700
@@ -461,9 +531,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.graffitiContentsImageView.alpha = 1
                 }
                 
-                
             } else {
-//                cell.sendImageConstraintHeight.constant = 0
+                //                cell.sendImageConstraintHeight.constant = 0
                 cell.graffitiBackGroundConstraint.constant = 0
                 cell.graffitiBackGroundView.alpha = 0
                 cell.graffitiUserFrontIdLabel.alpha = 0
@@ -481,6 +550,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.textMaskLabel.alpha = 1
             
             cell.sendImageView.image = nil
+            cell.sendImageView.alpha = 0
+            cell.sendImageConstraintHeight.constant = 0
             
             cell.sendImageConstraintHeight.constant = 0
             cell.graffitiBackGroundConstraint.constant = 0
@@ -512,17 +583,15 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.userImageView.image = nil
         
         //↓tableviewのunit表示
-//        fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
+        //        fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
         
         //↓と↑交換
         fetchMypostData(userId: outMemo[indexPath.row].userId, cell: cell, documentId: outMemo[indexPath.row].documentId)
-
-
-
+        
         let date: Date = outMemo[indexPath.row].createdAt.dateValue()
-
+        
         cell.dateLabel.text = date.agoText()
-//
+        //
         cell.userImageView.layer.cornerRadius = 30
         cell.mainBackground.layer.cornerRadius = 8
         cell.mainBackground.layer.masksToBounds = true
@@ -540,16 +609,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if outMemo[indexPath.row].readLog == true{
             
             if outMemo[indexPath.row].userId != uid {
-
+                
                 let storyboard = UIStoryboard.init(name: "Reaction", bundle: nil)
                 let ReactionVC = storyboard.instantiateViewController(withIdentifier: "ReactionVC") as! ReactionVC
                 
                 ReactionVC.message = outMemo[indexPath.row].message
                 ReactionVC.userId = outMemo[indexPath.row].userId
+                ReactionVC.userImage  = cell.userImageView.image
+                
                 self.present(ReactionVC, animated: true, completion: nil)
             } else {
-                
-                
                 let storyboard = UIStoryboard.init(name: "ReadLog", bundle: nil)
                 let ReadLogVC = storyboard.instantiateViewController(withIdentifier: "ReadLogVC") as! ReadLogVC
                 
@@ -561,7 +630,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         } else {
             
             print("outmemo",outMemo[indexPath.row].readLog)
-
+            
             let readLogDic = [
                 "userId":uid,
                 "userName":userName ?? "unKnown",
@@ -577,186 +646,200 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.coverImageView.alpha = 0
             cell.textMaskLabel.alpha = 0
             cell.messageLabel.numberOfLines = 0
-            
-//            let indexPath = IndexPath(row: indexPath.row, section: 0)
-//            tableView.reloadRows(at: [indexPath], with: .fade)
+            //            let indexPath = IndexPath(row: indexPath.row, section: 0)
+            //            tableView.reloadRows(at: [indexPath], with: .fade)
             chatListTableView.reloadData()
-
+            
         }
     }
     
-//    func getUserTeamInfo(userId:String,cell:OutmMemoCellVC){
-//        db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-//                print("Document data: \(dataDescription)")
-//
-//                let teamIdArray = document.data()!["teamId"] as! Array<String>
-//                print(teamIdArray)
-//                print(teamIdArray[0])
-//
-//                
-//                    teamIdArray.forEach{
-//                        self.getTeamInfo(teamId: $0,cell: cell)
-//                    }
-//            } else {
-//                print("Document does not exist")
-//            }
-//        }
-//    }
-//
-//    func getTeamInfo(teamId:String,cell:OutmMemoCellVC){
-//        db.collection("Team").document(teamId).getDocument { (document, error) in
-//            if let document = document, document.exists {
-//                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-//                print("Document data: \(dataDescription)")
-//                let teamDic = Team(dic: document.data()!)
-//                self.teamInfo.append(teamDic)
-//                print("翼をください！",teamId)
-//                print("翼をください！",document.data()!)
-//                print("asefiosejof",teamDic)
-//                
-//                cell.teamCollectionView.alpha = 1
-//                
-//
-//                cell.teamCollectionView.reloadData()
-//            } else {
-//                print("Document does not exist")
-//            }
-//        }
+    func thumnailImageForFileUrl(fileUrl: URL,cell:OutmMemoCellVC) -> UIImage? {
+        let asset = AVAsset(url: fileUrl)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+
+        do {
+            let thumnailCGImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1,timescale: 60), actualTime: nil)
+            print("サムネイルの切り取り成功！")
+            let uiImage = UIImage(cgImage: thumnailCGImage)
+            cell.sendImageView.image = uiImage
+            return UIImage(cgImage: thumnailCGImage, scale: 0, orientation: .right)
+        }catch let err{
+            print("エラー\(err)")
+        }
+        return nil
+    }
+    
+    //    func getUserTeamInfo(userId:String,cell:OutmMemoCellVC){
+    //        db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
+    //            if let document = document, document.exists {
+    //                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+    //                print("Document data: \(dataDescription)")
+    //
+    //                let teamIdArray = document.data()!["teamId"] as! Array<String>
+    //                print(teamIdArray)
+    //                print(teamIdArray[0])
+    //
+    //
+    //                    teamIdArray.forEach{
+    //                        self.getTeamInfo(teamId: $0,cell: cell)
+    //                    }
+    //            } else {
+    //                print("Document does not exist")
+    //            }
+    //        }
+    //    }
+    //
+    //    func getTeamInfo(teamId:String,cell:OutmMemoCellVC){
+    //        db.collection("Team").document(teamId).getDocument { (document, error) in
+    //            if let document = document, document.exists {
+    //                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+    //                print("Document data: \(dataDescription)")
+    //                let teamDic = Team(dic: document.data()!)
+    //                self.teamInfo.append(teamDic)
+    //                print("翼をください！",teamId)
+    //                print("翼をください！",document.data()!)
+    //                print("asefiosejof",teamDic)
+    //
+    //                cell.teamCollectionView.alpha = 1
+    //
+    //
+    //                cell.teamCollectionView.reloadData()
+    //            } else {
+    //                print("Document does not exist")
+    //            }
+    //        }
     //    }
     @objc func shareStickerImage(_ sender: UIButton){
-                if UIApplication.shared.canOpenURL(URL(string: "instagram-stories://share")!) {
-        
-        let indexPath = IndexPath(row:sender.tag , section: 0)
-        let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
-        let image = cell.storyBackView.asImage()
-        
-        let backGroundImage:UIImage = UIImage(url:UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d")
-        let url = URL(string: "instagram-stories://share")
-        let items: NSArray = [["com.instagram.sharedSticker.stickerImage": image,
-                               "com.instagram.sharedSticker.backgroundImage": backGroundImage,
-                               "com.instagram.sharedSticker.backgroundTopColor": "#00ffdf",
-                               "com.instagram.sharedSticker.backgroundBottomColor": "#ff00ff"]]
-        UIPasteboard.general.setItems(items as! [[String : Any]], options: [:])
-        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
-    } else {
-        
-        let alert: UIAlertController = UIAlertController(title: "Instagram", message: "をインストールしてください", preferredStyle:  UIAlertController.Style.alert)
-        
-        let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
-            (action: UIAlertAction!) -> Void in
-            print("OK")
-        })
-        
-        alert.addAction(defaultAction)
-        
-        present(alert, animated: true, completion: nil)
+        if UIApplication.shared.canOpenURL(URL(string: "instagram-stories://share")!) {
+            
+            let indexPath = IndexPath(row:sender.tag , section: 0)
+            let cell = chatListTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! OutmMemoCellVC
+            let image = cell.storyBackView.asImage()
+            
+            let backGroundImage:UIImage = UIImage(url:UserDefaults.standard.string(forKey: "userBackGround") ?? "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/backGroound%2FstoryBackGroundView.png?alt=media&token=0daf6ab0-0a44-4a65-b3aa-68058a70085d")
+            let url = URL(string: "instagram-stories://share")
+            let items: NSArray = [["com.instagram.sharedSticker.stickerImage": image,
+                                   "com.instagram.sharedSticker.backgroundImage": backGroundImage,
+                                   "com.instagram.sharedSticker.backgroundTopColor": "#00ffdf",
+                                   "com.instagram.sharedSticker.backgroundBottomColor": "#ff00ff"]]
+            UIPasteboard.general.setItems(items as! [[String : Any]], options: [:])
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        } else {
+            
+            let alert: UIAlertController = UIAlertController(title: "Instagram", message: "をインストールしてください", preferredStyle:  UIAlertController.Style.alert)
+            
+            let defaultAction: UIAlertAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler:{
+                (action: UIAlertAction!) -> Void in
+                print("OK")
+            })
+            
+            alert.addAction(defaultAction)
+            
+            present(alert, animated: true, completion: nil)
+        }
     }
-}
-
-@objc func flagButtonEvemt(_ sender: UIButton){
-    //アラート生成
-    //UIAlertControllerのスタイルがactionSheet
-    let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
     
-    let uid = Auth.auth().currentUser?.uid
-    let report = [
-        "reporter": uid,
-        "documentId": outMemo[sender.tag].documentId,
-        "問題のコメント": outMemo[sender.tag].message,
-        "問題と思われるユーザー": outMemo[sender.tag].userId,
-        "createdAt": FieldValue.serverTimestamp(),
-    ] as [String: Any]
-    
-    
-    // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
-    let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
-        (action: UIAlertAction!) in
-        //実際の処理
-        let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
-        // 選択肢(ボタン)を2つ(OKとCancel)追加します
-        //   titleには、選択肢として表示される文字列を指定します
-        //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
-        dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
+    @objc func flagButtonEvemt(_ sender: UIButton){
+        //アラート生成
+        //UIAlertControllerのスタイルがactionSheet
+        let actionSheet = UIAlertController(title: "report", message: "", preferredStyle: UIAlertController.Style.actionSheet)
+        
+        let uid = Auth.auth().currentUser?.uid
+        let report = [
+            "reporter": uid,
+            "documentId": outMemo[sender.tag].documentId,
+            "問題のコメント": outMemo[sender.tag].message,
+            "問題と思われるユーザー": outMemo[sender.tag].userId,
+            "createdAt": FieldValue.serverTimestamp(),
+        ] as [String: Any]
+        
+        
+        // 表示させたいタイトル1ボタンが押された時の処理をクロージャ実装する
+        let action1 = UIAlertAction(title: "このユーザーを非表示にする", style: UIAlertAction.Style.default, handler: {
+            (action: UIAlertAction!) in
+            //実際の処理
+            let dialog = UIAlertController(title: "本当に非表示にしますか？", message: "ブロックしたユーザーのあらゆる投稿が非表示になります。", preferredStyle: .alert)
+            // 選択肢(ボタン)を2つ(OKとCancel)追加します
+            //   titleには、選択肢として表示される文字列を指定します
+            //   styleには、通常は「.default」、キャンセルなど操作を無効にするものは「.cancel」、削除など注意して選択すべきものは「.destructive」を指定します
+            dialog.addAction(UIAlertAction(title: "OK", style: .default, handler:  { [self] action in
+                
+                if UserDefaults.standard.object(forKey: "blocked") == nil{
+                    let XXX = ["XX" : true]
+                    UserDefaults.standard.set(XXX, forKey: "blocked")
+                }
+                var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
+                
+                print("あいえいえいいえいえ",outMemo[sender.tag].userId)
+                let anonymousId = outMemo[sender.tag].userId + "anonymous"
+                
+                if outMemo[sender.tag].anonymous == true {
+                    blockDic[anonymousId] = true
+                } else {
+                    blockDic[outMemo[sender.tag].userId] = true
+                }
+                
+                print("亜ジョイsfjイオ",blockDic)
+                UserDefaults.standard.set(blockDic, forKey: "blocked")
+                let uid = Auth.auth().currentUser?.uid
+                
+                print("tapped: \([sender.tag])番目のcell")
+                
+                self.outMemo.remove(at: sender.tag)
+                self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
+                self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
+                self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
+            }))
+            dialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            // 生成したダイアログを実際に表示します
+            self.present(dialog, animated: true, completion: nil)
+            print("このユーザーを非表示にする")
+        })
+        // 表示させたいタイトル2ボタンが押された時の処理をクロージャ実装する
+        let action2 = UIAlertAction(title: "このユーザーを報告する", style: UIAlertAction.Style.default, handler: {
+            (action: UIAlertAction!) in
+            //実際の処理
             
-            if UserDefaults.standard.object(forKey: "blocked") == nil{
-                let XXX = ["XX" : true]
-                UserDefaults.standard.set(XXX, forKey: "blocked")
-            }
-            var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
-            
-            print("あいえいえいいえいえ",outMemo[sender.tag].userId)
-            let anonymousId = outMemo[sender.tag].userId + "anonymous"
-            
-            if outMemo[sender.tag].anonymous == true {
-                blockDic[anonymousId] = true
-            } else {
-            blockDic[outMemo[sender.tag].userId] = true
-            }
-            
-            print("亜ジョイsfjイオ",blockDic)
-            UserDefaults.standard.set(blockDic, forKey: "blocked")
-                            let uid = Auth.auth().currentUser?.uid
-            
-            print("tapped: \([sender.tag])番目のcell")
-
-
-
-            self.outMemo.remove(at: sender.tag)
-            self.chatListTableView.deleteRows(at: [IndexPath(row: sender.tag, section: 0)], with: .automatic)
             self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
             self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
-        }))
-               dialog.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-               // 生成したダイアログを実際に表示します
-               self.present(dialog, animated: true, completion: nil)
-               print("このユーザーを非表示にする")
-           })
-           // 表示させたいタイトル2ボタンが押された時の処理をクロージャ実装する
-           let action2 = UIAlertAction(title: "このユーザーを報告する", style: UIAlertAction.Style.default, handler: {
-               (action: UIAlertAction!) in
-               //実際の処理
-               
-               self.db.collection("Report").document(self.outMemo[sender.tag].userId).collection("reported").document().setData(report, merge: true)
-               self.db.collection("Report").document(self.outMemo[sender.tag].userId).setData(["reportedCount": FieldValue.increment(1.0),"createdAt":FieldValue.serverTimestamp()] as [String : Any])
-               print("このユーザーを報告する")
-
-           })
-           // 閉じるボタンが押された時の処理をクロージャ実装する
-           //UIAlertActionのスタイルがCancelなので赤く表示される
-           let close = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.destructive, handler: {
-               (action: UIAlertAction!) in
-               //実際の処理
-               print("キャンセル")
-           })
-           //UIAlertControllerにタイトル1ボタンとタイトル2ボタンと閉じるボタンをActionを追加
-           actionSheet.addAction(action1)
-           actionSheet.addAction(action2)
-           actionSheet.addAction(close)
-
-           actionSheet.popoverPresentationController?.sourceView = self.view
-
-           let screenSize = UIScreen.main.bounds
-           actionSheet.popoverPresentationController?.sourceRect=CGRect(x:screenSize.size.width/2,y:screenSize.size.height,width:0,height:0)
-           //実際にAlertを表示する
-           self.present(actionSheet, animated: true, completion: nil)
+            print("このユーザーを報告する")
+            
+        })
+        // 閉じるボタンが押された時の処理をクロージャ実装する
+        //UIAlertActionのスタイルがCancelなので赤く表示される
+        let close = UIAlertAction(title: "キャンセル", style: UIAlertAction.Style.destructive, handler: {
+            (action: UIAlertAction!) in
+            //実際の処理
+            print("キャンセル")
+        })
+        //UIAlertControllerにタイトル1ボタンとタイトル2ボタンと閉じるボタンをActionを追加
+        actionSheet.addAction(action1)
+        actionSheet.addAction(action2)
+        actionSheet.addAction(close)
+        
+        actionSheet.popoverPresentationController?.sourceView = self.view
+        
+        let screenSize = UIScreen.main.bounds
+        actionSheet.popoverPresentationController?.sourceRect=CGRect(x:screenSize.size.width/2,y:screenSize.size.height,width:0,height:0)
+        //実際にAlertを表示する
+        self.present(actionSheet, animated: true, completion: nil)
     }
     
-
+    
     
     func fetchDocContents(userId:String,cell:OutmMemoCellVC,documentId:String){
         
         fetchMypostData(userId: userId, cell: cell, documentId: documentId)
         
-//        if cell.teamInfo.count == 0 {
-            cell.teamInfo.removeAll()
-//            cell.teamCollectionView.reloadData()
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
-                //            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
-                self.getUserTeamInfo(userId: userId, cell: cell)
-//            }
+        //        if cell.teamInfo.count == 0 {
+        cell.teamInfo.removeAll()
+        //            cell.teamCollectionView.reloadData()
+        //            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        // 0.1秒後に実行したい処理（あとで変えるこれは良くない)
+        //            self.getUserTeamInfo(userId: self.outMemo?.userId ?? "unknown")
+        self.getUserTeamInfo(userId: userId, cell: cell)
+        //            }
         //        }
     }
     
@@ -812,7 +895,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 
                 if anoymousBool == true {
-                    
                     
                     let userImage = skipImageArray[countRemainder]
                     
@@ -873,8 +955,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     let teamInfoDic = Team(dic: dic)
                     //                    let teamId = Naruto.document.data()["teamId"] as? String ?? ""
                     cell.teamInfo.append(teamInfoDic)
-
-
+                    
                 case .modified, .removed:
                     print("noproblem")
                 }
@@ -883,8 +964,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             
         }
     }
-
 }
+
 
 extension ViewController: UIViewControllerTransitioningDelegate {
     
@@ -917,24 +998,23 @@ extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDe
         coachMarkViewsAt index: Int,
         madeFrom coachMark: CoachMark
     ) -> (bodyView: UIView & CoachMarkBodyView, arrowView: (UIView & CoachMarkArrowView)?) {
-
+        
         //吹き出しのビューを作成します
         let coachViews = coachMarksController.helper.makeDefaultCoachViews(
             withArrow: true,    //三角の矢印をつけるか
             arrowOrientation: coachMark.arrowOrientation    //矢印の向き(吹き出しの位置)
         )
-
         //index(ステップ)によって表示内容を分岐させます
         switch index {
-        
+            
         case 0:    //fugaButton
-        coachViews.bodyView.hintLabel.text = "ここから新しい投稿を行います!"
+            coachViews.bodyView.hintLabel.text = "ここから新しい投稿を行います!"
             coachViews.bodyView.nextLabel.text = "OK"
-        
-        
+            
+            
         default:
             break
-        
+            
         }
         
         //その他の設定が終わったら吹き出しを返します
