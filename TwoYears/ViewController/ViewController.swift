@@ -216,8 +216,8 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             animationView.alpha = 1
         })
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            UIView.animate(withDuration: 0.175, delay: 0, animations: { [self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
                 self.animationView.alpha = 0
             }){ bool in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -385,6 +385,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.graffitiContentsImageView.image = nil
         cell.sendImageView.image = nil
+        cell.playCircleImageView.alpha = 0
+
         
         cell.graffitiUserFrontIdLabel.text = outMemo[indexPath.row].graffitiUserFrontId
         
@@ -415,6 +417,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         //        cell.graffitiImageView.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
         
+        
         if  outMemo[indexPath.row].readLog == true {
             cell.coverView.backgroundColor = .clear
             cell.coverViewConstraint.constant = 0
@@ -427,13 +430,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             let assetsType = outMemo[indexPath.row].assetsType
             cell.sendImageConstraintHeight.constant = 0
             
-            
             switch assetsType {
             case "image":
-                //                    cell.sendImageView.
                 cell.sendImageConstraintHeight.constant = safeAreaWidthPad
                 cell.sendImageViewWidth.constant = safeAreaWidthPad
                 cell.sendImageView.contentMode = .scaleAspectFill
+                cell.playCircleImageView.alpha = 0
+                
                 if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
                     Nuke.loadImage(with: url, into: cell.sendImageView)
                     
@@ -447,6 +450,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.sendImageConstraintHeight.constant = safeAreaWidthPad/2
                 cell.sendImageViewWidth.constant = safeAreaWidthPad/2
                 cell.sendImageView.contentMode = .scaleAspectFit
+                cell.playCircleImageView.alpha = 0
+
+                if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
+                    Nuke.loadImage(with: url, into: cell.sendImageView)
+                    cell.sendImageView.alpha = 1
+                } else {
+                    cell.sendImageView?.image = nil
+                    cell.sendImageView.alpha = 0
+                    cell.sendImageConstraintHeight.constant = 0
+                }
+            case "movie":
+                cell.sendImageConstraintHeight.constant = safeAreaWidthPad
+                cell.sendImageViewWidth.constant = safeAreaWidthPad
+                cell.sendImageView.contentMode = .scaleAspectFill
+                cell.sendImageView.alpha = 1
+                cell.playCircleImageView.alpha = 1
+                
                 if let url = URL(string:outMemo[indexPath.row].sendImageURL) {
                     Nuke.loadImage(with: url, into: cell.sendImageView)
                     cell.sendImageView.alpha = 1
@@ -456,30 +476,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.sendImageConstraintHeight.constant = 0
                 }
                 
-            case "movie":
-                cell.sendImageConstraintHeight.constant = safeAreaWidthPad
-                cell.sendImageViewWidth.constant = safeAreaWidthPad
-                cell.sendImageView.contentMode = .scaleAspectFill
-                cell.sendImageView.alpha = 1
-                if let fileUrl:URL = URL(string: outMemo[indexPath.row].sendImageURL) {
-                    thumnailImageForFileUrl(fileUrl: fileUrl, cell: cell)
-                } else {
-                    if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2FnewPost_Assets%2Fundraw_Page_not_found_re_e9o6.png?alt=media&token=01b412f1-c997-4a2e-b04e-a80beaddc459") {
-                        Nuke.loadImage(with: url, into: cell.sendImageView)
-                        cell.sendImageView.alpha = 1
-                    } else {
-                        cell.sendImageView?.image = nil
-                        cell.sendImageView.alpha = 0
-                        cell.sendImageConstraintHeight.constant = 0
-                    }
-                }
             default:
                 cell.sendImageConstraintHeight.constant = 0
+                cell.sendImageView?.image = nil
+                cell.sendImageView.alpha = 0
+                cell.playCircleImageView.alpha = 0
+                
             }
-            
-
-            
-            
+                        
             if outMemo[indexPath.row].graffitiUserId != "" {
                 
                 if outMemo[indexPath.row].delete == true {
@@ -652,6 +656,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func thumnailImageForFileUrl(fileUrl: URL,cell:OutmMemoCellVC) -> UIImage? {
         let asset = AVAsset(url: fileUrl)
         let imageGenerator = AVAssetImageGenerator(asset: asset)
+        imageGenerator.appliesPreferredTrackTransform = true
+
         do {
             let thumnailCGImage = try imageGenerator.copyCGImage(at: CMTimeMake(value: 1,timescale: 60), actualTime: nil)
             print("サムネイルの切り取り成功！")

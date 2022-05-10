@@ -14,7 +14,7 @@ class MunicipalitiesSelectVC:UIViewController {
     var areaBlockJa:[String] = []
     var areaNameEn:String?
     var areaBlockDetails:String?
-
+    
     @IBOutlet weak var explainImageView: UIImageView!
     @IBOutlet weak var explainImageHeight: NSLayoutConstraint!
     @IBOutlet weak var areaBlockTableView: UITableView!
@@ -29,9 +29,7 @@ class MunicipalitiesSelectVC:UIViewController {
         let navigationBarHeight = navigationController.navigationBar.frame.size.height
         let safeAreaHeight = appFrameHeight - navigationBarHeight
         explainImageHeight.constant = safeAreaHeight/2
-        
-        
-        
+                
         switch areaNameEn {
         case "tokyo":
             areaBlockJa = ["城北","城東","都心","城南","城西","北多摩","南多摩","西多摩"]
@@ -100,7 +98,6 @@ extension MunicipalitiesSelectVC:UITableViewDelegate,UITableViewDataSource {
         case"都心":
             cell.areaDetailLabel.text = "千代田区、中央区、港区、渋谷区、新宿区、文京区"
             cell.areaNameLabel.textColor = #colorLiteral(red: 1, green: 0.1306549311, blue: 0.3034612238, alpha: 1)
-
 
         case"城南":
             cell.areaDetailLabel.text = "品川区、目黒区、大田区"

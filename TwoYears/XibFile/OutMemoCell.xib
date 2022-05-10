@@ -164,6 +164,14 @@
                                             <constraint firstAttribute="width" constant="600" id="nbO-1V-uol"/>
                                         </constraints>
                                     </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="x6m-dt-UcO">
+                                        <rect key="frame" x="269" y="503.5" width="100" height="99"/>
+                                        <color key="tintColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="100" id="WDP-ZO-Qgd"/>
+                                            <constraint firstAttribute="width" constant="100" id="rb6-M6-cYM"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -178,11 +186,13 @@
                                     <constraint firstItem="gon-bN-2gl" firstAttribute="leading" secondItem="d5v-Ae-2Gy" secondAttribute="trailing" constant="10" id="FHq-UU-fO5"/>
                                     <constraint firstItem="wjY-NW-an1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fwo-6A-PV4" secondAttribute="trailing" constant="10" id="KLo-Hf-Tdh"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sWo-uG-4Zf" secondAttribute="trailing" constant="25" id="LUs-td-JWF"/>
+                                    <constraint firstItem="x6m-dt-UcO" firstAttribute="centerY" secondItem="I2G-6M-Xlr" secondAttribute="centerY" id="M4m-xs-8Fc"/>
                                     <constraint firstItem="kTh-pt-zYW" firstAttribute="top" secondItem="Mlo-xR-Nve" secondAttribute="top" id="MC5-XL-ZXv"/>
                                     <constraint firstItem="lBn-7A-AmF" firstAttribute="leading" secondItem="Mlo-xR-Nve" secondAttribute="leading" id="RAs-dh-cvt"/>
                                     <constraint firstItem="kTh-pt-zYW" firstAttribute="centerX" secondItem="Mlo-xR-Nve" secondAttribute="centerX" id="SnR-Wd-729"/>
                                     <constraint firstItem="fwo-6A-PV4" firstAttribute="leading" secondItem="d5v-Ae-2Gy" secondAttribute="trailing" constant="5" id="TOz-pc-i6I"/>
                                     <constraint firstItem="d5v-Ae-2Gy" firstAttribute="top" secondItem="Mlo-xR-Nve" secondAttribute="top" constant="15" id="Thh-MK-jy0"/>
+                                    <constraint firstItem="x6m-dt-UcO" firstAttribute="centerX" secondItem="Mlo-xR-Nve" secondAttribute="centerX" id="Zq7-SP-lQx"/>
                                     <constraint firstItem="h4u-0T-e8x" firstAttribute="leading" secondItem="wjY-NW-an1" secondAttribute="trailing" constant="5" id="iLO-s1-0tb"/>
                                     <constraint firstItem="4ZD-7Z-EK7" firstAttribute="leading" secondItem="Mlo-xR-Nve" secondAttribute="leading" constant="20" id="iiE-mO-2fc"/>
                                     <constraint firstItem="sWo-uG-4Zf" firstAttribute="top" secondItem="d5v-Ae-2Gy" secondAttribute="bottom" constant="20" id="m71-Y8-Naw"/>
@@ -237,6 +247,7 @@
                 <outlet property="mainBackground" destination="Mlo-xR-Nve" id="BKU-jh-ixW"/>
                 <outlet property="messageBottomConstraint" destination="2ab-Mz-YFO" id="9Q7-ZU-qWv"/>
                 <outlet property="messageLabel" destination="sWo-uG-4Zf" id="3MO-z3-fil"/>
+                <outlet property="playCircleImageView" destination="x6m-dt-UcO" id="HN2-Sn-YYe"/>
                 <outlet property="sendImageConstraintHeight" destination="eQd-tO-Ef5" id="ZX1-W2-XMc"/>
                 <outlet property="sendImageView" destination="I2G-6M-Xlr" id="kEQ-Jy-50M"/>
                 <outlet property="sendImageViewWidth" destination="nbO-1V-uol" id="G9X-NC-q5u"/>
@@ -252,6 +263,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="play.circle" catalog="system" width="128" height="121"/>
         <systemColor name="secondaryLabelColor">
             <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

@@ -18,6 +18,10 @@ class OutMemo {
     var userFrontId :String
     var message: String
     var sendImageURL: String
+    var imageAddress: String
+    var sendMovieURL: String
+    var movieAddress: String
+    
     var createdAt: Timestamp
     var textMask: String
     var documentId : String
@@ -48,6 +52,10 @@ class OutMemo {
         self.userFrontId = dic["userFrontId"] as? String ?? ""
         self.message = dic["message"] as? String ?? "unKnown"
         self.sendImageURL = dic["sendImageURL"] as? String ?? ""
+        self.imageAddress = dic["imageAddress"] as? String ?? ""
+        self.sendMovieURL = dic["sendMovieURL"] as? String ?? ""
+        self.movieAddress = dic["movieAddress"] as? String ?? ""        
+        
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.textMask = dic["textMask"] as? String ?? ""
         self.documentId = dic["documentId"] as? String ?? ""

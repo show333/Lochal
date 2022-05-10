@@ -66,6 +66,7 @@ class OutmMemoCellVC: UITableViewCell {
     
     @IBOutlet weak var sendImageConstraintHeight: NSLayoutConstraint!
     
+    @IBOutlet weak var playCircleImageView: UIImageView!
     @IBOutlet weak var dateLabel: UILabel!
     
     @IBOutlet weak var coverView: UIView!
@@ -250,7 +251,7 @@ class OutmMemoCellVC: UITableViewCell {
             ])
         ViewController()?.presentImageGallery(viewController)
         } else if outMemo?.assetsType == "movie" {
-            playMovieFromUrl(movieUrl: URL(string: outMemo!.sendImageURL))
+            playMovieFromUrl(movieUrl: URL(string: outMemo!.sendMovieURL))
         }
     }
     func playMovieFromUrl(movieUrl: URL?) {

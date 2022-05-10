@@ -27,6 +27,7 @@ class sinkitoukou: UIViewController {
     var postType : String?
     var mediaUrl: URL?
     var durationTime:TimeInterval?
+    var assetData: NSData?
     
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
@@ -34,6 +35,7 @@ class sinkitoukou: UIViewController {
     
     var imagePC: UIImagePickerController! = UIImagePickerController()
     var imageString: String?
+    var movieString: String?
     
     let coachMarksController = CoachMarksController()
 
@@ -82,7 +84,7 @@ class sinkitoukou: UIViewController {
             dismiss(animated: true, completion: nil)
         case "private" :
             sendFirestore(tapButton: "private")
-            dismiss(animated: true, completion: nil)
+//            dismiss(animated: true, completion: nil)
         default :
             confirmBackView.alpha = 0
         }
@@ -247,15 +249,15 @@ class sinkitoukou: UIViewController {
                     print("urlString:", urlString)
                     switch tapButton {
                     case "newPost" :
-                        sendMemoFireStore(imageAddress: fileName)
+                        sendMemoFireStore(imageAddress: fileName, movieAddress: "")
                         print("newPost")
                         
                     case "private":
-                        privateSendMemo(imageAddress: fileName)
+                        privateSendMemo(imageAddress: fileName, movieAddress: "")
                         print("private")
                         
                     case "anonymous":
-                        anonymousSendMemo(imageAddress: fileName)
+                        anonymousSendMemo(imageAddress: fileName, movieAddress: "")
                         print("anonymous")
                     default :
                         print("a")
@@ -263,47 +265,78 @@ class sinkitoukou: UIViewController {
                 }
             }
         } else if assetsType == "movie" {
-            let fileName = NSUUID().uuidString + ".mp4"
-            let storageReference = Storage.storage().reference().child("OutMemo_Post_Image").child(fileName)
             
-            // Start the video storage process
-            storageReference.putFile(from: mediaUrl! as URL, metadata: nil, completion: { [self] (metadata, error) in
-                    if error == nil {
-                        print("Successful video upload")
-                        guard let urlString = mediaUrl?.absoluteString else { return }
-                        imageString = urlString
-                        switch tapButton {
-                        case "newPost" :
-                            sendMemoFireStore(imageAddress: fileName)
-                            print("newPost")
-                            
-                        case "private":
-                            privateSendMemo(imageAddress: fileName)
-                            print("private")
-                            
-                        case "anonymous":
-                            anonymousSendMemo(imageAddress: fileName)
-                            print("anonymous")
-                        default :
-                            print("a")
+            guard let image = setImageView?.image  else { return }
+            guard let uploadImage = image.jpegData(compressionQuality: 0.2) else { return }
+            
+            let imageFileName = NSUUID().uuidString
+            let storageRef = Storage.storage().reference().child("OutMemo_Post_Image").child(imageFileName)
+            
+            storageRef.putData(uploadImage, metadata: nil) { ( matadata, err) in
+                if let err = err {
+                    print("firestrageへの情報の保存に失敗、、\(err)")
+                    return
+                }
+                print("storageへの保存に成功!!")
+                storageRef.downloadURL { [self] (url, err) in
+                    if let err = err {
+                        print("firestorageからのダウンロードに失敗\(err)")
+                        return
+                    }
+                    guard let urlString = url?.absoluteString else { return }
+                    imageString = urlString
+                    
+                    let movieFileName = NSUUID().uuidString + ".mp4"
+                    let storageReference = Storage.storage().reference().child("OutMemo_Post_Image").child(movieFileName)
+                    
+                    
+                    storageReference.putData(assetData! as Data, metadata: nil) { ( matadata, err) in
+                        if let err = err {
+                            print("firestrageへの情報の保存に失敗、、\(err)")
+                            return
                         }
-                    } else {
-                        print()
+                        print("storageへの保存に成功!!")
+                        storageReference.downloadURL { [self] (url, err) in
+                            if let err = err {
+                                print("firestorageからのダウンロードに失敗\(err)")
+                                return
+                            }
+                            guard let urlString = url?.absoluteString else { return }
+                            movieString = urlString
+                            print("urlString:", urlString)
+                            switch tapButton {
+                            case "newPost" :
+                                sendMemoFireStore(imageAddress: imageFileName, movieAddress: movieFileName)
+                                print("newPost")
+                                
+                            case "private":
+                                privateSendMemo(imageAddress: imageFileName, movieAddress: movieFileName)
+                                print("private")
+                                
+                            case "anonymous":
+                                anonymousSendMemo(imageAddress: imageFileName, movieAddress: movieFileName)
+                                print("anonymous")
+                            default :
+                                print("a")
+                            }
+                        }
                     }
                 }
-            )
+            }
+            
+            
         }else {
             switch tapButton {
             case "newPost" :
-                sendMemoFireStore(imageAddress:"")
+                sendMemoFireStore(imageAddress:"", movieAddress: "")
                 print("newPost")
                 
             case "private":
-                privateSendMemo(imageAddress:"")
+                privateSendMemo(imageAddress:"", movieAddress: "")
                 print("private")
                 
             case "anonymous":
-                anonymousSendMemo(imageAddress:"")
+                anonymousSendMemo(imageAddress:"", movieAddress: "")
                 print("anonymous")
                 
             default :
@@ -312,7 +345,8 @@ class sinkitoukou: UIViewController {
             }
         }
     }
-    private func sendMemoFireStore(imageAddress:String) {
+
+    private func sendMemoFireStore(imageAddress:String,movieAddress:String) {
         
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -326,11 +360,13 @@ class sinkitoukou: UIViewController {
         let memoInfoDic = [
             "message" : thisisMessage as Any,
             "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
             "userId":uid,
             "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
             "readLog": false,
             "anonymous":false,
@@ -341,6 +377,7 @@ class sinkitoukou: UIViewController {
         let myPost = [
             "message" : thisisMessage as Any,
             "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
@@ -349,6 +386,7 @@ class sinkitoukou: UIViewController {
             "userFrontId":userFrontId ?? "",
             "userId":uid,
             "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
             "anonymous":false,
             "admin": false,
@@ -376,7 +414,7 @@ class sinkitoukou: UIViewController {
         db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
     }
     
-    private func privateSendMemo(imageAddress:String) {
+    private func privateSendMemo(imageAddress:String,movieAddress:String) {
         
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -389,11 +427,13 @@ class sinkitoukou: UIViewController {
         let memoInfoDic = [
             "message" : thisisMessage as Any,
             "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
             "userId":uid,
             "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
             "private":true,
             "readLog": false,
@@ -404,7 +444,7 @@ class sinkitoukou: UIViewController {
         db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
     }
     
-    private func anonymousSendMemo(imageAddress:String) {
+    private func anonymousSendMemo(imageAddress:String,movieAddress:String) {
         
         func randomString(length: Int) -> String {
             let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -417,11 +457,13 @@ class sinkitoukou: UIViewController {
         let memoInfoDic = [
             "message" : thisisMessage as Any,
             "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
             "userId":uid,
             "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
             "readLog": false,
             "anonymous":true,
@@ -433,6 +475,7 @@ class sinkitoukou: UIViewController {
         let myPost = [
             "message" : thisisMessage as Any,
             "sendImageURL": imageString ?? "",
+            "sendMovieURL": movieString ?? "",
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
@@ -441,6 +484,7 @@ class sinkitoukou: UIViewController {
             "userFrontId":userFrontId ?? "",
             "userId":uid,
             "imageAddress":imageAddress,
+            "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
             "anonymous":true,
             "admin": false,
@@ -734,17 +778,15 @@ extension sinkitoukou: UIAdaptivePresentationControllerDelegate {
 extension sinkitoukou: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        
-        
         if info[.mediaType] as! String == "public.image" {
             assetsType = "image"
             let originalImage = info[.originalImage] as? UIImage
             setImageView.image = originalImage
-            
         } else if info[.mediaType] as! String == "public.movie" {
             assetsType = "movie"
             let mediaURL = info[.mediaURL] as? URL
             self.mediaUrl = mediaURL
+            assetData = NSData(contentsOf: mediaURL!)
             
             let video = AVURLAsset(url: mediaURL!)
             durationTime = TimeInterval(round(Float(video.duration.value) / Float(video.duration.timescale)))
