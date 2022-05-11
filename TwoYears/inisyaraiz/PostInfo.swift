@@ -14,6 +14,7 @@ class PostInfo {
     var documentId: String
     var titleComment: String
     var postImage:String
+    var imageAddress:String
     var hexColor: String
     var textFontName: String
     var createdAt: Timestamp
@@ -25,6 +26,7 @@ class PostInfo {
         self.postImage = dic["postImage"] as? String ?? ""
         self.documentId = dic["documentId"] as? String ?? ""
         self.titleComment = dic ["titleComment"] as? String ?? ""
+        self.imageAddress = dic ["imageAddress"] as? String ?? ""
         self.hexColor = dic ["hexColor"] as? String ?? ""
         self.textFontName = dic ["textFontName"] as? String ?? ""
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
@@ -32,4 +34,3 @@ class PostInfo {
         self.releaseBool = dic["releaseBool"] as? Bool ?? true // のちに変更した方が良い
     }
 }
-

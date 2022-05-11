@@ -173,6 +173,9 @@
 		CF9E002E28201FB400674C3C /* mapAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = CF9E002D28201FB400674C3C /* mapAnimation.json */; };
 		CF9FCB032828C048006194D3 /* MunicipalitiesSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF9FCB022828C048006194D3 /* MunicipalitiesSelect.storyboard */; };
 		CF9FCB052828C076006194D3 /* MunicipalitiesSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9FCB042828C076006194D3 /* MunicipalitiesSelectVC.swift */; };
+		CF9FCB07282ABFCF006194D3 /* SelectAge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF9FCB06282ABFCF006194D3 /* SelectAge.storyboard */; };
+		CF9FCB0B282AC9F6006194D3 /* AreaExplain.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF9FCB0A282AC9F6006194D3 /* AreaExplain.storyboard */; };
+		CF9FCB0D282ACA17006194D3 /* AreaExplainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9FCB0C282ACA17006194D3 /* AreaExplainVC.swift */; };
 		CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC12794454000D4C472 /* Reserch.storyboard */; };
 		CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC32794456000D4C472 /* ReserchVC.swift */; };
 		CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC5279453CD00D4C472 /* ad.storyboard */; };
@@ -359,6 +362,9 @@
 		CF9E002D28201FB400674C3C /* mapAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = mapAnimation.json; sourceTree = "<group>"; };
 		CF9FCB022828C048006194D3 /* MunicipalitiesSelect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MunicipalitiesSelect.storyboard; sourceTree = "<group>"; };
 		CF9FCB042828C076006194D3 /* MunicipalitiesSelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MunicipalitiesSelectVC.swift; sourceTree = "<group>"; };
+		CF9FCB06282ABFCF006194D3 /* SelectAge.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SelectAge.storyboard; sourceTree = "<group>"; };
+		CF9FCB0A282AC9F6006194D3 /* AreaExplain.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AreaExplain.storyboard; sourceTree = "<group>"; };
+		CF9FCB0C282ACA17006194D3 /* AreaExplainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaExplainVC.swift; sourceTree = "<group>"; };
 		CFA19DC12794454000D4C472 /* Reserch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reserch.storyboard; sourceTree = "<group>"; };
 		CFA19DC32794456000D4C472 /* ReserchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserchVC.swift; sourceTree = "<group>"; };
 		CFA19DC5279453CD00D4C472 /* ad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ad.storyboard; sourceTree = "<group>"; };
@@ -598,6 +604,7 @@
 				CF0D4020281232880038A82D /* AreaRankingVC.swift */,
 				CF96B98828167A4900523247 /* NotificationExVC.swift */,
 				CF9FCB042828C076006194D3 /* MunicipalitiesSelectVC.swift */,
+				CF9FCB0C282ACA17006194D3 /* AreaExplainVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -622,6 +629,7 @@
 				A33F0663279C24FA0008B29A /* ExplainFolder */,
 				A36DC50227A417680083F76D /* ProfileFolder */,
 				CF2A223925C3FC7000C5BFC1 /* Main.storyboard */,
+				CF9FCB06282ABFCF006194D3 /* SelectAge.storyboard */,
 				CF2BF5CA27D891CA00F7D1CB /* FontCollection.storyboard */,
 				CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */,
 				CF0BD9D725D018FF004A1958 /* SignIn.storyboard */,
@@ -645,6 +653,7 @@
 				CF0D401E2812320D0038A82D /* AreaRanking.storyboard */,
 				CF9FCB022828C048006194D3 /* MunicipalitiesSelect.storyboard */,
 				CF96B98628167A3B00523247 /* NotificationEx.storyboard */,
+				CF9FCB0A282AC9F6006194D3 /* AreaExplain.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -775,6 +784,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF9FCB0B282AC9F6006194D3 /* AreaExplain.storyboard in Resources */,
 				A35984012798ED39003CB00B /* Followers.storyboard in Resources */,
 				CF2BF5BC27D8613D00F7D1CB /* Daniel-Bold.otf in Resources */,
 				CF3107A12600AA6700746480 /* Tabbar.storyboard in Resources */,
@@ -799,6 +809,7 @@
 				CF2BF5B527D8613D00F7D1CB /* Moon Flower.ttf in Resources */,
 				A359840F279B20DE003CB00B /* Explain.storyboard in Resources */,
 				CF2A224325C3FC7200C5BFC1 /* LaunchScreen.storyboard in Resources */,
+				CF9FCB07282ABFCF006194D3 /* SelectAge.storyboard in Resources */,
 				CF96B98728167A3B00523247 /* NotificationEx.storyboard in Resources */,
 				A33F0687279D1D380008B29A /* Thankyou.storyboard in Resources */,
 				CF6846CD2797C0BA004B80C5 /* UserIdSet.storyboard in Resources */,
@@ -988,6 +999,7 @@
 				A3AE6F522760AC0B00E2219C /* teamRankingVC.swift in Sources */,
 				CF083C7F276D0184006F6102 /* OutMemo.swift in Sources */,
 				A3C0D9E6277397AD00AC64D3 /* EnterTeamVC.swift in Sources */,
+				CF9FCB0D282ACA17006194D3 /* AreaExplainVC.swift in Sources */,
 				CF83D9B227AD4FA000DF9C76 /* CollectionPostVC.swift in Sources */,
 				CF0C14CA25CC26C6006A7C86 /* Message.swift in Sources */,
 				CF43661426789CB500DABD78 /* NewCreateTeamVC.swift in Sources */,
@@ -1176,7 +1188,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TOTALGOOD.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FSBHB8CT4;
 				INFOPLIST_FILE = TwoYears/Info.plist;
@@ -1185,7 +1197,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.4;
+				MARKETING_VERSION = 4.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = zebra.TOTALGOOD;
 				PRODUCT_NAME = TOTALGOOD;
 				SWIFT_OBJC_BRIDGING_HEADER = "TwoYears/TOTALGOOD-Bridging-Header.h";
@@ -1204,7 +1216,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TOTALGOODRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5FSBHB8CT4;
 				INFOPLIST_FILE = TwoYears/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
@@ -1212,7 +1224,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.4;
+				MARKETING_VERSION = 4.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = zebra.TOTALGOOD;
 				PRODUCT_NAME = TOTALGOOD;
 				SWIFT_OBJC_BRIDGING_HEADER = "TwoYears/TOTALGOOD-Bridging-Header.h";

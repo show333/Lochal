@@ -33,6 +33,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var userFrontId: String? = UserDefaults.standard.string(forKey: "userFrontId")
     var dismissBool: Bool = false
     var matchUserId:[String] = []
+    var areaName:String?
     
     
     var cellImageTap : Bool = false
@@ -69,6 +70,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     @IBOutlet weak var matchUserLabel: UILabel!
     
+    @IBOutlet weak var areaNameLabel: UILabel!
     @IBAction func matchUserTapGesture(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "Connection", bundle: nil)
         let ConnectionVC = storyboard.instantiateViewController(withIdentifier: "ConnectionVC") as! ConnectionVC
@@ -426,6 +428,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //        followButton.font.fontName = UIFont(name:"03SmartFontUI", size: 14)
 
         followButton.titleLabel?.font = UIFont(name: "03SmartFontUI", size: 17)
+        areaNameLabel.font = UIFont(name: "03SmartFontUI", size: 14)
 
         backGroundImageView.alpha = 0.1
         headerView.alpha = 1
@@ -939,6 +942,25 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             let userImage = document["userImage"] as? String ?? "unKnown"
             let userFrontId = document["userFrontId"] as? String ?? "unKnown"
             let userBackGround = document["userBackGround"] as? String ?? backGroundString
+            let Prefectures = document["areaNameJa"] as? String ?? ""
+            let PrefecturesEn = document["areaNameEn"] as? String ?? ""
+            let kantoArray =  ["saitama","chiba","tokyo","kanagawa"]
+            areaName = PrefecturesEn
+            if kantoArray.contains(PrefecturesEn) == true {
+                
+                areaNameLabel.isUserInteractionEnabled = true
+                areaNameLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(areaNameLabelTapped(_:))))
+
+            }
+            
+
+            let areaBlock = document["areaBlock"] as? String ?? ""
+            if areaBlock != "" {
+                let areaBlockPlus = areaBlock+"エリア"
+                areaNameLabel.text = Prefectures+areaBlockPlus
+            } else {
+                areaNameLabel.text = Prefectures+areaBlock
+            }
             
             let connectingUserId = document["connectingUserId"] as? [String] ?? []
             
@@ -949,6 +971,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             
             let myUsersCount = selfConnectingUserId.count
             let friendUsersCount = connectingUserId.count
+            
+            
             
             matchUserId.removeAll()
             
@@ -991,12 +1015,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                     }
                 }
             }
-            
-            
-            
-            
-            
-
             let ConnectionsCount = document["ConnectionsCount"] as? Int ?? 0
             chainCountLabel.text = String(ConnectionsCount)
             
@@ -1037,6 +1055,13 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
                 .thumbnailsButtonMode(.none)
             ])
         presentImageGallery(viewController)
+    }
+    @objc func areaNameLabelTapped(_ sender: UITapGestureRecognizer) {
+        let storyboard = UIStoryboard.init(name: "AreaExplain", bundle: nil)
+        let AreaExplainVC = storyboard.instantiateViewController(withIdentifier: "AreaExplainVC") as! AreaExplainVC
+        AreaExplainVC.areaName = areaName
+        self.present(AreaExplainVC, animated: true, completion: nil)
+        
     }
     
 }
@@ -1165,7 +1190,7 @@ extension ProfileVC:UICollectionViewDataSource,UICollectionViewDelegate,UICollec
             detailPostVC.postInfoDoc = postInfo[indexPath.row].documentId
             detailPostVC.postHexColor = postInfo[indexPath.row].hexColor
             detailPostVC.postTextFontName = postInfo[indexPath.row].textFontName
-            
+            detailPostVC.imageAddress = postInfo[indexPath.row].imageAddress
             navigationController?.pushViewController(detailPostVC, animated: true)
         }
     }

@@ -44,7 +44,8 @@ class ThankyouVC:UIViewController {
         firstSetUpData(uid:uid,documentId: documentId)
         firstChain(uid:uid,userId:userId)
         PostGet(uid:uid,userId:userId)
-        PostGet(uid:userId,userId:uid)
+//        PostGet(uid:userId,userId:uid)
+        prePostGet(userId:uid)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
             self.setNotification(userId: uid, documentId: documentId)
@@ -170,7 +171,6 @@ class ThankyouVC:UIViewController {
                     "admin": false,
                 ] as [String: Any]
                 
-                
                 db.collection("users").document(userId).collection("Notification").document("Connecting"+uid).setData(myUserProfile, merge: true)
                 db.collection("users").document(userId).setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
                 db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(refferalUserProfile, merge: true)
@@ -185,12 +185,11 @@ class ThankyouVC:UIViewController {
         }
     }
     
-    func PostGet(uid:String,userId:String){
-        db.collection("users").document(uid).collection("MyPost").getDocuments() { [self] (querySnapshot, err) in
+    func prePostGet(userId:String) {
+        db.collection("AllOutMemo").whereField("delete",isEqualTo: false).getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-                
                 if querySnapshot?.documents.count ?? 0 >= 1{
                     for document in querySnapshot!.documents {
                     
@@ -207,24 +206,48 @@ class ThankyouVC:UIViewController {
         }
     }
     
+    func PostGet(uid:String,userId:String){
+        db.collection("users").document(uid).collection("MyPost").whereField("delete",isEqualTo: false).getDocuments() { [self] (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                if querySnapshot?.documents.count ?? 0 >= 1{
+                    for document in querySnapshot!.documents {
+                    
+                        print("\(document.documentID) => \(document.data())")
+                        let dic = document.data()
+                        let outMemoDic = OutMemo(dic: dic)
+                        print("あせfs")
+                        print(outMemoDic)
+                        print(userId)
+                        
+                        PostSet(userId:userId ,outMemo: outMemoDic)
+                    }
+                }
+            }
+        }
+    }
+    
     func PostSet(userId:String,outMemo:OutMemo){
-        
         let documentId = outMemo.documentId
-        
-        if documentId != "" && outMemo.anonymous != true{
+        if documentId != ""{
             let memoInfoDic = [
                 "message" : outMemo.message,
-                "sendImageURL": outMemo.sendImageURL,
+                "sendImageURL":  outMemo.sendImageURL,
+                "sendMovieURL": outMemo.sendMovieURL,
                 "documentId": outMemo.documentId,
                 "createdAt": outMemo.createdAt,
                 "textMask":outMemo.textMask,
                 "userId":outMemo.userId,
-                "userName":outMemo.userName,
-                "userFrontId":outMemo.userFrontId,
+                "imageAddress":outMemo.imageAddress,
+                "movieAddress":outMemo.movieAddress,
+                "assetsType": outMemo.assetsType,
                 "readLog": false,
+                "privateBool":outMemo.privateBool,
                 "anonymous":outMemo.anonymous,
                 "admin": outMemo.admin,
                 "delete": outMemo.delete,
+                
             ] as [String: Any]
             db.collection("users").document(userId).collection("TimeLine").document(documentId).setData(memoInfoDic, merge:true)
         }

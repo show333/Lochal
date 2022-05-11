@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 import SwiftMoment
 
-class OutMemo {
+struct OutMemo {
     
     var userId: String
     var userImage : String
@@ -39,6 +39,7 @@ class OutMemo {
     var backHexColor:String
     var textFontName:String
     
+    var privateBool:Bool
     var readLog: Bool
     var admin: Bool
     var anonymous: Bool
@@ -73,6 +74,7 @@ class OutMemo {
         self.backHexColor = dic["backHexColor"] as? String ?? ""
         self.textFontName = dic["textFontName"] as? String ?? "Southpaw"
         
+        self.privateBool = dic["privateBool"] as? Bool ?? false
         self.readLog = dic["readLog"] as? Bool ?? false
         self.admin = dic["admin"] as? Bool ?? false
         self.anonymous = dic["anonymous"] as? Bool ?? false

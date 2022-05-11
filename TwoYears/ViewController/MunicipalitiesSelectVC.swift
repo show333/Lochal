@@ -6,14 +6,22 @@
 //
 
 import UIKit
+import FirebaseAuth
+import FirebaseFirestore
+import FirebaseStorage
 import Nuke
 
 class MunicipalitiesSelectVC:UIViewController {
+    
     private let cellId = "cellId"
     var municipalities:[String] = []
     var areaBlockJa:[String] = []
     var areaNameEn:String?
+    var areaNameJa:String?
     var areaBlockDetails:String?
+    var firstBool : Bool = false
+
+    let db = Firestore.firestore()
     
     @IBOutlet weak var explainImageView: UIImageView!
     @IBOutlet weak var explainImageHeight: NSLayoutConstraint!
@@ -211,6 +219,31 @@ extension MunicipalitiesSelectVC:UITableViewDelegate,UITableViewDataSource {
         
         cell.areaNameLabel.text = areaBlockJa[indexPath.row]
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        setSelectedArea(areaNameJa: areaNameJa ?? "", areaNameEn: areaNameEn ?? "", areaBlock: areaBlockJa[indexPath.row])
+        print("asefsae",firstBool)
+            if firstBool == true {
+            let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
+            let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
+            navigationController?.pushViewController(ThankyouVC, animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
+        }
+    }
+
+    
+    
+    func setSelectedArea(areaNameJa:String,areaNameEn:String,areaBlock:String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+
+        UserDefaults.standard.set(areaNameEn, forKey: "areaNameEn")
+        UserDefaults.standard.set(areaNameJa, forKey: "areaNameJa")
+        
+        db.collection("users").document(uid).setData(["areaNameJa":areaNameJa,"areaNameEn":areaNameEn,"areaBlock":areaBlock], merge: true)
+        db.collection("Area").document("japan").collection("Prefectures").document(areaNameEn).setData(["memberCount": FieldValue.increment(1.0)], merge: true)
+
     }
 }
 

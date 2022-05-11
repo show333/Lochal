@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjv-Wl-Sr5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tjv-Wl-Sr5">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -220,9 +220,16 @@
                                             <outletCollection property="gestureRecognizers" destination="lFM-Gd-9c6" appends="YES" id="RCV-Lr-oD1"/>
                                         </connections>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1h4-eb-BMd">
+                                        <rect key="frame" x="95" y="15" width="174" height="0.0"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" systemColor="secondaryLabelColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="1h4-eb-BMd" firstAttribute="top" secondItem="L0G-gd-PAF" secondAttribute="top" constant="15" id="02P-Hm-39P"/>
                                     <constraint firstItem="hXn-vX-bmC" firstAttribute="leading" secondItem="ydp-h6-IHV" secondAttribute="trailing" constant="5" id="1SZ-v4-DcV"/>
                                     <constraint firstItem="Koq-3Z-acN" firstAttribute="centerX" secondItem="Wyn-po-0Pd" secondAttribute="centerX" id="214-8a-CBc"/>
                                     <constraint firstAttribute="trailing" secondItem="xWB-zh-ZvG" secondAttribute="trailing" constant="20" id="2t4-A7-QAg"/>
@@ -230,6 +237,7 @@
                                     <constraint firstAttribute="trailing" secondItem="n7I-Sm-b6F" secondAttribute="trailing" constant="30" id="4OR-tf-KBp"/>
                                     <constraint firstAttribute="bottom" secondItem="YHi-5f-YxV" secondAttribute="bottom" constant="25" id="5qz-Zp-wtd"/>
                                     <constraint firstAttribute="bottom" secondItem="YoW-PG-LIz" secondAttribute="bottom" constant="20" id="62S-Ax-tMC"/>
+                                    <constraint firstItem="1h4-eb-BMd" firstAttribute="leading" secondItem="ydp-h6-IHV" secondAttribute="trailing" constant="5" id="A04-qN-3Xk"/>
                                     <constraint firstAttribute="bottom" secondItem="h92-iJ-PQW" secondAttribute="bottom" constant="10" id="BkU-Vn-QEy"/>
                                     <constraint firstAttribute="trailing" secondItem="Wyn-po-0Pd" secondAttribute="trailing" constant="20" id="C6y-hw-8oJ"/>
                                     <constraint firstItem="n7I-Sm-b6F" firstAttribute="leading" secondItem="L0G-gd-PAF" secondAttribute="leading" constant="30" id="CwJ-xh-74A"/>
@@ -240,6 +248,7 @@
                                     <constraint firstItem="xWB-zh-ZvG" firstAttribute="top" secondItem="ydp-h6-IHV" secondAttribute="bottom" constant="10" id="PDS-jA-Yjg"/>
                                     <constraint firstItem="n7I-Sm-b6F" firstAttribute="top" secondItem="xWB-zh-ZvG" secondAttribute="bottom" constant="10" id="ROK-OG-aXh"/>
                                     <constraint firstItem="Koq-3Z-acN" firstAttribute="bottom" secondItem="Wyn-po-0Pd" secondAttribute="bottom" constant="-5" id="TNe-PI-bcR"/>
+                                    <constraint firstItem="6Ny-cM-nWF" firstAttribute="leading" secondItem="1h4-eb-BMd" secondAttribute="trailing" constant="5" id="Tez-Td-oiS"/>
                                     <constraint firstItem="h92-iJ-PQW" firstAttribute="leading" secondItem="L0G-gd-PAF" secondAttribute="leading" constant="5" id="Vi1-Kx-wcy"/>
                                     <constraint firstItem="Koq-3Z-acN" firstAttribute="top" secondItem="rkY-cK-2Xc" secondAttribute="bottom" constant="5" id="W03-PD-bcH"/>
                                     <constraint firstAttribute="bottom" secondItem="ZMj-lr-yiM" secondAttribute="bottom" constant="15" id="YZm-Wa-Ngu"/>
@@ -375,6 +384,7 @@
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="areaNameLabel" destination="1h4-eb-BMd" id="E9n-wH-S1a"/>
                         <outlet property="backGroundImageView" destination="23S-Vf-tcR" id="1hb-GY-nit"/>
                         <outlet property="chainCountLabel" destination="rkY-cK-2Xc" id="Ghu-aD-imj"/>
                         <outlet property="collectionBottom" destination="BkU-Vn-QEy" id="t6K-OJ-cCh"/>
