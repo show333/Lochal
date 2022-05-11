@@ -315,6 +315,7 @@ class NotificationVC: UIViewController {
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
             "userId":uid,
+            "privateBool":true,
             "readLog": false,
             "anonymous":false,
             "admin": false,
@@ -353,7 +354,8 @@ class NotificationVC: UIViewController {
             "hexColor": reactionSelected?.hexColor ?? "",
             "textFontName":reactionSelected?.textFontName ?? "",
             "backHexColor": #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.7973026613).toHexString(),
-
+            
+            "privateBool":true,
             "anonymous":false,
             "admin": false,
             "delete": false,

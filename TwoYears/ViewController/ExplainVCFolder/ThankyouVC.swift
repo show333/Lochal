@@ -186,7 +186,7 @@ class ThankyouVC:UIViewController {
     }
     
     func prePostGet(userId:String) {
-        db.collection("AllOutMemo").whereField("delete",isEqualTo: false).getDocuments() { [self] (querySnapshot, err) in
+        db.collection("AllOutMemo").whereField("privateBool",isEqualTo: false).whereField("delete",isEqualTo: false).getDocuments() { [self] (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
