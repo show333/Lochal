@@ -407,21 +407,23 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
 //        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
         let statusbarHeight = UIApplication.shared.statusBarFrame.size.height
         let safeAreaWidth = UIScreen.main.bounds.size.width
         let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
+        
+        postCollectionView.emptyDataSetDelegate = self
+        postCollectionView.emptyDataSetSource = self
 
-            postButton.alpha = 0.8
+        postButton.alpha = 0.8
 
         connectLabel.font = UIFont(name:"03SmartFontUI", size:12)
         settingsLabel.font = UIFont(name:"03SmartFontUI", size:12)
         postOtherLabel.font = UIFont(name:"03SmartFontUI", size:14)
         rakugakiLabel.font = UIFont(name:"03SmartFontUI", size:17)
-
 
 //        followButton.setTitle("コネクトする", for: .normal)
 //        followButton.setTitleColor(UIColor.darkGray, for: .normal)
@@ -473,7 +475,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             postBackImageView.image = nil
         }
 
-
 //        chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
 
 
@@ -494,15 +495,12 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 
         headerHigh = safeAreaHeight/3.5
 
-
         userImageView.isUserInteractionEnabled = true
-
 
         userNameLabelTopConstraint.constant = headerHigh/5 - 15
         userImagehighConstraint.constant = headerHigh/2.5
         userImageTopConstraint.constant = headerHigh/20
         userImageLeftConstraint.constant = headerHigh/18
-
 
         userImageView.clipsToBounds = true
         userImageView.layer.cornerRadius = headerHigh/5
@@ -583,12 +581,19 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //        chatListTableView.separatorStyle = .none
 //        chatListTableView.backgroundColor = .clear
 //        fetchFireStore(userId: userId ?? "unKnown",uid: uid)
-        fetchNotification(userId:uid)
-        fetchUserProfile(userId: userId ?? "unKnown")
-        fetchUserTeamInfo(userId:userId ?? "unKnown")
-        fetchPostInfo(userId: userId ?? "unKnown")
-        self.postCollectionView.reloadData()
 
+        //        fetchUserTeamInfo(userId:userId ?? "unKnown")
+
+        
+        fetchNotification(userId:uid)
+        if userId == "" {
+            fetchUserProfile(userId: uid)
+            fetchPostInfo(userId: uid)
+        } else {
+            fetchUserProfile(userId: userId ?? "unKnown")
+            fetchPostInfo(userId: userId ?? "unKnown")
+        }
+        self.postCollectionView.reloadData()
     }
     
     //Pull to Refresh
@@ -625,7 +630,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
 //        ここを変える
         postCollectionView.dataSource = self
         postCollectionView.delegate = self
-        
         
         
         self.tabBarController?.tabBar.isHidden = false
@@ -806,7 +810,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-        return NSAttributedString(string: "データがありません")
+        return NSAttributedString(string: "ラクがきを受けてみよう！")
     }
     
 //    private func fetchFireStore(userId:String,uid:String) {

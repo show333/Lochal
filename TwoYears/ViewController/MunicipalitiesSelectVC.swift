@@ -242,6 +242,7 @@ extension MunicipalitiesSelectVC:UITableViewDelegate,UITableViewDataSource {
         UserDefaults.standard.set(areaNameJa, forKey: "areaNameJa")
         
         db.collection("users").document(uid).setData(["areaNameJa":areaNameJa,"areaNameEn":areaNameEn,"areaBlock":areaBlock], merge: true)
+        db.collection("users").document(uid).collection("Profile").document("profile").setData(["areaNameJa":areaNameJa,"areaNameEn":areaNameEn,"areaBlock":areaBlock], merge: true)
         db.collection("Area").document("japan").collection("Prefectures").document(areaNameEn).setData(["memberCount": FieldValue.increment(1.0)], merge: true)
 
     }

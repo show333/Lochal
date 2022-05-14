@@ -136,11 +136,9 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             self.coachMarksController.start(in: .currentWindow(of: self))
         } else {
             
-            
             let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
-            
+            print("青氏ジェフォ",areaName)
             if areaName == nil {
-                
                 let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
                 let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
                 let nav = UINavigationController(rootViewController: vc)

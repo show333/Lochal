@@ -29,6 +29,13 @@ class selectAreaVC:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if areaNameJaString != nil {
+            self.navigationItem.hidesBackButton = false
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        }
+        
+
+        
         headerTitleLabel.text = "今住んでる都道府県はどこですか？"
         headerTitleLabel.font = UIFont(name:"03SmartFontUI", size:20)
         headerSubTitleLabel.text = "投稿時にそのエリアを中心に届きます！"
@@ -151,6 +158,8 @@ extension selectAreaVC:UICollectionViewDataSource, UICollectionViewDelegate {
         UserDefaults.standard.set(areaNameJa, forKey: "areaNameJa")
         
         db.collection("users").document(uid).setData(["areaNameJa":areaNameJa,"areaNameEn":areaNameEn], merge: true)
+        db.collection("users").document(uid).collection("Profile").document("profile").setData(["areaNameJa":areaNameJa,"areaNameEn":areaNameEn], merge: true)
+
         db.collection("Area").document("japan").collection("Prefectures").document(areaNameEn).setData(["memberCount": FieldValue.increment(1.0)], merge: true)
 
     }

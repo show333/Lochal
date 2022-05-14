@@ -82,8 +82,8 @@ class SplashViewController: UIViewController {
                 let userImage = document["userImage"] as? String ?? ""
                 let userFrontId = document["userFrontId"] as? String ?? ""
                 let UEnterdBool = document["UEnterdBool"] as? Bool ?? false
-                let areaNameEn = document["areaNameEn"] as? String ?? "tokyo"
-                let areaNameJa = document["areaNameJa"] as? String ?? "東京"
+                let areaNameEn = document["areaNameEn"] as? String
+                let areaNameJa = document["areaNameJa"] as? String
                 
                 print("あいあいあい",userName)
                 print("あいあい",userImage)
@@ -99,6 +99,8 @@ class SplashViewController: UIViewController {
                         UserDefaults.standard.set(userName, forKey: "userName")
                         UserDefaults.standard.set(userImage, forKey: "userImage")
                         UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
+                        
+                        print("青背Jふぉいせじゃ",areaNameEn)
                         
                         UserDefaults.standard.set(areaNameEn, forKey: "areaNameEn")
                         UserDefaults.standard.set(areaNameJa, forKey: "areaNameJa")
@@ -168,6 +170,7 @@ class SplashViewController: UIViewController {
         
         
         logoImageView.alpha = 0
+
         
         
         if UserDefaults.standard.object(forKey: "blocked") == nil{

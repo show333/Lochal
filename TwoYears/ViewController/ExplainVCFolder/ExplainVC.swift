@@ -23,7 +23,7 @@ class ExplainVC:UIViewController{
         
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2Fexplain%2FnewExplainArea.002.png?alt=media&token=8c44f51f-0c66-400a-801c-fff77c342c1d",//1
         
-        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2Fexplain%2FnewExplainArea.003.png?alt=media&token=9fdf70c9-9a0b-4ed8-bb2e-60045e2f2f0a",//2
+        "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2Fexplain%2FnewExplainArea.003.png?alt=media&token=c273c249-abd8-4827-8a87-003d7518c127",//2
         
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/Settings%2Fexplain%2FnewExplainArea.004.png?alt=media&token=4670a99c-598d-41dc-ad1a-ee904b93c9ca",//3
         

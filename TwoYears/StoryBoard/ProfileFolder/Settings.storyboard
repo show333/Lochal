@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Dh6-VF-1SE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Dh6-VF-1SE">
     <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -220,14 +220,22 @@
                                 <color key="textColor" red="0.0" green="1" blue="0.8712542808" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KQw-ff-Knf">
+                                <rect key="frame" x="5" y="841" width="404" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="tertiarySystemGroupedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="EK5-gz-hXi" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="0g6-DV-yud"/>
+                            <constraint firstItem="KQw-ff-Knf" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="1PP-a8-y9y"/>
                             <constraint firstItem="RId-Sd-Ko0" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="50" id="3gy-a4-NHR"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="RId-Sd-Ko0" secondAttribute="trailing" constant="50" id="5ty-9r-GDV"/>
                             <constraint firstItem="vzE-Ir-GR6" firstAttribute="centerY" secondItem="5EZ-qb-Rvc" secondAttribute="centerY" id="67w-VQ-X8c"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="KQw-ff-Knf" secondAttribute="trailing" constant="5" id="DBV-ca-Rge"/>
                             <constraint firstItem="fxL-tk-od3" firstAttribute="top" secondItem="q2n-o3-KQb" secondAttribute="bottom" constant="5" id="Ivl-9X-s5A"/>
                             <constraint firstItem="fSK-Zr-BbR" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="50" id="KbY-4H-ldw"/>
                             <constraint firstItem="fxL-tk-od3" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="50" id="LUe-QU-YrZ"/>
@@ -239,6 +247,7 @@
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fxL-tk-od3" secondAttribute="trailing" constant="50" id="RMb-pZ-8td"/>
                             <constraint firstItem="vzE-Ir-GR6" firstAttribute="top" secondItem="EK5-gz-hXi" secondAttribute="bottom" constant="5" id="Rgd-cI-pYG"/>
                             <constraint firstItem="RId-Sd-Ko0" firstAttribute="top" secondItem="vzE-Ir-GR6" secondAttribute="bottom" constant="50" id="fUk-TP-iAm"/>
+                            <constraint firstItem="KQw-ff-Knf" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="5" id="hiE-gq-F3z"/>
                             <constraint firstItem="vzE-Ir-GR6" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="50" id="iXT-6e-bnD"/>
                             <constraint firstItem="RId-Sd-Ko0" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="jIy-wH-Noq"/>
                             <constraint firstItem="vzE-Ir-GR6" firstAttribute="top" secondItem="fSK-Zr-BbR" secondAttribute="bottom" constant="50" id="kfo-yA-DeC"/>
@@ -247,6 +256,7 @@
                             <constraint firstItem="RId-Sd-Ko0" firstAttribute="top" secondItem="W3H-QB-ckM" secondAttribute="bottom" constant="5" id="sMg-6X-4SP"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="fSK-Zr-BbR" secondAttribute="trailing" constant="50" id="sf0-Dj-Uqf"/>
                             <constraint firstItem="A1a-oj-3iq" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="xWI-PS-JmZ"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="KQw-ff-Knf" secondAttribute="bottom" constant="5" id="zaS-YT-aD1"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="編集" id="WVk-bc-98F"/>
@@ -254,6 +264,7 @@
                         <outlet property="IdBackView" destination="vzE-Ir-GR6" id="nhE-qe-Vhr"/>
                         <outlet property="ImageBackView" destination="fSK-Zr-BbR" id="DNg-gr-kbU"/>
                         <outlet property="NameBackView" destination="RId-Sd-Ko0" id="ehq-tC-y69"/>
+                        <outlet property="addressLabel" destination="KQw-ff-Knf" id="W1v-6f-Ntl"/>
                         <outlet property="backGroundBackImageView" destination="gKH-ZA-0Bc" id="bKJ-Xm-LZ4"/>
                         <outlet property="backGroundBackView" destination="fxL-tk-od3" id="gwr-vk-55A"/>
                         <outlet property="backGroundButton" destination="P94-ce-uWn" id="Mc7-Pq-iT5"/>
@@ -279,6 +290,9 @@
         </scene>
     </scenes>
     <resources>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
