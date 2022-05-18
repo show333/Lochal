@@ -12,11 +12,13 @@ import FirebaseStorage
 import Nuke
 
 class imagetoukouViewController: UIViewController {
-    
-    var roomId: String?
-    
+        
     
     let db = Firestore.firestore()
+    
+    let userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String ?? "Unknown"
+    let userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String ?? "Unknown"
+    let userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String ?? "Unknown"
     
     @IBOutlet weak var imageButton: UIButton!
     @IBOutlet weak var sendButton: UIButton!
@@ -73,6 +75,8 @@ class imagetoukouViewController: UIViewController {
         let upDateDoc = [
             "chatLatestedAt": FieldValue.serverTimestamp(),
             "messageCount": FieldValue.increment(1.0),
+            "newMessage": "\(String(describing: userName))が画像を送信しました",
+            "latestUserId":uid
         ] as [String: Any]
         
         db.collection("users").document(uid).collection("ChatRoom").document(userId ?? "").collection("Messages").document(documentId).setData(docData)

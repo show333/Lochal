@@ -687,6 +687,11 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
             settingsButton.alpha = 0
             settingsLabel.alpha = 0
         }
+        
+        if UserDefaults.standard.bool(forKey: "ProfileInstract") != true{
+            UserDefaults.standard.set(true, forKey: "ProfileInstract")
+            self.coachMarksController.start(in: .currentWindow(of: self))
+        }
     }
     
     func fetchPostInfo(userId:String){

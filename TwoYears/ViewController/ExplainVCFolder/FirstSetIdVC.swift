@@ -92,10 +92,10 @@ class FirstSetIdVC:UIViewController,UITextFieldDelegate{
 //                        let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
 //                        navigationController?.pushViewController(ThankyouVC, animated: true)
                         
-                        let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
-                        let selectAreaVC = storyboard.instantiateViewController(withIdentifier: "selectAreaVC") as! selectAreaVC
-                        selectAreaVC.firstBool = true
-                        navigationController?.pushViewController(selectAreaVC, animated: true)
+                        
+                        let storyboard = UIStoryboard.init(name: "AgeSelect", bundle: nil)
+                        let AgeSelectVC = storyboard.instantiateViewController(withIdentifier: "AgeSelectVC") as! AgeSelectVC
+                        navigationController?.pushViewController(AgeSelectVC, animated: true)
                         
                     } else {
                         warningLabel.text = "このアカウントはすでに使用されています"

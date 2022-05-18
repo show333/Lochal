@@ -137,6 +137,8 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         } else {
             
             let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
+            let userAge = UserDefaults.standard.object(forKey: "userAge") as? String
+
             print("青氏ジェフォ",areaName)
             if areaName == nil {
                 let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
@@ -144,6 +146,13 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                 let nav = UINavigationController(rootViewController: vc)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true, completion: nil)
+            }
+            
+            if userAge == nil {
+                let storyboard = UIStoryboard.init(name: "ReSendAge", bundle: nil)
+                let ReSendAgeVC = storyboard.instantiateViewController(withIdentifier: "ReSendAgeVC") as! ReSendAgeVC
+                ReSendAgeVC.modalPresentationStyle = .fullScreen
+                self.present(ReSendAgeVC, animated: true, completion: nil)
             }
         }
         //        }

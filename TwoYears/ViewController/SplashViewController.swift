@@ -22,7 +22,7 @@ class SplashViewController: UIViewController {
     @IBOutlet weak var logoImageView: UIImageView!
     
     override func viewDidAppear(_ animated: Bool) {
-        
+//
         let mainBoundSize = UIScreen.main.bounds.size
         let mainBoundSizeHeight = mainBoundSize.height
         print("添えフィ潮江jf",mainBoundSizeHeight)
@@ -63,6 +63,12 @@ class SplashViewController: UIViewController {
                 })
             }
         }
+//        let storyboard = UIStoryboard.init(name: "FirstSettings", bundle: nil)
+//        let vc = storyboard.instantiateViewController(identifier: "FirstSettingsVC") as! FirstSettingsVC
+//        let nav = UINavigationController(rootViewController: vc)
+//        nav.modalPresentationStyle = .fullScreen
+//        self.present(nav, animated: true, completion: nil)
+        
 //                let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
 //                let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
 //                let nav = UINavigationController(rootViewController: vc)

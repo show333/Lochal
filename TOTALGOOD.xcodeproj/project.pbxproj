@@ -180,6 +180,12 @@
 		CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC32794456000D4C472 /* ReserchVC.swift */; };
 		CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC5279453CD00D4C472 /* ad.storyboard */; };
 		CFA1AD3727E0610600F36A79 /* PAULSON_.TTF in Resources */ = {isa = PBXBuildFile; fileRef = CFA1AD3627E0610600F36A79 /* PAULSON_.TTF */; };
+		CFA5BD4C2835139D003AF435 /* AgeSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA5BD4B2835139D003AF435 /* AgeSelect.storyboard */; };
+		CFA5BD4E283513F3003AF435 /* AgeSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA5BD4D283513F3003AF435 /* AgeSelectVC.swift */; };
+		CFA5BD50283528DC003AF435 /* FirstSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA5BD4F283528DC003AF435 /* FirstSettings.storyboard */; };
+		CFA5BD542835292C003AF435 /* FirstSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA5BD532835292C003AF435 /* FirstSettingsVC.swift */; };
+		CFA5BD5628354CB8003AF435 /* ReSendAgeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA5BD5528354CB8003AF435 /* ReSendAgeVC.swift */; };
+		CFA5BD5828354CC6003AF435 /* ReSendAge.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA5BD5728354CC6003AF435 /* ReSendAge.storyboard */; };
 		CFAB80B227CA5075007DECA0 /* backGroundSettings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFAB80B127CA5075007DECA0 /* backGroundSettings.storyboard */; };
 		CFAB80B427CA5097007DECA0 /* backGroundSettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAB80B327CA5097007DECA0 /* backGroundSettingsVC.swift */; };
 		CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */; };
@@ -369,6 +375,12 @@
 		CFA19DC32794456000D4C472 /* ReserchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserchVC.swift; sourceTree = "<group>"; };
 		CFA19DC5279453CD00D4C472 /* ad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ad.storyboard; sourceTree = "<group>"; };
 		CFA1AD3627E0610600F36A79 /* PAULSON_.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = PAULSON_.TTF; sourceTree = "<group>"; };
+		CFA5BD4B2835139D003AF435 /* AgeSelect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AgeSelect.storyboard; sourceTree = "<group>"; };
+		CFA5BD4D283513F3003AF435 /* AgeSelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeSelectVC.swift; sourceTree = "<group>"; };
+		CFA5BD4F283528DC003AF435 /* FirstSettings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FirstSettings.storyboard; sourceTree = "<group>"; };
+		CFA5BD532835292C003AF435 /* FirstSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstSettingsVC.swift; sourceTree = "<group>"; };
+		CFA5BD5528354CB8003AF435 /* ReSendAgeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReSendAgeVC.swift; sourceTree = "<group>"; };
+		CFA5BD5728354CC6003AF435 /* ReSendAge.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ReSendAge.storyboard; sourceTree = "<group>"; };
 		CFAB80B127CA5075007DECA0 /* backGroundSettings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = backGroundSettings.storyboard; sourceTree = "<group>"; };
 		CFAB80B327CA5097007DECA0 /* backGroundSettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = backGroundSettingsVC.swift; sourceTree = "<group>"; };
 		CFDBDEEA25ED6DCB004024F2 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -420,6 +432,8 @@
 				A33F0668279C26B70008B29A /* FirstSetId.storyboard */,
 				A33F068A279D20110008B29A /* TeamExplain.storyboard */,
 				A33F0686279D1D380008B29A /* Thankyou.storyboard */,
+				CFA5BD4B2835139D003AF435 /* AgeSelect.storyboard */,
+				CFA5BD4F283528DC003AF435 /* FirstSettings.storyboard */,
 			);
 			path = ExplainFolder;
 			sourceTree = "<group>";
@@ -436,6 +450,8 @@
 				A33F0680279C5BE40008B29A /* FirstJoinTeamVC.swift */,
 				A33F0684279C7E8E0008B29A /* TeamExplainVC.swift */,
 				A33F0688279D1D670008B29A /* ThankyouVC.swift */,
+				CFA5BD4D283513F3003AF435 /* AgeSelectVC.swift */,
+				CFA5BD532835292C003AF435 /* FirstSettingsVC.swift */,
 			);
 			path = ExplainVCFolder;
 			sourceTree = "<group>";
@@ -605,6 +621,7 @@
 				CF96B98828167A4900523247 /* NotificationExVC.swift */,
 				CF9FCB042828C076006194D3 /* MunicipalitiesSelectVC.swift */,
 				CF9FCB0C282ACA17006194D3 /* AreaExplainVC.swift */,
+				CFA5BD5528354CB8003AF435 /* ReSendAgeVC.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -654,6 +671,7 @@
 				CF9FCB022828C048006194D3 /* MunicipalitiesSelect.storyboard */,
 				CF96B98628167A3B00523247 /* NotificationEx.storyboard */,
 				CF9FCB0A282AC9F6006194D3 /* AreaExplain.storyboard */,
+				CFA5BD5728354CC6003AF435 /* ReSendAge.storyboard */,
 			);
 			path = StoryBoard;
 			sourceTree = "<group>";
@@ -845,6 +863,7 @@
 				CF0C14B525C9F36A006A7C86 /* ChatRoomTableViewCell.xib in Resources */,
 				CF8F13AA263FD9D2007A0677 /* imagetoukou.storyboard in Resources */,
 				CF0C14AF25C9F003006A7C86 /* ChatRoom.storyboard in Resources */,
+				CFA5BD5828354CC6003AF435 /* ReSendAge.storyboard in Resources */,
 				CF2BF5BF27D8613D00F7D1CB /* julies.ttf in Resources */,
 				CF9E002A2820159000674C3C /* pinkPinArea.json in Resources */,
 				CF39377C260492BA0020BE97 /* Profile.storyboard in Resources */,
@@ -860,8 +879,10 @@
 				CF4C5A44261FA3F300342675 /* packmanload.json in Resources */,
 				CF15444F26110E2700400D87 /* GoogleService-Info.plist in Resources */,
 				CF2BF5BE27D8613D00F7D1CB /* CamdenRegular-1jAZ.ttf in Resources */,
+				CFA5BD4C2835139D003AF435 /* AgeSelect.storyboard in Resources */,
 				CF2BF5AF27D8613D00F7D1CB /* Kbcurioussoul-m3W9.ttf in Resources */,
 				CF2BF5C427D8613D00F7D1CB /* LoveYaLikeASister.ttf in Resources */,
+				CFA5BD50283528DC003AF435 /* FirstSettings.storyboard in Resources */,
 				CF9E002E28201FB400674C3C /* mapAnimation.json in Resources */,
 				CF4366102678966E00DABD78 /* NewCreateTeam.storyboard in Resources */,
 				CF2BF5B827D8613D00F7D1CB /* GrutchShaded.ttf in Resources */,
@@ -954,6 +975,7 @@
 			files = (
 				A3598411279B2169003CB00B /* ExplainVC.swift in Sources */,
 				CF0C14B225C9F028006A7C86 /* ChatRoomViewController.swift in Sources */,
+				CFA5BD542835292C003AF435 /* FirstSettingsVC.swift in Sources */,
 				CF3B82A12785185500B4A257 /* ReadLogVC.swift in Sources */,
 				CFFCB5CE2823B38100F46729 /* AVAsset.swift in Sources */,
 				CF83D9B827BFA82800DF9C76 /* RefferalVC.swift in Sources */,
@@ -989,6 +1011,7 @@
 				CF3B82A427868DEF00B4A257 /* ReadLog.swift in Sources */,
 				A33F066F279C27400008B29A /* FirstSetImageVC.swift in Sources */,
 				A35984032798ED58003CB00B /* FollowersVC.swift in Sources */,
+				CFA5BD4E283513F3003AF435 /* AgeSelectVC.swift in Sources */,
 				A392221327B0141B00FFC936 /* detailPostVC.swift in Sources */,
 				CF361A01277C829800C08160 /* Date-extension.swift in Sources */,
 				CF2A223425C3FC7000C5BFC1 /* AppDelegate.swift in Sources */,
@@ -1014,6 +1037,7 @@
 				CF954A6D27E1A87C002E8AC8 /* StringAlphabet.swift in Sources */,
 				A33F067B279C5B7C0008B29A /* FirstMakeTeamVC.swift in Sources */,
 				A392220F27B0101500FFC936 /* PostInfo.swift in Sources */,
+				CFA5BD5628354CB8003AF435 /* ReSendAgeVC.swift in Sources */,
 				CFDBDEEB25ED6DCB004024F2 /* ProfileVC.swift in Sources */,
 				CF954A6B27E0A2DA002E8AC8 /* UIColorExtension.swift in Sources */,
 				CF3D0C1D267BD349006021FB /* UserImageSetVC.swift in Sources */,
@@ -1188,7 +1212,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TOTALGOOD.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 5FSBHB8CT4;
 				INFOPLIST_FILE = TwoYears/Info.plist;
@@ -1197,7 +1221,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.5;
+				MARKETING_VERSION = 4.1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = zebra.TOTALGOOD;
 				PRODUCT_NAME = TOTALGOOD;
 				SWIFT_OBJC_BRIDGING_HEADER = "TwoYears/TOTALGOOD-Bridging-Header.h";
@@ -1216,7 +1240,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = TOTALGOODRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5FSBHB8CT4;
 				INFOPLIST_FILE = TwoYears/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
@@ -1224,7 +1248,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.1.5;
+				MARKETING_VERSION = 4.1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = zebra.TOTALGOOD;
 				PRODUCT_NAME = TOTALGOOD;
 				SWIFT_OBJC_BRIDGING_HEADER = "TwoYears/TOTALGOOD-Bridging-Header.h";

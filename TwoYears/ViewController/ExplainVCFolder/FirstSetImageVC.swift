@@ -17,6 +17,7 @@ class FirstSetImageVC : UIViewController {
     let uid = Auth.auth().currentUser?.uid
     let db = Firestore.firestore()
     var imageString : String?
+    var pastUserImageAddress:String = ""
     
     let skipImageArray = [
         "https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/skipUserLogo%2Fundraw_refreshing_beverage_blue.png?alt=media&token=c45c9978-6c0e-481c-98f3-2493ac67d5fe",
@@ -49,8 +50,22 @@ class FirstSetImageVC : UIViewController {
         let skipImageString = skipImageArray.randomElement()
         
         UserDefaults.standard.set(skipImageString, forKey: "userImage")
-        setImage(userId: uid, userImage: skipImageString ?? "")
-        fetchMyPost(userId: uid, userImage: skipImageString ?? "")
+
+        let storageRefImage = Storage.storage().reference().child("User_Image").child(pastUserImageAddress)
+        // Delete the file
+        storageRefImage.delete { [self] error in
+            if let error = error {
+                // Uh-oh, an error occurred!
+                print(error)
+                setImage(userId: uid, userImage: skipImageString ?? "", userImageAddress: "")
+                fetchMyPost(userId: uid, userImage: skipImageString ?? "")
+            } else {
+                // File deleted successfully
+                setImage(userId: uid, userImage: skipImageString ?? "", userImageAddress: "")
+                fetchMyPost(userId: uid, userImage: skipImageString ?? "")
+            }
+        }
+  
         
         let storyboard = UIStoryboard.init(name: "FirstSetId", bundle: nil)
         let FirstSetIdVC = storyboard.instantiateViewController(withIdentifier: "FirstSetIdVC") as! FirstSetIdVC
@@ -63,11 +78,42 @@ class FirstSetImageVC : UIViewController {
     @IBAction func kakuteiTappedButton(_ sender: Any) {
         
         if imageString != nil {
-            sendImage()
+            let storageRefImage = Storage.storage().reference().child("User_Image").child(pastUserImageAddress)
+            // Delete the file
+            storageRefImage.delete { [self] error in
+                if let error = error {
+                    // Uh-oh, an error occurred!
+                    print(error)
+                    sendImage()
+
+                } else {
+                    // File deleted successfully
+                    sendImage()
+                }
+            }
+
         } else {
             labelAnimation()
         }
     }
+    
+    func getUserImageAddress(userId:String) {
+        
+        db.collection("users").document(userId).collection("Profile").document("profile").getDocument { [self](document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                pastUserImageAddress = document["userImageAddress"] as? String ?? ""
+                
+
+            } else {
+                print("Document does not exist")
+                
+            }
+        }
+    }
+    
     
     func sendImage() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
@@ -90,7 +136,7 @@ class FirstSetImageVC : UIViewController {
                 print("urlString:", urlString)
                 
                 UserDefaults.standard.set(urlString, forKey: "userImage")
-                setImage(userId: uid, userImage: urlString)
+                setImage(userId: uid, userImage: urlString, userImageAddress: imageString ?? "")
                 fetchMyPost(userId: uid, userImage: urlString)
             }
         }
@@ -119,9 +165,13 @@ class FirstSetImageVC : UIViewController {
         }
     }
     
-    func setImage(userId:String,userImage:String){
-        db.collection("users").document(userId).collection("Profile").document("profile").setData(["userImage":userImage]as[String : Any],merge: true)
-        db.collection("users").document(userId).setData(["userImage":userImage] as [String : Any],merge: true)
+    func setImage(userId:String,userImage:String,userImageAddress:String){
+        let imageInfo = [
+            "userImage":userImage,
+            "userImageAddress":userImageAddress,
+        ] as [String : Any]
+        db.collection("users").document(userId).collection("Profile").document("profile").setData(imageInfo,merge: true)
+        db.collection("users").document(userId).setData(imageInfo,merge: true)
     }
     
     func fetchMyPost(userId:String,userImage:String){
