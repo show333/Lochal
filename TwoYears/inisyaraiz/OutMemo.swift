@@ -22,6 +22,10 @@ struct OutMemo {
     var sendMovieURL: String
     var movieAddress: String
     
+    var areaNameEn: String
+    var areaNameJa: String
+    var areaBlock: String
+    
     var createdAt: Timestamp
     var textMask: String
     var documentId : String
@@ -55,7 +59,11 @@ struct OutMemo {
         self.sendImageURL = dic["sendImageURL"] as? String ?? ""
         self.imageAddress = dic["imageAddress"] as? String ?? ""
         self.sendMovieURL = dic["sendMovieURL"] as? String ?? ""
-        self.movieAddress = dic["movieAddress"] as? String ?? ""        
+        self.movieAddress = dic["movieAddress"] as? String ?? ""
+        
+        self.areaNameEn = dic["areaNameEn"] as? String ?? ""
+        self.areaNameJa = dic["areaNameJa"] as? String ?? ""
+        self.areaBlock = dic["areaBlock"] as? String ?? ""
         
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.textMask = dic["textMask"] as? String ?? ""

@@ -34,7 +34,6 @@ class selectAreaVC:UIViewController {
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         }
         
-
         
         headerTitleLabel.text = "今住んでる都道府県はどこですか？"
         headerTitleLabel.font = UIFont(name:"03SmartFontUI", size:20)
@@ -132,13 +131,36 @@ extension selectAreaVC:UICollectionViewDataSource, UICollectionViewDelegate {
                 
                 navigationController?.pushViewController(MunicipalitiesSelectVC, animated: true)
             } else {
-                setSelectedArea(areaNameJa: areaNameJa,areaNameEn: areaNameEn)
+                
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                setSelectedArea(areaNameJa: areaNameJa,areaNameEn: areaNameEn,areaBlock:"")
+                fetchMyPost(userId: uid, areaNameJa: areaNameJa, areaNameEn: areaNameEn,areaBlock:"")
                 if firstBool == true {
                     let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
                     let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
                     navigationController?.pushViewController(ThankyouVC, animated: true)
                 } else {
                     dismiss(animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    func fetchMyPost(userId:String,areaNameJa:String,areaNameEn:String,areaBlock:String){
+        db.collection("users").document(userId).collection("MyPost").getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
+            } else {
+                
+                if querySnapshot!.documents.count == 0 {
+                } else {
+                    for document in querySnapshot!.documents {
+                        //                        print("\(document.documentID) => \(document.data())")
+                        let myPostDocId =  document.data()["documentId"] as? String ?? "unKnown"
+                        print("ハングリー",myPostDocId)
+                        self.db.collection("users").document(userId).collection("MyPost").document(myPostDocId).setData(["areaNameJa":areaNameJa,"areaNameEn":areaNameEn,"areaBlock":areaBlock], merge: true)
+                        
+                    }
                 }
             }
         }
@@ -151,11 +173,13 @@ extension selectAreaVC:UICollectionViewDataSource, UICollectionViewDelegate {
         return CGSize(width: cellSize, height: cellSize)
     }
     
-    func setSelectedArea(areaNameJa:String,areaNameEn:String) {
+    func setSelectedArea(areaNameJa:String,areaNameEn:String,areaBlock:String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
         UserDefaults.standard.set(areaNameEn, forKey: "areaNameEn")
         UserDefaults.standard.set(areaNameJa, forKey: "areaNameJa")
+        UserDefaults.standard.set(areaBlock, forKey: "areaBlock")
+
         
         db.collection("users").document(uid).setData(["areaNameJa":areaNameJa,"areaNameEn":areaNameEn], merge: true)
         db.collection("users").document(uid).collection("Profile").document("profile").setData(["areaNameJa":areaNameJa,"areaNameEn":areaNameEn], merge: true)

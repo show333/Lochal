@@ -71,6 +71,7 @@ class OutmMemoCellVC: UITableViewCell {
     
     @IBOutlet weak var coverView: UIView!
     
+    @IBOutlet weak var areaName: UILabel!
     
     @IBOutlet weak var textMaskLabel: UILabel!
     
@@ -119,11 +120,11 @@ class OutmMemoCellVC: UITableViewCell {
         sendImageView.isUserInteractionEnabled = true
         sendImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(sendImageViewTapped(_:))))
         
-        teamCollectionView.dataSource = self
-        teamCollectionView.delegate = self
+//        teamCollectionView.dataSource = self
+//        teamCollectionView.delegate = self
         
         let nib = UINib(nibName: "TeamCollectionViewCell", bundle: nil)
-        teamCollectionView.register(nib, forCellWithReuseIdentifier: "Cell")
+//        teamCollectionView.register(nib, forCellWithReuseIdentifier: "Cell")
         
         mainBackground.backgroundColor = .tertiarySystemGroupedBackground
         
@@ -148,11 +149,11 @@ class OutmMemoCellVC: UITableViewCell {
         //  スクロールの方向
         flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
         // 上で設定した内容を反映させる
-        self.teamCollectionView.collectionViewLayout = flowLayout
-        // 背景色を設定
-        self.teamCollectionView.backgroundColor = .clear
-        
-        self.teamCollectionView.alpha = 1
+//        self.teamCollectionView.collectionViewLayout = flowLayout
+//        // 背景色を設定
+//        self.teamCollectionView.backgroundColor = .clear
+//
+//        self.teamCollectionView.alpha = 1
         
         teamInfo.removeAll()
     }
@@ -302,7 +303,7 @@ class OutmMemoCellVC: UITableViewCell {
         detailPostVC.postTextFontName = outMemo?.textFontName
         detailPostVC.postInfoDoc = outMemo?.documentId
         detailPostVC.postInfoImage = outMemo?.graffitiContentsImage
-        detailPostVC.profileUserId = uid
+//        detailPostVC.profileUserId = uid
         detailPostVC.postHexColor = outMemo?.hexColor
         detailPostVC.tabBarController?.tabBar.isHidden = true
         ViewController()?.navigationController?.navigationBar.isHidden = false

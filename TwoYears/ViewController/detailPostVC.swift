@@ -242,9 +242,13 @@ class detailPostVC:UIViewController {
         
         if uid == postUserId || uid == profileUserId {
             TPButton.alpha = 1
+            transitionReMemoBackView.alpha = 1
+            storyShareBackView.alpha = 1
             
         } else {
             TPButton.alpha = 0
+            transitionReMemoBackView.alpha = 0
+            storyShareBackView.alpha = 0
         }
         
         setSwipeBack()

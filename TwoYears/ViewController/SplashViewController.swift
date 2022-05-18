@@ -84,6 +84,7 @@ class SplashViewController: UIViewController {
                 let UEnterdBool = document["UEnterdBool"] as? Bool ?? false
                 let areaNameEn = document["areaNameEn"] as? String
                 let areaNameJa = document["areaNameJa"] as? String
+                let areaBlock = document["areaBlock"] as? String ?? ""
                 
                 print("あいあいあい",userName)
                 print("あいあい",userImage)
@@ -104,6 +105,7 @@ class SplashViewController: UIViewController {
                         
                         UserDefaults.standard.set(areaNameEn, forKey: "areaNameEn")
                         UserDefaults.standard.set(areaNameJa, forKey: "areaNameJa")
+                        UserDefaults.standard.set(areaNameJa, forKey: "areaBlock")
                     } else {
                         presentExplain()
                     }

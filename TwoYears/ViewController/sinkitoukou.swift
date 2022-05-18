@@ -19,8 +19,12 @@ import AVKit
 class sinkitoukou: UIViewController {
     let uid = UserDefaults.standard.string(forKey: "userId")
     
-    let usersAreaEn:String? = UserDefaults.standard.object(forKey: "areaNameEn") as? String
-    let usersAreaJa:String? = UserDefaults.standard.object(forKey: "areaNameJa") as? String
+    let areaNameEn:String? = UserDefaults.standard.object(forKey: "areaNameEn") as? String
+    let areaNameJa:String? = UserDefaults.standard.object(forKey: "areaNameJa") as? String
+    let areaBlock:String? = UserDefaults.standard.object(forKey: "areaBlock") as? String
+
+
+    
     let db = Firestore.firestore()
     var followerId : [String] = []
     var assetsType : String?
@@ -367,6 +371,7 @@ class sinkitoukou: UIViewController {
             "sendImageURL": imageString ?? "",
             "sendMovieURL": movieString ?? "",
             "documentId": memoId,
+
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
             "userId":uid,
@@ -387,6 +392,9 @@ class sinkitoukou: UIViewController {
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
+            "areaNameEn":areaNameEn ?? "",
+            "areaNameJa":areaNameJa ?? "",
+            "areaBlock":areaBlock ?? "",
             "userName":userName ?? "",
             "userImage":userImage ?? "",
             "userFrontId":userFrontId ?? "",
@@ -456,6 +464,10 @@ class sinkitoukou: UIViewController {
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
+            "areaNameEn":areaNameEn ?? "",
+            "areaNameJa":areaNameJa ?? "",
+            "areaBlock":areaBlock ?? "",
+
             "userName":userName ?? "",
             "userImage":userImage ?? "",
             "userFrontId":userFrontId ?? "",
@@ -529,6 +541,9 @@ class sinkitoukou: UIViewController {
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
+            "areaNameEn":areaNameEn ?? "",
+            "areaNameJa":areaNameJa ?? "",
+            "areaBlock":areaBlock ?? "",
             "userName":userName ?? "",
             "userImage":userImage ?? "",
             "userFrontId":userFrontId ?? "",

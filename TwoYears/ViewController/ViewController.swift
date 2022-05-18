@@ -549,6 +549,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 1
             cell.coverImageView.alpha = 0.8
             cell.textMaskLabel.alpha = 1
+            let assetsType = outMemo[indexPath.row].assetsType
+            switch assetsType {
+            case "image":
+                cell.textMaskLabel.text = "ImageMask"
+
+            case "movie":
+                cell.textMaskLabel.text = "MovieMask"
+
+            default:
+                cell.textMaskLabel.text = "TextMask"
+                
+            }
             
             cell.sendImageView.image = nil
             cell.sendImageView.alpha = 0
@@ -587,6 +599,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         //        fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
         
         //↓と↑交換
+        
+        cell.areaName.text = ""
+
         fetchMypostData(userId: outMemo[indexPath.row].userId, cell: cell, documentId: outMemo[indexPath.row].documentId)
         
         let date: Date = outMemo[indexPath.row].createdAt.dateValue()
@@ -620,12 +635,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 self.present(ReactionVC, animated: true, completion: nil)
             } else {
+                
                 let storyboard = UIStoryboard.init(name: "ReadLog", bundle: nil)
-                let ReadLogVC = storyboard.instantiateViewController(withIdentifier: "ReadLogVC") as! ReadLogVC
+                let vc = storyboard.instantiateViewController(withIdentifier: "ReadLogVC") as! ReadLogVC
+                vc.outMemo = outMemo[indexPath.row]
                 
-                ReadLogVC.outMemo = outMemo[indexPath.row]
-                
-                self.present(ReadLogVC, animated: true, completion: nil)
+                let nav = UINavigationController(rootViewController: vc)
+//                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
             }
             
         } else {
@@ -907,11 +924,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     } else {
                         cell.userImageView?.image = nil
                     }
-                    
                 } else {
                     
                     let userImage = document["userImage"] as? String ?? ""
                     let userFrontId = document["userFrontId"] as? String ?? ""
+//                    let areaNameJa = document["areaNameJa"] as? String ?? ""
+                    let areaNameEn = document["areaNameEn"] as? String ?? ""
+                    let usersBlockAreaJa = document["areaBlock"] as? String ?? ""
+                    
+                    cell.areaName.text = ""
+                    
+                    if usersBlockAreaJa != "" {
+                        let slashPlusBlock = "/"+usersBlockAreaJa
+                        cell.areaName.text = areaNameEn + slashPlusBlock
+                    } else {
+                        cell.areaName.text = areaNameEn
+                    }
+                    
                     
                     cell.userFrontIdLabel.text = userFrontId
                     if let url = URL(string:userImage) {

@@ -184,6 +184,15 @@ extension ReadLogVC: UITableViewDelegate, UITableViewDataSource {
         }
         return cell
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("あえい",readLog[indexPath.row].userId)
+        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        ProfileVC.userId = readLog[indexPath.row].userId
+        ProfileVC.cellImageTap = true
+
+        navigationController?.pushViewController(ProfileVC, animated: true)
+    }
     
     
 }
