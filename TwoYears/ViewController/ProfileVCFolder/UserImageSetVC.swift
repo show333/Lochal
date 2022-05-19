@@ -35,8 +35,10 @@ class UserImageSetVC : UIViewController {
     @IBOutlet weak var kakuteiButton: UIButton!
     
     @IBAction func kakuteiTappedButton(_ sender: Any) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
         if imageString != nil {
-            sendImage()
+            getUserImageAddress(userId:uid)
+            
         } else {
             DispatchQueue.main.async(execute: { () -> Void in
                 self.explainLabel.text = "画像が選択されていません"
@@ -51,6 +53,35 @@ class UserImageSetVC : UIViewController {
                     })
                 }
             })
+        }
+    }
+    
+    func getUserImageAddress(userId:String) {
+        
+        db.collection("users").document(userId).collection("Profile").document("profile").getDocument { [self](document, error) in
+            if let document = document, document.exists {
+                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
+                print("Document data: \(dataDescription)")
+                
+                let pastUserImageAddress = document["userImageAddress"] as? String ?? ""
+                let storageRefImage = Storage.storage().reference().child("User_Image").child(pastUserImageAddress)
+                // Delete the file
+                storageRefImage.delete { [self] error in
+                    if let error = error {
+                        // Uh-oh, an error occurred!
+                        print(error)
+                        print("愛せjfおい")
+                        sendImage()
+                    } else {
+                        // File deleted successfully
+                        sendImage()
+                    }
+                }
+
+            } else {
+                print("Document does not exist")
+                
+            }
         }
     }
     
@@ -75,17 +106,20 @@ class UserImageSetVC : UIViewController {
                 print("urlString:", urlString)
                 
                 UserDefaults.standard.set(urlString, forKey: "userImage")
-                setImage(userId: uid, userImage: urlString)
+                setImage(userId: uid, userImage: urlString, userImageAddress: imageString!)
                 fetchMyPost(userId: uid, userImage: urlString)
-                fetchMyTeam(userId:uid,userImage:urlString)
             }
         }
         self.navigationController?.popViewController(animated: true)
     }
     
-    func setImage(userId:String,userImage:String){
-        db.collection("users").document(userId).collection("Profile").document("profile").setData(["userImage":userImage]as[String : Any],merge: true)
-        db.collection("users").document(userId).setData(["userImage":userImage] as [String : Any],merge: true)
+    func setImage(userId:String,userImage:String,userImageAddress:String){
+        let imageInfo = [
+            "userImage":userImage,
+            "userImageAddress":userImageAddress,
+        ] as [String : Any]
+        db.collection("users").document(userId).collection("Profile").document("profile").setData(imageInfo,merge: true)
+        db.collection("users").document(userId).setData(imageInfo,merge: true)
     }
     
     func fetchMyPost(userId:String,userImage:String){
@@ -100,24 +134,6 @@ class UserImageSetVC : UIViewController {
 //                        print("\(document.documentID) => \(document.data())")
                         let myPostDocId =  document.data()["documentId"] as? String ?? "unKnown"
                         self.db.collection("users").document(userId).collection("MyPost").document(myPostDocId).setData(["userImage":userImage] as [String : Any],merge: true)
-                    }
-                }
-            }
-        }
-    }
-    
-    func fetchMyTeam(userId:String,userImage:String){
-        db.collection("users").document(userId).collection("belong_Team").getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Error getting documents: \(err)")
-            } else {
-                
-                if querySnapshot!.documents.count == 0 {
-                } else {
-                    for document in querySnapshot!.documents {
-//                        print("\(document.documentID) => \(document.data())")
-                        let myTeamId =  document.data()["teamId"] as? String ?? "unKnown"
-                        self.db.collection("Team").document(myTeamId).collection("MembersId").document(userId).setData(["userImage":userImage] as [String : Any],merge: true)
                     }
                 }
             }

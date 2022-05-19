@@ -10,6 +10,7 @@ import Nuke
 
 class SettingsVC : UIViewController{
     
+    @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var centerConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var imageImageView: UIImageView!
@@ -76,6 +77,7 @@ class SettingsVC : UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        addressLabel.text = "ご不明な点,不具合などございましたら'classbigic@gmail.com'までご連絡ください"
         
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2Fundraw_Asset_selection_re_k5fj.png?alt=media&token=6606717a-2514-42cc-be08-efcba24c067d") {
             Nuke.loadImage(with: url, into: imageImageView)

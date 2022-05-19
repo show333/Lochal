@@ -19,8 +19,12 @@ import AVKit
 class sinkitoukou: UIViewController {
     let uid = UserDefaults.standard.string(forKey: "userId")
     
-    let usersAreaEn:String? = UserDefaults.standard.object(forKey: "areaNameEn") as? String
-    let usersAreaJa:String? = UserDefaults.standard.object(forKey: "areaNameJa") as? String
+    let areaNameEn:String? = UserDefaults.standard.object(forKey: "areaNameEn") as? String
+    let areaNameJa:String? = UserDefaults.standard.object(forKey: "areaNameJa") as? String
+    let areaBlock:String? = UserDefaults.standard.object(forKey: "areaBlock") as? String
+
+
+    
     let db = Firestore.firestore()
     var followerId : [String] = []
     var assetsType : String?
@@ -79,13 +83,17 @@ class sinkitoukou: UIViewController {
         switch postType {
         case "newPost":
             sendFirestore(tapButton: "newPost")
-            dismiss(animated: true, completion: nil)
+            let vc = self.presentingViewController as! ViewController
+            vc.lottieBool = true
+            self.dismiss(animated: true, completion: nil)
         case "anonymous" :
             sendFirestore(tapButton: "anonymous")
-            dismiss(animated: true, completion: nil)
+            let vc = self.presentingViewController as! ViewController
+            vc.lottieBool = true
+            self.dismiss(animated: true, completion: nil)
         case "private" :
             sendFirestore(tapButton: "private")
-            dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         default :
             confirmBackView.alpha = 0
         }
@@ -133,8 +141,14 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var newPostLabel: UILabel!
     @IBAction func tappedSinkiButton(_ sender: Any) {
         
-        postType = "newPost"
-        confirmStatus()
+        if setImageView.image != nil {
+            postType = "newPost"
+            confirmStatus()
+
+        } else {
+            print("aaaa")
+            self.coachMarksController.start(in: .currentWindow(of: self))
+        }
     }
     
     @IBOutlet weak var anonymousBackView: UIView!
@@ -145,7 +159,7 @@ class sinkitoukou: UIViewController {
     
     @IBOutlet weak var anonymousButton: UIButton!
     @IBAction func anonymousTappedButton(_ sender: Any) {
-        if assetsType != nil {
+        if setImageView.image != nil {
             postType = "anonymous"
             confirmStatus()
 
@@ -320,7 +334,6 @@ class sinkitoukou: UIViewController {
                 }
             }
             
-            
         }else {
             switch tapButton {
             case "newPost" :
@@ -358,6 +371,7 @@ class sinkitoukou: UIViewController {
             "sendImageURL": imageString ?? "",
             "sendMovieURL": movieString ?? "",
             "documentId": memoId,
+
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
             "userId":uid,
@@ -365,6 +379,7 @@ class sinkitoukou: UIViewController {
             "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
             "readLog": false,
+            "privateBool":false,
             "anonymous":false,
             "admin": false,
             "delete": false,
@@ -377,6 +392,9 @@ class sinkitoukou: UIViewController {
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
+            "areaNameEn":areaNameEn ?? "",
+            "areaNameJa":areaNameJa ?? "",
+            "areaBlock":areaBlock ?? "",
             "userName":userName ?? "",
             "userImage":userImage ?? "",
             "userFrontId":userFrontId ?? "",
@@ -384,6 +402,7 @@ class sinkitoukou: UIViewController {
             "imageAddress":imageAddress,
             "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
+            "privateBool":false,
             "anonymous":false,
             "admin": false,
             "delete": false,
@@ -431,7 +450,7 @@ class sinkitoukou: UIViewController {
             "imageAddress":imageAddress,
             "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
-            "private":true,
+            "privateBool":true,
             "readLog": false,
             "anonymous":false,
             "admin": false,
@@ -445,6 +464,10 @@ class sinkitoukou: UIViewController {
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
+            "areaNameEn":areaNameEn ?? "",
+            "areaNameJa":areaNameJa ?? "",
+            "areaBlock":areaBlock ?? "",
+
             "userName":userName ?? "",
             "userImage":userImage ?? "",
             "userFrontId":userFrontId ?? "",
@@ -452,7 +475,7 @@ class sinkitoukou: UIViewController {
             "imageAddress":imageAddress,
             "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
-            "private":true,
+            "privateBool":true,
             "anonymous":false,
             "admin": false,
             "delete": false,
@@ -503,6 +526,7 @@ class sinkitoukou: UIViewController {
             "imageAddress":imageAddress,
             "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
+            "privateBool":false,
             "readLog": false,
             "anonymous":true,
             "admin": false,
@@ -517,6 +541,9 @@ class sinkitoukou: UIViewController {
             "documentId": memoId,
             "createdAt": FieldValue.serverTimestamp(),
             "textMask":textMask.randomElement() ?? "",
+            "areaNameEn":areaNameEn ?? "",
+            "areaNameJa":areaNameJa ?? "",
+            "areaBlock":areaBlock ?? "",
             "userName":userName ?? "",
             "userImage":userImage ?? "",
             "userFrontId":userFrontId ?? "",
@@ -524,6 +551,7 @@ class sinkitoukou: UIViewController {
             "imageAddress":imageAddress,
             "movieAddress":movieAddress,
             "assetsType": assetsType ?? "",
+            "privateBool":false,
             "anonymous":true,
             "admin": false,
             "delete": false,
@@ -766,10 +794,14 @@ extension sinkitoukou: UITextViewDelegate {
             privateBackView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
             
             
-            if imageString != nil {
+            if setImageView.image != nil {
                 anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+                newPostBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+
             } else {
                 anonymousBackView.backgroundColor = .gray
+                newPostBackView.backgroundColor = .gray
+
             }
         }
         if existingLines.count <= 30 {
@@ -800,10 +832,11 @@ extension sinkitoukou: UIAdaptivePresentationControllerDelegate {
         if textwhite == "" || textwhite == "ポテチ食べたい\nコンビニの新作アイスめっちゃ美味い\nうちの猫めっちゃ可愛い\n授業,会社だるい\n布団から出られない\nなど" {
             anonymousBackView.backgroundColor = .gray
         } else {
-            if imageString != nil {
-            anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+            if setImageView.image != nil {
+                anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+                newPostBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+
             }
-            
         }
         
         if let url = URL(string:imageString ?? "") {
@@ -837,6 +870,10 @@ extension sinkitoukou: UIImagePickerControllerDelegate, UINavigationControllerDe
         print(mediaURL ?? "")
         
         imagePC.dismiss(animated: true)
+        anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+        newPostBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+
+
     }
     
     func generateDuration(timeInterval: TimeInterval) -> String {
@@ -902,10 +939,8 @@ extension sinkitoukou: CoachMarksControllerDataSource, CoachMarksControllerDeleg
         //index(ステップ)によって表示内容を分岐させます
         switch index {
         case 0:    //hogeLabel
-            coachViews.bodyView.hintLabel.text = "匿名投稿にはスタンプも\n一緒に投稿してください!"
+            coachViews.bodyView.hintLabel.text = "この投稿をするには\nスタンプや画像を一緒にしてください"
             coachViews.bodyView.nextLabel.text = "OK!"
-        
-
         
         default:
             break

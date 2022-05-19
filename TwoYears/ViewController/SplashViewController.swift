@@ -21,40 +21,59 @@ class SplashViewController: UIViewController {
     
     @IBOutlet weak var logoImageView: UIImageView!
     
-    
-    
     override func viewDidAppear(_ animated: Bool) {
-        
-        
-        UIView.animate(withDuration: 0.3, delay: 0, animations: {
-            self.logoImageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+//
+        let mainBoundSize = UIScreen.main.bounds.size
+        let mainBoundSizeHeight = mainBoundSize.height
+        print("添えフィ潮江jf",mainBoundSizeHeight)
+
+        let fractionHight = mainBoundSizeHeight/10
+        let ConstraintCGfloat:CGFloat = fractionHight
+        logoImageView.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
+
+        UIView.animate(withDuration: 0.2, delay: 0, animations: { [self] in
+            //            self.logoImageView.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
             self.logoImageView.alpha = 1
-//
-//
-        }) { bool in
-        // ②アイコンを大きくする
-            UIView.animate(withDuration: 0, delay: 0, animations: { [self] in
-                let uid = Auth.auth().currentUser?.uid
-                if uid != nil {
-                    profileGet(userId:uid ?? "")
-                } else {
-                    presentSignInVC()
-                }
+
+            let fractionHight = mainBoundSizeHeight/10
+            let ConstraintCGfloat:CGFloat = fractionHight + 20
+            logoImageView.transform = CGAffineTransform(translationX: 0, y: -ConstraintCGfloat)
+
         }) { bool in
             // ②アイコンを大きくする
-            UIView.animate(withDuration: 0.1, delay: 0, animations: {
-                self.logoImageView.transform = CGAffineTransform(scaleX: 3, y: 3)
-                self.logoImageView.alpha = 0
+            UIView.animate(withDuration: 0.1, delay: 0, animations: { [self] in
 
-            })
+                let fractionHight = mainBoundSizeHeight/10
+                let ConstraintCGfloat:CGFloat = 10
+                logoImageView.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
+
+            }) { bool in
+                UIView.animate(withDuration: 0.1, delay: 0, animations: { [self] in
+
+                    let ConstraintCGfloat:CGFloat = 0
+                    logoImageView.transform = CGAffineTransform(translationX: 0, y: ConstraintCGfloat)
+
+                    let uid = Auth.auth().currentUser?.uid
+                    if uid != nil {
+                        profileGet(userId:uid ?? "")
+                    } else {
+                        presentSignInVC()
+                    }
+
+                })
             }
         }
+//        let storyboard = UIStoryboard.init(name: "FirstSettings", bundle: nil)
+//        let vc = storyboard.instantiateViewController(identifier: "FirstSettingsVC") as! FirstSettingsVC
+//        let nav = UINavigationController(rootViewController: vc)
+//        nav.modalPresentationStyle = .fullScreen
+//        self.present(nav, animated: true, completion: nil)
         
-        //        let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
-        //        let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
-        //        let nav = UINavigationController(rootViewController: vc)
-        //        nav.modalPresentationStyle = .fullScreen
-        //        self.present(nav, animated: true, completion: nil)
+//                let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+//                let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
+//                let nav = UINavigationController(rootViewController: vc)
+//                nav.modalPresentationStyle = .fullScreen
+//                self.present(nav, animated: true, completion: nil)
     }
     
     
@@ -69,15 +88,15 @@ class SplashViewController: UIViewController {
                 let userImage = document["userImage"] as? String ?? ""
                 let userFrontId = document["userFrontId"] as? String ?? ""
                 let UEnterdBool = document["UEnterdBool"] as? Bool ?? false
-                let areaNameEn = document["areaNameEn"] as? String ?? "tokyo"
-                let areaNameJa = document["areaNameJa"] as? String ?? "東京"
+                let areaNameEn = document["areaNameEn"] as? String
+                let areaNameJa = document["areaNameJa"] as? String
+                let areaBlock = document["areaBlock"] as? String ?? ""
                 
                 print("あいあいあい",userName)
                 print("あいあい",userImage)
                 print("あいあいあ",userId)
                 
                 if UEnterdBool == true {
-                    
                     
                     if userName != "" && userImage != "" && userFrontId != "" {
                         
@@ -88,8 +107,11 @@ class SplashViewController: UIViewController {
                         UserDefaults.standard.set(userImage, forKey: "userImage")
                         UserDefaults.standard.set(userFrontId, forKey: "userFrontId")
                         
+                        print("青背Jふぉいせじゃ",areaNameEn)
+                        
                         UserDefaults.standard.set(areaNameEn, forKey: "areaNameEn")
                         UserDefaults.standard.set(areaNameJa, forKey: "areaNameJa")
+                        UserDefaults.standard.set(areaNameJa, forKey: "areaBlock")
                     } else {
                         presentExplain()
                     }
@@ -140,7 +162,6 @@ class SplashViewController: UIViewController {
         TabbarController.selectedIndex = 0
         TabbarController.modalPresentationStyle = .fullScreen
         self.present(TabbarController, animated: true, completion: nil)
-        
     }
     
     func presentExplain(){
@@ -151,15 +172,13 @@ class SplashViewController: UIViewController {
         self.present(nav, animated: true, completion: nil)
     }
     
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("スプラッシュ")
         
         
         logoImageView.alpha = 0
+
         
         
         if UserDefaults.standard.object(forKey: "blocked") == nil{

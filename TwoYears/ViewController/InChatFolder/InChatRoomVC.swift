@@ -431,6 +431,8 @@ extension InChatRoomVC: ChatInputAccessoryViewDelegate{
         let upDateDoc = [
             "chatLatestedAt": FieldValue.serverTimestamp(),
             "messageCount": FieldValue.increment(1.0),
+            "newMessage": text,
+            "latestUserId":uid
         ] as [String: Any]
         
         db.collection("users").document(uid).collection("ChatRoom").document(userId ?? "").collection("Messages").document(documentId).setData(docData)

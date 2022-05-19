@@ -31,6 +31,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
     var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     var animationView = AnimationView()
+    var lottieBool:Bool = false
     let db = Firestore.firestore()
     let blockList:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String:Bool]
     let uid = Auth.auth().currentUser?.uid
@@ -116,10 +117,11 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         self.tabBarController?.tabBar.isHidden = false
         
-        addAnimationView()
+        if lottieBool == true {
+            addAnimationView()
+        }
         //        if UserDefaults.standard.bool(forKey: "FirstPost") != true{
         //            guard let uid = Auth.auth().currentUser?.uid else { return }
         //            UserDefaults.standard.set(true, forKey: "FirstPost")
@@ -133,16 +135,25 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             UserDefaults.standard.set(true, forKey: "OutMemoInstract")
             self.coachMarksController.start(in: .currentWindow(of: self))
         } else {
+            
             let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
+            let userAge = UserDefaults.standard.object(forKey: "userAge") as? String
+
+            print("青氏ジェフォ",areaName)
+            if areaName == nil {
+                let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
+                let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
+                let nav = UINavigationController(rootViewController: vc)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
+            }
             
-            //                if areaName == nil {
-            
-            //                let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
-            //                let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
-            //                let nav = UINavigationController(rootViewController: vc)
-            //                nav.modalPresentationStyle = .fullScreen
-            //                self.present(nav, animated: true, completion: nil)
-            //                }
+            if userAge == nil {
+                let storyboard = UIStoryboard.init(name: "ReSendAge", bundle: nil)
+                let ReSendAgeVC = storyboard.instantiateViewController(withIdentifier: "ReSendAgeVC") as! ReSendAgeVC
+                ReSendAgeVC.modalPresentationStyle = .fullScreen
+                self.present(ReSendAgeVC, animated: true, completion: nil)
+            }
         }
         //        }
     }
@@ -296,43 +307,42 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                     let momentType = moment(date)
                     let docUserId = rarabai.userId
                     
-                    self.outMemo.append(rarabai)
                     
-                    //                    switch rarabai.anonymous {
-                    //                    case true:
-                    //                        let anonymousId = rarabai.userId + "anonymous"
-                    //                        if blockList[anonymousId] == true {
-                    //                        } else {
-                    //                            if rarabai.delete == true {
-                    //                            } else {
-                    //                                if docUserId == userId {
-                    //                                    self.outMemo.append(rarabai)
-                    //                                } else {
-                    //                                    if momentType >= moment() - 30.days {
-                    //                                        self.outMemo.append(rarabai)
-                    //                                    }
-                    //                                }
-                    //                            }
-                    //                        }
-                    //                    default :
-                    //                        if blockList[rarabai.userId] == true {
-                    //
-                    //                        } else {
-                    //                            if rarabai.delete == true {
-                    //                            } else {
-                    //
-                    //
-                    //                                if docUserId == userId {
-                    //                                    self.outMemo.append(rarabai)
-                    //                                } else {
-                    //
-                    //                                    if momentType >= moment() - 30.days {
-                    //                                        self.outMemo.append(rarabai)
-                    //                                    }
-                    //                                }
-                    //                            }
-                    //                        }
-                    //                    }
+                    switch rarabai.anonymous {
+                    case true:
+                        let anonymousId = rarabai.userId + "anonymous"
+                        if blockList[anonymousId] == true {
+                        } else {
+                            if rarabai.delete == true {
+                            } else {
+                                if docUserId == userId {
+                                    self.outMemo.append(rarabai)
+                                } else {
+                                    if momentType >= moment() - 30.days {
+                                        self.outMemo.append(rarabai)
+                                    }
+                                }
+                            }
+                        }
+                    default :
+                        if blockList[rarabai.userId] == true {
+                            
+                        } else {
+                            if rarabai.delete == true {
+                            } else {
+                                
+                                
+                                if docUserId == userId {
+                                    self.outMemo.append(rarabai)
+                                } else {
+                                    
+                                    if momentType >= moment() - 30.days {
+                                        self.outMemo.append(rarabai)
+                                    }
+                                }
+                            }
+                        }
+                    }
                     self.outMemo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
                         let m2Date = m2.createdAt.dateValue()
@@ -548,6 +558,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             cell.messageLabel.numberOfLines = 1
             cell.coverImageView.alpha = 0.8
             cell.textMaskLabel.alpha = 1
+            let assetsType = outMemo[indexPath.row].assetsType
+            switch assetsType {
+            case "image":
+                cell.textMaskLabel.text = "ImageMask"
+
+            case "movie":
+                cell.textMaskLabel.text = "MovieMask"
+
+            default:
+                cell.textMaskLabel.text = "TextMask"
+                
+            }
             
             cell.sendImageView.image = nil
             cell.sendImageView.alpha = 0
@@ -586,6 +608,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         //        fetchDocContents(userId: outMemo[indexPath.row].userId, cell: cell,documentId: outMemo[indexPath.row].documentId)
         
         //↓と↑交換
+        
+        cell.areaName.text = ""
+
         fetchMypostData(userId: outMemo[indexPath.row].userId, cell: cell, documentId: outMemo[indexPath.row].documentId)
         
         let date: Date = outMemo[indexPath.row].createdAt.dateValue()
@@ -619,12 +644,14 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 self.present(ReactionVC, animated: true, completion: nil)
             } else {
+                
                 let storyboard = UIStoryboard.init(name: "ReadLog", bundle: nil)
-                let ReadLogVC = storyboard.instantiateViewController(withIdentifier: "ReadLogVC") as! ReadLogVC
+                let vc = storyboard.instantiateViewController(withIdentifier: "ReadLogVC") as! ReadLogVC
+                vc.outMemo = outMemo[indexPath.row]
                 
-                ReadLogVC.documentId=outMemo[indexPath.row].documentId
-                
-                self.present(ReadLogVC, animated: true, completion: nil)
+                let nav = UINavigationController(rootViewController: vc)
+//                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
             }
             
         } else {
@@ -906,11 +933,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     } else {
                         cell.userImageView?.image = nil
                     }
-                    
                 } else {
                     
                     let userImage = document["userImage"] as? String ?? ""
                     let userFrontId = document["userFrontId"] as? String ?? ""
+//                    let areaNameJa = document["areaNameJa"] as? String ?? ""
+                    let areaNameEn = document["areaNameEn"] as? String ?? ""
+                    let usersBlockAreaJa = document["areaBlock"] as? String ?? ""
+                    
+                    cell.areaName.text = ""
+                    
+                    if usersBlockAreaJa != "" {
+                        let slashPlusBlock = "/"+usersBlockAreaJa
+                        cell.areaName.text = areaNameEn + slashPlusBlock
+                    } else {
+                        cell.areaName.text = areaNameEn
+                    }
+                    
                     
                     cell.userFrontIdLabel.text = userFrontId
                     if let url = URL(string:userImage) {
@@ -926,6 +965,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 if delete == true {
                     cell.messageLabel.text = "この投稿は削除されました"
+                    cell.sendImageConstraintHeight.constant = 0
+                    cell.sendImageView.alpha = 0
                     
                     //後で直す
                     cell.graffitiContentsImageView.alpha = 0

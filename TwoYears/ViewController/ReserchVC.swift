@@ -302,10 +302,10 @@ class ReserchVC:UIViewController{
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        if UserDefaults.standard.bool(forKey: "SerchInstruct") != true{
-//            UserDefaults.standard.set(true, forKey: "SerchInstruct")
-//            self.coachMarksController.start(in: .currentWindow(of: self))
-//        }
+        if UserDefaults.standard.bool(forKey: "SerchInstruct") != true{
+            UserDefaults.standard.set(true, forKey: "SerchInstruct")
+            self.coachMarksController.start(in: .currentWindow(of: self))
+        }
     }
     
     override func viewDidLoad() {

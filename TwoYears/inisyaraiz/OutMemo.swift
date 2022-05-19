@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 import SwiftMoment
 
-class OutMemo {
+struct OutMemo {
     
     var userId: String
     var userImage : String
@@ -21,6 +21,10 @@ class OutMemo {
     var imageAddress: String
     var sendMovieURL: String
     var movieAddress: String
+    
+    var areaNameEn: String
+    var areaNameJa: String
+    var areaBlock: String
     
     var createdAt: Timestamp
     var textMask: String
@@ -39,6 +43,7 @@ class OutMemo {
     var backHexColor:String
     var textFontName:String
     
+    var privateBool:Bool
     var readLog: Bool
     var admin: Bool
     var anonymous: Bool
@@ -54,7 +59,11 @@ class OutMemo {
         self.sendImageURL = dic["sendImageURL"] as? String ?? ""
         self.imageAddress = dic["imageAddress"] as? String ?? ""
         self.sendMovieURL = dic["sendMovieURL"] as? String ?? ""
-        self.movieAddress = dic["movieAddress"] as? String ?? ""        
+        self.movieAddress = dic["movieAddress"] as? String ?? ""
+        
+        self.areaNameEn = dic["areaNameEn"] as? String ?? ""
+        self.areaNameJa = dic["areaNameJa"] as? String ?? ""
+        self.areaBlock = dic["areaBlock"] as? String ?? ""
         
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.textMask = dic["textMask"] as? String ?? ""
@@ -73,6 +82,7 @@ class OutMemo {
         self.backHexColor = dic["backHexColor"] as? String ?? ""
         self.textFontName = dic["textFontName"] as? String ?? "Southpaw"
         
+        self.privateBool = dic["privateBool"] as? Bool ?? false
         self.readLog = dic["readLog"] as? Bool ?? false
         self.admin = dic["admin"] as? Bool ?? false
         self.anonymous = dic["anonymous"] as? Bool ?? false

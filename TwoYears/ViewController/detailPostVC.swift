@@ -14,7 +14,8 @@ import Nuke
 
 class detailPostVC:UIViewController {
     
-//    var postInfo: PostInfo?
+    var postInfo: PostInfo?
+    
     var sendedBool:Bool?
     var postInfoTitle: String?
     var postInfoImage: String?
@@ -28,6 +29,7 @@ class detailPostVC:UIViewController {
     var userFrontId: String?
     var originImage : UIImage?
     var backHexColor : String?
+    var imageAddress:String?
     var backTapCount = 0
 
     
@@ -240,9 +242,13 @@ class detailPostVC:UIViewController {
         
         if uid == postUserId || uid == profileUserId {
             TPButton.alpha = 1
+            transitionReMemoBackView.alpha = 1
+            storyShareBackView.alpha = 1
             
         } else {
             TPButton.alpha = 0
+            transitionReMemoBackView.alpha = 0
+            storyShareBackView.alpha = 0
         }
         
         setSwipeBack()
@@ -563,17 +569,16 @@ class detailPostVC:UIViewController {
         db.collection("users").document(profileUserId ?? "").collection("SendedPost").document(postInfoDoc ?? "").delete()
         self.navigationController?.popViewController(animated: true)
 //        // Create a reference to the file to delete
-//        let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(postInfo?.postImage ?? "")
-//        // Delete the file
-//        storageRef.delete { error in
-//          if let error = error {
-//            // Uh-oh, an error occurred!
-//              print(error)
-//          } else {
-//            // File deleted successfully
-//          }
-//        }
-            
+        let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(imageAddress ?? "")
+        // Delete the file
+        storageRef.delete { error in
+          if let error = error {
+            // Uh-oh, an error occurred!
+              print(error)
+          } else {
+            // File deleted successfully
+          }
+        }
     }
     
 }

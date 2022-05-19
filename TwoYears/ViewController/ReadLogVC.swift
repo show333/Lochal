@@ -16,7 +16,7 @@ class ReadLogVC: UIViewController{
     private let cellId = "cellId"
     let db = Firestore.firestore()
     let uid =  UserDefaults.standard.string(forKey: "userId")
-    var documentId:String?
+    var outMemo:OutMemo?
     var readLog: [ReadLog] = []
     
     @IBOutlet weak var readLogTableView: UITableView!
@@ -33,10 +33,51 @@ class ReadLogVC: UIViewController{
     @IBOutlet weak var reallyButton: UIButton!
     
     @IBAction func reallyTappedButton(_ sender: Any) {
-        db.collection("users").document(uid ?? "").collection("MyPost").document(documentId ?? "").setData(["delete":true] as [String : Any],merge: true)
+        db.collection("users").document(uid ?? "").collection("MyPost").document(outMemo?.documentId ?? "").setData(["delete":true] as [String : Any],merge: true)
+        assetsDelete(assetsType:outMemo?.assetsType ?? "")
+        
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
         dismiss(animated: true, completion: nil)
+    }
+    
+    func assetsDelete(assetsType:String) {
+        switch assetsType {
+        case"movie":
+            let storageRefMovie = Storage.storage().reference().child("OutMemo_Post_Image").child(outMemo?.movieAddress ?? "")
+            // Delete the file
+            storageRefMovie.delete { error in
+                if let error = error {
+                    // Uh-oh, an error occurred!
+                    print(error)
+                } else {
+                    // File deleted successfully
+                }
+            }
+            let storageRefImage = Storage.storage().reference().child("OutMemo_Post_Image").child(outMemo?.imageAddress ?? "")
+            // Delete the file
+            storageRefImage.delete { error in
+                if let error = error {
+                    // Uh-oh, an error occurred!
+                    print(error)
+                } else {
+                    // File deleted successfully
+                }
+            }
+        case"image":
+            let storageRefImage = Storage.storage().reference().child("OutMemo_Post_Image").child(outMemo?.imageAddress ?? "")
+            // Delete the file
+            storageRefImage.delete { error in
+                if let error = error {
+                    // Uh-oh, an error occurred!
+                    print(error)
+                } else {
+                    // File deleted successfully
+                }
+            }
+        default:
+            print("nothing")
+        }
     }
     
     @IBOutlet weak var backGroundButton: UIButton!
@@ -83,7 +124,7 @@ class ReadLogVC: UIViewController{
     
     
     func getReadLog(userId:String) {
-        db.collection("users").document(userId).collection("MyPost").document(documentId ?? "").collection("Readlog").addSnapshotListener{ [self] ( snapshots, err) in
+        db.collection("users").document(userId).collection("MyPost").document(outMemo?.documentId ?? "").collection("Readlog").addSnapshotListener{ [self] ( snapshots, err) in
             if let err = err {
                 print("メッセージの取得に失敗、\(err)")
                 return
@@ -142,6 +183,15 @@ extension ReadLogVC: UITableViewDelegate, UITableViewDataSource {
             cell.userImageView?.image = nil
         }
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("あえい",readLog[indexPath.row].userId)
+        let storyboard = UIStoryboard.init(name: "Profile", bundle: nil)
+        let ProfileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        ProfileVC.userId = readLog[indexPath.row].userId
+        ProfileVC.cellImageTap = true
+
+        navigationController?.pushViewController(ProfileVC, animated: true)
     }
     
     
