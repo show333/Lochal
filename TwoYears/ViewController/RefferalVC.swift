@@ -51,7 +51,7 @@ class RefferalVC : UIViewController {
         ] as [String : Any]
         db.collection("ReferralId").document(randomId).setData(referralDoc)
         db.collection("users").document(uid).setData(["referralCount": FieldValue.increment(-1.0)],merge: true)
-        
+
         codeLabel.text = randomId
     }
     

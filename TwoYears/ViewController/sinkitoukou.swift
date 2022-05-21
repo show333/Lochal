@@ -81,15 +81,27 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var confirmFrontButton: UIButton!
     
     @IBAction func confirmFrontTappedButton(_ sender: Any) {
+        
+        guard let tabcon = presentingViewController as? TabbarController else {
+            print("Could not find tabbar Controller")
+            return
+        }
+        guard let navigation = tabcon.selectedViewController as? UINavigationController else {
+            print("Could not find avigation nController")
+            return
+        }
+        guard let vc = navigation.topViewController as? ViewController else {
+              print("Could not find previous viewController")
+              return
+        }
+                
         switch postType {
         case "newPost":
             sendFirestore(tapButton: "newPost")
-            let vc = self.presentingViewController as! ViewController
             vc.lottieBool = true
             self.dismiss(animated: true, completion: nil)
         case "anonymous" :
-            sendFirestore(tapButton: "anonymous")
-            let vc = self.presentingViewController as! ViewController
+//            sendFirestore(tapButton: "anonymous")
             vc.lottieBool = true
             self.dismiss(animated: true, completion: nil)
         case "private" :
@@ -441,7 +453,9 @@ class sinkitoukou: UIViewController {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
                         let userId = document.data()["userId"] as? String ?? ""
-                        db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+                        if userId != "" {
+                            db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+                        }
 
                     }
                 }
@@ -515,7 +529,9 @@ class sinkitoukou: UIViewController {
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
                         let userId = document.data()["userId"] as? String ?? ""
-                        db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+                        if userId != "" {
+                            db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+                        }
                     }
                 }
             }
@@ -554,7 +570,7 @@ class sinkitoukou: UIViewController {
             "delete": false,
         ] as [String: Any]
         db.collection("users").document(uid).collection("TimeLine").document(memoId).setData(memoInfoDic)
-        
+
         let myPost = [
             "message" : thisisMessage as Any,
             "sendImageURL": imageString ?? "",
@@ -577,20 +593,20 @@ class sinkitoukou: UIViewController {
             "admin": false,
             "delete": false,
         ] as [String: Any]
-        
+
         db.collection("users").document(uid).collection("MyPost").document(memoId).setData(myPost)
         
         db.collection("users").whereField("UEnterdBool", isEqualTo: true).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
             } else {
-
                 if querySnapshot?.documents.count ?? 0 >= 1{
                     for document in querySnapshot!.documents {
                         print("\(document.documentID) => \(document.data())")
                         let userId = document.data()["userId"] as? String ?? ""
-                        db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
-
+                        if userId != "" {
+                            db.collection("users").document(userId).collection("TimeLine").document(memoId).setData(memoInfoDic)
+                        }
                     }
                 }
             }
@@ -853,7 +869,6 @@ extension sinkitoukou: UITextViewDelegate {
 
 extension sinkitoukou: UIAdaptivePresentationControllerDelegate {
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        anonymousBackView.backgroundColor = .gray
     
         
         let textwhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)//空白、改行のみを防ぐ
@@ -863,7 +878,6 @@ extension sinkitoukou: UIAdaptivePresentationControllerDelegate {
             if setImageView.image != nil {
                 anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
                 newPostBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
-
             }
         }
         
