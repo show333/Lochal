@@ -17,15 +17,13 @@ import AVFoundation
 import AVKit
 
 class sinkitoukou: UIViewController {
-    let uid = UserDefaults.standard.string(forKey: "userId")
     
+    let uid = UserDefaults.standard.string(forKey: "userId")
     let areaNameEn:String? = UserDefaults.standard.object(forKey: "areaNameEn") as? String
     let areaNameJa:String? = UserDefaults.standard.object(forKey: "areaNameJa") as? String
     let areaBlock:String? = UserDefaults.standard.object(forKey: "areaBlock") as? String
-
-
-    
     let db = Firestore.firestore()
+    
     var followerId : [String] = []
     var assetsType : String?
     var postType : String?
@@ -40,6 +38,9 @@ class sinkitoukou: UIViewController {
     var imagePC: UIImagePickerController! = UIImagePickerController()
     var imageString: String?
     var movieString: String?
+    
+    var alertController: UIAlertController!
+
     
     let coachMarksController = CoachMarksController()
 
@@ -122,12 +123,11 @@ class sinkitoukou: UIViewController {
         imagePC.delegate = self
         imagePC.mediaTypes = ["public.image","public.movie"]
         present(imagePC, animated: true, completion: nil)
-
+        
     }
     @IBOutlet weak var stampButton: UIButton!
     
     @IBAction func stampTappedButton(_ sender: Any) {
-        
         let storyboard = UIStoryboard.init(name: "stampCollection", bundle: nil)
         let stampViewController = storyboard.instantiateViewController(withIdentifier: "stampViewController") as! stampViewController
         stampViewController.presentationController?.delegate = self
@@ -141,13 +141,20 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var newPostLabel: UILabel!
     @IBAction func tappedSinkiButton(_ sender: Any) {
         
-        if setImageView.image != nil {
-            postType = "newPost"
-            confirmStatus()
-
+        if durationTime ?? 0 > 180.0 {
+            alert(title: "動画の時間が長すぎます",
+                  message: "180秒以下の動画のみアップロードできます")
+            
         } else {
-            print("aaaa")
-            self.coachMarksController.start(in: .currentWindow(of: self))
+            
+            if setImageView.image != nil {
+                postType = "newPost"
+                confirmStatus()
+                
+            } else {
+                print("aaaa")
+                self.coachMarksController.start(in: .currentWindow(of: self))
+            }
         }
     }
     
@@ -159,13 +166,20 @@ class sinkitoukou: UIViewController {
     
     @IBOutlet weak var anonymousButton: UIButton!
     @IBAction func anonymousTappedButton(_ sender: Any) {
-        if setImageView.image != nil {
-            postType = "anonymous"
-            confirmStatus()
-
+        
+        if durationTime ?? 0 > 180.0 {
+            alert(title: "動画の時間が長すぎます",
+                  message: "180秒以下の動画のみアップロードできます")
+            
         } else {
-            print("aaaa")
-            self.coachMarksController.start(in: .currentWindow(of: self))
+            if setImageView.image != nil {
+                postType = "anonymous"
+                confirmStatus()
+                
+            } else {
+                print("aaaa")
+                self.coachMarksController.start(in: .currentWindow(of: self))
+            }
         }
     }
     
@@ -177,8 +191,15 @@ class sinkitoukou: UIViewController {
     @IBOutlet weak var privateButton: UIButton!
     
     @IBAction func privateTappedButton(_ sender: Any) {
-        postType = "private"
-        confirmStatus()
+        
+        if durationTime ?? 0 > 180.0 {
+            alert(title: "動画の時間が長すぎます",
+                  message: "180秒以下の動画のみアップロードできます")
+            
+        } else {
+            postType = "private"
+            confirmStatus()
+        }
     }
     
     @IBOutlet weak var closeButton: UIButton!
@@ -640,9 +661,6 @@ class sinkitoukou: UIViewController {
         setImageView.isUserInteractionEnabled = true
         setImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(setImageViewTapped(_:))))
         
-
-
-        
         newPostBackView.backgroundColor = .gray
         newPostBackView.clipsToBounds = true
         newPostBackView.layer.cornerRadius = 10
@@ -752,6 +770,16 @@ class sinkitoukou: UIViewController {
         } else {
             print("no such file")
         }
+    }
+    
+    func alert(title:String, message:String) {
+        alertController = UIAlertController(title: title,
+                                   message: message,
+                                   preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK",
+                                       style: .default,
+                                       handler: nil))
+        present(alertController, animated: true)
     }
 }
 extension sinkitoukou: UITextViewDelegate {
@@ -870,10 +898,18 @@ extension sinkitoukou: UIImagePickerControllerDelegate, UINavigationControllerDe
         print(mediaURL ?? "")
         
         imagePC.dismiss(animated: true)
-        anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
-        newPostBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+        
+        let textwhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let textHolder = "ポテチ食べたい\nコンビニの新作アイスめっちゃ美味い\nうちの猫めっちゃ可愛い\n授業,会社だるい\n布団から出られない\nなど"
+        print("おいさジェフォイじゃせ",textwhite)
 
-
+        if textwhite == "" || textwhite == textHolder{
+            print("おいfjアセおい")
+        } else {
+            
+            anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+            newPostBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
+        }
     }
     
     func generateDuration(timeInterval: TimeInterval) -> String {

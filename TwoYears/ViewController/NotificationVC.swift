@@ -83,6 +83,7 @@ class NotificationVC: UIViewController {
         
         if releaseBool == false {
             release(uid:uid)
+            addReferralCount(uid:uid)
             sendMemoFireStore(uid:uid)
             reaction.removeAll()
             
@@ -107,10 +108,8 @@ class NotificationVC: UIViewController {
     }
     
     @IBOutlet weak var acceptImageView: UIImageView!
-    
     @IBOutlet weak var acceptImageConstraint: NSLayoutConstraint!
     @IBOutlet weak var acceptedImageView: UIImageView!
-
     @IBOutlet weak var acceptedImageConstraint: NSLayoutConstraint!
     @IBOutlet weak var acceptButtonConstraint: NSLayoutConstraint!
     @IBOutlet weak var acceptingBackButton: UIButton!
@@ -178,16 +177,12 @@ class NotificationVC: UIViewController {
         }
         
         db.collection("users").document(uid).collection("Notification").document("Connecting\(userId)").setData(["reactionMessage":"さんとコネクトしました","acceptBool":true], merge: true)
-        
         guard let uid = Auth.auth().currentUser?.uid else { return }
 //        guard let userId = userId else {return}
-
         db.collection("users").document(uid).collection("Connections").document(userId).setData(["createdAt": FieldValue.serverTimestamp(),"userId":userId,"status":"accept"], merge: true)
-        
         db.collection("users").document(userId).collection("Connections").document(uid).setData(["createdAt": FieldValue.serverTimestamp(),"userId":uid ,"status":"accept"], merge: true)
         db.collection("users").document(userId).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
         db.collection("users").document(uid).setData(["ConnectionsCount": FieldValue.increment(1.0)], merge: true)
-        
     }
     
     func MyPostGet(uid:String){
@@ -227,7 +222,6 @@ class NotificationVC: UIViewController {
             
         ] as [String: Any]
         
-        
         db.collection("users").document(userId).collection("TimeLine").document(outMemo.documentId).setData(memoInfoDic,merge: true)
 //        let userId = document.data()["userId"] as! String
 //                        getUserInfo(userId: userId)
@@ -235,7 +229,6 @@ class NotificationVC: UIViewController {
     
     func release(uid:String) {
         guard let userId = userId else {return}
-        
         let postDoc = [
             "userId":reactionSelected?.userId,
             "postImage":reactionSelected?.postImage,
@@ -252,9 +245,6 @@ class NotificationVC: UIViewController {
         db.collection("users").document(uid).collection("SendedPost").document(cellDocumentId ?? "").setData(postDoc,merge: true)
         
         db.collection("users").document(uid).collection("Notification").document(cellDocumentId ?? "").setData(["releaseBool":true,"reactionMessage":"さんからの投稿を公開しました"], merge: true)
- 
-        
-        
         
         db.collection("users").document(userId).getDocument { [self] (document, error) in
             if let document = document, document.exists {
@@ -262,7 +252,6 @@ class NotificationVC: UIViewController {
                 print("Document data: \(dataDescription)")
                 
                 let notificationNum = document["notificationNum"] as? Int ?? 0
-                
                 
                 let documentId = randomString(length: 20)
                 let docData = [
@@ -297,7 +286,57 @@ class NotificationVC: UIViewController {
         }
     }
     
-    
+    func addReferralCount(uid:String) {
+        guard let userId = userId else {return}
+
+        db.collection("users").document(uid).collection("SendedAccount").document(userId).setData([
+            "referralCount": FieldValue.increment(1.0),
+            "userId": userId,
+            "sendLatestedAt": FieldValue.serverTimestamp(),
+        ]) { [self] err in
+            if let err = err {
+                print("Error writing document: \(err)")
+            } else {
+                print("Document successfully written!")
+                
+                db.collection("users").document(uid).collection("SendedAccount").getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        print("isefoisje",querySnapshot?.documents.count)
+                        
+                        let userCountPercent = (querySnapshot?.documentChanges.count ?? 1) % 2
+                        
+                        if userCountPercent == 0 {
+                            db.collection("users").document(uid).setData(["referralCount":FieldValue.increment(1.0)], merge: true)
+                        } else {
+                            
+                        }
+                    }
+                }
+                
+                db.collection("users").document(uid).collection("SendedAccount").addSnapshotListener{ [self] ( snapshots, err) in
+                    if let err = err {
+                        print("メッセージの取得に失敗、\(err)")
+                        return
+                    }
+                    snapshots?.documentChanges.forEach({ (Naruto) in
+                        switch Naruto.type {
+                        case .added:
+                            
+                            print("osiejfi",snapshots?.documentChanges.count)
+                            
+                        case .modified, .removed:
+                            print("noproblem")
+                        }
+                    })
+                }
+                
+                
+            }
+        }
+        
+    }
 
     func sendMemoFireStore(uid:String) {
 
@@ -400,8 +439,7 @@ class NotificationVC: UIViewController {
     @IBOutlet weak var reactionTableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+    
         
         let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
         UNUserNotificationCenter.current().requestAuthorization(
