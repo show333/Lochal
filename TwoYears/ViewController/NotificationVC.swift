@@ -576,6 +576,7 @@ class NotificationVC: UIViewController {
                         return m1Date > m2Date
                     }
                     self.reactionTableView.reloadData()
+                    
                 case .removed:
                     
                     let dic = Naruto.document.data()

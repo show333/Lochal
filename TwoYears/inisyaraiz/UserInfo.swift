@@ -20,18 +20,21 @@ class UserInfo : Equatable{
     var userImage: String
     var userFrontId:String
     var status :String
+    var newMessage:String
     var createdAt: Timestamp
     var chatLatestedAt: Timestamp
     var messageCount:Int
     var admin: Bool
     
     
-    init(dic: [String: Any],messageCount: Int,chatLatestedAt:Timestamp) {
+    init(dic: [String: Any],messageCount: Int,chatLatestedAt:Timestamp,newMessage:String) {
         self.userId = dic["userId"] as? String ?? ""
         self.userName = dic["userName"] as? String ?? ""
         self.userImage = dic["userImage"] as? String ?? ""
         self.userFrontId = dic["userFrontId"] as? String ?? ""
         self.status = dic["status"] as? String ?? ""
+        self.newMessage = newMessage
+
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.chatLatestedAt = chatLatestedAt
         self.messageCount = messageCount

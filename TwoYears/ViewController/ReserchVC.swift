@@ -93,8 +93,9 @@ class ReserchVC:UIViewController{
                             print("\(document.documentID) => \(document.data())")
                             let messageCount = document.data()["messageCount"] as? Int ?? 0
                             let chatLatestedAt = document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
-                            
-                            let userInfoDic = UserInfo(dic: document.data(),messageCount:messageCount,chatLatestedAt:chatLatestedAt)
+                            let newMessage = document.data()["newMessage"]  as? String ?? ""
+
+                            let userInfoDic = UserInfo(dic: document.data(),messageCount:messageCount,chatLatestedAt:chatLatestedAt, newMessage: newMessage)
                             print("a",userInfoDic)
                             self.userInfo.append(userInfoDic)
                         }
@@ -120,7 +121,9 @@ class ReserchVC:UIViewController{
                             print("\(document.documentID) => \(document.data())")
                             let messageCount = document.data()["messageCount"] as? Int ?? 0
                             let chatLatestedAt = document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
-                            let userInfoDic = UserInfo(dic: document.data(),messageCount:messageCount,chatLatestedAt:chatLatestedAt)
+                            let newMessage = document.data()["newMessage"]  as? String ?? ""
+
+                            let userInfoDic = UserInfo(dic: document.data(),messageCount:messageCount,chatLatestedAt:chatLatestedAt, newMessage: newMessage)
                             print("a",userInfoDic)
                             self.userInfo.append(userInfoDic)
                         }
@@ -158,9 +161,10 @@ class ReserchVC:UIViewController{
                             let userId = documents.document.data()["userId"] as? String ?? ""
                             let messageCount = documents.document.data()["messageCount"] as? Int ?? 0
                             let chatLatestedAt = documents.document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
+                            let newMessage = documents.document.data()["newMessage"]  as? String ?? ""
                             
                             print("aaaaa",messageCount)
-                            getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt,snapType: "added")
+                            getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt,snapType: "added",newMessage:newMessage)
                             
                         case .modified, .removed:
                             print("noproblem")
@@ -170,8 +174,10 @@ class ReserchVC:UIViewController{
                             
                             let messageCount = documents.document.data()["messageCount"] as? Int ?? 0
                             let chatLatestedAt = documents.document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
+                            let newMessage = documents.document.data()["newMessage"]  as? String ?? ""
+
                             print("aaaaa",messageCount)
-                            getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt,snapType: "modified")
+                            getUserInfo(userId: userId,messageCount: messageCount,chatLatestedAt: chatLatestedAt,snapType: "modified",newMessage:newMessage)
                         }
                         
                     })
@@ -181,14 +187,12 @@ class ReserchVC:UIViewController{
     }
     
     
-    func getUserInfo(userId:String,messageCount:Int,chatLatestedAt:Timestamp,snapType:String){
+    func getUserInfo(userId:String,messageCount:Int,chatLatestedAt:Timestamp,snapType:String,newMessage:String){
         db.collection("users").document(userId).collection("Profile").document("profile").getDocument { (document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
-                let userInfoDic = UserInfo(dic: document.data()!,messageCount:messageCount,chatLatestedAt:chatLatestedAt)
-                
-                
+                let userInfoDic = UserInfo(dic: document.data()!,messageCount:messageCount,chatLatestedAt:chatLatestedAt,newMessage:newMessage)
                 
                 self.userInfo.append(userInfoDic)
                 
@@ -196,12 +200,22 @@ class ReserchVC:UIViewController{
                 let aaa = self.userInfo.firstIndex(of: userInfoDic)
                 self.userInfo.remove(at: aaa ?? 0)
                 }
+                
+//                self.userInfo.sort { (m1, m2) -> Bool in
+//                    let m1CreateDate = m1.createdAt.dateValue()
+//                    let m2CreateDate = m2.createdAt.dateValue()
+//                    return m1CreateDate < m2CreateDate
+//                }
 
                 self.userInfo.sort { (m1, m2) -> Bool in
-                    let m1Date = m1.chatLatestedAt.dateValue()
-                    let m2Date = m2.chatLatestedAt.dateValue()
-                    return m1Date > m2Date
+                    let m1LatestDate = m1.chatLatestedAt.dateValue()
+                    let m2LatestDate = m2.chatLatestedAt.dateValue()
+
+                    return m1LatestDate < m2LatestDate
                 }
+                
+    
+                
                 
                 
                 self.reserchTableView.reloadData()
@@ -210,9 +224,7 @@ class ReserchVC:UIViewController{
             }
         }
     }
-    
-    
-    
+        
     func noExsitAnimation(){
         UIView.animate(withDuration: 0.1, delay: 0, animations: {
             self.noExistLabel.alpha = 0
@@ -226,7 +238,6 @@ class ReserchVC:UIViewController{
                     self.noExistLabel.alpha = 0
                 })
             }
-            
         }
     }
     
@@ -431,7 +442,7 @@ extension StringProtocol where Self: RangeReplaceableCollection {
 
 extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 70
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return userInfo.count
@@ -455,6 +466,10 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         cell.userNameLabel.font = UIFont(name:"03SmartFontUI", size:19)
         cell.userImageView.clipsToBounds = true
         cell.userImageView.layer.cornerRadius = 25
+        cell.messageLabel.text = userInfo[indexPath.row].newMessage
+    
+//        let date: Date = userInfo[indexPath.row].chatLatestedAt.dateValue()
+//        cell.dateLabel.text = date.agoText()
         
         cell.messageCountLabel.text = String(userInfo[indexPath.row].messageCount)
 
@@ -550,7 +565,9 @@ class ReserhTableViewCell:UITableViewCell{
     @IBOutlet weak var userImageView: UIImageView!
     
     @IBOutlet weak var messageCountLabel: UILabel!
+    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var userFrontIdLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var userNameLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
