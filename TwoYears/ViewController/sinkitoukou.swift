@@ -101,7 +101,7 @@ class sinkitoukou: UIViewController {
             vc.lottieBool = true
             self.dismiss(animated: true, completion: nil)
         case "anonymous" :
-//            sendFirestore(tapButton: "anonymous")
+            sendFirestore(tapButton: "anonymous")
             vc.lottieBool = true
             self.dismiss(animated: true, completion: nil)
         case "private" :
@@ -111,6 +111,7 @@ class sinkitoukou: UIViewController {
             confirmBackView.alpha = 0
         }
     }
+    
     @IBOutlet weak var confirmNameLabel: UILabel!
     
     @IBOutlet weak var confirmExplainLabel: UILabel!

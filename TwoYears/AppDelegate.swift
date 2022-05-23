@@ -13,7 +13,6 @@ import GoogleMobileAds
 import FBSDKCoreKit
 import FirebaseDynamicLinks
 
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     
