@@ -555,6 +555,7 @@ class NotificationVC: UIViewController {
         UIApplication.shared.applicationIconBadgeNumber = 0
         self.tabBarController?.viewControllers?[2].tabBarItem.badgeValue = nil
     }
+    
     func fetchReaction(userId:String) {
         db.collection("users").document(userId).collection("Notification").addSnapshotListener{ [self] ( snapshots, err) in
             if let err = err {
@@ -575,6 +576,7 @@ class NotificationVC: UIViewController {
                         return m1Date > m2Date
                     }
                     self.reactionTableView.reloadData()
+                    
                 case .removed:
                     
                     let dic = Naruto.document.data()
@@ -585,8 +587,6 @@ class NotificationVC: UIViewController {
                     self.reactionTableView.reloadData()
                     
                 case .modified:
-                    
-                    
                     print("noproblem")
                 }
             })

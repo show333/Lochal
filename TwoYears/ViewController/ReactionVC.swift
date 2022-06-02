@@ -27,7 +27,7 @@ class ReactionVC: UIViewController {
     var userImage: UIImage?
     
     var userName: String? =  UserDefaults.standard.object(forKey: "userName") as? String
-//    var userImage: String? = UserDefaults.standard.object(forKey: "userImage") as? String
+    var userImageString: String? = UserDefaults.standard.object(forKey: "userImage") as? String
     var userFrontId: String? = UserDefaults.standard.object(forKey: "userFrontId") as? String
     
     let db = Firestore.firestore()
@@ -135,7 +135,6 @@ extension ReactionVC :UICollectionViewDataSource, UICollectionViewDelegate {
     private func addReactionToFirestore(urlString: String) {
         
         
-        
         db.collection("users").document(userId ?? "").getDocument { [self] (document, error) in
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
@@ -148,12 +147,15 @@ extension ReactionVC :UICollectionViewDataSource, UICollectionViewDelegate {
                     let characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                     return String((0..<length).map{ _ in characters.randomElement()! })
                 }
+                
+                
+                
                 let documentId = randomString(length: 20)
                 let docData = [
                     "createdAt": FieldValue.serverTimestamp(),
                     "userId": uid,
                     "userName":userName ?? "",
-                    "userImage":userImage ?? "",
+                    "userImage":userImageString ?? "",
                     "userFrontId":userFrontId ?? "",
                     "documentId" : documentId,
                     "reactionImage": urlString,
@@ -166,7 +168,6 @@ extension ReactionVC :UICollectionViewDataSource, UICollectionViewDelegate {
                 ] as [String: Any]
                 db.collection("users").document(userId ?? "").collection("Notification").document(documentId).setData(docData)
                 db.collection("users").document(userId ?? "").setData(["notificationNum": FieldValue.increment(1.0)], merge: true)
-                
                 
             } else {
                 print("Document does not exist")

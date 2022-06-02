@@ -428,16 +428,24 @@ extension InChatRoomVC: ChatInputAccessoryViewDelegate{
             "sendImageURL": "",
         ] as [String: Any]
         
-        let upDateDoc = [
+        let upDateUserDoc = [
             "chatLatestedAt": FieldValue.serverTimestamp(),
             "messageCount": FieldValue.increment(1.0),
             "newMessage": text,
             "latestUserId":uid
         ] as [String: Any]
         
+        let upDateMyDoc = [
+            "chatLatestedAt": FieldValue.serverTimestamp(),
+            "newMessage": text,
+            "latestUserId":uid
+        ] as [String: Any]
+        
         db.collection("users").document(uid).collection("ChatRoom").document(userId ?? "").collection("Messages").document(documentId).setData(docData)
         db.collection("users").document(userId ?? "").collection("ChatRoom").document(uid).collection("Messages").document(documentId).setData(docData)
-        db.collection("users").document(userId ?? "").collection("Connections").document(uid).setData(upDateDoc, merge: true)
+        db.collection("users").document(userId ?? "").collection("Connections").document(uid).setData(upDateUserDoc, merge: true)
+        db.collection("users").document(uid).collection("Connections").document(userId ?? "").setData(upDateMyDoc, merge: true)
+        
         db.collection("users").document(userId ?? "").setData(["messageNum": FieldValue.increment(1.0)], merge: true)
         
     }
