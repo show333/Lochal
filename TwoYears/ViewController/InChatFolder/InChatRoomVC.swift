@@ -238,17 +238,6 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
         
         cell.Imageheight.constant = 0
         
-  
-//        cell.sendImageView.isUserInteractionEnabled = true
-//        let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.onTap(_:)))
-//        cell.sendImageView.addGestureRecognizer(recognizer)
-        
-//        let tapGesture = UITapGestureRecognizer(
-//            target: self,
-//            action: #selector(didTap(_:)))
-//        cell.sendImageView.addGestureRecognizer(tapGesture)
-//        cell.sendImageView.isUserInteractionEnabled = true
-        
         let messageDate = ChatRoomInfo[indexPath.row].createdAt.dateValue()
         let messageMoment = moment(messageDate)
         let dateformatted = messageMoment.format("MM/dd hh:mm")
@@ -262,7 +251,6 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
         
         let uid = Auth.auth().currentUser?.uid
         
-//        userGetInfo(userId: ChatRoomInfo[indexPath.row].userId,cell: cell)
         cell.userNameLabel.text = userName
         if let url = URL(string:userImage ?? "") {
             Nuke.loadImage(with: url, into: cell.userImage)
@@ -337,38 +325,6 @@ extension InChatRoomVC:UITableViewDelegate, UITableViewDataSource {
         }
         return cell
     }
-    
-    
-    
-//    @objc private func didTap(_ sender: UITapGestureRecognizer) {
-//        let viewController = GalleryViewController(
-//            startIndex: 0,
-//            itemsDataSource: self,
-//            displacedViewsDataSource: self,
-//            configuration: [
-//                .deleteButtonMode(.none),
-//                .thumbnailsButtonMode(.none)
-//            ])
-//        presentImageGallery(viewController)
-//    }
-    
-    
-//    @objc func onTap(_ sender: UIImageView) {
-//        let image = UIImage(named: "https://firebasestorage.googleapis.com:443/v0/b/totalgood-7b3a3.appspot.com/o/ChatRoom_image%2F9BB9FEB9-4191-45CE-8A93-158D6A1DF1F4?alt=media&token=7d410f68-915e-4b6a-aa86-3f636df0d121")
-//        galleyItem = GalleryItem.image{ $0(image) }
-//        let galleryViewController = GalleryViewController(startIndex: 0, itemsDataSource: self, configuration: [.deleteButtonMode(.none), .seeAllCloseButtonMode(.none), .thumbnailsButtonMode(.none)])
-//            self.present(galleryViewController, animated: true, completion: nil)
-//        print("ああああ")
-//    }
-//
-//    // MARK: GalleryItemsDataSource
-//    func itemCount() -> Int {
-//    return 1
-//    }
-//
-//    func provideGalleryItem(_ index: Int) -> GalleryItem {
-//    return galleyItem
-//    }
     
     
     //urlリンク飛ぶ
@@ -480,21 +436,3 @@ extension UIView {
         }
     }
 }
-
-//extension InChatRoomVC: GalleryItemsDataSource {
-//    func itemCount() -> Int {
-//        return 1
-//    }
-//
-//    func provideGalleryItem(_ index: Int) -> GalleryItem {
-//        let cell = inChatTableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath) as! ChatRoomTableViewCell
-//        return GalleryItem.image { $0(cell.sendImageView.image!) }
-//    }
-//}
-//
-//// MARK: GalleryDisplacedViewsDataSource
-//extension InChatRoomVC: GalleryDisplacedViewsDataSource {
-//    func provideDisplacementItem(atIndex index: Int) -> DisplaceableView? {
-//        return cell.sendImageView
-//    }
-//}

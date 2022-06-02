@@ -38,9 +38,6 @@ class teamRankingVC:UIViewController, UICollectionViewDataSource, UICollectionVi
         super.viewDidLoad()
         
         getTeamDocuments()
-//        fetchFireStore()
-   
-        
         
         let widthImage = UIScreen.main.bounds.size.width/3.0
         
@@ -55,14 +52,6 @@ class teamRankingVC:UIViewController, UICollectionViewDataSource, UICollectionVi
         topViewConstraint.constant = safeArea/7*3
         collectionViewConstraint.constant = safeArea/7*3
         centerConstraint.constant = widthImage
-        
-//        backViewConstraint.constant = UIScreen.main.bounds.size.height - tabbarheight - statusBarHeight
-//
-//
-//        backUnderConstraint.constant = safeArea/2
-//        collectionViewConstraint.constant = safeArea/3
-        
-        
         
         // セルの詳細なレイアウトを設定する
         let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -114,8 +103,6 @@ class teamRankingVC:UIViewController, UICollectionViewDataSource, UICollectionVi
                     
                 }
                 teamCollectionView.reloadData()
-//                toriaLabel.text = String(teamInfo[0].totalGood)
-                
             }
         }
     }
@@ -162,17 +149,5 @@ class rankingCollectionViewCell: UICollectionViewCell {
         // cellの枠の色
         self.layer.borderColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
         backgroundColor = .gray
-        
-//        if teamName == "red" {
-//            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
-//        } else  if teamName == "yellow" {
-//            self.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-//        } else  if teamName == "blue" {
-//            self.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
-//        } else if teamName == "purple" {
-//            self.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-//        }
-        // cellを丸くする
-//        self.layer.cornerRadius = 2.0
     }
 }

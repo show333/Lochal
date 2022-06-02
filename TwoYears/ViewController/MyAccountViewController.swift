@@ -108,7 +108,6 @@ class MyAccountViewController: UIViewController {
                 if company1 != "none" || invitedCount >= 2{
                     
                     self.kinsiView.alpha = 0
-                    print("俺以外やわ",company1)
                     
                     if company1 != "none" {
                         self.firebaseCompany.document(company1).getDocument{ (document, error) in

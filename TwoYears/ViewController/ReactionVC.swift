@@ -46,7 +46,6 @@ class ReactionVC: UIViewController {
         
         messageLabel.text = message
         
-//        fetchUserProfile(userId: userId ?? "")
         
         userImageView.image = userImage
         
@@ -93,9 +92,7 @@ class ReactionVC: UIViewController {
                 }
                 print("Current data: \(data)")
                 let userImage = document["userImage"] as? String ?? ""
-                
-                //                getUserTeamInfo(userId: userId, cell: cell)
-                
+                                
                 if let url = URL(string:userImage) {
                     Nuke.loadImage(with: url, into: userImageView)
                 } else {
@@ -188,24 +185,5 @@ class ReactCollectionViewCell: UICollectionViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        
-        //         cellの枠の太さ
-        //        self.layer.borderWidth = 1.0
-        //         cellの枠の色
-        //        self.layer.borderColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        //        backgroundColor = .gray
-        
-        
-        //        if teamName == "red" {
-        //            self.layer.borderColor = #colorLiteral(red: 1, green: 0, blue: 0.1150693222, alpha: 0.9030126284)
-        //        } else  if teamName == "yellow" {
-        //            self.layer.borderColor = #colorLiteral(red: 1, green: 0.992557539, blue: 0.3090870815, alpha: 1)
-        //        } else  if teamName == "blue" {
-        //            self.layer.borderColor = #colorLiteral(red: 0.4093301235, green: 0.9249009683, blue: 1, alpha: 1)
-        //        } else if teamName == "purple" {
-        //            self.layer.borderColor = #colorLiteral(red: 0.8918020612, green: 0.7076364437, blue: 1, alpha: 1)
-        //        }
-        // cellを丸くする
-        //        self.layer.cornerRadius = 2.0
     }
 }

@@ -11,7 +11,6 @@ import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 import Nuke
-//import DZNEmptyDataSet
 
 
 class FollowersVC:UIViewController {
@@ -36,18 +35,9 @@ class FollowersVC:UIViewController {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         userListTableView.dataSource = self
         userListTableView.delegate = self
-//        userListTableView.emptyDataSetDelegate = self
-//        userListTableView.emptyDataSetSource = self
         fetchUserInfo(uid: uid)
     }
-    
-    // blankword for tableview
-//    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
-////        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-//        return NSAttributedString(string: "データがありません")
-////        }
-    //    }
-    //
+
     func fetchUserInfo(uid:String){
         
         self.db.collection("users").document(uid).collection("Follower").getDocuments() { [self] (querySnapshot, err) in
@@ -71,8 +61,6 @@ class FollowersVC:UIViewController {
             if let document = document, document.exists {
                 let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
                 print("Document data: \(dataDescription)")
-//                let userInfoDic = UserInfo(dic: document.data()!)
-//                self.userInfo.append(userInfoDic)
                 self.userListTableView.reloadData()
             } else {
                 print("Document does not exist")
@@ -131,28 +119,3 @@ class followersTableViewCell: UITableViewCell {
         super.prepareForReuse()
     }
 }
-
-
-//        self.db.collection("users").document(uid).collection("Follower").document("follower_Id")
-//            .addSnapshotListener { documentSnapshot, error in
-//                guard let document = documentSnapshot else {
-//                    print("Error fetching document: \(error!)")
-//                    return
-//                }
-//                guard let data = document.data() else {
-//                    print("Document data was empty.")
-//                    return
-//                }
-//                print("Current data: \(data)")
-//                let userIdArray = data["userId"] as! Array<String>
-//                print(userIdArray)
-//                print(userIdArray[0])
-//
-//                self.userInfo.removeAll()
-//                self.userListTableView.reloadData()
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-//                    userIdArray.forEach{
-//                        self.getUserInfo(userId: $0)
-//                    }
-//                }
-//            }

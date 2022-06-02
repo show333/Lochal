@@ -178,7 +178,6 @@
 		CF9FCB0D282ACA17006194D3 /* AreaExplainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF9FCB0C282ACA17006194D3 /* AreaExplainVC.swift */; };
 		CFA19DC22794454000D4C472 /* Reserch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC12794454000D4C472 /* Reserch.storyboard */; };
 		CFA19DC42794456000D4C472 /* ReserchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA19DC32794456000D4C472 /* ReserchVC.swift */; };
-		CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA19DC5279453CD00D4C472 /* ad.storyboard */; };
 		CFA1AD3727E0610600F36A79 /* PAULSON_.TTF in Resources */ = {isa = PBXBuildFile; fileRef = CFA1AD3627E0610600F36A79 /* PAULSON_.TTF */; };
 		CFA5BD4C2835139D003AF435 /* AgeSelect.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFA5BD4B2835139D003AF435 /* AgeSelect.storyboard */; };
 		CFA5BD4E283513F3003AF435 /* AgeSelectVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA5BD4D283513F3003AF435 /* AgeSelectVC.swift */; };
@@ -373,7 +372,6 @@
 		CF9FCB0C282ACA17006194D3 /* AreaExplainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaExplainVC.swift; sourceTree = "<group>"; };
 		CFA19DC12794454000D4C472 /* Reserch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Reserch.storyboard; sourceTree = "<group>"; };
 		CFA19DC32794456000D4C472 /* ReserchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReserchVC.swift; sourceTree = "<group>"; };
-		CFA19DC5279453CD00D4C472 /* ad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ad.storyboard; sourceTree = "<group>"; };
 		CFA1AD3627E0610600F36A79 /* PAULSON_.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = PAULSON_.TTF; sourceTree = "<group>"; };
 		CFA5BD4B2835139D003AF435 /* AgeSelect.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AgeSelect.storyboard; sourceTree = "<group>"; };
 		CFA5BD4D283513F3003AF435 /* AgeSelectVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgeSelectVC.swift; sourceTree = "<group>"; };
@@ -593,16 +591,14 @@
 		CF3A766225D089DA00088D56 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				CF535EB02849014100D19E72 /* SplashVCFolder */,
 				A33F066B279C26DD0008B29A /* ExplainVCFolder */,
 				A36DC4FF27A415EF0083F76D /* InChatFolder */,
 				A36DC50027A416340083F76D /* ProfileVCFolder */,
-				CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */,
-				CF24EF7825D7AAD6009FE517 /* SplashViewController.swift */,
 				CF0BD9D325CF1C74004A1958 /* ShoutaiHakkou.swift */,
 				CF3DDC0425C4597E0016AB0F /* sinkitoukou.swift */,
 				CF2A223725C3FC7000C5BFC1 /* ViewController.swift */,
 				CF0C14B125C9F028006A7C86 /* ChatRoomViewController.swift */,
-				CF31079C2600AA1A00746480 /* TabbarController.swift */,
 				CFE909172618F23E001AFCFB /* EULAViewController.swift */,
 				CF1BAC36266FB2380025A660 /* MyAccountViewController.swift */,
 				A3C0D9E92774859C00AC64D3 /* ReactionVC.swift */,
@@ -642,6 +638,7 @@
 		CF3A766425D08A2900088D56 /* StoryBoard */ = {
 			isa = PBXGroup;
 			children = (
+				CF535EB12849017800D19E72 /* SplashFolder */,
 				A36DC50127A416C80083F76D /* InChatFolder */,
 				A33F0663279C24FA0008B29A /* ExplainFolder */,
 				A36DC50227A417680083F76D /* ProfileFolder */,
@@ -649,17 +646,13 @@
 				CF9FCB06282ABFCF006194D3 /* SelectAge.storyboard */,
 				CF2BF5CA27D891CA00F7D1CB /* FontCollection.storyboard */,
 				CF3DDC0125C458DE0016AB0F /* sinkitoukou.storyboard */,
-				CF0BD9D725D018FF004A1958 /* SignIn.storyboard */,
 				CF0C14AE25C9F003006A7C86 /* ChatRoom.storyboard */,
-				CFF8192D25D344C600524B81 /* Splash.storyboard */,
-				CF3107A02600AA6700746480 /* Tabbar.storyboard */,
 				CF3107F726018BB200746480 /* ShoutaiHakkou.storyboard */,
 				CFE909142618F0AE001AFCFB /* EULA.storyboard */,
 				CFA19DC12794454000D4C472 /* Reserch.storyboard */,
 				A3C0D9EB277488BD00AC64D3 /* Reaction.storyboard */,
 				CF3B829D2785181400B4A257 /* ReadLog.storyboard */,
 				CF3B82A92786F6CD00B4A257 /* Notification.storyboard */,
-				CFA19DC5279453CD00D4C472 /* ad.storyboard */,
 				A35984082799A88B003CB00B /* UnitHome.storyboard */,
 				A359840C279A9A87003CB00B /* forexample.storyboard */,
 				CF83D9AF27AD4F7000DF9C76 /* CollectionPost.storyboard */,
@@ -714,6 +707,26 @@
 				CF2BF59527D8612C00F7D1CB /* SweetPineapple.otf */,
 			);
 			path = fonts;
+			sourceTree = "<group>";
+		};
+		CF535EB02849014100D19E72 /* SplashVCFolder */ = {
+			isa = PBXGroup;
+			children = (
+				CF0BD9DA25D01B04004A1958 /* SignInViewController.swift */,
+				CF24EF7825D7AAD6009FE517 /* SplashViewController.swift */,
+				CF31079C2600AA1A00746480 /* TabbarController.swift */,
+			);
+			path = SplashVCFolder;
+			sourceTree = "<group>";
+		};
+		CF535EB12849017800D19E72 /* SplashFolder */ = {
+			isa = PBXGroup;
+			children = (
+				CF0BD9D725D018FF004A1958 /* SignIn.storyboard */,
+				CFF8192D25D344C600524B81 /* Splash.storyboard */,
+				CF3107A02600AA6700746480 /* Tabbar.storyboard */,
+			);
+			path = SplashFolder;
 			sourceTree = "<group>";
 		};
 		CF5C4F492626136F000C6E51 /* jsonfile */ = {
@@ -867,7 +880,6 @@
 				CF2BF5BF27D8613D00F7D1CB /* julies.ttf in Resources */,
 				CF9E002A2820159000674C3C /* pinkPinArea.json in Resources */,
 				CF39377C260492BA0020BE97 /* Profile.storyboard in Resources */,
-				CFA19DC6279453CD00D4C472 /* ad.storyboard in Resources */,
 				CF83D9B027AD4F7100DF9C76 /* CollectionPost.storyboard in Resources */,
 				CF2BF5C127D8613D00F7D1CB /* mami candy.ttf in Resources */,
 				A35984052798ED78003CB00B /* Connection.storyboard in Resources */,

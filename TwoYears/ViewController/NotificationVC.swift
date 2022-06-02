@@ -73,7 +73,6 @@ class NotificationVC: UIViewController {
     
     @IBAction func postBackTappedButton(_ sender: Any) {
         postBackView.alpha = 0
-        print("eiisei")
     }
     
     @IBAction func postFrontTappedButton(_ sender: Any) {
@@ -303,28 +302,26 @@ class NotificationVC: UIViewController {
                     if let err = err {
                         print("Error getting documents: \(err)")
                     } else {
-                        print("isefoisje",querySnapshot?.documents.count)
                         
                         let userCountPercent = (querySnapshot?.documentChanges.count ?? 1) % 2
                         
                         if userCountPercent == 0 {
-                            db.collection("users").document(uid).setData(["referralCount":FieldValue.increment(1.0)], merge: true)
+                            self.db.collection("users").document(uid).setData(["referralCount":FieldValue.increment(1.0)], merge: true)
                         } else {
                             
                         }
                     }
                 }
                 
-                db.collection("users").document(uid).collection("SendedAccount").addSnapshotListener{ [self] ( snapshots, err) in
+                db.collection("users").document(uid).collection("SendedAccount").addSnapshotListener{( snapshots, err) in
                     if let err = err {
                         print("メッセージの取得に失敗、\(err)")
                         return
                     }
                     snapshots?.documentChanges.forEach({ (Naruto) in
                         switch Naruto.type {
-                        case .added:
+                        case .added: break
                             
-                            print("osiejfi",snapshots?.documentChanges.count)
                             
                         case .modified, .removed:
                             print("noproblem")
@@ -582,7 +579,6 @@ class NotificationVC: UIViewController {
                     let dic = Naruto.document.data()
                     let reactionDic = Reaction(dic: dic)
                     let aaa = self.reaction.firstIndex(of: reactionDic)
-                    print("faoiあasef",aaa)
                     self.reaction.remove(at: aaa ?? 0)
                     self.reactionTableView.reloadData()
                     
@@ -822,7 +818,6 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
                 
                 
             })
-            //            }
         }
     }
     func onUserImageAnimation() {
@@ -846,7 +841,6 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
         }
     }
     
-    
     func onCloseLabelAnimation() {
         UIView.animate(withDuration: 0.05, delay: 0.1, animations: { [self] in
             self.onCloseLabel.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -859,12 +853,8 @@ extension NotificationVC:UITableViewDataSource, UITableViewDelegate{
                 self.onCloseLabel.transform = CGAffineTransform(scaleX: 1, y: 1)
                 
             })
-            
         }
-        
     }
-    
-    
 }
 
 class reactionTableViewCell: UITableViewCell {

@@ -29,5 +29,6 @@ target 'TOTALGOOD' do
     pod 'ImageViewer'
     pod 'CropViewController'
     pod 'Firebase/DynamicLinks'
+    pod 'RealmSwift'
 
 end

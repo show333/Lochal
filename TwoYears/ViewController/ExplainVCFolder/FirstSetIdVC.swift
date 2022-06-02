@@ -88,11 +88,6 @@ class FirstSetIdVC:UIViewController,UITextFieldDelegate{
                         setIdAccount(userId: userId, userFrontId: userFrontId)
                         fetchMyPost(userId: userId, userFrontId: userFrontId)
                         
-//                        let storyboard = UIStoryboard.init(name: "Thankyou", bundle: nil)
-//                        let ThankyouVC = storyboard.instantiateViewController(withIdentifier: "ThankyouVC") as! ThankyouVC
-//                        navigationController?.pushViewController(ThankyouVC, animated: true)
-                        
-                        
                         let storyboard = UIStoryboard.init(name: "AgeSelect", bundle: nil)
                         let AgeSelectVC = storyboard.instantiateViewController(withIdentifier: "AgeSelectVC") as! AgeSelectVC
                         navigationController?.pushViewController(AgeSelectVC, animated: true)
