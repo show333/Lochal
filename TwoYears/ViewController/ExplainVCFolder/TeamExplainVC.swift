@@ -32,9 +32,6 @@ class TeamExplainVC:UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-//        nextButton.backgroundColor = .clear
-        
-        
         
         if let url = URL(string:"https://firebasestorage.googleapis.com/v0/b/totalgood-7b3a3.appspot.com/o/explain_Images%2FMakeAUnitTeamImage.001.png?alt=media&token=bfd386c6-ed4b-4e34-9f14-4ead1110e04d") {
             Nuke.loadImage(with: url, into: backImageView)

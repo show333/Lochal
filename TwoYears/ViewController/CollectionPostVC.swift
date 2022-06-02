@@ -56,7 +56,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         self.present(FontCollectionVC, animated: true, completion: nil)
     }
     
-    
     @IBOutlet weak var sendBackView: UIView!
     
     @IBOutlet weak var sendBackImageView: UIImageView!
@@ -70,7 +69,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
     
     @IBAction func sendTappedButton(_ sender: Any) {
         
-        print("aaa")
         if imageString != nil {
             sendImage()
         } else {
@@ -92,32 +90,20 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         
     }
     
-    
     @IBOutlet weak var graffitiImageView: UIImageView!
-
     @IBOutlet weak var fontedLabel: UILabel!
-    
     @IBOutlet weak var fontedSecondLabel: UILabel!
     @IBOutlet weak var fontedSecondBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var wordCountLabel: UILabel!
-    
     @IBOutlet weak var wordCountBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var explainLabel: UILabel!
     @IBOutlet weak var graffitiTextView: UITextView!
-    
     @IBOutlet weak var graffitiTextViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var graffitiTextViewBottomConstraint: NSLayoutConstraint!
-    //    @IBOutlet weak var textViewConstraint: NSLayoutConstraint!
-
     @IBOutlet weak var graffitiBackViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var graffitiBackViewWidthConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var graffitiBackView: UIView!
-
-    
     @IBOutlet weak var graffitiBackViewBottomConstraint: NSLayoutConstraint!
-    
-    
     
     
     
@@ -480,7 +466,6 @@ class CollectionPostVC:UIViewController, UIColorPickerViewControllerDelegate{
         
         
         if imageString != nil {
-            print("あいえ",imageString)
             let storageRef = Storage.storage().reference().child("Unit_Post_Image").child(imageString!)
             guard let image = graffitiImageView.image  else { return }
             guard let uploadImage = image.jpegData(compressionQuality: 0.3) else { return }
@@ -646,13 +631,7 @@ extension CollectionPostVC: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let existingLines = textView.text.components(separatedBy: .newlines)//既に存在する改行数
         let textwhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)//空白、改行のみを防ぐ
-//        if textwhite.isEmpty {
-//            sinkiButton.isEnabled = false
-//            sinkiButton.backgroundColor = .gray
-//        } else {
-//            sinkiButton.isEnabled = true
-//            sinkiButton.backgroundColor = #colorLiteral(red: 0, green: 0.9052245021, blue: 0.6851730943, alpha: 1)
-//        }
+
         if existingLines.count <= 3 {
             self.wordCountLabel.text = "残り\(maxWordCount - textView.text.count)文字"
             self.fontedLabel.text = textView.text

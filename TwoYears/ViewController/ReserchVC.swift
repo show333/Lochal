@@ -137,10 +137,8 @@ class ReserchVC:UIViewController{
         
         let textFieldString = inputTextField.text
         
-        print("押しfj教えjf",textFieldString)
         
         if textFieldString == "" {
-            print("じゃ教えjふぉい")
             
             db.collection("users").document(userId).collection("Connections").addSnapshotListener { [self] ( snapshots, err) in
                 if let err = err {
@@ -154,10 +152,7 @@ class ReserchVC:UIViewController{
                     snapshots?.documentChanges.forEach({ (documents) in
                         switch documents.type {
                         case .added:
-                            //                        userInfo.removeAll()
                             
-                            print("ああいあいあい")
-                            //                        print("\(documents.document.documentID) => \(document.data())")
                             let userId = documents.document.data()["userId"] as? String ?? ""
                             let messageCount = documents.document.data()["messageCount"] as? Int ?? 0
                             let chatLatestedAt = documents.document.data()["chatLatestedAt"] as? Timestamp ?? Timestamp()
@@ -168,7 +163,6 @@ class ReserchVC:UIViewController{
                             
                         case .modified, .removed:
                             print("noproblem")
-                            print("あいあい居合あ",userInfo)
                             
                             let userId = documents.document.data()["userId"] as? String ?? ""
                             
@@ -201,23 +195,12 @@ class ReserchVC:UIViewController{
                 self.userInfo.remove(at: aaa ?? 0)
                 }
                 
-//                self.userInfo.sort { (m1, m2) -> Bool in
-//                    let m1CreateDate = m1.createdAt.dateValue()
-//                    let m2CreateDate = m2.createdAt.dateValue()
-//                    return m1CreateDate < m2CreateDate
-//                }
-
                 self.userInfo.sort { (m1, m2) -> Bool in
                     let m1LatestDate = m1.chatLatestedAt.dateValue()
                     let m2LatestDate = m2.chatLatestedAt.dateValue()
 
                     return m1LatestDate < m2LatestDate
                 }
-                
-    
-                
-                
-                
                 self.reserchTableView.reloadData()
             } else {
                 print("Document does not exist")
@@ -322,7 +305,6 @@ class ReserchVC:UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("saoife",inputTextField.text)
 //
         guard let uid = Auth.auth().currentUser?.uid else { return }
         fetchUserList(userId:uid)
@@ -427,9 +409,6 @@ class ReserchVC:UIViewController{
                 
             } else {
             }
-            //                notificationNumber.text =
-            //                self.teamInfo.removeAll()
-            //                self.teamCollectionView.reloadData()
         }
     }
 }
@@ -468,9 +447,6 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         cell.userImageView.layer.cornerRadius = 25
         cell.messageLabel.text = userInfo[indexPath.row].newMessage
     
-//        let date: Date = userInfo[indexPath.row].chatLatestedAt.dateValue()
-//        cell.dateLabel.text = date.agoText()
-        
         cell.messageCountLabel.text = String(userInfo[indexPath.row].messageCount)
 
         if userInfo[indexPath.row].messageCount == 0 {
@@ -499,11 +475,6 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         let selectedUserId = userInfo[indexPath.row].userId
         
         userIdConnectionCheck(userId: selectedUserId, uid: uid, indexPath: indexPath, messageCount: messageCount)
-       
-        
-        
-        
-        
     }
     
     func userIdConnectionCheck(userId:String,uid:String,indexPath:IndexPath,messageCount:Int) {
@@ -515,7 +486,6 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
                     print(querySnapshot!.documents.count)
                     let userCount:Int = querySnapshot!.documents.count
                     if userCount == 0 {
-                        print("あおいsjえf")
                     } else {
                         countPush(uid: uid, messageCount: messageCount, userId: userId)
                         let storyboard = UIStoryboard.init(name: "InChatRoom", bundle: nil)
@@ -541,9 +511,7 @@ extension ReserchVC:UITableViewDataSource,UITableViewDelegate{
         ProfileVC.cellImageTap = true
         ProfileVC.tabBarController?.tabBar.isHidden = true
         navigationController?.navigationBar.isHidden = false
-        navigationController?.pushViewController(ProfileVC, animated: true)
-        print("aiaiia")
-        
+        navigationController?.pushViewController(ProfileVC, animated: true)        
     }
     
     func countPush(uid:String,messageCount:Int,userId:String) {

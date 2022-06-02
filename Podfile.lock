@@ -528,6 +528,11 @@ PODS:
   - nanopb/encode (2.30908.0)
   - Nuke (10.7.1)
   - PromisesObjC (2.0.0)
+  - Realm (10.25.2):
+    - Realm/Headers (= 10.25.2)
+  - Realm/Headers (10.25.2)
+  - RealmSwift (10.25.2):
+    - Realm (= 10.25.2)
   - SnapKit (5.0.1)
   - SOTabBar (1.1.3)
   - SwiftMoment (0.7)
@@ -551,6 +556,7 @@ DEPENDENCIES:
   - Instructions (~> 2.0.1)
   - lottie-ios
   - Nuke
+  - RealmSwift
   - SOTabBar
   - SwiftMoment
   - TransitionButton
@@ -590,6 +596,8 @@ SPEC REPOS:
     - nanopb
     - Nuke
     - PromisesObjC
+    - Realm
+    - RealmSwift
     - SnapKit
     - SOTabBar
     - SwiftMoment
@@ -629,12 +637,14 @@ SPEC CHECKSUMS:
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   Nuke: 279f17a599fd1c83cf51de5e0e1f2db143a287b0
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
+  Realm: 978303663d0509166498f423d112e5ee97d4c91b
+  RealmSwift: a0c30c1efc49e928a0a6f8fb141bb2629616d79b
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SOTabBar: 27aea95bd6b39d1be3535c867a2cd3b5adc172e6
   SwiftMoment: dc6dd27012e267819104cbb03f74ff9192dd0b42
   TransitionButton: 36283346e17c64775a1b3bc3a7a72940a367de1f
   TTTAttributedLabel: 8cffe8e127e4e82ff3af1e5386d4cd0ad000b656
 
-PODFILE CHECKSUM: 3925f9cf1611aab33b873284d3642549f47a2e87
+PODFILE CHECKSUM: 899a1cea83188f70b3bff1ef1509c8ac937eab94
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

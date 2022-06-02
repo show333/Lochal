@@ -654,21 +654,12 @@ class sinkitoukou: UIViewController {
         confirmFrontView.clipsToBounds = true
         confirmFrontView.layer.cornerRadius = width/24
         
-//        confirmFrontView.backgroundColor = .gray
            confirmFrontView.clipsToBounds = true
-//           confirmFrontView.layer.cornerRadius = 10
            confirmFrontView.layer.masksToBounds = false
            confirmFrontView.layer.shadowColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
            confirmFrontView.layer.shadowOffset = CGSize(width: 0, height: 3)
            confirmFrontView.layer.shadowOpacity = 0.7
            confirmFrontView.layer.shadowRadius = 5
-        
-//        setImageView = scalea
-        
-        // newPostViewHeight = 60 + 10
-        // close 25 + 30
-        // explain label 20 + 20
-        // count 20 + 20
         
         let editHeight = height - 215
         
@@ -916,10 +907,8 @@ extension sinkitoukou: UIImagePickerControllerDelegate, UINavigationControllerDe
         
         let textwhite = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         let textHolder = "ポテチ食べたい\nコンビニの新作アイスめっちゃ美味い\nうちの猫めっちゃ可愛い\n授業,会社だるい\n布団から出られない\nなど"
-        print("おいさジェフォイじゃせ",textwhite)
 
         if textwhite == "" || textwhite == textHolder{
-            print("おいfjアセおい")
         } else {
             
             anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)

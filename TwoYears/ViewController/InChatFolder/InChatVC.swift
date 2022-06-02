@@ -212,9 +212,7 @@ extension InChatVC: CoachMarksControllerDataSource, CoachMarksControllerDelegate
                               coachMarkAt index: Int) -> CoachMark {
         
         let highlightViews: Array<UIView> = [teamCollectionView, CreateButton,CreateButton]
-        //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
-        
-        //チュートリアルで使うビューの中からindexで何ステップ目かを指定
+
         return coachMarksController.helper.makeCoachMark(for: highlightViews[index])
     }
     func coachMarksController(
@@ -223,19 +221,17 @@ extension InChatVC: CoachMarksControllerDataSource, CoachMarksControllerDelegate
         madeFrom coachMark: CoachMark
     ) -> (bodyView: UIView & CoachMarkBodyView, arrowView: (UIView & CoachMarkArrowView)?) {
 
-        //吹き出しのビューを作成します
         let coachViews = coachMarksController.helper.makeDefaultCoachViews(
-            withArrow: true,    //三角の矢印をつけるか
-            arrowOrientation: coachMark.arrowOrientation    //矢印の向き(吹き出しの位置)
+            withArrow: true,
+            arrowOrientation: coachMark.arrowOrientation
         )
 
-        //index(ステップ)によって表示内容を分岐させます
         switch index {
-        case 0:    //hogeLabel
+        case 0:
             coachViews.bodyView.hintLabel.text = "あなたが所属している\nチームがここに表示されます"
             coachViews.bodyView.nextLabel.text = "タップ"
         
-        case 1:    //fugaButton
+        case 1:
         coachViews.bodyView.hintLabel.text = "友達と一緒に\nチームを作成しましょう!"
             coachViews.bodyView.nextLabel.text = "OK"
             
@@ -244,8 +240,6 @@ extension InChatVC: CoachMarksControllerDataSource, CoachMarksControllerDelegate
             break
         
         }
-        
-        //その他の設定が終わったら吹き出しを返します
         return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
     }
 }

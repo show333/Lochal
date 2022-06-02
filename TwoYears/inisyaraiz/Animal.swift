@@ -13,24 +13,23 @@ import SwiftMoment
 
 struct Animal {
     public var nameJP : String
-    var documentId : String
-    var zikokudosei: Timestamp
-    var latestAt: Timestamp
-    var membersCount : Int
-    var GoodmanCount : Int
-    var messageCount : Int
-    var viewCount: Int = 0
-    var teamname : String
-    var userId : String
-    var admin : Bool
-    var userBrands : String
-    var company1 : String
+    public var documentId : String
+    public var zikokudosei: Timestamp
+    public var latestAt: Timestamp
+    public var membersCount : Int
+    public var GoodmanCount : Int
+    public var messageCount : Int
+    public var viewCount: Int = 0
+    public var teamname : String
+    public var userId : String
+    public var admin : Bool
+    public var userBrands : String
+    public var company1 : String
     
     init(dic: [String: Any]) {
         self.nameJP = dic["message"] as? String ?? ""
         self.documentId = dic["documentId"] as? String ?? ""
         self.zikokudosei = dic["createdAt"] as? Timestamp ?? Timestamp()
-//        self.zikokudosei = dic["createdAt"] as! Timestamp
         self.membersCount = dic["memberscount"] as! Int
         self.messageCount = dic["messagecount"] as! Int
         self.GoodmanCount = dic["goodcount"] as! Int

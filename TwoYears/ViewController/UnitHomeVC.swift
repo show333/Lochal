@@ -48,9 +48,6 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
     }
     
     @IBOutlet weak var postCollectionView: UICollectionView!
-    
-//    @IBOutlet weak var buildingImageView: UIImageView!
-    
 
     @IBOutlet weak var headerBackView: UIView!
     @IBOutlet weak var headerBackViewConstraint: NSLayoutConstraint!
@@ -69,11 +66,6 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-                
-//        postCollectionView.register(UINib(nibName: "PostCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "postCell")
-//
-//        userCollectionView.register(UINib(nibName: "UserCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "userCell")
 
 
         headerBackView.clipsToBounds = true
@@ -100,13 +92,7 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
         } else {
             teamImageView.image = nil
         }
-        
-//        let image:UIImage = UIImage(url: teamInfo?.teamImage ?? "")
-//        galleyItem = GalleryItem.image{ $0(image) }
-//
-//        teamImageView.isUserInteractionEnabled = true
-//        let recognizer = UITapGestureRecognizer(target: self, action: #selector(self.onTap(_:)))
-//        teamImageView.addGestureRecognizer(recognizer)
+
         
         let tapGesture = UITapGestureRecognizer(
             target: self,
@@ -169,8 +155,6 @@ class UnitHomeVC:UIViewController, GalleryItemsDataSource, GalleryDisplacedViews
                 switch Naruto.type {
                 case .added:
                     let dic = Naruto.document.data()
-//                    let userInfoDic = UserInfo(dic: dic)
-//                    self.userInfo.append(userInfoDic)
                     
                     self.userInfo.sort { (m1, m2) -> Bool in
                         let m1Date = m1.createdAt.dateValue()
@@ -258,18 +242,7 @@ extension UnitHomeVC:UICollectionViewDataSource,UICollectionViewDelegate {
         } else {
             
             let postCell = collectionView.dequeueReusableCell(withReuseIdentifier: "postCell", for: indexPath) as!  PostCollectionViewCell
-//            let statusbarHeight = UIApplication.shared.statusBarFrame.height
-//            let safeAreaHeight = UIScreen.main.bounds.size.height - statusbarHeight
-//            let headerHeight = safeAreaHeight/3
-//            postCell.clipsToBounds = true
-//            postCell.layer.cornerRadius = headerHeight/8
-//            postCell.postImageView.image = nil
-//
-//            if let url = URL(string:unitPostInfo[indexPath.row].postImage) {
-//                Nuke.loadImage(with: url, into: postCell.postImageView)
-//            } else {
-//                postCell.postImageView.image = nil
-//            }
+
             return postCell
             
         }
@@ -292,12 +265,6 @@ extension UnitHomeVC:UICollectionViewDataSource,UICollectionViewDelegate {
         } else {
             let storyboard = UIStoryboard.init(name: "detailPost", bundle: nil)
             let detailPostVC = storyboard.instantiateViewController(withIdentifier: "detailPostVC") as! detailPostVC
-            
-//            ProfileVC.userId = userInfo[indexPath.row].userId
-//            ProfileVC.userName = userInfo[indexPath.row].userName
-//            ProfileVC.userImage = userInfo[indexPath.row].userImage
-//            ProfileVC.userFrontId = userInfo[indexPath.row].userFrontId
-//            ProfileVC.cellImageTap = true
             
             navigationController?.pushViewController(detailPostVC, animated: true)
         }

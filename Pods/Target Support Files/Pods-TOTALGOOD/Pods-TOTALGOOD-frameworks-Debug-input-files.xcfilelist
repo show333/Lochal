@@ -20,6 +20,8 @@ ${BUILT_PRODUCTS_DIR}/ImageViewer/ImageViewer.framework
 ${BUILT_PRODUCTS_DIR}/Instructions/Instructions.framework
 ${BUILT_PRODUCTS_DIR}/Nuke/Nuke.framework
 ${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework
+${BUILT_PRODUCTS_DIR}/Realm/Realm.framework
+${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework
 ${BUILT_PRODUCTS_DIR}/SOTabBar/SOTabBar.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
 ${BUILT_PRODUCTS_DIR}/SwiftMoment/SwiftMoment.framework

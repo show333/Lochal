@@ -49,7 +49,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         sinkitoukou.modalPresentationStyle = .fullScreen
         self.present(sinkitoukou, animated: true, completion: nil)
         db.collection("users").document(uid).setData(["currentTime": FieldValue.serverTimestamp()], merge: true)
-        //        try? Auth.auth().signOut()
     }
     
     @IBOutlet weak var headerLabel: UILabel!
@@ -109,9 +108,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        //        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = true
-        
     }
     
     
@@ -122,15 +119,7 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         if lottieBool == true {
             addAnimationView()
         }
-        //        if UserDefaults.standard.bool(forKey: "FirstPost") != true{
-        //            guard let uid = Auth.auth().currentUser?.uid else { return }
-        //            UserDefaults.standard.set(true, forKey: "FirstPost")
-        //            let storyboard = UIStoryboard.init(name: "sinkitoukou", bundle: nil)
-        //            let sinkitoukou = storyboard.instantiateViewController(withIdentifier: "sinkitoukou") as! sinkitoukou
-        //            sinkitoukou.modalPresentationStyle = .fullScreen
-        //            self.present(sinkitoukou, animated: true, completion: nil)
-        //            Firestore.firestore().collection("users").document(uid).setData(["currentTime": FieldValue.serverTimestamp()], merge: true)
-        //        } else {
+        
         if UserDefaults.standard.bool(forKey: "OutMemoInstract") != true{
             UserDefaults.standard.set(true, forKey: "OutMemoInstract")
             self.coachMarksController.start(in: .currentWindow(of: self))
@@ -139,7 +128,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
             let areaName = UserDefaults.standard.object(forKey: "areaNameEn") as? String
             let userAge = UserDefaults.standard.object(forKey: "userAge") as? String
 
-            print("青氏ジェフォ",areaName)
             if areaName == nil {
                 let storyboard = UIStoryboard.init(name: "selectArea", bundle: nil)
                 let vc = storyboard.instantiateViewController(identifier: "selectAreaVC") as! selectAreaVC
@@ -155,7 +143,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                 self.present(ReSendAgeVC, animated: true, completion: nil)
             }
         }
-        //        }
     }
     
     
@@ -166,17 +153,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         self.coachMarksController.dataSource = self
-        
-        
-        //        //        テスト ca-app-pub-3940256099942544/2934735716
-        //        //        本番 ca-app-pub-9686355783426956/8797317880
-        //        self.bannerView.adUnitID = "ca-app-pub-9686355783426956/8797317880"
-        //        self.bannerView.rootViewController = self
-        //        self.bannerView.load(GADRequest())
-        
-        //navigationbarのやつ
-        //        let navBar = self.navigationController?.navigationBar
-        //        navBar?.barTintColor = #colorLiteral(red: 0.03921568627, green: 0.007843137255, blue: 0, alpha: 1)
         
         chatListTableView.register(UINib(nibName: "OutMemoCell", bundle: nil), forCellReuseIdentifier: cellId)
         
@@ -288,9 +264,6 @@ class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSet
                 
             } else {
             }
-            //                notificationNumber.text =
-            //                self.teamInfo.removeAll()
-            //                self.teamCollectionView.reloadData()
         }
     }
     
@@ -408,25 +381,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.graffitiTitleLabel.textColor = UIColor(hex: outMemo[indexPath.row].hexColor)
         cell.graffitiBackGroundView.backgroundColor = UIColor(hex: outMemo[indexPath.row].backHexColor)
         
-        //        cell.userFrontIdLabel.textColor = .lightGray
-        //        cell.userFrontIdLabel.font = UIFont.italicSystemFont(ofSize: safeAreaWidth/20)
         
         cell.graffitiBackGroundView.clipsToBounds = true
         cell.graffitiBackGroundView.layer.cornerRadius = 10
         
-        //        #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         
         cell.coverView.backgroundColor = #colorLiteral(red: 0, green: 1, blue: 0.8712542808, alpha: 1)
         cell.messageBottomConstraint.constant =  105
-        
-        //        cell.graffitiImageViewWidthConstraint.constant = safeAreaWidth/1.5
-        //        cell.graffitiImageViewHeightConstraint.constant = safeAreaWidth/1.5
+
         
         let transScale = CGAffineTransform(rotationAngle: CGFloat(270))
         cell.graffitiLabel.transform = transScale
-        
-        //        cell.graffitiImageView.backgroundColor = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
-        
+                
         
         if  outMemo[indexPath.row].readLog == true {
             cell.coverView.backgroundColor = .clear
@@ -650,7 +616,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 vc.outMemo = outMemo[indexPath.row]
                 
                 let nav = UINavigationController(rootViewController: vc)
-//                nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true, completion: nil)
             }
             
@@ -696,47 +661,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return nil
     }
-    
-    //    func getUserTeamInfo(userId:String,cell:OutmMemoCellVC){
-    //        db.collection("users").document(userId).collection("belong_Team").document("teamId").getDocument { (document, error) in
-    //            if let document = document, document.exists {
-    //                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-    //                print("Document data: \(dataDescription)")
-    //
-    //                let teamIdArray = document.data()!["teamId"] as! Array<String>
-    //                print(teamIdArray)
-    //                print(teamIdArray[0])
-    //
-    //
-    //                    teamIdArray.forEach{
-    //                        self.getTeamInfo(teamId: $0,cell: cell)
-    //                    }
-    //            } else {
-    //                print("Document does not exist")
-    //            }
-    //        }
-    //    }
-    //
-    //    func getTeamInfo(teamId:String,cell:OutmMemoCellVC){
-    //        db.collection("Team").document(teamId).getDocument { (document, error) in
-    //            if let document = document, document.exists {
-    //                let dataDescription = document.data().map(String.init(describing:)) ?? "nil"
-    //                print("Document data: \(dataDescription)")
-    //                let teamDic = Team(dic: document.data()!)
-    //                self.teamInfo.append(teamDic)
-    //                print("翼をください！",teamId)
-    //                print("翼をください！",document.data()!)
-    //                print("asefiosejof",teamDic)
-    //
-    //                cell.teamCollectionView.alpha = 1
-    //
-    //
-    //                cell.teamCollectionView.reloadData()
-    //            } else {
-    //                print("Document does not exist")
-    //            }
-    //        }
-    //    }
+
     @objc func shareStickerImage(_ sender: UIButton){
         if UIApplication.shared.canOpenURL(URL(string: "instagram-stories://share")!) {
             
@@ -798,7 +723,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 var blockDic:[String:Bool] = UserDefaults.standard.object(forKey: "blocked") as! [String: Bool]
                 
-                print("あいえいえいいえいえ",outMemo[sender.tag].userId)
                 let anonymousId = outMemo[sender.tag].userId + "anonymous"
                 
                 if outMemo[sender.tag].anonymous == true {
@@ -807,7 +731,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     blockDic[outMemo[sender.tag].userId] = true
                 }
                 
-                print("亜ジョイsfjイオ",blockDic)
                 UserDefaults.standard.set(blockDic, forKey: "blocked")
                 let uid = Auth.auth().currentUser?.uid
                 
@@ -937,7 +860,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     let userImage = document["userImage"] as? String ?? ""
                     let userFrontId = document["userFrontId"] as? String ?? ""
-//                    let areaNameJa = document["areaNameJa"] as? String ?? ""
                     let areaNameEn = document["areaNameEn"] as? String ?? ""
                     let usersBlockAreaJa = document["areaBlock"] as? String ?? ""
                     
@@ -958,9 +880,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                         cell.userImageView?.image = nil
                     }
                 }
-                //                print("Current data: \(data)")
-                //                let userId = document["userId"] as? String ?? "unKnown"
-                //                userName = document["userName"] as? String ?? "unKnown"
                 let delete = document["delete"] as? Bool ?? false
                 
                 if delete == true {
@@ -973,10 +892,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                     cell.graffitiBackGroundConstraint.constant = 0
                     db.collection("users").document(uid ?? "").collection("TimeLine").document(documentId).setData(["delete":true],merge: true)
                 } else {
-                    //                    cell.messageLabel.text = message
                 }
-                //                cell.nameLabel.text = userName
-                //                getUserTeamInfo(userId: userId, cell: cell)
+
             }
         
     }
@@ -986,7 +903,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         db.collection("users").document(userId).collection("belong_Team").addSnapshotListener {( snapshots, err) in
             if let err = err {
                 
-                print("メッセージの取得に失敗、\(err)")
+                print("error\(err)")
                 return
             }
             snapshots?.documentChanges.forEach({ (Naruto) in
@@ -994,7 +911,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
                 case .added:
                     let dic = Naruto.document.data()
                     let teamInfoDic = Team(dic: dic)
-                    //                    let teamId = Naruto.document.data()["teamId"] as? String ?? ""
                     cell.teamInfo.append(teamInfoDic)
                     
                 case .modified, .removed:
@@ -1029,9 +945,7 @@ extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDe
                               coachMarkAt index: Int) -> CoachMark {
         
         let highlightViews: Array<UIView> = [bubuButton]
-        //(hogeLabelが最初、次にfugaButton,最後にpiyoSwitchという流れにしたい)
         
-        //チュートリアルで使うビューの中からindexで何ステップ目かを指定
         return coachMarksController.helper.makeCoachMark(for: highlightViews[index])
     }
     func coachMarksController(
@@ -1039,13 +953,10 @@ extension ViewController: CoachMarksControllerDataSource, CoachMarksControllerDe
         coachMarkViewsAt index: Int,
         madeFrom coachMark: CoachMark
     ) -> (bodyView: UIView & CoachMarkBodyView, arrowView: (UIView & CoachMarkArrowView)?) {
-        
-        //吹き出しのビューを作成します
         let coachViews = coachMarksController.helper.makeDefaultCoachViews(
-            withArrow: true,    //三角の矢印をつけるか
-            arrowOrientation: coachMark.arrowOrientation    //矢印の向き(吹き出しの位置)
+            withArrow: true,
+            arrowOrientation: coachMark.arrowOrientation
         )
-        //index(ステップ)によって表示内容を分岐させます
         switch index {
             
         case 0:    //fugaButton

@@ -34,7 +34,6 @@ class UserInfo : Equatable{
         self.userFrontId = dic["userFrontId"] as? String ?? ""
         self.status = dic["status"] as? String ?? ""
         self.newMessage = newMessage
-
         self.createdAt = dic["createdAt"] as? Timestamp ?? Timestamp()
         self.chatLatestedAt = chatLatestedAt
         self.messageCount = messageCount

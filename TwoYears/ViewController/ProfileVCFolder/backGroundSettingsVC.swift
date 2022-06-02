@@ -83,14 +83,8 @@ class backGroundSettingsVC:UIViewController, UIImagePickerControllerDelegate & U
         
         
         guard let uid = Auth.auth().currentUser?.uid else { return }
-                
-        
         let storageRef = Storage.storage().reference().child("User_BackGround").child(imageString!)
-        
-        
         guard let image = imageView.image else { return }
-        
-        
         guard let uploadImage = image.jpegData(compressionQuality: 0.5) else { return }
         
         
@@ -172,7 +166,6 @@ class backGroundSettingsVC:UIViewController, UIImagePickerControllerDelegate & U
         
         //pickerを閉じたら、cropControllerを表示する。
         picker.dismiss(animated: true) {
-            print("いえいえいえいえいえ")
             self.present(cropController, animated: true, completion: nil)
         }
     }

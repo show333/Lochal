@@ -128,10 +128,9 @@ class ChatRoomViewController: UIViewController {
         
         DB.document(chatRoomDocId).collection("members").addSnapshotListener{ [self] (querySnapshot, err) in
             if let err = err {
-                print("失敗やで、、、\(err)")
+                print("error\(err)")
                 return
             }
-            print("メンバーズカウント！！！！！！！！！",querySnapshot!.documents.count)
             self.DB.document(chatRoomDocId).updateData(["memberscount":querySnapshot!.documents.count as Int])
         }
         DB.document(chatRoomDocId).collection("members").document("membersId")
@@ -154,7 +153,7 @@ class ChatRoomViewController: UIViewController {
         DB.document(chatRoomDocId).collection("messages").addSnapshotListener{ [self] (snapshots, err) in
 
             if let err = err {
-                print("失敗やで、、、\(err)")
+                print("error\(err)")
                 return
             }
             snapshots?.documentChanges.forEach({( documentChange) in

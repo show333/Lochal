@@ -40,7 +40,6 @@ class ConnectionVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
         userListTableView.emptyDataSetSource = self
 
         if matchUserId == [""] {
-            print("阿蘇英fじゃs",userId ?? "")
             
             fetchUserInfo(userId: userId ?? "")
         } else {
@@ -48,7 +47,6 @@ class ConnectionVC:UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSou
                 getUserInfo(userId: $0)
             }
         }
-        print("青性fじょ",matchUserId)
     }
     
 //     blankword for tableview

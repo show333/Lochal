@@ -115,7 +115,6 @@ class UserIdSetVC:UIViewController,UITextFieldDelegate{
                     for document in querySnapshot!.documents {
 //                        print("\(document.documentID) => \(document.data())")
                         let myPostDocId =  document.data()["documentId"] as? String ?? "unKnown"
-                        print("ハングリー",myPostDocId)
                         self.db.collection("users").document(userId).collection("MyPost").document(myPostDocId).setData(["userFrontId":userFrontId] as [String : Any],merge: true)
                     }
                 }
