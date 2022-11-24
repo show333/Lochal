@@ -24,8 +24,6 @@ class InChatVC:  UIViewController, UICollectionViewDataSource,UICollectionViewDe
     let coachMarksController = CoachMarksController()
     private let cellId = "cellId"
     
-    
-    
     @IBOutlet weak var bannerView: GADBannerView!
     @IBOutlet weak var CreateButton: UIButton!
     
@@ -96,11 +94,6 @@ class InChatVC:  UIViewController, UICollectionViewDataSource,UICollectionViewDe
         self.teamCollectionView.collectionViewLayout = flowLayout
         // 背景色を設定
         self.teamCollectionView.backgroundColor = .clear
-        
-        
-
-//        layout.sectionInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
-//        teamCollectionView.collectionViewLayout = layout
     }
     
     func fetchUserTeamInfo(userId:String){
@@ -150,7 +143,7 @@ class InChatVC:  UIViewController, UICollectionViewDataSource,UICollectionViewDe
                 
         cell.backView.clipsToBounds = true
         cell.backView.layer.cornerRadius = safeArea/16
-        print("どどん",teamInfo[indexPath.row])
+        print("チームドキュメント",teamInfo[indexPath.row])
         
         if let url = URL(string:imageString) {
             Nuke.loadImage(with: url, into: cell.teamCollectionImage!)
@@ -173,9 +166,7 @@ class InChatVC:  UIViewController, UICollectionViewDataSource,UICollectionViewDe
         let storyboard = UIStoryboard.init(name: "InChatRoom", bundle: nil)
         let InChatRoomVC = storyboard.instantiateViewController(withIdentifier: "InChatRoomVC") as! InChatRoomVC
         
-//        InChatRoomVC.teamRoomDic = teamInfo[indexPath.row]
         print(teamInfo[indexPath.row].teamId)
-
         navigationController?.pushViewController(InChatRoomVC, animated: true)
         print(indexPath.row)
     }

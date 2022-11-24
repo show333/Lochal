@@ -37,7 +37,6 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
     
     
     @IBAction func tappedImageView(_ sender: Any) {
-        print("aaaa")
         print(stampUrls!)
         
         if transitionNewPostBool == true {
@@ -47,7 +46,7 @@ class stampViewController: UIViewController, UICollectionViewDelegate, UICollect
             vc.assetsType = "stamp"
             let textwhite = vc.textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
             let textHolder = "ポテチ食べたい\nコンビニの新作アイスめっちゃ美味い\nうちの猫めっちゃ可愛い\n授業,会社だるい\n布団から出られない\nなど"
-            print("おいさジェフォイじゃせ",textwhite)
+            print("テキスト",textwhite)
             
             vc.anonymousBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)
             vc.newPostBackView.backgroundColor = #colorLiteral(red: 0.9999018312, green: 1, blue: 0.9998798966, alpha: 1)

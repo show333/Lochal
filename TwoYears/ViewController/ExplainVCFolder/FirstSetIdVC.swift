@@ -65,9 +65,6 @@ class FirstSetIdVC:UIViewController,UITextFieldDelegate{
         
         idTextFieldConstraint.constant = safeArea/6
         
-  
-        
-        
         self.navigationItem.hidesBackButton = true
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         idTextField.delegate = self
@@ -117,7 +114,7 @@ class FirstSetIdVC:UIViewController,UITextFieldDelegate{
                     for document in querySnapshot!.documents {
 //                        print("\(document.documentID) => \(document.data())")
                         let myPostDocId =  document.data()["documentId"] as? String ?? "unKnown"
-                        print("ハングリー",myPostDocId)
+                        print("ポストID",myPostDocId)
                         self.db.collection("users").document(userId).collection("MyPost").document(myPostDocId).setData(["userFrontId":userFrontId] as [String : Any],merge: true)
                     }
                 }
@@ -144,7 +141,6 @@ class FirstSetIdVC:UIViewController,UITextFieldDelegate{
             }
         }
     }
-    
     
     @objc func dismissKeyboard() {
         self.view.endEditing(true)

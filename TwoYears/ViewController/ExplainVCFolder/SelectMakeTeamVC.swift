@@ -16,7 +16,6 @@ class SelectMakeTeamVC : UIViewController {
         navigationController?.pushViewController(CompanyViewController, animated: true)
     }
     
-    
     @IBOutlet weak var downButton: UIButton!
     @IBAction func downTappedButton(_ sender: Any) {
         

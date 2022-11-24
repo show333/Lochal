@@ -25,7 +25,6 @@ class SplashViewController: UIViewController {
 //
         let mainBoundSize = UIScreen.main.bounds.size
         let mainBoundSizeHeight = mainBoundSize.height
-        print("添えフィ潮江jf",mainBoundSizeHeight)
 
         let fractionHight = mainBoundSizeHeight/10
         let ConstraintCGfloat:CGFloat = fractionHight
@@ -126,7 +125,7 @@ class SplashViewController: UIViewController {
                     print("usseserser",self.userId)
                     self.db.collection("users").document(uid).setData(["connectingUserId":self.userId] as [String : Any], merge: true)
                     UserDefaults.standard.set(self.userId, forKey: "connectingUserId")
-                    print("青市へフィオアセjフォイアジェヲイfjアセおいfじゃ教えjfおいあせjfおいあせじぇf",UserDefaults.standard.object(forKey: "connectingUserId") ?? "")
+                    print("コネクションID",UserDefaults.standard.object(forKey: "connectingUserId") ?? "")
                 }
             }
         }
@@ -159,7 +158,6 @@ class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("スプラッシュ")
         
         
         logoImageView.alpha = 0
