@@ -12,18 +12,12 @@ class SettingsVC : UIViewController{
     
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var centerConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var imageImageView: UIImageView!
-    
     @IBOutlet weak var idImageView: UIImageView!
     @IBOutlet weak var nameImageView: UIImageView!
-    
     @IBOutlet weak var upDistance: NSLayoutConstraint!
-    
     @IBOutlet weak var downDistance: NSLayoutConstraint!
-    
     @IBOutlet weak var ImageBackView: UIView!
-    
     @IBOutlet weak var IdBackView: UIView!
     @IBOutlet weak var NameBackView: UIView!
     @IBOutlet weak var imageButton: UIButton!

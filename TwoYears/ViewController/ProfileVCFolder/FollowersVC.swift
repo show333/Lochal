@@ -15,20 +15,16 @@ import Nuke
 
 class FollowersVC:UIViewController {
     private let cellId = "cellId"
-
     let db = Firestore.firestore()
     var userInfo : [UserInfo] = []
 
-    
     @IBOutlet weak var userListTableView: UITableView!
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
         self.navigationController?.navigationBar.isHidden = false
 
     }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setSwipeBack()
@@ -37,7 +33,6 @@ class FollowersVC:UIViewController {
         userListTableView.delegate = self
         fetchUserInfo(uid: uid)
     }
-
     func fetchUserInfo(uid:String){
         
         self.db.collection("users").document(uid).collection("Follower").getDocuments() { [self] (querySnapshot, err) in
@@ -103,9 +98,7 @@ extension FollowersVC:UITableViewDataSource,UITableViewDelegate {
         ProfileVC.cellImageTap = true
         navigationController?.pushViewController(ProfileVC, animated: true)
 
-    }
-    
-    
+    }    
 }
 
 class followersTableViewCell: UITableViewCell {

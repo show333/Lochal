@@ -25,7 +25,6 @@ class InChatRoomVC:UIViewController {
     var userImage : String?
     var messageNum = 0
     var messageCount = 0
-//    var galleyItem: GalleryItem!
     let db = Firestore.firestore()
 
     @IBOutlet weak var backGroundImageView: UIImageView!
@@ -34,7 +33,6 @@ class InChatRoomVC:UIViewController {
     @IBOutlet weak var memberButton: UIButton!
     
     @IBAction func memberTappedButton(_ sender: Any) {
-        print("あいあいい")
     }
     
     private let cellId = "cellId"
@@ -66,12 +64,10 @@ class InChatRoomVC:UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-//        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = false
         navigationItem.title = userFrontId
 
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

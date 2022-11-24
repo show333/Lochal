@@ -221,21 +221,14 @@ extension FirstMakeTeamVC: UIImagePickerControllerDelegate, UINavigationControll
         if let editImage = info[.editedImage] as? UIImage {
             imageButton.setImage(editImage.withRenderingMode(.alwaysOriginal), for: .normal)
             print(editImage)
-            print("キシン！")
-            
             imageString = NSUUID().uuidString
             
         } else if let originalImage = info[.originalImage] as? UIImage {
             imageButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
             print(originalImage)
-            print("アイウエオあきくこ")
-            
             imageString = NSUUID().uuidString
             
-        }
-
-            print("aaa")
-        
+        }        
 
         imageButton.imageView?.contentMode = .scaleAspectFit
         self.dismiss(animated: true, completion: nil)

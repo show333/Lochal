@@ -24,7 +24,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var galleyItem: GalleryItem!
     var postInfo: [PostInfo] = []
     var statusChain : String?
-    
     var safeArea : CGFloat = 0
     var headerHigh : CGFloat = 0
     var userId: String? = UserDefaults.standard.string(forKey:"userId") ?? "" //あとで調整する
@@ -34,11 +33,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     var dismissBool: Bool = false
     var matchUserId:[String] = []
     var areaName:String?
-    
-    
     var cellImageTap : Bool = false
-    
-    
     let db = Firestore.firestore()
     let uid = Auth.auth().currentUser?.uid
     let DBU = Firestore.firestore().collection("users")
@@ -54,7 +49,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     fileprivate lazy var presentationAnimator = GuillotineTransitionAnimation()
     private let headerMoveHeight: CGFloat = 7
     
-    
     @IBOutlet weak var postCompleteLabel: UILabel!
     @IBOutlet weak var secondPostCompleteLabel: UILabel!
     @IBOutlet weak var backGroundImageView: UIImageView!
@@ -64,7 +58,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var userImageTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var userImageLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var userNameLabel: UILabel!
-    
     @IBOutlet weak var userNameLabelTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var selfIntroductionLabel: UILabel!
     
@@ -80,9 +73,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     //    @IBOutlet weak var chatListTableView: UITableView!
     @IBOutlet weak var postButton: UIButton!
-    
-    
-    
     @IBOutlet weak var postCollectionView: UICollectionView!
     @IBOutlet weak var headerhightConstraint: NSLayoutConstraint!
     @IBOutlet weak var headertopConstraint: NSLayoutConstraint!
@@ -92,8 +82,6 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var collectionBottom: NSLayoutConstraint!
     @IBOutlet weak var collectionLeft: NSLayoutConstraint!
     @IBOutlet weak var collectionRight: NSLayoutConstraint!
-    
-    
     @IBOutlet weak var explainButton: UIButton!
     
     
@@ -108,10 +96,8 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     @IBOutlet weak var postBackGroundHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var postBackGroundWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var postBackGroundView: UIView!
-    
     @IBOutlet weak var postBackImageView: UIImageView!
     @IBOutlet weak var postOtherLabel: UILabel!
-    
     @IBAction func postTappedButton(_ sender: Any) {
         
         if statusChain == "accept" {
@@ -135,10 +121,7 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
     
     @IBOutlet weak var rakugakiLabel: UILabel!
     @IBOutlet weak var chainCountLabel: UILabel!
-    
-    
     @IBOutlet weak var transitionChainButton: UIButton!
-    
     @IBAction func transitionTappedChainButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "Connection", bundle: nil)
         let ConnectionVC = storyboard.instantiateViewController(withIdentifier: "ConnectionVC") as! ConnectionVC
@@ -194,19 +177,10 @@ class ProfileVC: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSourc
         }
     }
     
-    
-    
-    
-    
-    
     @IBOutlet weak var connectLabel: UILabel!
-    
-    
     @IBOutlet weak var fButtonHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var fButtonWidthConstraint: NSLayoutConstraint!
-    
     @IBOutlet weak var settingsButton: UIButton!
-    
     @IBAction func settingsTappedButton(_ sender: Any) {
         let storyboard = UIStoryboard.init(name: "Settings", bundle: nil)
         let SettingsVC = storyboard.instantiateViewController(withIdentifier: "SettingsVC") as! SettingsVC

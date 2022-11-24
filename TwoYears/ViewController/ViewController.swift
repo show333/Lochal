@@ -21,6 +21,7 @@ import AVKit
 import AVFoundation
 
 class ViewController: UIViewController, DZNEmptyDataSetDelegate, DZNEmptyDataSetSource{
+    
     private let cellId = "cellId"
     private var prevContentOffset: CGPoint = .init(x: 0, y: 0)
     private let headerMoveHeight: CGFloat = 5

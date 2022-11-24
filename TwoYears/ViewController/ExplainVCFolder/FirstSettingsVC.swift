@@ -250,7 +250,7 @@ class FirstSettingsVC:UIViewController {
                     for document in querySnapshot!.documents {
 //                        print("\(document.documentID) => \(document.data())")
                         let myPostDocId =  document.data()["documentId"] as? String ?? "unKnown"
-                        print("ハングリー",myPostDocId)
+                        print("ドキュメントID",myPostDocId)
                         let outMemoProfile = [
                             "userName":userName,
                             "userImage":userImage,
@@ -294,17 +294,13 @@ extension FirstSettingsVC: UIImagePickerControllerDelegate, UINavigationControll
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let editImage = info[.editedImage] as? UIImage {
             imageView.image = editImage
-
-
             imageString = NSUUID().uuidString
 
         } else if let originalImage = info[.originalImage] as? UIImage {
             imageView.image = originalImage
-
             imageString = NSUUID().uuidString
 
         }
-
 
         imageView?.contentMode = .scaleAspectFit
         self.dismiss(animated: true, completion: nil)

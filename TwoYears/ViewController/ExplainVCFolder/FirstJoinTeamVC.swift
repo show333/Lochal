@@ -64,7 +64,6 @@ class FirstJoinTeamVC: UIViewController {
                 self.enterTeam(teamId: teamId,uid: uid)
                 } else {
                     print("既に入っていますラベル")
-                    
                 }
 
             } else {

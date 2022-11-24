@@ -19,13 +19,9 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
     var imageString : String?
     var companynameString : String?
     var UserId : String?
-    
     var randamUserImageInt: Int?
     
     let db = Firestore.firestore()
-    
-
-
     
     @IBOutlet weak var companyImageView: UIView!
     @IBOutlet weak var nameTextField: UITextField!
@@ -171,11 +167,6 @@ class NewCreateTeamVC: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @IBOutlet weak var tyuuiLabel: UILabel!
-    
-    
-    
-  
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -240,21 +231,14 @@ extension NewCreateTeamVC: UIImagePickerControllerDelegate, UINavigationControll
         if let editImage = info[.editedImage] as? UIImage {
             imageButton.setImage(editImage.withRenderingMode(.alwaysOriginal), for: .normal)
             print(editImage)
-            print("キシン！")
-            
             imageString = NSUUID().uuidString
             
         } else if let originalImage = info[.originalImage] as? UIImage {
             imageButton.setImage(originalImage.withRenderingMode(.alwaysOriginal), for: .normal)
             print(originalImage)
-            print("アイウエオあきくこ")
-            
             imageString = NSUUID().uuidString
             
         }
-
-            print("aaa")
-        
 
         imageButton.imageView?.contentMode = .scaleAspectFit
         self.dismiss(animated: true, completion: nil)
